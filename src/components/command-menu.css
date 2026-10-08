@@ -1,0 +1,210 @@
+.shortcut-keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.shortcut-keys kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 23px;
+  padding: 2px 5px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+.modal .command-menu {
+  margin: 0;
+}
+.modal .command-menu-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0 12px;
+  border: 1px solid var(--control-border);
+  border-radius: 10px;
+  background: var(--surface-input);
+  color: var(--muted);
+}
+.modal .command-menu-search:focus-within {
+  border-color: var(--focus);
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.modal .command-menu .command-menu-search input[type='text'] {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.875rem;
+}
+.command-menu-results {
+  max-height: min(410px, 52dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 0 12px;
+}
+.command-menu-group + .command-menu-group {
+  margin-top: 12px;
+}
+.command-menu-group-label {
+  padding: 5px 12px 8px;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.modal .command-menu-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 54px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+}
+.modal .command-menu-option.is-active {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+}
+.command-menu-option-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.command-menu-option.is-active .command-menu-option-icon {
+  color: var(--accent-readable);
+}
+.command-menu-option-copy {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+.command-menu-option-copy strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.command-menu-option-copy > span {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.modal .command-menu-option:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.command-menu-hint {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.command-menu-hint > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.command-menu-empty {
+  padding: 20px 0 28px;
+  text-align: center;
+}
+.command-menu-empty strong {
+  display: block;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.command-menu-empty p {
+  margin: 8px 0 12px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.keyboard-shortcuts-intro {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 20px;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+}
+.keyboard-shortcuts-intro svg {
+  flex-shrink: 0;
+  color: var(--accent-readable);
+}
+.keyboard-shortcuts-list {
+  margin: 0;
+}
+.keyboard-shortcuts-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.keyboard-shortcuts-list dt {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.keyboard-shortcuts-list dt strong {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.keyboard-shortcuts-list dt span {
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.keyboard-shortcuts-list dd {
+  margin: 0;
+}
+.keyboard-shortcuts-note {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+@media (max-width: 520px) {
+  .modal .command-menu .command-menu-search input[type='text'] {
+    font-size: 1rem;
+  }
+  .modal .command-menu-option {
+    gap: 9px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .command-menu-option > .shortcut-keys {
+    display: none;
+  }
+  .keyboard-shortcuts-list > div {
+    gap: 10px;
+  }
+}

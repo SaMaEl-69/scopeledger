@@ -1,0 +1,45 @@
+/* The same outlined artwork is used on every surface. Theme selection follows
+   the application's resolved appearance, including explicit manual choices. */
+.brand-lockup,
+.brand-symbol {
+  display: inline-block;
+  flex: none;
+  line-height: 0;
+  vertical-align: middle;
+}
+.brand-lockup {
+  width: 150px;
+  max-width: 100%;
+}
+.brand-symbol {
+  width: 32px;
+  height: 32px;
+}
+.brand-lockup img,
+.brand-symbol img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.brand-image-light {
+  display: none !important;
+}
+:root[data-theme='light'] .brand-image-light {
+  display: block !important;
+}
+:root[data-theme='light'] .brand-image-dark {
+  display: none !important;
+}
+.app-shell .brand {
+  gap: 0;
+}
+.app-shell .brand-lockup,
+.recovery-screen .brand-lockup {
+  width: 166px;
+}
+.logo .brand-lockup {
+  width: 150px;
+}
+.product-brand {
+  width: 131px;
+}

@@ -1,0 +1,57 @@
+.app-shell .project-sequence {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 5rem), 1fr));
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.app-shell .project-sequence button {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 44px;
+  padding: 8px 4px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  white-space: normal;
+}
+.app-shell .project-sequence .sequence-number {
+  flex: none;
+  font-size: 0.6875rem;
+  opacity: 0.65;
+  font-variant-numeric: tabular-nums;
+}
+.app-shell .project-sequence .sequence-label {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.app-shell .project-sequence button.current {
+  background: var(--accent-soft);
+  color: var(--accent-readable);
+  font-weight: 600;
+}
+.app-shell .project-sequence button.current > .sequence-number {
+  opacity: 1;
+}
+@media (max-width: 1000px) {
+  .app-shell .project-sequence button {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.75rem;
+  }
+}
+@media (max-width: 470px) {
+  .app-shell .project-sequence {
+    gap: 2px;
+  }
+  .app-shell .project-sequence button {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

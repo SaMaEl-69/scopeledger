@@ -1,0 +1,147 @@
+.toolkit-settings > p,
+.playbook-view > p {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin: 10px 0 20px;
+}
+.toolkit-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+}
+.toolkit-fields label > span,
+.toolkit-settings > .field > span {
+  display: block;
+  font-size: 0.75rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.logo-editor {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  margin-top: 20px;
+}
+.agency-logo-preview {
+  max-width: 240px;
+  max-height: 100px;
+  object-fit: contain;
+  display: block;
+  margin: 0 0 16px;
+  background: #f7f9fc;
+  padding: 10px;
+}
+.playbook-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.playbook-view .card h2 {
+  margin-bottom: 14px;
+}
+.playbook-record {
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+}
+.playbook-record > p {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 8px 0;
+}
+.playbook-record .button-row {
+  margin-top: 10px;
+}
+.playbook-empty {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  padding: 16px 0;
+}
+.playbook-fields {
+  display: grid;
+  gap: 12px;
+}
+.playbook-fields > label > span,
+.composer-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+.composer-output {
+  width: 100%;
+  min-height: 320px;
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  padding: 20px;
+  background: #f7f9fc;
+}
+.composer-status {
+  font-size: 0.75rem;
+  margin-top: 12px;
+  color: var(--muted);
+}
+.toolkit-template-editor {
+  margin-top: 24px;
+}
+.toolkit-restore-check {
+  margin-bottom: 20px;
+}
+.template-tokens {
+  font-size: 0.75rem;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.toolkit-settings input[type='color'] {
+  width: 90px;
+  height: 42px;
+  padding: 5px;
+}
+.playbook-view .button-row .button {
+  white-space: normal;
+}
+.toolkit-fields > *,
+.playbook-layout > *,
+.playbook-fields > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.playbook-view button,
+.toolkit-settings button {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.playbook-record,
+.template-tokens,
+.composer-status {
+  overflow-wrap: anywhere;
+}
+.toolkit-fields input,
+.toolkit-fields textarea,
+.toolkit-fields select,
+.playbook-layout textarea {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+.agency-logo-preview {
+  max-width: min(240px, 100%);
+}
+@media (max-width: 760px) {
+  .toolkit-fields,
+  .playbook-layout {
+    grid-template-columns: 1fr;
+  }
+  .composer-output {
+    min-height: 260px;
+    padding: 14px;
+  }
+  .playbook-view .card {
+    padding: 18px;
+  }
+  .toolkit-settings > .toolkit-fields {
+    gap: 8px;
+  }
+}

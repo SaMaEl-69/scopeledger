@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /home/
+Disallow: /workspace/
+Disallow: /api/
+Sitemap: https://scopeledger.site/sitemap.xml

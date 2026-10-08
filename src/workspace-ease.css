@@ -1,0 +1,847 @@
+/* Everyday work is visible; the request path is a real sequence, not decoration. */
+.app-shell .quick-find {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 8px 11px;
+  background: var(--surface-raised);
+  color: var(--ink);
+  font-size: 0.8125rem;
+}
+.app-shell .nav-tools-label {
+  margin: 19px 12px 7px;
+}
+.app-shell .workspace-launch {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 0 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.app-shell .workspace-launch-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.app-shell .workspace-launch .button {
+  min-height: 44px;
+  padding: 10px 13px;
+}
+.app-shell .shortcut-help {
+  white-space: nowrap;
+  min-height: 44px;
+  padding: 10px 0;
+  border: 1px solid transparent;
+}
+.app-shell .project-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+.app-shell .project-picker-row .field {
+  margin: 0;
+  flex: 1;
+  max-width: 460px;
+}
+.app-shell .project-picker-row > button {
+  margin-left: auto;
+}
+.app-shell .request-route {
+  margin: 22px 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+.app-shell .request-next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+}
+.app-shell .request-next > div {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+.app-shell .request-next strong {
+  color: var(--ink);
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
+}
+.app-shell .request-next > div > span:last-child {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+.app-shell .request-next .eyebrow {
+  color: var(--accent-readable);
+}
+.app-shell .request-next > button {
+  flex-shrink: 0;
+}
+.app-shell .request-step-nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+.app-shell .request-step-nav > button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 54px;
+  padding: 12px 16px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--line);
+  font-size: 0.8125rem;
+}
+.app-shell .request-step-nav > button:last-child {
+  border-right: 0;
+}
+.app-shell .request-step-nav > button.current {
+  color: var(--accent-readable);
+  background: var(--accent-soft);
+}
+.app-shell .request-step-nav > button > span:first-child {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.6875rem;
+  flex-shrink: 0;
+}
+.app-shell .request-step-nav .shortcut-keys {
+  margin-left: auto;
+}
+.app-shell .request-quick-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 13px 20px;
+  border-top: 1px solid var(--line);
+}
+.app-shell .request-quick-tools > button {
+  min-height: 36px;
+}
+.app-shell .project-numbers-disclosure {
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  margin-bottom: 22px;
+}
+.app-shell .project-numbers-disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+  min-height: 50px;
+  padding: 12px 17px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.app-shell .project-numbers-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.app-shell .project-numbers-disclosure > summary > span {
+  margin-left: auto;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.app-shell .project-numbers-disclosure .baseline-strip {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+  border-radius: 0 0 10px 10px;
+}
+.app-shell #request-section,
+.app-shell #cost-section,
+.app-shell #price-section,
+.app-shell #commercial-results {
+  scroll-margin-top: 90px;
+}
+.app-shell .request-card .scenario-trigger {
+  margin: 0 0 17px;
+  background: transparent;
+  min-height: 44px;
+}
+@media (max-width: 1100px) {
+  .app-shell .request-step-nav .shortcut-keys {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .app-shell .quick-find {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .app-shell .quick-find > span,
+  .app-shell .quick-find .shortcut-keys {
+    display: none;
+  }
+  .app-shell .topbar .help-button,
+  .app-shell .topbar .user-avatar {
+    display: none;
+  }
+  .app-shell .topbar .breadcrumb {
+    min-width: 0;
+    flex: 1;
+  }
+  .app-shell .topbar .breadcrumb strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  .app-shell .workspace-launch {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+  .app-shell .workspace-launch-actions {
+    display: grid;
+    /* Two columns normally; increased text can use one without crowding labels. */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, max(44%, 8.5rem)), 1fr));
+    width: 100%;
+  }
+  .app-shell .workspace-launch .button {
+    width: 100%;
+    padding: 10px 14px;
+    justify-content: flex-start;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: left;
+    gap: 8px;
+    font-size: 0.8125rem;
+  }
+  .app-shell .shortcut-help {
+    align-self: flex-end;
+  }
+  .app-shell .project-picker-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .app-shell .project-picker-row .field {
+    flex: 0 0 100%;
+    max-width: none;
+  }
+  .app-shell .project-picker-row > button {
+    margin: 0;
+    min-height: 44px;
+  }
+  .app-shell .request-next {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 17px;
+    gap: 16px;
+  }
+  .app-shell .request-next > button {
+    width: 100%;
+  }
+  .app-shell .request-step-nav > button {
+    padding: 12px 8px;
+    gap: 6px;
+    justify-content: center;
+    min-height: 52px;
+    font-size: 0.8125rem;
+  }
+  .app-shell .request-step-nav > button > span:first-child {
+    width: 19px;
+    height: 19px;
+  }
+  .app-shell .request-quick-tools {
+    padding: 11px 17px;
+    gap: 6px 16px;
+  }
+  .app-shell .request-quick-tools > button {
+    min-height: 44px;
+  }
+}
+@media (max-width: 470px) {
+  .app-shell .topbar .breadcrumb strong {
+    display: none;
+  }
+  .app-shell .request-step-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .app-shell .request-step-nav > button:nth-child(2) {
+    border-right: 0;
+  }
+  .app-shell .request-step-nav > button:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+  .app-shell .project-numbers-disclosure > summary {
+    flex-wrap: wrap;
+  }
+  .app-shell .project-numbers-disclosure > summary > span {
+    margin-left: 0;
+    flex: 1;
+  }
+}
+
+.app-shell .project-card-actions {
+  flex-wrap: wrap;
+}
+.app-shell .project-card-actions > .text-button {
+  min-height: 44px;
+}
+.app-shell .project-card-actions .button-row {
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.app-shell .project-card-actions .icon-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  min-height: 44px;
+  padding: 8px 10px;
+  font-size: 0.75rem;
+}
+
+.app-shell .tool-short-label {
+  display: none;
+}
+@media (max-width: 760px) {
+  .app-shell .workspace-launch > .shortcut-help {
+    display: none;
+  }
+  .app-shell .request-quick-tools {
+    flex-direction: row;
+    gap: 4px 16px;
+    padding: 10px 15px;
+  }
+  .app-shell .tool-full-label {
+    display: none;
+  }
+  .app-shell .tool-short-label {
+    display: inline;
+  }
+}
+@media (max-width: 760px) {
+  .app-shell #commercial-results {
+    /* The mobile action advances once the review card reaches its reading position. */
+    scroll-margin-top: 18px;
+  }
+}
+/* One active task gives the project sequence room to breathe. */
+.app-shell .flow-display-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+.app-shell .flow-display-controls > span {
+  font-size: 0.6875rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+}
+.app-shell .project-flow .request-route {
+  margin: 0 0 22px;
+}
+.app-shell .project-flow .request-next {
+  padding: 22px;
+}
+.app-shell .project-flow .request-next strong {
+  font-size: 1.1875rem;
+  font-weight: 600;
+}
+.app-shell .project-flow .request-next .eyebrow {
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+.app-shell .project-flow .request-next > div > span:last-child {
+  max-width: 620px;
+  line-height: 1.6;
+}
+.app-shell .project-flow .baseline-scope-summary {
+  padding: 18px;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.app-shell .project-flow.focused .project-planning-disclosure,
+.app-shell .project-flow.focused .workspace-tabs,
+.app-shell .project-flow.focused .project-numbers-disclosure,
+.app-shell .project-flow.focused .project-picker-row,
+.app-shell .project-flow.focused .project-context {
+  display: none;
+}
+.app-shell .project-flow.focused.flow-stage-1 .project-picker-row,
+.app-shell .project-flow.focused.flow-stage-1 .project-context,
+.app-shell .project-flow.focused.flow-stage-2 .project-context {
+  display: flex;
+}
+.app-shell .project-flow.focused.flow-stage-2 .project-numbers-disclosure {
+  display: block;
+}
+.app-shell .project-flow.focused.flow-stage-1 .workflow-grid,
+.app-shell .project-flow.focused.flow-stage-2 .workflow-grid {
+  display: none;
+}
+.app-shell .project-flow.focused.flow-stage-3 #cost-section,
+.app-shell .project-flow.focused.flow-stage-3 #price-section,
+.app-shell .project-flow.focused.flow-stage-3 #commercial-results,
+.app-shell .project-flow.focused.flow-stage-4 #request-section,
+.app-shell .project-flow.focused.flow-stage-4 #price-section,
+.app-shell .project-flow.focused.flow-stage-4 #commercial-results,
+.app-shell .project-flow.focused.flow-stage-5 #request-section,
+.app-shell .project-flow.focused.flow-stage-5 #cost-section {
+  display: none;
+}
+.app-shell .project-flow.focused.flow-stage-3 .workflow-grid,
+.app-shell .project-flow.focused.flow-stage-4 .workflow-grid {
+  grid-template-columns: minmax(0, 760px);
+  justify-content: center;
+}
+.app-shell .project-flow.focused.flow-stage-3 .editor-column,
+.app-shell .project-flow.focused.flow-stage-4 .editor-column {
+  gap: 0;
+}
+.app-shell .project-flow.focused .section-heading .step-number {
+  display: none;
+}
+.app-shell .project-flow .request-quick-tools {
+  padding: 16px 0;
+  gap: 12px 20px;
+  border: 0;
+}
+.app-shell .project-flow .request-quick-tools button {
+  font-size: 0.75rem;
+}
+.app-shell .brief-flow-context {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 22px;
+  border-top: 1px solid var(--line);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.app-shell .brief-flow-context > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.app-shell .brief-flow-context > button {
+  white-space: nowrap;
+}
+.app-shell .project-brief-flow .document-purpose-bar,
+.app-shell .project-brief-flow .document-toolbar,
+.app-shell .project-brief-flow .document-history {
+  display: none;
+}
+.app-shell .project-brief-flow.flow-export.ready .document-controls {
+  display: none;
+}
+.app-shell .project-brief-flow.flow-export.ready .document-layout {
+  grid-template-columns: minmax(0, 940px);
+  justify-content: center;
+}
+.app-shell .project-brief-flow .brief-flow-route {
+  margin-top: 0;
+}
+@media (max-width: 760px) {
+  .app-shell .project-flow .request-next {
+    padding: 17px;
+  }
+  .app-shell .flow-display-controls {
+    margin-bottom: 10px;
+  }
+  .app-shell .brief-flow-context {
+    padding: 12px 17px;
+    align-items: flex-start;
+  }
+}
+.app-shell .project-flow.focused {
+  padding-bottom: 90px;
+}
+.app-shell .flow-display-controls > span {
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+.app-shell .project-flow.focused.flow-stage-1 .project-context {
+  display: none;
+}
+.app-shell .project-flow.focused.flow-stage-2 .project-context {
+  justify-content: flex-end;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.app-shell .project-flow.focused.flow-stage-2 .project-context > .project-avatar,
+.app-shell .project-flow.focused.flow-stage-2 .project-context > div:not(.project-avatar) {
+  display: none;
+}
+.app-shell .flow-action-dock {
+  position: fixed;
+  z-index: 40;
+  left: 254px;
+  right: 24px;
+  bottom: 18px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 4px 24px rgb(var(--shadow-rgb) / 0.1);
+}
+.app-shell .flow-action-dock > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.app-shell .flow-action-dock > div > span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.app-shell .flow-action-dock > p {
+  color: var(--danger);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .app-shell .flow-action-dock {
+    left: 230px;
+  }
+}
+@media (max-width: 760px) {
+  .app-shell .flow-action-dock {
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    padding: 10px;
+  }
+  .app-shell .flow-action-dock > div {
+    gap: 8px;
+  }
+  .app-shell .flow-action-dock > div > span {
+    display: none;
+  }
+  .app-shell .flow-action-dock .button {
+    padding: 10px 12px;
+    font-size: 0.8125rem;
+    min-height: 44px;
+  }
+}
+.app-shell .project-brief-flow {
+  padding-bottom: 90px;
+}
+.app-shell .project-brief-flow.flow-review.ready:not(.editing-brief) .document-controls {
+  display: none;
+}
+.app-shell .project-brief-flow.flow-review.ready:not(.editing-brief) .document-layout {
+  grid-template-columns: minmax(0, 940px);
+  justify-content: center;
+}
+.app-shell .brief-flow-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.app-shell .project-brief-flow .document-controls > .button.secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.app-shell .flow-action-dock {
+  max-width: 1420px;
+  margin-inline: auto;
+}
+.app-shell .flow-page-heading {
+  margin-bottom: 24px;
+}
+.app-shell .flow-page-heading p {
+  display: none;
+}
+.app-shell .project-choice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 0 0 14px;
+}
+.app-shell .project-choice-actions button {
+  min-height: 44px;
+}
+.app-shell .flow-display-controls .badge {
+  margin-left: 10px;
+}
+.app-shell .change-picker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.app-shell .change-picker .field {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+.app-shell .change-picker > button {
+  white-space: nowrap;
+  min-height: 44px;
+}
+@media (max-width: 470px) {
+  .app-shell .change-picker {
+    flex-wrap: wrap;
+  }
+  .app-shell .change-picker .field {
+    flex-basis: 100%;
+  }
+}
+.app-shell .project-flow.focused .decision-card .button.primary {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+/* A quiet working surface: one form, direct language, optional financial detail. */
+.app-shell .project-flow.focused {
+  max-width: 880px;
+  margin-inline: auto;
+}
+.app-shell .project-flow.focused .request-route {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+.app-shell .project-flow.focused .request-next {
+  padding: 24px 0 10px;
+}
+.app-shell .project-flow.focused .request-next strong {
+  font-size: 1.5rem;
+  letter-spacing: -0.035em;
+}
+.app-shell .flow-page-heading {
+  margin-bottom: 18px;
+}
+.app-shell .flow-page-heading h1 {
+  font-size: 0.875rem;
+  color: var(--muted);
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.app-shell .flow-page-heading .eyebrow {
+  display: none;
+}
+.app-shell .project-flow.focused .project-picker-row .field {
+  max-width: none;
+}
+.app-shell .project-flow.focused .workflow-grid {
+  grid-template-columns: minmax(0, 760px);
+  justify-content: center;
+  gap: 20px;
+}
+.app-shell .project-flow.focused .section-heading {
+  margin-bottom: 24px;
+}
+.app-shell .project-flow.focused .section-heading p,
+.app-shell .project-flow.focused .slider-row {
+  display: none;
+}
+.app-shell .project-flow.focused .card,
+.app-shell .project-flow.focused .decision-card {
+  border-radius: 10px;
+  box-shadow: none;
+}
+.app-shell .project-flow.focused .decision-card {
+  border: 1px solid var(--line);
+  padding: 22px 26px;
+}
+.app-shell .project-flow.focused .request-quick-tools {
+  display: none;
+}
+.app-shell .financial-breakdown > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.8125rem;
+  list-style: none;
+}
+.app-shell .financial-breakdown > summary::-webkit-details-marker {
+  display: none;
+}
+.app-shell .financial-breakdown[open] > summary {
+  margin-bottom: 20px;
+}
+.app-shell .project-flow.all-steps .financial-breakdown > summary,
+.app-shell .project-flow.all-steps .timing-details > summary {
+  display: none;
+}
+.app-shell .project-flow.all-steps .timing-details,
+.app-shell .project-flow.all-steps .timing-details > .detail-fields {
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+.app-shell .fee-facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.app-shell .fee-facts dt {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.app-shell .fee-facts dd {
+  margin: 6px 0 0;
+  color: var(--ink);
+  font-size: 1.125rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.app-shell .defer-estimate {
+  margin-top: 18px;
+  min-height: 44px;
+}
+.app-shell .project-flow.focused .cost-fields {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(44%, 10rem)), 1fr));
+}
+.app-shell .project-flow.focused .cost-fields > :last-child {
+  grid-column: 1 / -1;
+}
+@media (max-width: 470px) {
+  .app-shell .project-flow.focused .cost-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-shell .project-flow.focused .decision-card {
+    padding: 20px;
+  }
+}
+
+.app-shell .project-flow.focused {
+  max-width: 760px;
+}
+.app-shell .project-flow.focused .request-next {
+  padding: 16px 0 4px;
+}
+.app-shell .project-flow.focused .request-next .eyebrow {
+  display: none;
+}
+.app-shell .project-flow.focused .section-heading .section-name {
+  display: none;
+}
+.app-shell .project-flow.focused #price-section .section-heading {
+  display: none;
+}
+.app-shell .project-flow.focused .fee-facts {
+  padding-top: 16px;
+  margin: 0 0 18px;
+  border-top: 1px solid var(--line);
+}
+.app-shell .project-flow.focused #price-section .check-label {
+  margin: 0 0 20px;
+}
+.app-shell .flow-action-dock {
+  max-width: 760px;
+}
+
+/* Preserve readable controls when users enlarge type or change text spacing. */
+.app-shell .page-heading {
+  flex-wrap: wrap;
+}
+.app-shell .page-heading > *,
+.app-shell .section-heading > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.app-shell .page-heading h1 {
+  overflow-wrap: anywhere;
+}
+.app-shell .page-heading .button,
+.app-shell .section-heading > .button {
+  white-space: normal;
+}
+.app-shell .route-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+.app-shell .route-option {
+  flex: 1 1 calc(50% - 4px);
+  min-width: min(100%, 8rem);
+}
+.app-shell .route-option > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.app-shell .route-radio {
+  flex-shrink: 0;
+}
+.app-shell .decision-card,
+.app-shell .margin-comparison,
+.app-shell .margin-row {
+  min-width: 0;
+}
+.app-shell .margin-row > div:first-child,
+.app-shell .price-option > div,
+.app-shell .section-heading,
+.app-shell .net-cost {
+  flex-wrap: wrap;
+}
+/* Capacity belongs beside recovery, with one notice only as the workspace fills. */
+.workspace-capacity {
+  margin-block: 20px;
+}
+.capacity-alert {
+  flex-wrap: wrap;
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+.capacity-alert > span {
+  flex: 1 1 180px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.capacity-alert > button {
+  margin-inline-start: auto;
+}
+.workspace-capacity > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+}
+.workspace-capacity meter {
+  display: block;
+  width: 100%;
+  height: 16px;
+  margin-block: 8px;
+  accent-color: var(--accent-readable);
+}

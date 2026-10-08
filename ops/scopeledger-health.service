@@ -1,0 +1,11 @@
+[Unit]
+Description=ScopeLedger readiness check (failure appears in the service journal)
+
+[Service]
+Type=oneshot
+User=scopeledger
+WorkingDirectory=/opt/scopeledger/current
+ExecStart=/usr/bin/node scripts/health-check.mjs https://scopeledger.site
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true

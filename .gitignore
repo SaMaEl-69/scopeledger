@@ -1,0 +1,22 @@
+node_modules
+.local-private/
+.env*
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+dist
+.DS_Store
+test-results
+playwright-report
+*.tsbuildinfo
+.env
+.env.*
+output/
+tmp/
+releases/
+index (1).html
+docs/**/*.png
+docs/**/*.pdf
+*.pem
+*.key
+*.p12

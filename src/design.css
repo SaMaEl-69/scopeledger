@@ -1,0 +1,1519 @@
+/* Workspace shares Home's charcoal/mint palette. Components consume semantic
+   roles so the same records remain legible in either appearance. */
+:root {
+  color-scheme: dark;
+  font-family: var(--font);
+  font-synthesis: none;
+  font-weight: 400;
+  --font:
+    'Inter var', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display',
+    'Segoe UI', system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', 'Geist Mono', ui-monospace, Menlo, Consolas, monospace;
+  --canvas: #08090a;
+  --surface: #0e0f11;
+  --surface-raised: #121316;
+  --surface-muted: #18191c;
+  --surface-hover: #202226;
+  --surface-input: #111215;
+  --sidebar-bg: #0b0c0e;
+  --ink: #f2f3f5;
+  --muted: #9b9fa7;
+  --text-secondary: #b3b7bf;
+  --brand: #5ef0a8;
+  --accent-readable: #5ef0a8;
+  --accent-ink: #08090a;
+  --accent-soft: #13231b;
+  --accent-border: #2b5e44;
+  --primary-bg: #f2f3f5;
+  --primary-hover: #ffffff;
+  --primary-ink: #08090a;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.17);
+  --control-border: #5e646e;
+  --focus: #5ef0a8;
+  --info: #99b8ff;
+  --info-soft: #172136;
+  --info-border: #344974;
+  --success: #5ef0a8;
+  --success-soft: #13231b;
+  --success-border: #2b5e44;
+  --warning: #f5c26b;
+  --warning-soft: #2b2419;
+  --warning-border: #6e5530;
+  --danger: #f47a7a;
+  --danger-soft: #2e191d;
+  --danger-border: #6b3540;
+  --ledger-bg: #121316;
+  --ledger-text: #f2f3f5;
+  --ledger-muted: #b3b7bf;
+  --paper-surface: #ffffff;
+  --toast-bg: #14291e;
+  --toast-text: #b7f6d3;
+  --overlay: rgb(0 0 0 / 0.68);
+  --shadow-rgb: 0 0 0;
+  --shadow: inset 0 1px 0 rgb(255 255 255 / 0.035), 0 8px 24px -18px rgb(0 0 0 / 0.65);
+  --navy: var(--ink);
+  --navy-deep: #08090a;
+  --blue: var(--accent-readable);
+  --blue-hover: #83f7bd;
+  --green: var(--success);
+  --soft-blue: var(--accent-soft);
+  --soft-green: var(--success-soft);
+  --radius: 14px;
+  color: var(--ink);
+  background: var(--canvas);
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+  --canvas: #f5f5f2;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-muted: #f0f0ec;
+  --surface-hover: #e9eae5;
+  --surface-input: #ffffff;
+  --sidebar-bg: #efefeb;
+  --ink: #0c0d10;
+  --muted: #62676f;
+  --text-secondary: #3d4148;
+  --brand: #0c9e5f;
+  --accent-readable: #00683d;
+  --accent-ink: #ffffff;
+  --accent-soft: #edf7f0;
+  --accent-border: #b8d8c4;
+  --primary-bg: #0e0f12;
+  --primary-hover: #000000;
+  --primary-ink: #ffffff;
+  --line: rgb(12 14 19 / 0.1);
+  --line-strong: rgb(12 14 19 / 0.19);
+  --control-border: #868d85;
+  --focus: #07814c;
+  --info: #315fbd;
+  --info-soft: #eef2fc;
+  --info-border: #c3d1eb;
+  --success: #00683d;
+  --success-soft: #edf7f0;
+  --success-border: #b8d8c4;
+  --warning: #855700;
+  --warning-soft: #fcf5e8;
+  --warning-border: #e4cba0;
+  --danger: #b53340;
+  --danger-soft: #fcf0f1;
+  --danger-border: #e7bec4;
+  --toast-bg: #edf7f0;
+  --toast-text: #086b42;
+  --overlay: rgb(8 9 10 / 0.44);
+  --shadow-rgb: 16 22 34;
+  --shadow:
+    inset 0 1px 0 #ffffff, 0 1px 2px rgb(16 22 34 / 0.035), 0 12px 24px -16px rgb(16 22 34 / 0.14);
+  --blue-hover: #066e41;
+}
+/* ScopeLedger visual system. Structural layouts and responsive safeguards live
+   beside their components; these tokens and roles keep every view coherent. */
+body {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv11', 'ss01';
+}
+::selection {
+  background: color-mix(in srgb, var(--brand) 26%, transparent);
+  color: var(--ink);
+}
+.app-shell h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+.app-shell h2 {
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+}
+.app-shell h3 {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.app-shell .page-heading p {
+  font-size: 0.875rem;
+  max-width: 64ch;
+  line-height: 1.65;
+  margin-top: 10px;
+}
+.app-shell .eyebrow,
+.app-shell .nav-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+}
+.app-shell .page-heading {
+  margin-bottom: 28px;
+}
+.app-shell .page-content {
+  padding-top: 32px;
+}
+.app-shell .sidebar {
+  padding-top: 24px;
+}
+.app-shell .brand {
+  font-size: 1.25rem;
+  gap: 8px;
+  letter-spacing: -0.045em;
+}
+.app-shell .brand-name {
+  min-width: 0;
+  overflow-wrap: normal;
+  text-align: left;
+}
+.app-shell .brand-mark {
+  width: 24px;
+}
+.app-shell .brand-dot {
+  display: none;
+}
+.app-shell .agency-switch {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 13px 11px;
+  border-color: var(--line);
+  background: var(--surface-muted);
+}
+.app-shell .agency-switch .agency-avatar {
+  color: var(--accent-readable);
+  background: var(--accent-soft);
+}
+.app-shell .agency-switch > div:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.app-shell .agency-switch .local-dot {
+  flex: none;
+}
+.app-shell .button > svg,
+.app-shell .text-button > svg,
+.app-shell .nav-item > svg,
+.app-shell .quick-find > svg,
+.app-shell .save-indicator > svg,
+.modal .button > svg,
+.modal .text-button > svg {
+  display: block;
+  flex: none;
+}
+/* Width changes at compact breakpoints must preserve the icon's square viewBox. */
+.app-shell svg.lucide,
+.modal svg.lucide {
+  height: auto;
+}
+.app-shell .agency-switch strong {
+  font-size: 0.8125rem;
+}
+.app-shell .agency-switch span:not(.local-dot) {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.app-shell .nav-label {
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.app-shell .nav-item {
+  font-size: 0.875rem;
+  min-height: 44px;
+  border-radius: 7px;
+  gap: 10px;
+}
+.app-shell .nav-item.active {
+  background: var(--accent-soft);
+  color: var(--accent-readable);
+  box-shadow: inset 3px 0 var(--brand);
+}
+.app-shell .nav-item.active:hover {
+  background: var(--accent-soft);
+}
+.app-shell .recent-projects button {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  min-height: 40px;
+}
+.app-shell .recent-label {
+  margin-top: 25px;
+}
+.app-shell .demo-card {
+  background: var(--surface-muted);
+  border-color: var(--line);
+  padding: 14px;
+}
+.app-shell .demo-card p,
+.app-shell .demo-card button {
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.app-shell .demo-tag,
+.app-shell .device-note {
+  font-size: 0.6875rem;
+}
+.app-shell .topbar {
+  background: var(--surface);
+  min-height: 68px;
+}
+.app-shell .breadcrumb,
+.app-shell .save-indicator {
+  font-size: 0.75rem;
+}
+.app-shell .user-avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 0.8125rem;
+}
+.app-shell .card {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.app-shell .button,
+.modal .button {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 9px;
+}
+.app-shell .text-button,
+.modal .text-button {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.app-shell .secondary,
+.modal .secondary {
+  border-color: var(--line);
+  color: var(--ink);
+}
+.app-shell .icon-button,
+.modal .icon-button {
+  border-radius: 7px;
+}
+.app-shell input:not([type='checkbox']):not([type='range']):not([type='color']),
+.app-shell textarea,
+.app-shell select,
+.modal input:not([type='checkbox']),
+.modal textarea,
+.modal select {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  border-radius: 9px;
+}
+.app-shell .field label,
+.app-shell .field-caption,
+.modal .field label,
+.modal .field-caption {
+  font-size: 0.8125rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+.app-shell select,
+.modal select {
+  font-weight: 400;
+  min-height: 44px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Native form controls share a text-scaled height, including date inputs. */
+.app-shell
+  .field
+  > input:not(
+    :where([type='checkbox'], [type='radio'], [type='range'], [type='color'], [type='file'])
+  ),
+.modal
+  .field
+  > input:not(
+    :where([type='checkbox'], [type='radio'], [type='range'], [type='color'], [type='file'])
+  ),
+.app-shell .operational-filters input:not([type='checkbox']),
+.app-shell .operational-form input:not([type='checkbox']),
+.app-shell select:not([multiple]):not([size]),
+.modal select:not([multiple]):not([size]) {
+  height: calc(1.55em + 18px);
+  min-height: 44px;
+  padding-block: 8px;
+}
+.app-shell .number-input,
+.modal .number-input {
+  font-size: 0.875rem;
+  height: calc(1.55em + 18px);
+  min-height: 44px;
+}
+.app-shell .number-input input,
+.modal .number-input input {
+  height: 100%;
+  min-height: 0;
+  font-size: inherit;
+  padding-block: 8px;
+}
+.app-shell select:not([multiple]):not([size]),
+.modal select:not([multiple]):not([size]) {
+  appearance: none;
+  padding-inline: 12px 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='m4 6 4 4 4-4' stroke='%239b9fa7' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+}
+:root[data-theme='light'] .app-shell select:not([multiple]):not([size]),
+:root[data-theme='light'] .modal select:not([multiple]):not([size]) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='m4 6 4 4 4-4' stroke='%2362676f' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+@media (forced-colors: active) {
+  .app-shell select:not([multiple]):not([size]),
+  .modal select:not([multiple]):not([size]) {
+    appearance: auto;
+    background-image: none;
+  }
+}
+/* Fee actions align to the input row even when its label or hint wraps. */
+.app-shell .fee-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px 12px;
+  margin-bottom: 18px;
+  align-items: center;
+}
+.app-shell .fee-row > .field {
+  display: contents;
+}
+.app-shell .fee-row:not(:has(.floor-button)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.app-shell .fee-row > .field > label {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0;
+}
+.app-shell .fee-row .number-input {
+  grid-column: 1;
+  grid-row: 2;
+}
+.app-shell .fee-row .floor-button {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+}
+.app-shell .fee-row > .field > p {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  margin: 0;
+}
+.app-shell .check-label:not(.compact),
+.modal .check-label:not(.compact),
+.app-shell .operational-form .operational-check,
+.modal .operational-form .operational-check {
+  align-items: flex-start;
+  line-height: 1.65;
+}
+.app-shell .check-label:not(.compact) > input,
+.modal .check-label:not(.compact) > input,
+.app-shell .operational-form .operational-check > input,
+.modal .operational-form .operational-check > input {
+  font-size: inherit;
+  margin-top: calc((1.65em - 24px) / 2);
+}
+.app-shell .two-fields,
+.modal .two-fields,
+.app-shell .operational-form .operational-two-columns,
+.modal .operational-form .operational-two-columns {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(44%, 12rem)), 1fr));
+}
+.app-shell .cost-fields {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(30%, 10rem)), 1fr));
+}
+.app-shell .cost-fields > .field:last-child {
+  grid-column: auto;
+}
+@media (max-width: 520px) {
+  .app-shell .cost-fields {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, max(44%, 10rem)), 1fr));
+  }
+  .app-shell .cost-fields > .field:last-child {
+    grid-column: 1 / -1;
+  }
+}
+.app-shell .settings-grid,
+.app-shell .support-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.app-shell .settings-grid > *,
+.app-shell .support-grid > * {
+  min-width: 0;
+}
+.app-shell .settings-grid .button,
+.app-shell .support-grid .button,
+.app-shell .support-action .text-button {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.app-shell .backup-status {
+  flex-wrap: wrap;
+}
+@media (max-width: 1000px) {
+  .app-shell .settings-grid,
+  .app-shell .support-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 470px) {
+  .app-shell .fee-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-shell .fee-row .floor-button {
+    grid-column: 1;
+    grid-row: 4;
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
+  }
+}
+.app-shell .empty p,
+.app-shell .backup-card p,
+.app-shell .license-settings p,
+.app-shell .support-grid .card > p,
+.app-shell .support-steps,
+.app-shell .approval-record p {
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.app-shell .backup-status,
+.app-shell .storage-footnote,
+.app-shell .history-record-heading p,
+.app-shell .history-record .approval-record strong,
+.app-shell .history-record .approval-record p,
+.app-shell .history-actions summary,
+.app-shell .revision-list button,
+.app-shell .revision-list span,
+.app-shell .client-list span,
+.modal .revision-detail h4 {
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.app-shell .client-list strong {
+  font-size: 0.875rem;
+}
+.app-shell .toolkit-settings .field-hint {
+  font-weight: 400;
+}
+.app-shell .field-hint,
+.modal .field-hint,
+.app-shell .section-description,
+.app-shell .section-heading p,
+.app-shell .document-muted {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.app-shell .field-error,
+.modal .field-error {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.app-shell .onboarding {
+  background: var(--surface-muted);
+  border-color: var(--line);
+  padding: 14px 16px;
+}
+.app-shell .onboarding strong {
+  font-size: 0.8125rem;
+}
+.app-shell .onboarding p {
+  font-size: 0.75rem;
+}
+.app-shell .context-title {
+  font-size: 1.0625rem;
+}
+.app-shell .context-details {
+  font-size: 0.75rem;
+  flex-wrap: wrap;
+}
+.app-shell .badge {
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.app-shell .badge.sample {
+  font-size: 0.625rem;
+}
+.app-shell .project-context {
+  margin-bottom: 12px;
+}
+.project-planning-disclosure {
+  margin-bottom: 20px;
+  color: var(--muted);
+}
+.project-planning-disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  list-style: none;
+}
+.project-planning-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.project-planning-disclosure > summary > span {
+  font-weight: 400;
+  margin-left: auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.project-planning-disclosure[open] > summary > svg {
+  transform: rotate(180deg);
+}
+.app-shell .project-planning {
+  margin: 0;
+  padding: 20px;
+  row-gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.app-shell .baseline-strip {
+  padding: 19px 22px;
+  margin-bottom: 20px;
+}
+.app-shell .baseline-strip span {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.app-shell .baseline-strip strong {
+  font-size: 1.3125rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+.app-shell .workspace-tabs [role='tab'] {
+  font-size: 0.8125rem;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+.app-shell .workspace-tabs [role='tablist'] {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.app-shell .workspace-tabs select {
+  font-size: 0.75rem;
+  max-width: min(100%, 24rem);
+}
+.app-shell .section-name h2 {
+  font-size: 1.0625rem;
+}
+.app-shell .section-heading {
+  margin-bottom: 20px;
+}
+.app-shell .step-number {
+  width: 28px;
+  height: 28px;
+  color: var(--accent-readable);
+  background: var(--surface-muted);
+  border-color: var(--line);
+  font-size: 0.8125rem;
+}
+.app-shell .scenario-trigger {
+  background: var(--surface);
+  border-style: solid;
+  border-color: var(--line);
+  font-size: 0.8125rem;
+  padding: 12px;
+}
+.app-shell .segmented {
+  padding: 3px;
+  border-radius: 7px;
+  background: var(--surface-muted);
+  gap: 3px;
+  border: 1px solid var(--line);
+}
+.app-shell .segmented.classification {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(22%, 5.5rem)), 1fr));
+}
+.app-shell .segmented button {
+  font-size: 0.75rem;
+  border: 0;
+  border-radius: 5px;
+  color: var(--muted);
+}
+.app-shell .segmented button.active {
+  background: var(--surface);
+  color: var(--blue);
+  box-shadow: 0 1px 4px rgb(var(--shadow-rgb) / 0.071);
+}
+.app-shell .route-option {
+  font-size: 0.8125rem;
+  border-radius: 7px;
+}
+.app-shell .classification-guidance,
+.app-shell .route-description {
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.app-shell .scope-details summary {
+  font-size: 0.75rem;
+  min-height: 44px;
+}
+.app-shell .private-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+}
+.app-shell .net-cost {
+  font-size: 0.8125rem;
+  padding: 14px;
+  background: var(--surface-muted);
+  border-radius: 7px;
+}
+.app-shell .net-cost strong {
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+}
+.app-shell .decision-card {
+  background: var(--surface);
+  border-color: var(--line);
+  border-top: 3px solid var(--green);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.app-shell .decision-card h2 {
+  font-size: 1.1875rem;
+  color: var(--success);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+.app-shell .decision-header .eyebrow {
+  font-size: 0.625rem;
+}
+.app-shell .live-tag {
+  font-size: 0.5625rem;
+}
+.app-shell .agreed-margin {
+  background: var(--soft-green);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin: 20px 0 22px;
+  padding: 18px 8px;
+}
+.app-shell .agreed-margin > span:first-child {
+  font-size: 0.75rem;
+  color: var(--success);
+}
+.app-shell .agreed-margin > strong {
+  font-size: 3.25rem;
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1.15;
+  margin: 7px 0 10px;
+}
+.app-shell .margin-target {
+  font-size: 0.6875rem !important;
+}
+.app-shell .margin-row > div:first-child,
+.app-shell .margin-row strong {
+  font-size: 0.75rem;
+}
+.app-shell .price-option > div > strong {
+  font-size: 0.8125rem;
+}
+.app-shell .price-option p,
+.app-shell .result-explanation {
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.app-shell .price-option > strong {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  flex: 0 1 max-content;
+  max-width: 100%;
+}
+.app-shell .price-option {
+  flex-wrap: wrap;
+}
+.app-shell .price-option > div {
+  flex: 1 1 132px;
+}
+.app-shell .effective-fee {
+  font-size: 0.8125rem;
+  margin-top: 20px;
+  padding: 16px 0 0;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.app-shell .effective-fee > span {
+  flex: 1 1 115px;
+}
+.app-shell .effective-fee strong {
+  font-size: 1.4375rem;
+  font-weight: 600;
+  flex: 0 1 max-content;
+  max-width: 100%;
+}
+.app-shell .save-decision {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--accent-ink);
+  font-size: 0.8125rem;
+}
+.app-shell .save-decision:hover {
+  background: var(--blue-hover);
+}
+.app-shell .save-draft,
+.app-shell .brief-preview-button,
+.app-shell .history-link {
+  font-size: 0.75rem;
+}
+.app-shell .workspace-tool-actions {
+  gap: 3px 12px;
+}
+.app-shell .workspace-tool-actions .text-button {
+  min-height: 40px;
+  font-size: 0.75rem;
+}
+.app-shell .card-save-state {
+  font-size: 0.6875rem;
+  color: var(--success);
+}
+.app-shell .financial-note p {
+  font-size: 0.75rem;
+}
+.app-shell .notice,
+.modal .notice {
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  border-radius: 7px;
+}
+.app-shell .alert {
+  border-radius: 8px;
+}
+.save-recovery {
+  min-width: 0;
+}
+.save-recovery > .field-hint {
+  margin-top: 12px;
+}
+.app-shell .list-toolbar {
+  margin-bottom: 24px;
+}
+.app-shell .search-input {
+  min-height: 44px;
+}
+.app-shell .project-card h2 {
+  font-size: 1.125rem;
+}
+.app-shell .project-card > p {
+  font-size: 0.8125rem;
+}
+.app-shell .project-card-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(44%, 7rem)), 1fr));
+}
+.app-shell .project-card-metrics > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.app-shell .project-card-metrics span {
+  font-size: 0.75rem;
+}
+.app-shell .project-card-metrics strong {
+  font-size: 1.25rem;
+}
+.app-shell .record-row strong,
+.app-shell .client-list strong {
+  font-size: 0.875rem;
+}
+.app-shell .record-row span:not(.badge),
+.app-shell .client-list span {
+  font-size: 0.75rem;
+}
+.list-empty {
+  text-align: center;
+  margin: 10px 0 20px;
+}
+.list-empty .empty {
+  padding: 16px 0;
+}
+.app-shell .operational-filters label,
+.app-shell .operational-form label {
+  font-size: 0.8125rem;
+}
+.app-shell .operational-check {
+  min-height: 44px;
+  padding-bottom: 0;
+  font-size: 0.75rem;
+}
+.app-shell .operational-footnote {
+  font-size: 0.75rem;
+}
+.app-shell .operational-section-heading p,
+.app-shell .operational-banner p {
+  font-size: 0.8125rem;
+}
+.app-shell .operational-row strong {
+  font-size: 0.875rem;
+}
+.app-shell .operational-row span {
+  font-size: 0.75rem;
+}
+.app-shell .dashboard-attention {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  min-height: 165px;
+}
+.app-shell .dashboard-attention:hover {
+  transform: none;
+  background: var(--surface);
+}
+.app-shell .dashboard-attention > span {
+  font-size: 0.8125rem;
+}
+.app-shell .dashboard-attention > strong {
+  font-size: 2rem;
+  margin: 8px 0;
+  font-weight: 600;
+}
+.app-shell .dashboard-attention p {
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.app-shell .portfolio-numbers span,
+.app-shell .portfolio-accounting span {
+  font-size: 0.75rem;
+}
+.app-shell .portfolio-numbers strong {
+  font-family: var(--font);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.app-shell .portfolio-primary strong {
+  font-size: 2rem;
+}
+.app-shell .portfolio-accounting strong {
+  font-size: 1.0625rem;
+}
+.app-shell .portfolio-accounting button {
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+.app-shell .operational-segment button {
+  font-size: 0.8125rem;
+  min-height: 40px;
+  padding: 8px 12px;
+}
+.app-shell .calendar-weekdays span {
+  font-size: 0.6875rem;
+}
+.app-shell .calendar-chip {
+  font-size: 0.6875rem;
+}
+.app-shell .agenda-event > div:nth-child(2) > strong {
+  font-size: 0.875rem;
+}
+.app-shell .agenda-event p,
+.app-shell .agenda-event > div:nth-child(2) > span {
+  font-size: 0.75rem;
+}
+.app-shell .document-toolbar label,
+.app-shell .document-history-filters label,
+.app-shell .document-field,
+.app-shell .toolkit-fields label > span {
+  font-size: 0.8125rem;
+}
+.app-shell .document-readiness li,
+.app-shell .document-readiness button {
+  font-size: 0.8125rem;
+}
+.app-shell .document-readiness button > span {
+  font-size: 0.75rem;
+}
+.app-shell .document-balance > div,
+.app-shell .document-payments > article {
+  font-size: 0.8125rem;
+}
+.app-shell .document-payments p,
+.app-shell .document-history-row small {
+  font-size: 0.75rem;
+}
+.app-shell .document-preview-heading h2 {
+  font-size: 1rem;
+}
+.app-shell .document-preview-heading p {
+  font-size: 0.75rem;
+}
+.app-shell .client-document-frame {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.disclosure-note {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.disclosure-note > summary {
+  cursor: pointer;
+  min-height: 44px;
+  line-height: 1.6;
+  padding: 10px 0;
+}
+.disclosure-note > summary > span {
+  margin-left: 8px;
+  color: var(--muted);
+}
+.disclosure-note > p {
+  margin: 0 0 14px;
+}
+.app-shell .filter-explanation {
+  margin-top: -10px;
+}
+.app-shell .document-draft-policy {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin: 12px 0 18px;
+}
+.app-shell .playbook-record > p,
+.app-shell .template-tokens {
+  font-size: 0.8125rem;
+}
+.modal > header h2 {
+  font-weight: 600;
+  font-size: 1.375rem;
+  letter-spacing: -0.03em;
+}
+.modal .modal-intro {
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.modal .scenario-option strong {
+  font-size: 0.875rem;
+}
+.modal .scenario-option p {
+  font-size: 0.75rem;
+}
+.modal .scenario-preview p {
+  font-size: 0.8125rem;
+}
+.modal .record-row {
+  flex-wrap: wrap;
+}
+.modal .record-row > div {
+  flex: 1 1 min(100%, 240px);
+}
+.modal .comparison-replace {
+  margin: 14px 0;
+}
+.app-shell .page-footer {
+  font-size: 0.6875rem;
+  padding-top: 24px;
+}
+
+@media (max-width: 1000px) {
+  .app-shell .brand {
+    font-size: 1.125rem;
+    gap: 5px;
+  }
+  .app-shell .nav-item {
+    font-size: 0.8125rem;
+    gap: 9px;
+  }
+}
+@media (max-width: 760px) {
+  .app-shell .number-input,
+  .modal .number-input {
+    font-size: 1rem;
+  }
+  .app-shell .page-content {
+    padding-top: 24px;
+  }
+  .app-shell h1 {
+    font-size: 1.6875rem;
+  }
+  .app-shell .page-heading {
+    margin-bottom: 22px;
+  }
+  .app-shell .page-heading p {
+    font-size: 0.8125rem;
+  }
+  .app-shell .page-heading .button {
+    margin-top: 0;
+  }
+  .app-shell .sidebar {
+    padding: 24px 16px 16px;
+  }
+  .app-shell .brand {
+    font-size: 1.25rem;
+  }
+  .app-shell .nav-item {
+    font-size: 0.875rem;
+  }
+  .app-shell .topbar {
+    min-height: 60px;
+  }
+  .app-shell .breadcrumb {
+    font-size: 0.6875rem;
+    gap: 6px;
+  }
+  .app-shell .save-indicator {
+    font-size: 0.625rem;
+  }
+  .app-shell .onboarding {
+    padding: 12px;
+  }
+  .app-shell .onboarding p {
+    font-size: 0.75rem;
+  }
+  .app-shell .context-title {
+    font-size: 1rem;
+  }
+  .app-shell .context-details {
+    font-size: 0.6875rem;
+  }
+  .app-shell .baseline-strip {
+    padding: 16px;
+    gap: 18px 12px;
+  }
+  .app-shell .baseline-strip span {
+    font-size: 0.6875rem;
+  }
+  .app-shell .baseline-strip strong {
+    font-size: 1.25rem;
+  }
+  .app-shell .project-planning {
+    padding: 16px;
+  }
+  .app-shell main.page-content input:not([type='checkbox']):not([type='range']):not([type='color']),
+  .app-shell main.page-content textarea,
+  .app-shell main.page-content select,
+  .app-shell dialog.modal input:not([type='checkbox']),
+  .app-shell dialog.modal textarea,
+  .app-shell dialog.modal select {
+    font-size: 1rem;
+  }
+  .app-shell main.page-content select {
+    min-height: 44px;
+  }
+  .app-shell .card {
+    padding: 20px;
+  }
+  .app-shell .decision-card {
+    padding: 20px;
+  }
+  .app-shell .agreed-margin > strong {
+    font-size: 3rem;
+  }
+  .app-shell .document-toolbar {
+    margin-bottom: 20px;
+  }
+  .app-shell .dashboard-attention {
+    min-height: 174px;
+    padding: 16px;
+  }
+  .app-shell .dashboard-attention.has-items {
+    padding-top: 14px;
+  }
+  .app-shell .mobile-decision-action .button {
+    padding: 10px 12px;
+    font-size: 0.75rem;
+    flex: 1 1 8rem;
+    min-width: 0;
+    white-space: normal;
+  }
+  .app-shell .mobile-decision-action {
+    flex-wrap: wrap;
+  }
+  .app-shell .mobile-decision-action > div {
+    flex: 1 1 7rem;
+  }
+  .app-shell .page-content:has(.mobile-decision-action) {
+    padding-bottom: calc(7rem + 32px + env(safe-area-inset-bottom));
+  }
+  .app-shell:has(.mobile-decision-action) .toast {
+    bottom: calc(7rem + 36px + env(safe-area-inset-bottom));
+  }
+}
+@media (max-width: 470px) {
+  .app-shell .operational .portfolio-numbers {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-shell .dashboard-currency-filter {
+    flex-basis: 100%;
+  }
+  .app-shell .page-heading {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .app-shell .page-heading > div {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+  .app-shell .page-heading .button {
+    margin: 0;
+  }
+  .app-shell .card {
+    padding: 18px;
+  }
+  .app-shell .section-heading {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .app-shell .section-heading > .section-name {
+    flex: 1 1 100%;
+  }
+  .app-shell .calendar-weekdays span {
+    font-size: 0.625rem;
+    padding: 10px 2px;
+  }
+  .app-shell .project-context > .text-button {
+    margin-left: 0;
+  }
+  .app-shell .project-planning-disclosure > summary {
+    flex-wrap: wrap;
+  }
+  .app-shell .project-planning-disclosure > summary > span {
+    margin-left: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-planning-disclosure > summary > svg {
+    transition: none;
+  }
+}
+
+/* Appearance and Home navigation use the same vocabulary as the public page. */
+.app-shell .brand-mark {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+}
+.brand-mark img {
+  display: block;
+  flex: none;
+}
+.app-shell .home-link {
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.home-link-arrow {
+  margin-left: auto;
+  color: var(--muted);
+}
+.workspace-theme-control {
+  margin: 0 0 18px;
+  container-type: inline-size;
+  container-name: appearance;
+}
+.workspace-theme-control > span {
+  display: block;
+  padding: 0 4px;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+}
+.theme-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.theme-options button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 56px;
+  min-width: 0;
+  padding: 8px 4px;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.theme-options button[aria-pressed='true'] {
+  background: var(--accent-soft);
+  color: var(--accent-readable);
+  box-shadow: inset 0 0 0 1px var(--accent-border);
+}
+.theme-options button:hover {
+  color: var(--ink);
+}
+.theme-options button svg {
+  flex: none;
+}
+.theme-options button > span {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+@container appearance (max-width: 10rem) {
+  .theme-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .theme-options button {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    min-height: 44px;
+  }
+}
+.appearance-hint {
+  color: var(--muted);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  padding: 0 4px;
+  margin-top: 8px;
+}
+.app-shell .eyebrow,
+.app-shell .nav-label,
+.app-shell .demo-tag,
+.app-shell .private-label,
+.app-shell .nav-count,
+.app-shell .live-tag,
+.app-shell .plan-selection-label {
+  font-family: var(--mono);
+  font-weight: 500;
+}
+.app-shell .baseline-strip strong,
+.app-shell .agreed-margin > strong,
+.app-shell .effective-fee strong,
+.app-shell .portfolio-numbers strong,
+.app-shell .document-outstanding strong {
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
+}
+.app-shell .number-input {
+  background: var(--surface-input);
+  border-color: var(--control-border);
+}
+.app-shell .number-input:focus-within {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 14%, transparent);
+}
+.app-shell .modal,
+.app-shell .modal > header {
+  background: var(--surface-raised);
+}
+.app-shell .modal::backdrop {
+  background: var(--overlay);
+}
+.app-shell .plan-card.selected-plan {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+}
+.app-shell .plan-selection-label {
+  display: block;
+  margin: 7px 0;
+  color: var(--accent-readable);
+  font-size: 0.6875rem;
+}
+
+/* Lazy view styles retain their structural rules. These explicit role adapters
+   outrank their component selectors even when those styles load later. Public
+   document paper remains white, independently of workspace appearance. */
+.app-shell .operational .dashboard-attention {
+  background: var(--surface);
+  color: var(--ink);
+}
+.app-shell .operational .dashboard-attention:hover {
+  background: var(--surface-hover);
+  border-color: var(--line-strong);
+}
+.app-shell .operational .dashboard-attention > strong,
+.app-shell .operational .portfolio-numbers strong {
+  font-family: var(--font);
+  color: var(--ink);
+}
+.app-shell .operational .portfolio-primary strong {
+  color: var(--success);
+}
+.app-shell .operational-banner {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+}
+.app-shell .operational-banner.operational-danger {
+  background: var(--danger-soft);
+  border-color: var(--danger-border);
+}
+.app-shell .operational-note-button {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+.app-shell .badge.danger {
+  background: var(--danger-soft);
+}
+.app-shell .operational .portfolio-accounting button {
+  background: var(--surface-muted);
+  border-color: var(--line);
+}
+.app-shell .operational .portfolio-accounting button:hover {
+  background: var(--surface-hover);
+}
+.app-shell .operational-segment {
+  background: var(--surface-muted);
+}
+.app-shell .operational-segment button[aria-pressed='true'] {
+  background: var(--surface-raised);
+  color: var(--accent-readable);
+  box-shadow: var(--shadow);
+}
+.app-shell .calendar-weekdays,
+.app-shell .calendar-day.outside,
+.app-shell .agenda-date {
+  background: var(--surface-muted);
+}
+.app-shell .calendar-day.outside .calendar-day-number {
+  color: var(--muted);
+}
+.app-shell .calendar-day.today {
+  background: var(--accent-soft);
+}
+.app-shell .calendar-day.today .calendar-day-number {
+  background: var(--accent-readable);
+  color: var(--accent-ink);
+}
+.app-shell .calendar-chip {
+  background: var(--info-soft);
+  color: var(--ink);
+}
+.app-shell .calendar-chip.overdue,
+.app-shell .agenda-event.overdue .agenda-date {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.app-shell .calendar-chip.completed {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.app-shell .calendar-chip.cancelled,
+.app-shell .calendar-chip.trashed {
+  background: var(--surface-muted);
+  color: var(--muted);
+}
+.app-shell .agenda-event .agenda-date strong {
+  color: var(--ink);
+}
+.app-shell .agenda-event.overdue .agenda-date strong {
+  color: var(--danger);
+}
+.app-shell .composer-output {
+  background: var(--surface-input);
+}
+.app-shell .agency-logo-preview {
+  background: var(--paper-surface);
+}
+.app-shell .documents-view .document-purpose-bar {
+  background: var(--surface);
+  border-color: var(--line);
+  border-left-color: var(--brand);
+  box-shadow: var(--shadow);
+}
+.app-shell .documents-view .document-invoice-action {
+  background: var(--primary-bg);
+  color: var(--primary-ink);
+  border-color: var(--primary-bg);
+  box-shadow: var(--shadow);
+}
+.app-shell .documents-view .document-invoice-action:hover:not(:disabled) {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+.app-shell .documents-view .document-count {
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+}
+.app-shell .documents-view .document-status-preserved,
+.app-shell .documents-view .status-paid {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.app-shell .documents-view .document-status-voided,
+.app-shell .documents-view .status-unavailable {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.app-shell .documents-view .status-partial,
+.app-shell .documents-view .status-unpaid {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+.app-shell .documents-view .document-preparation-state {
+  background: var(--success-soft);
+  color: var(--success);
+  border-color: var(--success-border);
+}
+.app-shell .documents-view .document-preparation-state.needs-review {
+  background: var(--surface-muted);
+  color: var(--ink);
+  border-color: var(--line);
+}
+.app-shell .documents-view .document-balance {
+  background: var(--ledger-bg);
+  color: var(--ledger-text);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line-strong);
+}
+.app-shell .documents-view .document-balance > div > span {
+  color: var(--ledger-muted);
+}
+.app-shell .documents-view .document-outstanding {
+  border-top-color: rgb(255 255 255 / 0.17);
+}
+.app-shell .documents-view .document-outstanding strong {
+  font-family: var(--font);
+}
+.app-shell .documents-view .document-history-row.selected {
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 var(--brand);
+}
+.app-shell .documents-view .client-document-frame {
+  border-color: var(--line-strong);
+  background: var(--paper-surface);
+}
+.app-shell .save-indicator.saved {
+  color: var(--success);
+}
+.app-shell .save-indicator.saving {
+  color: var(--muted);
+}
+.app-shell .save-indicator.failed {
+  color: var(--danger);
+}
+.app-shell .approval-record {
+  background: var(--success-soft);
+  border-color: var(--success-border);
+}
+.app-shell .approval-record.stale {
+  background: var(--warning-soft);
+  border-color: var(--warning-border);
+}
+/* Reserve mint for the decision/result and actions; supporting estimates stay
+   quiet so dense financial views retain a clear reading order. */
+.app-shell .decision-card h2 {
+  color: var(--ink);
+}
+.app-shell .price-option p,
+.app-shell .result-explanation,
+.app-shell .financial-note p,
+.app-shell .margin-row > div:first-child {
+  color: var(--muted);
+}
+.app-shell .price-option > div > strong {
+  color: var(--text-secondary);
+}
+.app-shell .agreed-margin > span:first-child {
+  color: var(--text-secondary);
+}

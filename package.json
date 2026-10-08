@@ -1,0 +1,53 @@
+{
+  "name": "scopeledger-core",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "prebuild": "node scripts/sync-document-branding.mjs",
+    "build": "tsc -b && vite build",
+    "postbuild": "node scripts/release.mjs stamp dist",
+    "start": "node scripts/serve.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "format": "prettier --write src tests scripts server shared *.ts *.json *.html docs/*.md *.md",
+    "test:local-browser": "playwright test --config playwright.local.config.ts",
+    "test:pdf": "node scripts/pdf-qa.mjs",
+    "pretest:pdf": "node scripts/sync-document-branding.mjs",
+    "keys:local": "NODE_ENV=development SCOPELEDGER_MODE=local-test node scripts/local-test-keys.mjs",
+    "dev:local": "node scripts/run-local-test.mjs 5180",
+    "test:audit": "playwright test --config playwright.audit.config.ts",
+    "test:performance": "node scripts/performance.mjs",
+    "test:cross-browser": "playwright test --config playwright.cross.config.ts",
+    "test:crowded": "node scripts/crowded-qa.mjs",
+    "test:site": "playwright test --config playwright.site.config.ts"
+  },
+  "dependencies": {
+    "@fontsource/dm-sans": "^5.2.6",
+    "@fontsource/space-grotesk": "^5.2.10",
+    "@js-temporal/polyfill": "^0.5.1",
+    "decimal.js": "^10.6.0",
+    "lucide-react": "^0.577.0",
+    "playwright-core": "^1.63.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "fake-indexeddb": "^6.2.0",
+    "prettier": "^3.9.9",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0",
+    "vitest": "^4.1.11"
+  },
+  "engines": {
+    "node": "^22.16.0 || >=24.0.0"
+  }
+}

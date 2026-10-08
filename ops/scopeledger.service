@@ -1,0 +1,30 @@
+[Unit]
+Description=ScopeLedger application and protected export server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=scopeledger
+Group=scopeledger
+WorkingDirectory=/opt/scopeledger/current
+EnvironmentFile=/etc/scopeledger/server.env
+Environment=SCOPELEDGER_PUBLIC_DIR=/opt/scopeledger/current/dist
+Environment=SCOPELEDGER_ASSET_DIR=/opt/scopeledger/asset-cache
+ExecStart=/usr/bin/node scripts/serve.mjs
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=60
+UMask=0077
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/scopeledger
+StateDirectory=scopeledger
+Environment=HOME=/var/lib/scopeledger
+# Chromium's sandbox needs user namespaces or the installed setuid sandbox.
+# Do not add --no-sandbox, restrict namespaces, or blindly enable NoNewPrivileges.
+# Verify /api/ready and an actual export on the selected Linux host.
+
+[Install]
+WantedBy=multi-user.target
