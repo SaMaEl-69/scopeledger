@@ -25,7 +25,7 @@ export function ViewRecovery({
 }: {
   name: string;
   workspace: object | null;
-  onBackup: () => boolean;
+  onBackup: () => boolean | Promise<boolean>;
   onWorkspace: () => void;
   onSettings?: () => void;
 }) {
@@ -50,9 +50,12 @@ export function ViewRecovery({
         <button
           className="button primary"
           onClick={() => {
-            const exported = onBackup();
-            setExportedWorkspace(exported ? workspace : null);
-            setBackupFailed(!exported);
+            void Promise.resolve(onBackup())
+              .then((exported) => {
+                setExportedWorkspace(exported ? workspace : null);
+                setBackupFailed(!exported);
+              })
+              .catch(() => setBackupFailed(true));
           }}
         >
           Export current edits
@@ -107,7 +110,7 @@ export function SaveRecovery({
 }: {
   error: string;
   workspace: object;
-  onBackup: () => boolean;
+  onBackup: () => boolean | Promise<boolean>;
   onRetry: () => void;
 }) {
   const [exportedWorkspace, setExportedWorkspace] = useState<object | null>(null);
@@ -120,7 +123,11 @@ export function SaveRecovery({
       <div className="button-row">
         <button
           className="button secondary"
-          onClick={() => setExportedWorkspace(onBackup() ? workspace : null)}
+          onClick={() => {
+            void Promise.resolve(onBackup())
+              .then((exported) => setExportedWorkspace(exported ? workspace : null))
+              .catch(() => setExportedWorkspace(null));
+          }}
         >
           Export current edits
         </button>

@@ -87,6 +87,10 @@ async function exportedWorkspace(page: Page): Promise<{ raw: string; workspace: 
     .locator('.backup-card')
     .getByRole('button', { name: 'Export backup', exact: true })
     .click();
+  const privacy = page.getByRole('dialog', { name: 'Back up your workspace' });
+  await privacy.getByRole('checkbox', { name: 'Use an unencrypted JSON file instead' }).check();
+  await privacy.getByRole('checkbox', { name: /I understand anyone/ }).check();
+  await privacy.getByRole('button', { name: 'Download JSON backup' }).click();
   const download = await downloading;
   const path = await download.path();
   if (!path) throw new Error('Backup download did not produce a file');
@@ -439,6 +443,10 @@ test('a failed storage write stays unsaved and an export preserves current edits
   expect((await storedWorkspace(page)).changes[0].title).toBe(previous.changes[0].title);
   const downloading = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export current edits', exact: true }).click();
+  const privacy = page.getByRole('dialog', { name: 'Back up your workspace' });
+  await privacy.getByRole('checkbox', { name: 'Use an unencrypted JSON file instead' }).check();
+  await privacy.getByRole('checkbox', { name: /I understand anyone/ }).check();
+  await privacy.getByRole('button', { name: 'Download JSON backup' }).click();
   const download = await downloading;
   const path = await download.path();
   if (!path) throw new Error('Recovery export did not produce a file');

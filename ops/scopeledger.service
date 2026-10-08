@@ -21,6 +21,16 @@ ProtectSystem=strict
 ProtectHome=true
 ReadWritePaths=/var/lib/scopeledger
 StateDirectory=scopeledger
+StateDirectoryMode=0700
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectHostname=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+TasksMax=512
+LimitNOFILE=4096
 Environment=HOME=/var/lib/scopeledger
 # Chromium's sandbox needs user namespaces or the installed setuid sandbox.
 # Do not add --no-sandbox, restrict namespaces, or blindly enable NoNewPrivileges.

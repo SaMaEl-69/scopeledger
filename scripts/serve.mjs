@@ -348,13 +348,46 @@ export function createScopeLedgerServer({
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if (process.env.SCOPELEDGER_MODE === 'live' && process.env.NODE_ENV !== 'production')
+    throw new Error('Live server startup requires NODE_ENV=production.');
+  if (process.env.NODE_ENV === 'production' && process.getuid?.() === 0)
+    throw new Error('Run the application as a dedicated non-root user.');
+  if (process.env.NODE_ENV === 'production' && process.env.SCOPELEDGER_MODE === 'local-test')
+    throw new Error('Local test licensing cannot start a production server.');
   const port = Number(process.env.PORT ?? 4173);
   if (!Number.isInteger(port) || port < 0 || port > 65535)
     throw new Error('PORT must be an integer between 0 and 65535.');
+  const backend = createBackend();
+  if (process.env.SCOPELEDGER_MODE === 'live' && !backend.config.configured) {
+    backend.close();
+    throw new Error(
+      'Live startup requires valid private storage and complete seller configuration.',
+    );
+  }
   const server = createScopeLedgerServer({
+    backend,
     directory: process.env.SCOPELEDGER_PUBLIC_DIR,
     assetDirectory: process.env.SCOPELEDGER_ASSET_DIR,
   });
+  if (process.env.SCOPELEDGER_MODE === 'live') {
+    const storage = await realpath(backend.config.dbPath);
+    for (const directory of [
+      process.env.SCOPELEDGER_PUBLIC_DIR ?? fileURLToPath(new URL('../dist/', import.meta.url)),
+      process.env.SCOPELEDGER_ASSET_DIR,
+    ].filter(Boolean)) {
+      const publicRoot = await realpath(resolve(directory));
+      if (storage === publicRoot || storage.startsWith(publicRoot + sep))
+        throw new Error('Live license storage must be outside public asset directories.');
+    }
+    let rendererAvailable = false;
+    try {
+      rendererAvailable = await backend.probeRenderer(rendererReady);
+    } catch {}
+    if (!rendererAvailable) {
+      backend.close();
+      throw new Error('Live startup requires a working sandboxed renderer.');
+    }
+  }
   for (const signal of ['SIGTERM', 'SIGINT'])
     process.once(signal, () => {
       server.close(() => process.exit(0));

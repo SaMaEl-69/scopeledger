@@ -1,13 +1,35 @@
 import { DatabaseSync, backup } from 'node:sqlite';
 import { createHash, createHmac, createDecipheriv } from 'node:crypto';
-import { mkdir, readFile, writeFile, chmod, lstat, realpath, copyFile, rm } from 'node:fs/promises';
+import {
+  mkdir,
+  readFile,
+  writeFile,
+  chmod,
+  lstat,
+  realpath,
+  copyFile,
+  rm,
+  open,
+} from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { resolve, dirname, sep } from 'node:path';
 import { parseEnv } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
-async function privateTarget(path) {
+export async function privateWrite(path, bytes) {
+  const file = await open(path, 'wx', 0o600);
+  try {
+    await file.writeFile(bytes);
+    await file.sync();
+  } catch (error) {
+    await file.close().catch(() => {});
+    await rm(path, { force: true });
+    throw error;
+  }
+  await file.close();
+}
+export async function privateTarget(path) {
   const parent = await realpath(dirname(resolve(path)));
   const target = resolve(parent, resolve(path).split(sep).at(-1));
   for (const folder of [
@@ -26,17 +48,23 @@ async function privateTarget(path) {
   }
   return target;
 }
-async function privateFile(path, read = true) {
-  const info = await lstat(path);
-  if (
-    !info.isFile() ||
-    info.isSymbolicLink() ||
-    (process.platform !== 'win32' && info.mode & 0o077)
-  )
-    throw new Error(
-      'Recovery inputs must be regular files readable only by their owner (mode 600).',
-    );
-  return read ? readFile(path) : null;
+export async function privateFile(path, read = true) {
+  const handle = await open(path, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0));
+  try {
+    const info = await handle.stat();
+    if (
+      !info.isFile() ||
+      info.nlink !== 1 ||
+      (process.platform !== 'win32' &&
+        (info.mode & 0o077 || (process.getuid() !== 0 && info.uid !== process.getuid())))
+    )
+      throw new Error(
+        'Recovery inputs must be regular files readable only by their owner (mode 600), without aliases.',
+      );
+    return read ? await handle.readFile() : null;
+  } finally {
+    await handle.close();
+  }
 }
 function secretFrom(text) {
   const secret = parseEnv(text).SCOPELEDGER_SESSION_SECRET;
@@ -126,7 +154,13 @@ export async function restoreServer(source, databasePath, environmentPath) {
   )
     throw new Error('Recovery bundle verification failed. Nothing was restored.');
   verifyDatabase(resolve(source, 'licenses.sqlite'), secret);
-  for (const path of [targetDb, `${targetDb}-wal`, `${targetDb}-shm`, targetEnv]) {
+  for (const path of [
+    targetDb,
+    `${targetDb}-wal`,
+    `${targetDb}-shm`,
+    `${targetDb}-journal`,
+    targetEnv,
+  ]) {
     try {
       await lstat(path);
       throw new Error(
@@ -149,12 +183,11 @@ export async function restoreServer(source, databasePath, environmentPath) {
     await copyFile(resolve(source, 'licenses.sqlite'), targetDb, constants.COPYFILE_EXCL);
     copied = true;
     await chmod(targetDb, 0o600);
-    await writeFile(
+    await privateWrite(
       targetEnv,
       Object.entries(values)
         .map(([key, value]) => `${key}="${value}"`)
         .join('\n') + '\n',
-      { flag: 'wx', mode: 0o600 },
     );
     wroteEnv = true;
     verifyDatabase(targetDb, secret);
@@ -166,23 +199,8 @@ export async function restoreServer(source, databasePath, environmentPath) {
   }
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const [operation, first, second, third] = process.argv.slice(2);
-  try {
-    if (!first || !second || !third || !['backup', 'restore'].includes(operation))
-      throw new Error(
-        'Usage: server-backup.mjs backup DATABASE ENV NEW-BUNDLE | restore BUNDLE NEW-DATABASE NEW-ENV',
-      );
-    console.log(
-      JSON.stringify(
-        await (operation === 'backup'
-          ? backupServer(first, second, third)
-          : restoreServer(first, second, third)),
-      ),
-    );
-  } catch {
-    console.error(
-      'Recovery operation failed. Check private permissions, matching secret, verified bundle, and unused destinations. No secret or database contents are logged.',
-    );
-    process.exitCode = 1;
-  }
+  console.error(
+    'Use scripts/secure-backup.mjs for authenticated encrypted backups and recovery. Plain staging helpers are not a transport backup interface.',
+  );
+  process.exitCode = 1;
 }

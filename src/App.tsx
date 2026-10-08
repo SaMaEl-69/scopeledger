@@ -111,6 +111,8 @@ const ClientResponseComposer = lazy(() =>
   import('./toolkit/ClientResponseComposer').then((m) => ({ default: m.ClientResponseComposer })),
 );
 import { prepareRestore, MAX_WORKSPACE_BYTES } from './storage/repository';
+import { isEncryptedBackup, MAX_ENCRYPTED_BACKUP_BYTES } from './storage/encrypted-backup';
+import { BackupSecurityModal } from './components/BackupSecurityModal';
 import { useWorkspace } from './storage/useWorkspace';
 import { Modal, NumberField, Field, Empty, useDialogFocusOrigin } from './components/ui';
 import {
@@ -223,6 +225,16 @@ export default function App() {
   const store = useWorkspace();
   const license = useLicense();
   const w = store.workspace;
+  const backupCompletion = useRef<((result: boolean) => void) | null>(null);
+  const latestWorkspace = useRef(w);
+  latestWorkspace.current = w;
+  const [backupRequest, setBackupRequest] = useState<{
+    raw: string;
+    unlocking: boolean;
+    source?: Workspace;
+    recordDate?: boolean;
+    returnTo?: 'home' | 'restore';
+  } | null>(null);
   const [modal, setModal] = useState<
     | null
     | 'scenario'
@@ -231,6 +243,7 @@ export default function App() {
     | 'approval'
     | 'reconcile'
     | 'restore'
+    | 'backup'
     | 'license'
     | 'revision'
     | 'guide'
@@ -367,7 +380,12 @@ export default function App() {
       setSelectedCalendarEventId(target.eventId ?? '');
       setSelectedClientId(target.clientId ?? '');
       setMobileNav(false);
-      if (fromHistory) setModal(null);
+      if (fromHistory) {
+        backupCompletion.current?.(false);
+        backupCompletion.current = null;
+        setBackupRequest(null);
+        setModal(null);
+      }
       setBriefFlow(false);
       setPendingField('');
       setFlowStep(
@@ -422,6 +440,9 @@ export default function App() {
     toastTimer.current = setTimeout(() => setToast(''), 4500);
   };
   const closeModal = useCallback(() => {
+    backupCompletion.current?.(false);
+    backupCompletion.current = null;
+    setBackupRequest(null);
     setModal(null);
     setActionError('');
     setPendingScenario(null);
@@ -755,19 +776,33 @@ export default function App() {
     ],
     !!w && !store.recovery && !modal && !mobileNav,
   );
-  const exportWorkspace = (recordBackupDate: boolean) => {
-    if (!w) return false;
+  const exportWorkspace = (recordBackupDate: boolean): Promise<boolean> => {
+    if (!w) return Promise.resolve(false);
+    let completed!: (value: boolean) => void;
+    const result = new Promise<boolean>((resolve) => {
+      completed = resolve;
+    });
+    backupCompletion.current?.(false);
+    backupCompletion.current = completed;
     try {
-      download(store.serialize(), `scopeledger-backup-${today()}.json`);
-      if (recordBackupDate) store.mutate({ ...w, context: { ...w.context, lastBackupAt: now() } });
-      notify('Backup downloaded. Keep it somewhere safe.');
-      return true;
-    } catch (e) {
-      setActionError(e instanceof Error ? e.message : 'This backup could not be exported.');
-      return false;
+      setBackupRequest({
+        raw: store.serialize(),
+        unlocking: false,
+        source: w,
+        recordDate: recordBackupDate,
+        ...(modal === 'home' || modal === 'restore' ? { returnTo: modal } : {}),
+      });
+      setModal('backup');
+    } catch (reason) {
+      setActionError(reason instanceof Error ? reason.message : 'Backup could not be prepared.');
+      completed(false);
+      backupCompletion.current = null;
     }
+    return result;
   };
-  const backup = () => exportWorkspace(true);
+  const backup = () => {
+    void exportWorkspace(true);
+  };
   const leaveForHome = async (recoveryNavigation = false) => {
     if (homeLeaving) return;
     setHomeLeaving(true);
@@ -826,16 +861,64 @@ export default function App() {
   };
   const readBackup = async (file: File) => {
     try {
-      if (file.size > MAX_WORKSPACE_BYTES) throw Error('Choose a backup no larger than 10 MB.');
-      const data = prepareRestore(await file.text(), !license.status.active);
+      if (file.size > MAX_ENCRYPTED_BACKUP_BYTES)
+        throw Error('Choose a JSON backup up to 10 MB or an encrypted backup up to 14 MB.');
+      const raw = new TextDecoder('utf-8', { fatal: true }).decode(await file.arrayBuffer());
+      if (isEncryptedBackup(raw)) {
+        setBackupRequest({ raw, unlocking: true });
+        setModal('backup');
+        setActionError('');
+        return;
+      }
+      const data = prepareRestore(raw, !license.status.active);
       setRestoreData(data);
       setModal('restore');
       setActionError('');
     } catch (e) {
       setActionError(e instanceof Error ? e.message : 'This backup could not be read.');
+    } finally {
+      if (inputRef.current) inputRef.current.value = '';
     }
-    if (inputRef.current) inputRef.current.value = '';
   };
+  const backupDialog = modal === 'backup' && backupRequest && (
+    <BackupSecurityModal
+      raw={backupRequest.raw}
+      unlocking={backupRequest.unlocking}
+      onClose={() => {
+        const returning = backupRequest.returnTo;
+        setBackupRequest(null);
+        closeModal();
+        if (returning) setModal(returning);
+      }}
+      onComplete={(raw, encrypted) => {
+        if (backupRequest.unlocking) {
+          const data = prepareRestore(raw, !license.status.active);
+          setRestoreData(data);
+          setBackupRequest(null);
+          setModal('restore');
+          setActionError('');
+        } else {
+          download(raw, `scopeledger-backup-${today()}.${encrypted ? 'slbackup' : 'json'}`);
+          const current = latestWorkspace.current;
+          if (backupRequest.recordDate && current && current === backupRequest.source)
+            store.mutate({ ...current, context: { ...current.context, lastBackupAt: now() } });
+          if (backupRequest.returnTo === 'home' && backupRequest.source)
+            setHomeExportedWorkspace(backupRequest.source);
+          const returning = backupRequest.returnTo;
+          backupCompletion.current?.(true);
+          backupCompletion.current = null;
+          setBackupRequest(null);
+          closeModal();
+          if (returning) setModal(returning);
+          notify(
+            encrypted
+              ? 'Encrypted backup downloaded. Keep your passphrase separately.'
+              : 'JSON backup downloaded. This file is unencrypted; keep it private.',
+          );
+        }
+      }}
+    />
+  );
   const navItems: [Workspace['context']['view'], typeof LayoutDashboard, string][] = [
     ['dashboard', LayoutDashboard, 'Overview'],
     ['projects', FolderKanban, 'Projects'],
@@ -859,7 +942,10 @@ export default function App() {
           <div className="button-row">
             <button
               className="button secondary"
-              onClick={() => download(store.recovery!.raw, 'scopeledger-recovery.json')}
+              onClick={() => {
+                setBackupRequest({ raw: store.recovery!.raw, unlocking: false });
+                setModal('backup');
+              }}
             >
               <Download size={16} /> Download recovery data
             </button>
@@ -882,7 +968,7 @@ export default function App() {
           <input
             ref={inputRef}
             type="file"
-            accept=".json,application/json"
+            accept=".json,.slbackup,application/json"
             data-testid="backup-file"
             hidden
             onChange={(e) => e.target.files?.[0] && void readBackup(e.target.files[0])}
@@ -891,7 +977,14 @@ export default function App() {
             <RestoreModal
               data={restoreData}
               onClose={closeModal}
-              onBackup={() => download(store.recovery!.raw, 'scopeledger-recovery.json')}
+              onBackup={() => {
+                setBackupRequest({
+                  raw: store.recovery!.raw,
+                  unlocking: false,
+                  returnTo: 'restore',
+                });
+                setModal('backup');
+              }}
               onRestore={async () => {
                 await store.restore(restoreData);
                 closeModal();
@@ -899,6 +992,7 @@ export default function App() {
             />
           )}
         </div>
+        {backupDialog}
       </main>
     );
   if (!w)
@@ -3080,11 +3174,12 @@ export default function App() {
       <input
         ref={inputRef}
         type="file"
-        accept=".json,application/json"
+        accept=".json,.slbackup,application/json"
         data-testid="backup-file"
         hidden
         onChange={(e) => e.target.files?.[0] && void readBackup(e.target.files[0])}
       />
+      {backupDialog}
       {toast && (
         <div className="toast" role="status">
           <Check size={16} />
@@ -3332,7 +3427,7 @@ export default function App() {
             <button
               className="button secondary"
               onClick={() => {
-                if (exportWorkspace(false)) setHomeExportedWorkspace(w);
+                void exportWorkspace(false);
               }}
             >
               Export current edits

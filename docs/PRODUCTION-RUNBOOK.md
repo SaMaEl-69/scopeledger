@@ -1,6 +1,6 @@
 # Production runbook — prepared locally, not deployed
 
-8 October 2026. The intended origin is `https://scopeledger.site`. The hosting provider, actual seller account, final policies and live device checks are still awaiting owner information. Purchases remain disabled. The files in `ops/` are Linux templates, not installed services.
+Updated 9 October 2026. The intended origin is `https://scopeledger.site`. The hosting provider, actual seller account, final policies and live device checks are still awaiting owner information. Purchases remain disabled. The files in `ops/` are Linux templates, not installed services.
 
 ## Source and verification
 
@@ -24,7 +24,7 @@ Use fresh browser profiles for QA. Do not reset the owner's browser data. A diff
 
 ## Staging and installation
 
-Choose a persistent Linux VPS with Node 24 LTS, sufficient measured CPU/memory, a working sandboxed Chrome/Chromium executable, a non-root `scopeledger` user, a durable `/var/lib/scopeledger`, and HTTPS on the canonical host. A static-only host cannot run licensing or protected export. The Linux templates have not been executed on this macOS workstation.
+Choose a persistent Linux VPS with Node 24 LTS, sufficient measured CPU/memory, a working sandboxed Chrome/Chromium executable, a non-root `scopeledger` user, a durable `/var/lib/scopeledger`, and HTTPS on the canonical host. A static-only host cannot run licensing or protected export. Native Nginx syntax and an isolated HTTPS gateway rehearsal have passed locally; the Linux service/firewall still require the actual host.
 
 First rehearse the setup in an isolated staging environment. Use a separate database, secret and origin; do not share production cookies or entitlement files. Public staging may run in demo mode. Local-test mode deliberately requires development and loopback HTTP. Provider test purchases are rejected by live authorization; agree the real receipt/refund verification procedure with the seller before making a transaction.
 
@@ -84,27 +84,68 @@ The application allows 16 active API operations per process and eight distinct p
 
 JSON uploads must use application/json and uncompressed UTF-8. Activation allows 16 KiB, release/project authorization 4 KiB, and client PDF snapshots 2,600,000 bytes. Uploads time out after 15 seconds; excess chunked input is rejected immediately. The built Node server has a 10-second header deadline, 20-second request upload deadline, 60-second socket inactivity limit, 16 KiB header size, at most 128 connections, and 100 requests per keep-alive socket.
 
-The Nginx template belongs in the http context. It adds 10 API requests/second per direct client address with a burst of 20, at most 20 connections/address, bounded upload/proxy timeouts and canonical HTTPS Host checking. Run nginx -t and test normal startup, export, shared-office traffic and deliberate overload on staging before installation. The template has not been validated by Nginx on this Mac. Configure the firewall so only HTTPS/HTTP and deliberately restricted administration are public; port 4173 must remain loopback-only.
+The Nginx template belongs in the http context. It adds 10 API requests/second per direct client address with a burst of 20, at most 20 connections/address, bounded upload/proxy timeouts and canonical HTTPS Host checking. Run nginx -t and test normal startup, export, shared-office traffic and deliberate overload on staging before installation. The template has passed native Nginx syntax and local HTTPS gateway checks on this Mac. Configure the firewall so only HTTPS/HTTP and deliberately restricted administration are public; port 4173 must remain loopback-only.
 
 CSP allows self-hosted scripts and exact inline hashes, rejects script attributes and base tags, and limits network connections to the same origin. Inline styles remain permitted for document previews and responsive layout. Same-origin opener/resource policies supplement the existing no-sniff, frame, referrer and permissions headers. Verify headers through the real reverse proxy; it may replace application headers.
 
-## Paired database and secret recovery
+## Authenticated encrypted recovery
 
-The backup tool uses SQLite's online backup API, so it includes committed WAL data. It validates database integrity, expected tables and decryption of retained provider keys. Inputs must be owner-only regular files; the new bundle is mode 700 with mode 600 files. A manifest authenticates checksums with the paired session secret. [Node documents the SQLite backup API](https://nodejs.org/api/sqlite.html#sqlitebackupsourceDb-path-options).
+Server backups now use AES-256-GCM with a separate random recovery key, private permissions and exclusive output creation. The archive authenticates the paired database/environment before restoration writes. The previous plain staging CLI is disabled. Staging helpers are internal implementation/testing tools.
 
-```sh
-node scripts/server-backup.mjs backup /var/lib/scopeledger/licenses.sqlite /etc/scopeledger/server.env /private/backups/NEW_BUNDLE
-```
-
-The bundle contains the full private environment, including the secret. It is not encrypted at rest by this tool. Use an encrypted off-host backup destination and restricted access; never place it in a release, public directory or Git. Establish backup scheduling, retention and tested retrieval with the chosen host. A browser workspace JSON backup is separate and does not restore server entitlements.
-
-Restore offline into new unused paths; keep the original database/sidecars for investigation. The tool refuses existing destinations, checks the entire bundle before copying, rewrites the restored database path and sets both purchase flags false.
+Generate the key outside source/public/release paths. Keep a separate protected off-host key copy; never upload it alongside an archive. Losing the key makes these archives unrecoverable.
 
 ```sh
-node scripts/server-backup.mjs restore /private/backups/BUNDLE /var/lib/scopeledger/RESTORED.sqlite /etc/scopeledger/RESTORED.env
+sudo node scripts/secure-backup.mjs keygen /etc/scopeledger/recovery.key
+sudo node scripts/secure-backup.mjs backup /var/lib/scopeledger/licenses.sqlite /etc/scopeledger/server.env /etc/scopeledger/recovery.key /private/backups/NEW.slarchive
 ```
 
-Inspect the recovered configuration privately, point the stopped service to it, restart and verify an existing device/license, fresh activation, protected export and current-device release. Rehearse targeted lost-device recovery only with independent ownership evidence, using the existing administrative command. Preserve recovery audit evidence. The local rehearsal verifies recovery mechanics; actual off-host retrieval and production recovery are still required.
+Transfer the encrypted archive to the chosen off-host destination. Scheduling, access, retention and alert delivery need the future host/destination. The tool bounds database size to 64 MiB, environment size to 256 KiB and archive size to 96 MiB. Monitor growth and rehearse recovery before these bounds. Temporary plaintext snapshots stay in an owner-only directory and are removed after normal success/failure. Protect the live disk and state directory too.
+
+Restore while the application is stopped, into new unused paths:
+
+```sh
+sudo node scripts/secure-backup.mjs restore /private/backups/NEW.slarchive /etc/scopeledger/recovery.key /var/lib/scopeledger/RESTORED.sqlite /etc/scopeledger/RESTORED.env
+sudo chown scopeledger:scopeledger /var/lib/scopeledger/RESTORED.sqlite
+```
+
+Wrong keys, tampered/truncated archives, aliases, unsafe permissions and existing database/environment/sidecar destinations are refused. Recovery invalidates all sessions, frees device allocations for reactivation and disables both purchase flags. Historical purchases remain. Review the recovered configuration, select it deliberately in the service and verify reactivation/export. Never send plain snapshots off-host.
+
+## Incident controls
+
+These are privileged local operator tools, not HTTP endpoints. Rehearse with disposable state; never run incident commands against owner records as routine QA.
+
+```sh
+sudo node scripts/revoke-sessions.mjs /var/lib/scopeledger/licenses.sqlite OPERATOR 'INCIDENT REASON OF AT LEAST TWENTY CHARACTERS'
+```
+
+This atomically invalidates all sessions, frees slots and records an audit. Valid purchasers can reactivate; browser workspaces are preserved. For an exposed signing/encryption secret, rotate offline into new files:
+
+```sh
+sudo systemctl stop scopeledger
+sudo node scripts/rotate-secret.mjs /var/lib/scopeledger/licenses.sqlite /etc/scopeledger/server.env /var/lib/scopeledger/ROTATED.sqlite /etc/scopeledger/ROTATED.env OPERATOR 'INCIDENT REASON OF AT LEAST TWENTY CHARACTERS'
+sudo chown scopeledger:scopeledger /var/lib/scopeledger/ROTATED.sqlite
+```
+
+Rotation re-encrypts keys, remaps secret-derived license identities and known references, verifies the new pair, invalidates sessions and disables purchases. Original files remain. Review/select the new pair before restart and investigate the incident. Retained license/device quota references move to the new identities; old IP hashes cannot be recomputed, so activation-IP counters restart. Rotate a leaked independent recovery key separately and generate new archives.
+
+## Browser backup protection
+
+Export backup now opens an encrypted flow. The passphrase needs at least 16 characters and is never saved or sent to the server. Encryption uses AES-256-GCM, PBKDF2-SHA256 with 600,000 iterations, a fresh salt and nonce. Import unlocks locally, then requires the existing replacement review/confirmation. Wrong passphrases or changed files leave work intact. Keep the passphrase separately; it cannot be recovered.
+
+Legacy JSON imports remain supported. Plain JSON export requires an explicit choice and acknowledgement. Recovery/reload guards await the asynchronous download and require another export after newer edits. Actually retain the downloaded file before discarding unsaved work. Browser backups do not restore server entitlements. IndexedDB remains local browser storage governed by origin/profile and device access.
+
+## Production verification
+
+The production entry point rejects root execution, test licensing, non-production live startup, incomplete live settings, a database in public assets and an unusable sandboxed renderer. Live storage rejects unsafe permissions and file aliases. The service sets its state directory to mode 700 and adds kernel/control-group/personality/realtime restrictions while preserving the Chromium sandbox.
+
+```sh
+node scripts/verify-deployment.mjs https://scopeledger.site
+node scripts/verify-deployment.mjs https://scopeledger.site --require-licensing
+```
+
+The verifier checks trusted TLS, HTTPS redirects, security headers, private-file denial, live cookie flags, cross-site rejection, forged-session rejection and readiness. Disabled TLS verification is refused. The optional --test-limits flag adds a bounded 40-request burst; use it deliberately on isolated staging. Local Nginx QA also verifies spoofed client-address overwrite and throttling.
+
+CI scans full Git history using checksum-pinned Gitleaks with redacted output and only the exact synthetic fixture key allowlisted. It also runs the HTTPS gateway and sandboxed export checks. A hosted CI run and real host protections can only be verified after those resources exist.
 
 ## Commercial and human launch gates
 

@@ -1,6 +1,6 @@
 # ScopeLedger security hardening
 
-8 October 2026. The application has been audited and hardened locally before hosting and seller setup. Protected actions remain closed on the owner's demo preview. No deployment, real payment, public policy publication or owner-data reset was performed.
+Initial pass: 8 October 2026. Superseded recovery and deployment details are updated in [the final security verification](SECURITY-FINAL-VERIFICATION.md). The application has been audited and hardened locally before hosting and seller setup. Protected actions remain closed on the owner's demo preview. No deployment, real payment, public policy publication or owner-data reset was performed.
 
 ## Scope and result
 
@@ -70,7 +70,7 @@ The limits are per process: 16 active API operations, eight provider checks and 
 
 1. Install and verify HTTPS, firewall rules, loopback-only application access, non-root service permissions, persistent private storage, Chromium sandbox and reverse-proxy headers on the actual host. Run nginx -t and prove the trusted client-address chain before enabling proxy trust. Re-test the per-address limits with normal shared-office traffic and deliberate overload. None of these host checks has been executed on this Mac.
 2. Measure Linux export memory and maximum supported documents, then set host/service limits. Account for retries and transient readiness deferrals; do not restart a healthy service solely because it briefly returns checking_deferred during exports.
-3. Establish an encrypted off-host backup destination, restricted administration, tested retrieval and alert delivery. Server backup bundles and browser JSON backups contain private data and are not encrypted by the export tools themselves. The existing encrypted provider-key column does not encrypt every database field or the backup bundle.
+3. Establish an encrypted off-host backup destination, restricted administration, tested retrieval and alert delivery. Server archives and default browser exports are now encrypted, as documented in the final verification. Deliberately selected legacy JSON exports remain unencrypted. The existing encrypted provider-key column does not encrypt every database field or the backup bundle.
 4. Verify real seller/product/receipt, refund/revocation and recovery behavior using an agreed procedure. Mocked and generated development purchases are not evidence of a real Gumroad checkout. Keep purchases closed until those checks and the existing policy/approval gates are complete.
 5. Run the prepared CI on a real remote, maintain dependency/Node/browser updates, restrict deployment write access, and monitor busy responses, provider failures, disk usage and host memory. Checksum manifests do not protect against an attacker who can rewrite both the release and its manifest.
 

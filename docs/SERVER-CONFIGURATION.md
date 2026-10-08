@@ -4,7 +4,7 @@ The checked-in application defaults to demo mode. No Gumroad seller identity, pr
 
 ## Runtime and deployment
 
-Use Node.js 24 LTS with `node:sqlite`, a writable persistent local disk, and a supported Chrome/Chromium executable. The package supports `^22.13.0 || >=24.0.0`; Node 23 is outside that range. Node 22.13 removed the SQLite flag requirement ([Node documentation](https://nodejs.org/api/sqlite.html)). The verification performed here used Node 26 and installed Google Chrome. `playwright-core` does not install a browser itself.
+Use Node.js 24 LTS with `node:sqlite`, a writable persistent local disk, and a supported Chrome/Chromium executable. The package supports `^22.16.0 || >=24.0.0`; Node 23 is outside that range. Node 22.13 removed the SQLite flag requirement ([Node documentation](https://nodejs.org/api/sqlite.html)). The verification performed here used Node 26 and installed Google Chrome. `playwright-core` does not install a browser itself.
 
 ```sh
 npm ci
@@ -20,7 +20,7 @@ Run one application process per deployment. SQLite transactions protect device c
 
 Run as a dedicated non-root operating-system user. The renderer explicitly enables Chromium's sandbox, disables JavaScript, blocks external requests, and receives only the operating-system environment needed to start the browser. Licensing/encryption environment variables are not passed to Chrome. The target host must support Chromium's sandbox; test an actual export there before opening sales. Containers may need the user/namespace/seccomp setup described in [Playwright's deployment guidance](https://playwright.dev/docs/docker). Do not solve an unsupported host by adding `--no-sandbox`.
 
-See [server operations and commercial readiness](SERVER-OPERATIONS.md) for monitoring, updates, cost planning and the current acceptance record.
+See [the production security and recovery runbook](PRODUCTION-RUNBOOK.md) for encrypted backups, incident controls and startup/gateway verification. See [server operations and commercial readiness](SERVER-OPERATIONS.md) for monitoring, updates, cost planning and the current acceptance record.
 
 ## Exact production settings
 

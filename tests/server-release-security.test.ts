@@ -24,6 +24,16 @@ async function release() {
   return prepareRelease(source, join(root, 'deploy'), 'security-test');
 }
 describe('release tree integrity', () => {
+  it.each(['recovery.slarchive', 'workspace.slbackup', 'scopeledger-backup-test.json'])(
+    'refuses private backup %s during packaging',
+    async (name) => {
+      await release();
+      await writeFile(join(root, 'source/scripts', name), 'synthetic private backup');
+      await expect(
+        prepareRelease(join(root, 'source'), join(root, 'deploy'), 'second-test'),
+      ).rejects.toThrow('Private file');
+    },
+  );
   it('refuses switching to a release whose manifest identity differs from its directory', async () => {
     const built = await release();
     const path = join(built.directory, 'manifest.json');

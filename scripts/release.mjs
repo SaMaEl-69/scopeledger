@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const validId = (id) => typeof id === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9.-]{0,79}$/.test(id);
 const privateReleasePath = (name) =>
-  /(^|\/)\.|\.env(?:\.|$)|\.(?:db|sqlite3?|sql|pem|key|p12|pfx|bak)(?:-wal|-shm|-journal)?$/i.test(
+  /(^|\/)\.|\.env(?:\.|$)|(^|\/)scopeledger-backup-[^/]*\.json$|\.(?:db|sqlite3?|sql|pem|key|p12|pfx|bak|slarchive|slbackup)(?:-wal|-shm|-journal)?$/i.test(
     name,
   );
 async function files(root, directory = root, installed = false) {

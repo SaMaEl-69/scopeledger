@@ -1,0 +1,7 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Exact synthetic Gumroad key used only by purchase-response fixtures; never a live entitlement"
+regexTarget = "secret"
+regexes = ['''^LIVE-KEY-123456$''']

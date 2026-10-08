@@ -6,7 +6,7 @@ import {
   createDecipheriv,
   timingSafeEqual,
 } from 'node:crypto';
-import { mkdirSync, chmodSync } from 'node:fs';
+import { mkdirSync, chmodSync, lstatSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
 export class ServiceError extends Error {
@@ -298,6 +298,36 @@ export class LicenseService {
     if (!config.configured) return;
     try {
       mkdirSync(dirname(config.dbPath), { recursive: true, mode: 0o700 });
+      if (config.mode === 'live' && process.platform !== 'win32') {
+        const parent = lstatSync(dirname(config.dbPath));
+        if (
+          !parent.isDirectory() ||
+          parent.isSymbolicLink() ||
+          parent.mode & 0o077 ||
+          parent.uid !== process.getuid()
+        )
+          bad('license_storage_failed', 'Live storage requires an owner-only directory.', 503);
+      }
+      for (const suffix of ['', '-wal', '-shm', '-journal']) {
+        try {
+          const file = lstatSync(config.dbPath + suffix);
+          if (
+            !file.isFile() ||
+            file.isSymbolicLink() ||
+            file.nlink !== 1 ||
+            (config.mode === 'live' &&
+              process.platform !== 'win32' &&
+              (file.mode & 0o077 || file.uid !== process.getuid()))
+          )
+            bad(
+              'license_storage_failed',
+              'License storage must use private regular files without aliases.',
+              503,
+            );
+        } catch (error) {
+          if (error.code !== 'ENOENT') throw error;
+        }
+      }
       this.db = new DatabaseSync(config.dbPath);
       chmodSync(config.dbPath, 0o600);
       this.db.exec(`PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000;
@@ -549,7 +579,13 @@ export class LicenseService {
         'This activation belongs to a different configured seller or product. Activate the matching purchase again.',
         401,
       );
-    if (!releaseOnly && row.mode === 'live' && this.clock() - row.checked_at > this.config.ttlMs) {
+    if (!Number.isSafeInteger(row.checked_at) || !Number.isSafeInteger(row.expires))
+      bad('license_storage_failed', 'License timestamps are invalid. Recover server storage.', 503);
+    if (
+      !releaseOnly &&
+      row.mode === 'live' &&
+      (row.checked_at > this.clock() || this.clock() - row.checked_at > this.config.ttlMs)
+    ) {
       let check = this.checks.get(row.id);
       if (!check) {
         check = (async () => {

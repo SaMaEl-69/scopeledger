@@ -567,3 +567,46 @@ describe('checkout destination security', () => {
     expect(Boolean(result.checkout.individual)).toBe(accepted);
   });
 });
+
+describe('storage and clock integrity', () => {
+  it('rejects linked database files before SQLite can open them', async () => {
+    const { symlink } = await import('node:fs/promises');
+    const alias = join(directory, 'alias.sqlite');
+    await symlink(config.dbPath, alias);
+    expect(() => new LicenseService({ ...config, dbPath: alias })).toThrow('without aliases');
+  });
+  it('requires owner-only live storage directories', async () => {
+    const { chmod } = await import('node:fs/promises');
+    await chmod(directory, 0o755);
+    expect(() => new LicenseService({ ...config, mode: 'live' })).toThrow('owner-only');
+    await chmod(directory, 0o700);
+  });
+  it('revalidates future provider timestamps rather than extending their authorization cache', async () => {
+    service.close();
+    let adverse = false,
+      checks = 0;
+    service = new LicenseService(
+      { ...config, mode: 'live' },
+      {
+        clock: () => 1000,
+        verify: async () => {
+          checks++;
+          return { purchaseId: 'clock-test', adverse };
+        },
+      },
+    );
+    const device = service.deviceToken(),
+      activated = await service.activate(
+        'LIVE-CLOCK-INTEGRITY-TEST',
+        'individual',
+        'Clock test',
+        device,
+      );
+    service.db.prepare('UPDATE licenses SET checked_at=?').run(9999999999999);
+    adverse = true;
+    await expect(service.authorized(activated.token, device.token)).rejects.toMatchObject({
+      code: 'purchase_adverse',
+    });
+    expect(checks).toBe(2);
+  });
+});

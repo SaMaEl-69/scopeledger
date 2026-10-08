@@ -82,6 +82,10 @@ async function navigate(page: Page, name: string) {
 async function exported(page: Page, button: ReturnType<Page['getByRole']>): Promise<Workspace> {
   const downloading = page.waitForEvent('download');
   await button.click();
+  const privacy = page.getByRole('dialog', { name: 'Back up your workspace' });
+  await privacy.getByRole('checkbox', { name: 'Use an unencrypted JSON file instead' }).check();
+  await privacy.getByRole('checkbox', { name: /I understand anyone/ }).check();
+  await privacy.getByRole('button', { name: 'Download JSON backup' }).click();
   const download = await downloading;
   const path = await download.path();
   if (!path) throw new Error('The current workspace export did not produce a downloaded file.');

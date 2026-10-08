@@ -31,3 +31,7 @@ docs/**/*.pdf
 *.p12
 *.pfx
 *.bak
+
+*.slarchive
+*.slbackup
+scopeledger-backup-*.json

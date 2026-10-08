@@ -460,6 +460,10 @@ test('logo upload, replacement, validation and backup recovery preserve concurre
     .locator('.backup-card')
     .getByRole('button', { name: 'Export backup', exact: true })
     .click();
+  const privacy = page.getByRole('dialog', { name: 'Back up your workspace' });
+  await privacy.getByRole('checkbox', { name: 'Use an unencrypted JSON file instead' }).check();
+  await privacy.getByRole('checkbox', { name: /I understand anyone/ }).check();
+  await privacy.getByRole('button', { name: 'Download JSON backup' }).click();
   const download = await downloading,
     file = await download.path();
   if (!file) throw new Error('Expected local workspace backup');

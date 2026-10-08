@@ -12,7 +12,10 @@ const privatePath = (path) =>
         part === '.env' ||
         part.startsWith('.env.') ||
         part.endsWith('.env') ||
-        /\.(?:db|sqlite3?|sql|pem|key|p12|pfx|bak)(?:-wal|-shm|-journal)?$/.test(part),
+        /^scopeledger-backup-.*\.json$/.test(part) ||
+        /\.(?:db|sqlite3?|sql|pem|key|p12|pfx|bak|slarchive|slbackup)(?:-wal|-shm|-journal)?$/.test(
+          part,
+        ),
     );
 const sqliteFiles = (path) =>
   ['', '-wal', '-shm', '-journal'].map((suffix) => resolve(path + suffix));

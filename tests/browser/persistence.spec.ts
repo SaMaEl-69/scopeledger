@@ -150,6 +150,10 @@ test('unavailable storage at startup keeps edits in memory and exports unfinishe
   await showAllSteps(page);
   const downloading = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export current edits', exact: true }).click();
+  const privacy = page.getByRole('dialog', { name: 'Back up your workspace' });
+  await privacy.getByRole('checkbox', { name: 'Use an unencrypted JSON file instead' }).check();
+  await privacy.getByRole('checkbox', { name: /I understand anyone/ }).check();
+  await privacy.getByRole('button', { name: 'Download JSON backup' }).click();
   const download = await downloading,
     path = await download.path();
   if (!path) throw new Error('Current edits could not be exported');

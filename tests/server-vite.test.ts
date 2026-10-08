@@ -36,6 +36,13 @@ describe('actual Vite development and preview private-file boundary', () => {
       await writeFile(ownerKeyPath, '{"synthetic":"private key fixture"}');
       await writeFile(join(directory, '.local-private/local-test.env'), 'SYNTHETIC_SECRET=private');
       await writeFile(join(directory, 'scopeledger.env'), 'SYNTHETIC_SECRET=private');
+      for (const name of [
+        'recovery.slarchive',
+        'workspace.slbackup',
+        'scopeledger-backup-test.json',
+      ])
+        for (const folder of [directory, join(directory, 'public'), join(directory, 'dist')])
+          await writeFile(join(folder, name), 'synthetic private backup');
       await writeFile(dbPath, 'synthetic private licensing storage');
       await writeFile(dbPath + '-wal', 'synthetic private journal');
       await writeFile(join(directory, 'index.html'), '<title>ScopeLedger test app</title>');
@@ -73,6 +80,10 @@ describe('actual Vite development and preview private-file boundary', () => {
         '/%2elocal-private/test-keys.json?raw',
         '/.local-private/local-test.env',
         '/scopeledger.env?raw',
+        '/recovery.slarchive',
+        '/workspace.slbackup?raw',
+        '/scopeledger-backup-test.json',
+        '/@fs/' + join(directory, 'recovery.slarchive') + '?raw',
         '/store/licenses.sqlite',
         '/store/licenses.sqlite-wal?raw',
         '/key-alias.json',
