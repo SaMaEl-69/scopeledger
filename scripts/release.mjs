@@ -15,12 +15,18 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
-async function files(root, directory = root) {
+const validId = (id) => typeof id === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9.-]{0,79}$/.test(id);
+const privateReleasePath = (name) =>
+  /(^|\/)\.|\.env(?:\.|$)|\.(?:db|sqlite3?|sql|pem|key|p12|pfx|bak)(?:-wal|-shm|-journal)?$/i.test(
+    name,
+  );
+async function files(root, directory = root, installed = false) {
   const result = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
+    if (installed && directory === root && entry.name === 'node_modules') continue;
     const path = join(directory, entry.name);
     if (entry.isSymbolicLink()) throw new Error('Release inputs must not contain symbolic links.');
-    if (entry.isDirectory()) result.push(...(await files(root, path)));
+    if (entry.isDirectory()) result.push(...(await files(root, path, installed)));
     else if (entry.isFile()) result.push(relative(root, path).split(sep).join('/'));
     else throw new Error('Release input is not a regular file.');
   }
@@ -45,7 +51,7 @@ export async function stampBuild(directory = 'dist') {
   return id;
 }
 export async function prepareRelease(source, deployment, id) {
-  if (!/^[a-zA-Z0-9.-]{1,80}$/.test(id)) throw new Error('Invalid release identity.');
+  if (!validId(id)) throw new Error('Invalid release identity.');
   const root = resolve(deployment);
   await mkdir(join(root, 'releases'), { recursive: true });
   const target = join(root, 'releases', id);
@@ -89,8 +95,7 @@ export async function prepareRelease(source, deployment, id) {
     await writeFile(join(target, 'dist/release.json'), JSON.stringify({ id }) + '\n');
     const manifest = {};
     for (const name of await files(target)) {
-      if (/(^|\/)\.|\.(?:sqlite(?:-wal|-shm)?|pem|key|p12)$/i.test(name))
-        throw new Error('Private file refused in release.');
+      if (privateReleasePath(name)) throw new Error('Private file refused in release.');
       manifest[name] = hash(await readFile(join(target, name)));
     }
     await writeFile(join(target, 'manifest.json'), JSON.stringify({ id, files: manifest }) + '\n', {
@@ -104,16 +109,41 @@ export async function prepareRelease(source, deployment, id) {
   }
 }
 export async function verifyRelease(target) {
+  const root = await lstat(target),
+    manifestFile = await lstat(join(target, 'manifest.json'));
+  if (
+    root.isSymbolicLink() ||
+    !root.isDirectory() ||
+    !manifestFile.isFile() ||
+    manifestFile.isSymbolicLink() ||
+    manifestFile.size > 2000000
+  )
+    throw new Error('Invalid release paths.');
   const manifest = JSON.parse(await readFile(join(target, 'manifest.json'), 'utf8'));
   if (
-    !/^[a-zA-Z0-9.-]{1,80}$/.test(manifest.id ?? '') ||
+    !validId(manifest.id) ||
     !manifest.files ||
-    typeof manifest.files !== 'object'
+    typeof manifest.files !== 'object' ||
+    Array.isArray(manifest.files) ||
+    Object.keys(manifest.files).length > 10000
   )
     throw new Error('Invalid manifest.');
+  // npm ci adds only node_modules. Runtime files must match the packaged tree;
+  // recursive inventory also refuses symlinks in parent directories.
+  const names = (await files(target, target, true)).filter((name) => name !== 'manifest.json');
+  if (
+    names.length !== Object.keys(manifest.files).length ||
+    names.some((name) => !Object.hasOwn(manifest.files, name))
+  )
+    throw new Error('Release contains unmanifested or missing files.');
   for (const [name, expected] of Object.entries(manifest.files)) {
     if (
       !name ||
+      name.length > 500 ||
+      privateReleasePath(name) ||
+      !/^(?:(?:dist|server|shared|scripts)\/|package(?:-lock)?\.json$)/.test(name) ||
+      typeof expected !== 'string' ||
+      !/^[a-f0-9]{64}$/.test(expected) ||
       name.includes('\\') ||
       name.split('/').some((part) => !part || part === '.' || part === '..') ||
       !resolve(target, name).startsWith(resolve(target) + sep)
@@ -135,14 +165,15 @@ export async function verifyRelease(target) {
   return manifest;
 }
 export async function activateRelease(deployment, id) {
-  if (!/^[a-zA-Z0-9.-]{1,80}$/.test(id)) throw new Error('Invalid release identity.');
+  if (!validId(id)) throw new Error('Invalid release identity.');
   const root = resolve(deployment),
     target = join(root, 'releases', id),
     lock = join(root, '.release-lock');
   await mkdir(lock); // serialize switching and refuse concurrent deploys
   const temporary = join(root, '.current-next');
   try {
-    await verifyRelease(target);
+    const manifest = await verifyRelease(target);
+    if (manifest.id !== id) throw new Error('Release identity does not match its directory.');
     let previous = null;
     try {
       const current = await lstat(join(root, 'current'));

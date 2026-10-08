@@ -6,7 +6,7 @@ const names = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' })
 const failures = [];
 for (const name of names) {
   if (
-    /(^|\/)(?:node_modules|dist|output|tmp|\.local-private|releases)(\/|$)|(^|\/)\.env(?:\.|$)|\.(?:sqlite(?:-wal|-shm)?|pem|key|p12)$/i.test(
+    /(^|\/)(?:node_modules|dist|output|tmp|\.local-private|releases)(\/|$)|(^|\/)\.env(?:\.|$)|\.(?:db|sqlite3?|pem|key|p12|pfx|bak)(?:-wal|-shm|-journal)?$/i.test(
       name,
     )
   )

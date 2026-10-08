@@ -3,7 +3,7 @@ import { createBackend } from '../server/backend.mjs';
 import { privateFileBoundary } from '../server/private-files.mjs';
 import { siteDocumentPath, siteRedirect, workspaceRoute } from '../server/site-routes.mjs';
 import { readFile, realpath, stat } from 'node:fs/promises';
-import { resolve, sep, extname } from 'node:path';
+import { resolve, relative as relativePath, sep, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { contentPolicy } from '../server/security.mjs';
@@ -47,6 +47,23 @@ const MIME = {
   '.xml': 'application/xml; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
 };
+
+// Only build outputs have public routes. An accidentally copied backup or source
+// file must not become downloadable simply because it lives inside dist.
+const publicPath = (name) =>
+  [
+    'index.html',
+    'home/index.html',
+    'workspace/index.html',
+    'robots.txt',
+    'sitemap.xml',
+    'release.json',
+    'brand/FONT-LICENSE.txt',
+    'shared/brand.css',
+  ].includes(name) ||
+  /^assets\/[\w.-]+\.(?:js|css|woff2?|png|jpe?g|webp|svg|ico)$/.test(name) ||
+  /^brand\/[\w.-]+\.(?:svg|png|webp|ico)$/.test(name) ||
+  /^samples\/[\w.-]+\.(?:pdf|png)$/.test(name);
 
 /** Serve one built application directory; never use this as a general filesystem server. */
 export function createScopeLedgerServer({
@@ -98,6 +115,8 @@ export function createScopeLedgerServer({
     response.setHeader('X-Frame-Options', 'SAMEORIGIN');
     response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     response.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    response.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+    response.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
     response.setHeader('Content-Security-Policy', contentPolicy());
     const sendJson = (status, payload) => {
       response.writeHead(status, {
@@ -130,6 +149,21 @@ export function createScopeLedgerServer({
         sendJson(200, { status: 'alive', release });
         return;
       }
+      if (!backend.config?.configured || !backend.service?.db) {
+        sendJson(503, {
+          status: 'not_ready',
+          release,
+          mode: backend.config?.mode,
+          checks: { configured: !!backend.config?.configured, storage: false, renderer: false },
+          purchasesEnabled: false,
+        });
+        return;
+      }
+      if (backend.rendering?.() && (!readiness || Date.now() - readinessAt > 30000)) {
+        response.setHeader('Retry-After', '5');
+        sendJson(503, { status: 'checking_deferred', release });
+        return;
+      }
       if (!readiness || Date.now() - readinessAt > 30000) {
         readinessAt = Date.now();
         readiness = (async () => {
@@ -139,7 +173,10 @@ export function createScopeLedgerServer({
             storage = backend.service?.db?.prepare('SELECT 1 AS ok').get()?.ok === 1;
           } catch {}
           try {
-            renderer = !!(await readinessProbe());
+            if (storage)
+              renderer = backend.probeRenderer
+                ? await backend.probeRenderer(readinessProbe)
+                : !!(await readinessProbe());
           } catch {}
           return { storage, renderer };
         })();
@@ -186,6 +223,10 @@ export function createScopeLedgerServer({
       sendJson(404, { error: 'not_found' });
       return;
     }
+    if (!publicPath(relative)) {
+      sendJson(404, { error: 'not_found' });
+      return;
+    }
     const lookupRoot =
       assetDirectory && /^\/assets\/[^/]+-[\w-]{8,}\.[\w.]+$/.test(pathname)
         ? resolve(assetDirectory)
@@ -206,7 +247,12 @@ export function createScopeLedgerServer({
           resolve(actualRoot, lookupRoot === root ? relative : relative.slice('assets/'.length)),
         );
         const metadata = await stat(actualFile);
-        if (!actualFile.startsWith(actualRoot + sep) || !metadata.isFile()) {
+        const actualName = relativePath(actualRoot, actualFile).split(sep).join('/');
+        if (
+          !actualFile.startsWith(actualRoot + sep) ||
+          !metadata.isFile() ||
+          !publicPath(lookupRoot === root ? actualName : `assets/${actualName}`)
+        ) {
           sendJson(404, { error: 'not_found' });
           return;
         }
@@ -274,9 +320,29 @@ export function createScopeLedgerServer({
       boundary({ method: request.method, url: documentPath }, response, () => void serveFile());
     else await serveFile();
   };
-  const server = createServer((request, response) =>
-    boundary(request, response, () => void handle(request, response)),
+  const server = createServer(
+    {
+      requestTimeout: 20000,
+      headersTimeout: 10000,
+      connectionsCheckingInterval: 1000,
+      keepAliveTimeout: 5000,
+      maxHeaderSize: 16384,
+    },
+    (request, response) =>
+      boundary(request, response, () => {
+        void handle(request, response).catch(() => {
+          if (response.headersSent) response.destroy();
+          else {
+            response.writeHead(500, { 'Cache-Control': 'no-store', Connection: 'close' });
+            response.end('Server error');
+          }
+        });
+      }),
   );
+  server.maxHeadersCount = 64;
+  server.maxConnections = 128;
+  server.maxRequestsPerSocket = 100;
+  server.setTimeout(60000, (socket) => socket.destroy());
   server.once('close', () => backend.close());
   return server;
 }

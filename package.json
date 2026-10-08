@@ -14,6 +14,7 @@
     "test:browser": "playwright test",
     "format": "prettier --write src tests scripts server shared *.ts *.json *.html docs/*.md *.md",
     "test:local-browser": "playwright test --config playwright.local.config.ts",
+    "test:security-http": "node scripts/security-http-qa.mjs",
     "test:pdf": "node scripts/pdf-qa.mjs",
     "pretest:pdf": "node scripts/sync-document-branding.mjs",
     "keys:local": "NODE_ENV=development SCOPELEDGER_MODE=local-test node scripts/local-test-keys.mjs",

@@ -17,8 +17,10 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      - run: npm audit --audit-level=high
       - run: node scripts/check-source.mjs
       - run: npm test
+      - run: npm run test:security-http
       - run: npm run build
       - run: npx playwright install --with-deps chromium firefox webkit
       - name: Select sandboxed browser runtime

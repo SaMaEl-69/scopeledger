@@ -18,52 +18,72 @@ const send = (res, status, payload) => {
     'Content-Type': 'application/json; charset=utf-8',
     'Cache-Control': 'no-store',
     'X-Content-Type-Options': 'nosniff',
+    ...(status >= 400 ? { Connection: 'close' } : {}),
   });
   res.end(JSON.stringify(payload));
 };
-async function json(req) {
-  if (!(req.headers['content-type'] ?? '').toLowerCase().startsWith('application/json'))
+async function json(req, limit = 2600000) {
+  if ((req.headers['content-type'] ?? '').split(';')[0].trim().toLowerCase() !== 'application/json')
     throw new ServiceError('invalid_input', 'Send a JSON request.', 415);
-  const body = await new Promise((resolve, reject) => {
-    let bytes = 0,
+  if (
+    req.headers['content-encoding'] &&
+    req.headers['content-encoding'].toLowerCase() !== 'identity'
+  )
+    throw new ServiceError('invalid_input', 'Send an uncompressed JSON request.', 415);
+  const length = req.headers['content-length'];
+  if (length && (!/^\d+$/.test(length) || Number(length) > limit))
+    throw new ServiceError('request_too_large', 'Request exceeds this action’s upload limit.', 413);
+  const bytes = await new Promise((resolve, reject) => {
+    let size = 0,
       parts = [],
-      oversized = false;
-    const timer = setTimeout(() => {
-      reject(
-        new ServiceError(
-          'request_timeout',
-          'Request upload timed out. Retry with a smaller document.',
-          408,
-        ),
-      );
-      req.resume();
-    }, 15000);
-    req.on('data', (part) => {
-      bytes += part.length;
-      if (bytes > 2600000) {
-        oversized = true;
+      settled = false;
+    const finish = (error) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      req.removeListener('data', data);
+      req.removeListener('end', end);
+      req.removeListener('error', failed);
+      req.removeListener('aborted', aborted);
+      if (error) {
         parts = [];
-      } else if (!oversized) parts.push(part);
-    });
-    req.once('end', () => {
-      clearTimeout(timer);
-      if (oversized)
-        reject(new ServiceError('request_too_large', 'Document request exceeds 2.6 MB.', 413));
-      else resolve(Buffer.concat(parts).toString('utf8'));
-    });
-    req.once('error', () => {
-      clearTimeout(timer);
-      reject(new ServiceError('invalid_input', 'Request upload could not be read.'));
-    });
-    req.once('aborted', () => {
-      clearTimeout(timer);
-      reject(new ServiceError('invalid_input', 'Request upload was interrupted.'));
-    });
+        req.resume();
+        reject(error);
+      } else resolve(Buffer.concat(parts));
+    };
+    const data = (part) => {
+      size += part.length;
+      if (size > limit)
+        finish(
+          new ServiceError('request_too_large', 'Request exceeds this action’s upload limit.', 413),
+        );
+      else parts.push(part);
+    };
+    const end = () => finish();
+    const failed = () =>
+      finish(new ServiceError('invalid_input', 'Request upload could not be read.'));
+    const aborted = () =>
+      finish(new ServiceError('invalid_input', 'Request upload was interrupted.'));
+    const timer = setTimeout(
+      () =>
+        finish(
+          new ServiceError(
+            'request_timeout',
+            'Request upload timed out. Retry with a smaller document.',
+            408,
+          ),
+        ),
+      15000,
+    );
+    req.on('data', data);
+    req.once('end', end);
+    req.once('error', failed);
+    req.once('aborted', aborted);
   });
   try {
-    return JSON.parse(body);
+    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
   } catch {
-    throw new ServiceError('invalid_json', 'Request body is not valid JSON.');
+    throw new ServiceError('invalid_json', 'Request body is not valid UTF-8 JSON.');
   }
 }
 function fields(body, allowed) {
@@ -115,6 +135,7 @@ export function createBackend({
   }, 3600000);
   maintenance.unref();
   let activeJobs = 0;
+  let activeRequests = 0;
   const cookieName = (name) => (config.secure ? `__Host-${name}` : name);
   const cookie = (name, value, age) =>
     `${cookieName(name)}=${value}; Path=${config.secure ? '/' : '/api'}; HttpOnly; SameSite=Strict; Max-Age=${age}${config.secure ? '; Secure' : ''}`;
@@ -189,6 +210,22 @@ export function createBackend({
       });
       return;
     }
+    if (operation === 'unknown') {
+      outcome = 'not_found';
+      res.setHeader('Connection', 'close');
+      req.resume?.();
+      send(res, 404, { error: outcome, message: 'This API action does not exist.' });
+      return;
+    }
+    const method = path === '/api/license/status' ? 'GET' : 'POST';
+    if (req.method !== method) {
+      outcome = 'method_not_allowed';
+      res.setHeader('Allow', method);
+      res.setHeader('Connection', 'close');
+      req.resume?.();
+      send(res, 405, { error: outcome, message: 'Use the documented request method.' });
+      return;
+    }
     if (!config.configured) {
       outcome = initializationError ?? 'licensing_not_configured';
       if (path === '/api/license/status' && req.method === 'GET') send(res, 200, status(null));
@@ -200,6 +237,16 @@ export function createBackend({
         });
       return;
     }
+    if (activeRequests >= 16) {
+      outcome = 'service_busy';
+      res.setHeader('Retry-After', '5');
+      res.setHeader('Connection', 'close');
+      req.resume?.();
+      send(res, 503, { error: outcome, message: 'The service is busy. Retry shortly.' });
+      return;
+    }
+    // Count through completion of the work, even if its HTTP client disconnects.
+    activeRequests++;
     void (async () => {
       if (
         config.mode === 'local-test' &&
@@ -247,7 +294,7 @@ export function createBackend({
           20,
           3600000,
         );
-        const body = await json(req);
+        const body = await json(req, 16384);
         fields(body, ['key', 'plan', 'deviceLabel']);
         const activated = await service.activate(body.key, body.plan, body.deviceLabel, device);
         res.setHeader('Set-Cookie', [
@@ -258,7 +305,7 @@ export function createBackend({
         return;
       }
       if (path === '/api/license/release') {
-        const body = await json(req);
+        const body = await json(req, 4096);
         fields(body, []);
         const identity = await service.authorized(
           jar[cookieName(SESSION_COOKIE)],
@@ -278,7 +325,7 @@ export function createBackend({
       }
       const identity = await authorize();
       if (path === '/api/projects/authorize') {
-        const body = await json(req);
+        const body = await json(req, 4096);
         fields(body, []);
         service.quota(`${identity.licenseId}:${identity.deviceId}`, 'projects', 1000);
         send(res, 200, {
@@ -345,23 +392,43 @@ export function createBackend({
         return;
       }
       throw new ServiceError('not_found', 'This API action does not exist.', 404);
-    })().catch((error) => {
-      outcome = error instanceof ServiceError ? error.code : 'server_error';
-      if (!res.headersSent)
-        send(res, error instanceof ServiceError ? error.status : 500, {
-          error: error instanceof ServiceError ? error.code : 'server_error',
-          message:
-            error instanceof ServiceError
-              ? error.message
-              : 'The server could not complete this action. Retry or contact support.',
-        });
-      else res.end();
-    });
+    })()
+      .catch((error) => {
+        outcome = error instanceof ServiceError ? error.code : 'server_error';
+        if (!res.headersSent) {
+          if (!req.complete) {
+            res.setHeader('Connection', 'close');
+            req.resume?.();
+          }
+          if (['provider_busy', 'renderer_busy', 'service_busy'].includes(outcome))
+            res.setHeader('Retry-After', '5');
+          send(res, error instanceof ServiceError ? error.status : 500, {
+            error: error instanceof ServiceError ? error.code : 'server_error',
+            message:
+              error instanceof ServiceError
+                ? error.message
+                : 'The server could not complete this action. Retry or contact support.',
+          });
+        } else res.end();
+      })
+      .finally(() => {
+        activeRequests--;
+      });
   };
   return {
     middleware,
     service,
     config,
+    rendering: () => activeJobs > 0,
+    probeRenderer: async (probe) => {
+      if (activeJobs >= 2) return false;
+      activeJobs++;
+      try {
+        return !!(await probe());
+      } finally {
+        activeJobs--;
+      }
+    },
     close: () => {
       clearInterval(maintenance);
       service?.close();

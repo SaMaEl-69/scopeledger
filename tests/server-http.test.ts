@@ -307,9 +307,25 @@ describe('independently authorized HTTP actions', () => {
   });
   it('blocks huge bodies, unsupported activation keys and unknown API actions', async () => {
     const a = await activate();
-    expect((await read('/api/pdf', 'POST', { text: 'A'.repeat(2700000) }, a.cookie)).status).toBe(
-      413,
+    const rejected = new Promise<number>((resolve) => {
+      server.once('request', (_req, response) =>
+        response.once('finish', () => resolve(response.statusCode)),
+      );
+    });
+    const huge = await read('/api/pdf', 'POST', { text: 'A'.repeat(2700000) }, a.cookie).catch(
+      (error) => {
+        // Closing an unfinished oversized upload may reset its still-writing
+        // client. Verify the server's rejection even if that client misses 413.
+        expect(['ECONNRESET', 'EPIPE']).toContain(error.code);
+        return null;
+      },
     );
+    if (huge) expect(huge.status).toBe(413);
+    expect(await rejected).toBe(413);
+    expect(renders).toBe(0);
+    expect(
+      service.db.prepare("SELECT count(*) AS n FROM quotas WHERE operation LIKE 'pdf-%'").get().n,
+    ).toBe(0);
     expect(
       (
         await read('/api/license/activate', 'POST', {
@@ -321,5 +337,162 @@ describe('independently authorized HTTP actions', () => {
       ).status,
     ).toBe(400);
     expect((await read('/api/other', 'POST', {}, a.cookie)).status).toBe(404);
+    expect((await read('/api/pdf', 'POST', fixture(), a.cookie)).status).toBe(200);
+  });
+});
+
+describe('hostile request boundaries', () => {
+  it('rejects unknown routes and wrong methods before touching identity or verification', async () => {
+    const original = service.deviceToken.bind(service);
+    let touched = 0;
+    service.deviceToken = (...args: any[]) => {
+      touched++;
+      return original(...args);
+    };
+    const unknown = await read('/api/not-a-service', 'POST', {});
+    expect(unknown.status).toBe(404);
+    const method = await read('/api/pdf', 'GET');
+    expect(method.status).toBe(405);
+    expect(method.headers.allow).toBe('POST');
+    expect(touched).toBe(0);
+    expect(unknown.cookie).toBe('');
+  });
+  it.each([
+    [{ 'Content-Type': 'application/jsonp' }, 415],
+    [{ 'Content-Type': 'text/plain' }, 415],
+    [{ 'Content-Encoding': 'gzip' }, 415],
+  ])('refuses ambiguous or compressed JSON requests: %j', async (headers, status) => {
+    const result = await read(
+      '/api/license/activate',
+      'POST',
+      { key, plan: 'individual', deviceLabel: 'QA' },
+      '',
+      config.origin,
+      headers as Record<string, string>,
+    );
+    expect(result.status).toBe(status);
+    expect(result.cookie).toBe('');
+  });
+  it('rejects oversized activation bodies before granting an entitlement', async () => {
+    const result = await read('/api/license/activate', 'POST', {
+      key,
+      plan: 'individual',
+      deviceLabel: 'x'.repeat(17000),
+    });
+    expect(result.status).toBe(413);
+    expect(service.db.prepare('SELECT count(*) AS n FROM sessions').get().n).toBe(0);
+  });
+  it('rejects chunked oversize immediately without waiting for upload completion', async () => {
+    const response = await new Promise<number>((resolve, reject) => {
+      const req = request(
+        {
+          host: '127.0.0.1',
+          port,
+          path: '/api/license/activate',
+          method: 'POST',
+          headers: {
+            Origin: config.origin,
+            'Content-Type': 'application/json',
+            'Transfer-Encoding': 'chunked',
+          },
+        },
+        (res) => {
+          res.resume();
+          res.once('end', () => {
+            resolve(res.statusCode!);
+            req.destroy();
+          });
+        },
+      );
+      req.once('error', reject);
+      req.setTimeout(2000, () =>
+        req.destroy(new Error('Oversized upload was not rejected promptly')),
+      );
+      req.write(Buffer.alloc(17000, 32)); // Deliberately never end the upload.
+    });
+    expect(response).toBe(413);
+  });
+  it('rejects malformed UTF-8 instead of replacing bytes inside a purchase key', async () => {
+    const response = await new Promise<number>((resolve, reject) => {
+      const bytes = Buffer.concat([
+        Buffer.from('{"key":"'),
+        Buffer.from([0xff]),
+        Buffer.from('","plan":"individual","deviceLabel":"QA"}'),
+      ]);
+      const req = request(
+        {
+          host: '127.0.0.1',
+          port,
+          path: '/api/license/activate',
+          method: 'POST',
+          headers: {
+            Origin: config.origin,
+            'Content-Type': 'application/json',
+            'Content-Length': bytes.length,
+          },
+        },
+        (res) => {
+          res.resume();
+          res.once('end', () => resolve(res.statusCode!));
+        },
+      );
+      req.once('error', reject);
+      req.end(bytes);
+    });
+    expect(response).toBe(400);
+  });
+  it('bounds simultaneous API work and recovers after the work finishes', async () => {
+    const activated = await activate();
+    const original = service.authorized.bind(service);
+    let waiting = 0,
+      resume!: () => void;
+    const gate = new Promise<void>((resolve) => {
+      resume = resolve;
+    });
+    service.authorized = async (...args: any[]) => {
+      waiting++;
+      await gate;
+      return original(...args);
+    };
+    const pending = Array.from({ length: 16 }, () =>
+      read('/api/license/status', 'GET', undefined, activated.cookie),
+    );
+    try {
+      const until = Date.now() + 2000;
+      while (waiting < 16 && Date.now() < until)
+        await new Promise((resolve) => setTimeout(resolve, 5));
+      expect(waiting).toBe(16);
+      const overflow = await read('/api/license/status', 'GET', undefined, activated.cookie);
+      expect(overflow.status).toBe(503);
+      expect(overflow.json.error).toBe('service_busy');
+      expect(overflow.headers['retry-after']).toBe('5');
+    } finally {
+      resume();
+      await Promise.all(pending);
+      service.authorized = original;
+    }
+    expect(
+      (await read('/api/license/status', 'GET', undefined, activated.cookie)).json.active,
+    ).toBe(true);
+  });
+  it('shares renderer capacity with health probes', async () => {
+    const activated = await activate();
+    let release!: () => void;
+    const hold = new Promise<boolean>((resolve) => {
+      release = () => resolve(true);
+    });
+    const first = backend.probeRenderer(() => hold);
+    const second = backend.probeRenderer(() => hold);
+    try {
+      expect(await backend.probeRenderer(async () => true)).toBe(false);
+      const result = await read('/api/pdf', 'POST', fixture(), activated.cookie);
+      expect(result.status).toBe(429);
+      expect(result.json.error).toBe('renderer_busy');
+      expect(renders).toBe(0);
+    } finally {
+      release();
+      await Promise.all([first, second]);
+    }
+    expect((await read('/api/pdf', 'POST', fixture(), activated.cookie)).status).toBe(200);
   });
 });

@@ -391,14 +391,16 @@ describe('mocked Gumroad response handling (not a live purchase)', () => {
         time = 1000;
         const pending = s.authorized(original.token, device.token);
         const denied = expect(pending).rejects.toMatchObject({ code: 'activation_required' });
+        await Promise.resolve();
         expect(checks).toBe(2);
-        let replacement: Awaited<ReturnType<LicenseService['activate']>> | undefined;
+        let replacing: ReturnType<LicenseService['activate']> | undefined;
         if (transition === 'expiry') time = 100 + 1209600000;
         else {
           if (transition === 'release and reactivation') s.release(releaseIdentity);
-          replacement = await s.activate('LIVE-KEY-123456', 'individual', 'Replacement', device);
+          replacing = s.activate('LIVE-KEY-123456', 'individual', 'Replacement', device);
         }
         completeCheck({ purchaseId: 'sale-one', adverse: false });
+        const replacement = replacing ? await replacing : undefined;
         await denied;
         // Rejecting the old request must preserve the replacement activation.
         expect(s.slots({ licenseId: original.licenseId })).toBe(1);
@@ -445,5 +447,123 @@ describe('mocked Gumroad response handling (not a live purchase)', () => {
     } finally {
       s.close();
     }
+  });
+});
+
+describe('verification and token abuse resistance', () => {
+  it('rejects signed device cookies with suffixes and noncanonical session tokens', async () => {
+    const device = service.deviceToken();
+    const activation = await service.activate(individual, 'individual', 'QA', device);
+    for (const token of [
+      device.token + '.extra',
+      device.token + '\n',
+      device.token.toUpperCase(),
+    ]) {
+      expect(service.deviceToken(token).token).not.toBe(token);
+      await expect(service.authorized(activation.token, token)).rejects.toMatchObject({
+        code: 'activation_required',
+      });
+    }
+    for (const token of [
+      activation.token + '.extra',
+      'f'.repeat(100000),
+      activation.token.toUpperCase(),
+    ])
+      await expect(service.authorized(token, device.token)).rejects.toMatchObject({
+        code: 'activation_required',
+      });
+    expect(await service.authorized(activation.token, device.token)).toMatchObject({
+      plan: 'individual',
+    });
+  });
+  it('coalesces parallel activations while enforcing a bounded shared provider pool', async () => {
+    service.close();
+    let release!: () => void,
+      calls = 0;
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    service = new LicenseService(
+      { ...config, mode: 'live' },
+      {
+        verify: async (_config: any, key: string) => {
+          calls++;
+          await gate;
+          return { purchaseId: key, adverse: false };
+        },
+      },
+    );
+    const sharedKey = 'LIVE-SHARED-SECURITY-TEST';
+    const shared = Array.from({ length: 5 }, (_, index) =>
+      service.activate(sharedKey, 'agency', `Device ${index}`, service.deviceToken()),
+    );
+    const unique = Array.from({ length: 7 }, (_, index) =>
+      service.activate(
+        `LIVE-UNIQUE-SECURITY-TEST-${index}`,
+        'individual',
+        'QA',
+        service.deviceToken(),
+      ),
+    );
+    try {
+      await expect(
+        service.activate('LIVE-OVERFLOW-SECURITY-TEST', 'individual', 'QA', service.deviceToken()),
+      ).rejects.toMatchObject({ code: 'provider_busy', status: 503 });
+      await Promise.resolve();
+      expect(calls).toBe(8);
+    } finally {
+      release();
+      await Promise.all([...shared, ...unique]);
+    }
+    expect(service.verificationFlights.size).toBe(0);
+    expect(service.slots({ licenseId: service.licenseId(sharedKey, 'agency') })).toBe(5);
+    await service.activate(
+      'LIVE-RECOVERY-SECURITY-TEST',
+      'individual',
+      'QA',
+      service.deviceToken(),
+    );
+    expect(calls).toBe(9);
+  });
+  it('checks each coalesced caller against its stored purchase identity', async () => {
+    service.close();
+    service = new LicenseService(
+      { ...config, mode: 'live' },
+      { verify: async () => ({ purchaseId: 'purchase-a', adverse: false }) },
+    );
+    const sharedKey = 'LIVE-IDENTITY-SECURITY-TEST';
+    const [good, bad] = await Promise.allSettled([
+      service.verifyPurchase(sharedKey, 'individual', 'purchase-a'),
+      service.verifyPurchase(sharedKey, 'individual', 'purchase-b'),
+    ]);
+    expect(good.status).toBe('fulfilled');
+    expect(bad.status).toBe('rejected');
+    if (bad.status === 'rejected') expect(bad.reason.code).toBe('provider_mismatch');
+  });
+});
+
+describe('checkout destination security', () => {
+  it.each([
+    ['https://studio.gumroad.com/l/individual', true],
+    ['https://user:password@studio.gumroad.com/l/individual', false],
+    ['https://studio.gumroad.com:8443/l/individual', false],
+    ['https://gumroad.com.attacker.invalid/l/individual', false],
+  ])('accepts only ordinary HTTPS Gumroad destinations: %s', (destination, accepted) => {
+    const result = configuration({
+      NODE_ENV: 'production',
+      SCOPELEDGER_MODE: 'live',
+      SCOPELEDGER_ORIGIN: 'https://scopeledger.site',
+      SCOPELEDGER_DB_PATH: config.dbPath,
+      SCOPELEDGER_SESSION_SECRET: config.secret,
+      SCOPELEDGER_GUMROAD_SELLER_ID: 'security-synthetic-seller',
+      SCOPELEDGER_GUMROAD_INDIVIDUAL_PRODUCT_ID: 'security-synthetic-individual',
+      SCOPELEDGER_GUMROAD_AGENCY_PRODUCT_ID: 'security-synthetic-agency',
+      SCOPELEDGER_SELLER_VERIFIED: 'true',
+      SCOPELEDGER_PURCHASES_ENABLED: 'true',
+      SCOPELEDGER_LAUNCH_APPROVED: 'true',
+      SCOPELEDGER_INDIVIDUAL_CHECKOUT_URL: destination,
+    });
+    expect(result.configured).toBe(true);
+    expect(Boolean(result.checkout.individual)).toBe(accepted);
   });
 });

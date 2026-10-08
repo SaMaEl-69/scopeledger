@@ -106,6 +106,9 @@ export function configuration(env = process.env) {
         const checkoutUrl = new URL(env[`SCOPELEDGER_${plan.toUpperCase()}_CHECKOUT_URL`]);
         if (
           checkoutUrl.protocol === 'https:' &&
+          !checkoutUrl.username &&
+          !checkoutUrl.password &&
+          !checkoutUrl.port &&
           (checkoutUrl.hostname === 'gumroad.com' || checkoutUrl.hostname.endsWith('.gumroad.com'))
         )
           checkout[plan] = checkoutUrl.href;
@@ -291,6 +294,7 @@ export class LicenseService {
     this.verify = verify;
     this.clock = clock;
     this.checks = new Map();
+    this.verificationFlights = new Map();
     if (!config.configured) return;
     try {
       mkdirSync(dirname(config.dbPath), { recursive: true, mode: 0o700 });
@@ -357,7 +361,11 @@ export class LicenseService {
     return this.hash(`license:${this.config.sellerId}:${this.config.products[plan]}:${key}`);
   }
   deviceToken(existing) {
-    if (existing) {
+    if (
+      typeof existing === 'string' &&
+      existing.length === 129 &&
+      /^[a-f0-9]{64}\.[a-f0-9]{64}$/.test(existing)
+    ) {
       const [device, signature] = existing.split('.');
       if (
         /^[a-f0-9]{64}$/.test(device ?? '') &&
@@ -368,6 +376,23 @@ export class LicenseService {
     }
     const device = randomBytes(32).toString('hex');
     return { id: device, token: `${device}.${this.hash(`device:${device}`)}` };
+  }
+  async verifyPurchase(key, plan, expectedPurchaseId) {
+    const id = this.licenseId(key, plan);
+    let flight = this.verificationFlights.get(id);
+    if (!flight) {
+      if (this.verificationFlights.size >= 8)
+        bad('provider_busy', 'Purchase verification is busy. Retry shortly.', 503);
+      flight = Promise.resolve()
+        .then(() => this.verify(this.config, key, plan, { expectedPurchaseId }))
+        .finally(() => this.verificationFlights.delete(id));
+      this.verificationFlights.set(id, flight);
+    }
+    const verified = await flight;
+    // A coalesced caller must still match its own stored purchase identity.
+    if (expectedPurchaseId && verified.purchaseId !== expectedPurchaseId)
+      bad('provider_mismatch', 'Stored purchase identity does not match verification.', 503);
+    return verified;
   }
   quota(subject, operation, limit, windowMs = 86400000) {
     return this.quotaBatch([{ subject, operation, limit, windowMs }]);
@@ -419,8 +444,7 @@ export class LicenseService {
         bad('invalid_key', 'Use a generated local development key for this plan.', 422);
       }
       checked = { purchaseId: old.purchase_id, adverse: false };
-    } else
-      checked = await this.verify(this.config, key, plan, { expectedPurchaseId: old?.purchase_id });
+    } else checked = await this.verifyPurchase(key, plan, old?.purchase_id);
     if (checked.adverse) {
       this.transaction(() =>
         this.db
@@ -490,7 +514,12 @@ export class LicenseService {
     return { token, licenseId, deviceId: device.id };
   }
   async authorized(token, deviceToken, { releaseOnly = false } = {}) {
-    if (!token || !deviceToken)
+    if (
+      typeof token !== 'string' ||
+      token.length !== 64 ||
+      !/^[a-f0-9]{64}$/.test(token) ||
+      !deviceToken
+    )
       bad('activation_required', 'Activate this browser/device to use paid actions.', 401);
     const device = this.deviceToken(deviceToken);
     if (device.token !== deviceToken)
@@ -524,11 +553,10 @@ export class LicenseService {
       let check = this.checks.get(row.id);
       if (!check) {
         check = (async () => {
-          const verification = await this.verify(
-            this.config,
+          const verification = await this.verifyPurchase(
             this.decrypt(row.key_cipher),
             row.plan,
-            { expectedPurchaseId: row.purchase_id },
+            row.purchase_id,
           );
           this.transaction(() =>
             this.db

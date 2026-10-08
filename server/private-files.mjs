@@ -3,13 +3,16 @@ import { resolve } from 'node:path';
 
 const privatePath = (path) =>
   path
+    .toLowerCase()
     .split(/[\\/]/)
     .some(
       (part) =>
         part === '.local-private' ||
+        part === '.git' ||
         part === '.env' ||
         part.startsWith('.env.') ||
-        part.endsWith('.env'),
+        part.endsWith('.env') ||
+        /\.(?:db|sqlite3?|sql|pem|key|p12|pfx|bak)(?:-wal|-shm|-journal)?$/.test(part),
     );
 const sqliteFiles = (path) =>
   ['', '-wal', '-shm', '-journal'].map((suffix) => resolve(path + suffix));

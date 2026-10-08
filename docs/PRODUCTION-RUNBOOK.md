@@ -6,13 +6,15 @@
 
 The application now has a local Git repository. Keep `output/`, `tmp/`, `dist/`, `.local-private/`, SQLite files, environment files and keys out of source control. `node scripts/check-source.mjs` checks tracked paths and common embedded credential patterns; it is a basic check, not a comprehensive secret scanner. Generated test keys remain confined to development fixtures. Public document samples use synthetic identities.
 
-CI is prepared in `.github/workflows/verify.yml`: Node 24, locked dependency installation, tracked-source check, unit tests, production build, three browser engines, isolated licensing/export tests and site checks. It will run when this repository is connected to a GitHub remote. No remote or hosted CI run has been created by this task.
+CI is prepared in `.github/workflows/verify.yml`: Node 24, locked dependency installation, dependency advisory gate, tracked-source check, unit and hostile HTTP tests, production build, three browser engines, isolated licensing/export tests and site checks. It will run when this repository is connected to a GitHub remote. No remote or hosted CI run has been created by this task.
 
 Run locally before packaging:
 
 ```sh
 npm ci
+npm audit --audit-level=high
 npm test
+npm run test:security-http
 npm run build
 npm run test:local-browser
 npm run test:site
@@ -39,7 +41,7 @@ The systemd template uses a non-root user, a private temporary directory and a r
 
 ## Build, release and rollback
 
-Build away from the served directory. `postbuild` stamps `dist/release.json`. Packaging copies only the built site, runtime modules/scripts and locked package metadata; it refuses private paths and symlinks, retains hashed assets and writes SHA-256 checksums. Checksums detect changes but are not a signature from an independent release authority. Protect deployment permissions.
+Build away from the served directory. `postbuild` stamps `dist/release.json`. Packaging copies only the built site, runtime modules/scripts and locked package metadata; it refuses private paths and symlinks, retains hashed assets and writes SHA-256 checksums. Verification rejects unmanifested runtime files and symlinked release/parent directories; the installed node_modules tree is excluded and must come from the locked npm installation. Checksums detect changes but are not a signature from an independent release authority. Protect deployment permissions.
 
 ```sh
 node scripts/release.mjs prepare /path/to/verified/source /opt/scopeledger RELEASE_ID
@@ -63,16 +65,28 @@ Release switching does not roll back SQLite. This update adds indexes and retain
 ## Health, logs and capacity
 
 - `/api/health`: process liveness and public release ID; no cookies, keys, record counts or filesystem paths.
-- `/api/ready`: configured licensing, readable database connection and successful sandboxed runtime launch, cached for 30 seconds; reports 503 if any required check fails. Demo mode intentionally fails paid-service readiness. It does not verify a real provider transaction, seller payout, DNS ownership or policy approval.
+- `/api/ready`: configured licensing, readable database connection and successful sandboxed runtime launch, cached for 30 seconds; reports 503 if any required check fails. Unconfigured demo/storage failures never launch Chromium. An expired check is deferred with 503 while exports are running; a probe shares the two-renderer capacity limit. Demo mode intentionally fails paid-service readiness. It does not verify a real provider transaction, seller payout, DNS ownership or policy approval.
 - `scripts/health-check.mjs`: checks the HTTPS readiness endpoint with timeout and no redirects. Non-ready responses and missing release IDs exit nonzero. `ops/scopeledger-health.timer` schedules it every minute after installation.
 
-The timer is a local failure signal in the journal, not a delivered pager alert. Connect it to an owner-chosen monitored alert destination and test delivery before launch. No external messages were sent. Monitor disk/WAL/asset-cache growth, restart loops, provider failures, 429/busy rates, export duration and host memory. The readiness probe can briefly launch one additional browser; account for that overhead when sizing the host.
+The timer is a local failure signal in the journal, not a delivered pager alert. Connect it to an owner-chosen monitored alert destination and test delivery before launch. No external messages were sent. Monitor disk/WAL/asset-cache growth, restart loops, provider failures, 429/busy rates, export duration and host memory. Readiness probes share the two-renderer capacity limit with PDF exports. A briefly deferred check reports 503/checking_deferred and should trigger a bounded retry, not an immediate restart loop.
 
 Application events contain operation/status/error-code/duration only. They omit request bodies, keys, cookies, document text, client IP and filenames. Nginx access logging is disabled in the template. Inspect Nginx error logs and the provider/host logs too; their data/retention is not controlled by the application. Configure a bounded journal and log rotation (for example 7 days and a disk cap), verify it, then reflect the actual policy in the published privacy notice.
 
 Known expired activation-hour and PDF/project-day quota windows and expired sessions are pruned at most hourly. Unknown operations, licenses, device slots and recovery audit evidence are retained. A 14-day expired session does not free its device allocation. Keys/ownership evidence need an explicit real retention/deletion procedure before launch.
 
 The renderer accepts at most two active jobs, coalesces identical concurrent requests for one device, rejects a different concurrent document for that device, and returns `renderer_busy` for overflow. It has no waiting queue. Busy requests do not consume PDF allowance. Allowances are 100 new render jobs per device and 500 per license per UTC day, with request/output size limits. Do not advertise unrestricted server usage. Run `node scripts/renderer-load-qa.mjs /private/qa-report.json` on an isolated development machine and repeat representative/bounded large documents on staging. Local RSS is not a production sizing guarantee.
+
+## Request and security limits
+
+See `docs/SECURITY-HARDENING.md` for the verified security changes and evidence. Public routes use a build-output allowlist; new public asset locations require an explicit server rule. Keep every credential, database and backup outside the public tree even with the defensive boundary.
+
+The application allows 16 active API operations per process and eight distinct provider verification operations. Requests for the same purchase share its pending verification, including activation and refresh; each caller still checks its stored purchase identity. Overflow returns 503 with Retry-After: 5. There is no pending queue. These are per-process limits; do not add multiple application workers without designing shared resource limits and measuring capacity.
+
+JSON uploads must use application/json and uncompressed UTF-8. Activation allows 16 KiB, release/project authorization 4 KiB, and client PDF snapshots 2,600,000 bytes. Uploads time out after 15 seconds; excess chunked input is rejected immediately. The built Node server has a 10-second header deadline, 20-second request upload deadline, 60-second socket inactivity limit, 16 KiB header size, at most 128 connections, and 100 requests per keep-alive socket.
+
+The Nginx template belongs in the http context. It adds 10 API requests/second per direct client address with a burst of 20, at most 20 connections/address, bounded upload/proxy timeouts and canonical HTTPS Host checking. Run nginx -t and test normal startup, export, shared-office traffic and deliberate overload on staging before installation. The template has not been validated by Nginx on this Mac. Configure the firewall so only HTTPS/HTTP and deliberately restricted administration are public; port 4173 must remain loopback-only.
+
+CSP allows self-hosted scripts and exact inline hashes, rejects script attributes and base tags, and limits network connections to the same origin. Inline styles remain permitted for document previews and responsive layout. Same-origin opener/resource policies supplement the existing no-sniff, frame, referrer and permissions headers. Verify headers through the real reverse proxy; it may replace application headers.
 
 ## Paired database and secret recovery
 

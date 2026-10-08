@@ -8,13 +8,14 @@ export function contentPolicy(html = '') {
   return [
     "default-src 'self'",
     `script-src 'self' ${[...new Set(hashes)].join(' ')}`.trim(),
+    "script-src-attr 'none'",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self' data:",
     "connect-src 'self'",
     "frame-src 'self' blob:",
     "object-src 'none'",
-    "base-uri 'self'",
+    "base-uri 'none'",
     "form-action 'self'",
     "frame-ancestors 'self'",
   ].join('; ');

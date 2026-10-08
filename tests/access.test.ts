@@ -89,7 +89,11 @@ describe('Vite access boundary', () => {
       },
     };
     accessBoundary(
-      { url: '/api/pdf?licensed=true', headers: { authorization: 'Bearer fake-license' } } as never,
+      {
+        url: '/api/pdf?licensed=true',
+        method: 'POST',
+        headers: { authorization: 'Bearer fake-license' },
+      } as never,
       response as never,
       () => {
         calledNext = true;
@@ -208,11 +212,16 @@ describe('production static server security', () => {
         authorization: 'Bearer fake',
         'x-licensed': 'true',
       });
-      expect(response.status).toBe(503);
-      expect(JSON.parse(response.body)).toMatchObject({
-        error: 'licensing_not_configured',
-        licensingConfigured: false,
-      });
+      const unknown = ['/api/purchase', '/api', '/API/pdf'].includes(path);
+      expect(response.status).toBe(unknown ? 404 : 503);
+      expect(JSON.parse(response.body)).toMatchObject(
+        unknown
+          ? { error: 'not_found' }
+          : {
+              error: 'licensing_not_configured',
+              licensingConfigured: false,
+            },
+      );
     }
   });
   it('rejects traversal, hidden files, malformed encodings and escaping symlinks', async () => {
