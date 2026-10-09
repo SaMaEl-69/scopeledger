@@ -7,6 +7,7 @@ import { resolve, relative as relativePath, sep, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { contentPolicy } from '../server/security.mjs';
+import { publicAssetPath as publicPath } from '../shared/public-assets.mjs';
 import { rendererReady } from '../server/pdf.mjs';
 import { promisify } from 'node:util';
 import { brotliCompress, gzip, constants } from 'node:zlib';
@@ -47,23 +48,6 @@ const MIME = {
   '.xml': 'application/xml; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
 };
-
-// Only build outputs have public routes. An accidentally copied backup or source
-// file must not become downloadable simply because it lives inside dist.
-const publicPath = (name) =>
-  [
-    'index.html',
-    'home/index.html',
-    'workspace/index.html',
-    'robots.txt',
-    'sitemap.xml',
-    'release.json',
-    'brand/FONT-LICENSE.txt',
-    'shared/brand.css',
-  ].includes(name) ||
-  /^assets\/[\w.-]+\.(?:js|css|woff2?|png|jpe?g|webp|svg|ico)$/.test(name) ||
-  /^brand\/[\w.-]+\.(?:svg|png|webp|ico)$/.test(name) ||
-  /^samples\/[\w.-]+\.(?:pdf|png)$/.test(name);
 
 /** Serve one built application directory; never use this as a general filesystem server. */
 export function createScopeLedgerServer({

@@ -3178,7 +3178,7 @@ export default function App() {
                         : 'Demo'}{' '}
                   </span>
                   <p>
-                    Individual: $48.78 lifetime, one activated browser/device. Agency: $99 lifetime,
+                    Individual: $49 lifetime, one activated browser/device. Agency: $99 lifetime,
                     five activations. Both plans receive the complete paid feature set.
                   </p>
                   <button className="button secondary" onClick={() => setModal('license')}>

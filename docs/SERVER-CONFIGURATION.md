@@ -34,7 +34,7 @@ Supply these as server environment values or a private environment file, never `
 | `SCOPELEDGER_DB_PATH`                       | Absolute path to the persistent licensing SQLite file; outside the served directory                                                           |
 | `SCOPELEDGER_SESSION_SECRET`                | Unique cryptographically random 32-byte secret, encoded as 64 hexadecimal characters                                                          |
 | `SCOPELEDGER_GUMROAD_SELLER_ID`             | Verified seller's exact Gumroad seller ID                                                                                                     |
-| `SCOPELEDGER_GUMROAD_INDIVIDUAL_PRODUCT_ID` | Exact Gumroad product ID for the $48.78 Individual lifetime plan                                                                              |
+| `SCOPELEDGER_GUMROAD_INDIVIDUAL_PRODUCT_ID` | Exact Gumroad product ID for the $49 Individual lifetime plan                                                                                 |
 | `SCOPELEDGER_GUMROAD_AGENCY_PRODUCT_ID`     | Different exact product ID for the $99 Agency lifetime plan                                                                                   |
 | `SCOPELEDGER_SELLER_VERIFIED`               | `true` only after the owner has completed and verified real seller onboarding                                                                 |
 | `SCOPELEDGER_PURCHASES_ENABLED`             | `true` only when checkout is ready; otherwise omit or `false`                                                                                 |

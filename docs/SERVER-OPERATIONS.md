@@ -11,7 +11,7 @@ Bangladesh is currently listed for Gumroad bank payouts in BDT. Gumroad requires
 The owner's external checklist is:
 
 1. Complete actual seller onboarding, payout/account review and applicable business/tax requirements. Retain confirmation in a private owner record.
-2. Create the $48.78 Individual and $99 Agency lifetime products with distinct exact IDs and enabled license keys. Verify the seller ID, product IDs and checkout URLs against the actual products.
+2. Create the $49 Individual and $99 Agency lifetime products with distinct exact IDs and enabled license keys. Verify the seller ID, product IDs and checkout URLs against the actual products.
 3. With explicit owner authorization and a provider-supported procedure, verify a real purchase through activation, protected export, same-device reuse, release, revalidation and matching refund/dispute handling. Confirm the real provider response contains the identity/status fields required by this server. A test-mode sale cannot authorize live access.
 4. Deploy and verify the actual host described below, including HTTPS, Chromium sandbox, persistent database, retained secret and restoration.
 5. Review prices, promised export usage, privacy/retention/license terms, support and recurring costs. Then explicitly approve launch before enabling both purchase and launch flags. No support response-time or legal definition of lifetime access is invented here.
@@ -60,7 +60,7 @@ If another proxy/CDN fronts Nginx, have the operator establish its trusted clien
 
 As a planning example, DigitalOcean's official Basic regular pricing lists a 2 GiB/1 vCPU VM at **$12/month** and a 4 GiB/2 vCPU VM at **$24/month**. The latter is a candidate to evaluate for browser-rendering headroom, not a measured production capacity guarantee. A VM leaves OS/application maintenance with the owner. See [current official pricing](https://www.digitalocean.com/pricing/droplets). No plan was purchased.
 
-At $24/month, compute alone costs $288/year: six gross Individual sales at $48.78 produce $292.68, before provider fees, refunds, taxes, currency conversion, domain, backups, bandwidth overages and support time. Existing lifetime customers continue to generate costs without annual license revenue. Budget for that recurring service and support, and retain a reserve; sales volume is not established by this implementation.
+At $24/month, compute alone costs $288/year: six gross Individual sales at $49 produce $294, before provider fees, refunds, taxes, currency conversion, domain, backups, bandwidth overages and support time. Existing lifetime customers continue to generate costs without annual license revenue. Budget for that recurring service and support, and retain a reserve; sales volume is not established by this implementation.
 
 The architecture avoids recurring AI calls, remote fonts and server storage of customer PDFs/projects. Each export starts a bounded local browser, renders HTML, returns bytes and closes the browser. Two jobs at once, stable daily allowances and same-device duplicate sharing control resource use. The existing PDF allowances are 500/license/day and 100/device/day, not newly reduced during this audit. Review their disclosure against the promised product before sales; do not silently remove paid functionality to cover a cost shortfall.
 

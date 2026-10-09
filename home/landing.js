@@ -7,7 +7,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fmt$ = (n) => '$' + Math.round(n).toLocaleString('en-US');
   const RATE = 150,
-    PRICE = 48.78;
+    PRICE = 49;
 
   /* =====================================================================
    MODERN AVATARS — deterministic flat portraits + optional logo badge
@@ -1356,7 +1356,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
     const F = [
       [
         'What does the lifetime license include?',
-        'Individual is <b>$48.78 once for one activated browser/device</b>. Agency is <b>$99 once for five</b>. Both have the same paid features. Purchase availability and seller terms are shown before checkout.',
+        'Individual is <b>$49 once for one activated browser/device</b>. Agency is <b>$99 once for five</b>. Both have the same paid features. Purchase availability and seller terms are shown before checkout.',
       ],
       [
         'How does a client approve a change?',
@@ -1484,12 +1484,12 @@ import { createAppearanceController } from '../shared/appearance.mjs';
           location.href = '/workspace/';
         },
       ],
-      ['Jump to', 'Pricing', 'price lifetime cost 48.78 99', 'tag', go('#pricing')],
+      ['Jump to', 'Pricing', 'price lifetime cost 49 99', 'tag', go('#pricing')],
       ['Jump to', 'FAQ', 'questions refund team data', 'help', go('#faq')],
       ['Jump to', 'Why this exists', 'purpose about scope', 'user', go('#founder')],
       [
         'Actions',
-        'Get lifetime access — $48.78',
+        'Get lifetime access — $49',
         'buy checkout purchase',
         'buy',
         () =>

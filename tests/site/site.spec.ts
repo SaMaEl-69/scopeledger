@@ -71,7 +71,7 @@ test('canonical pages, legacy links and public samples resolve on one origin', a
     'https://scopeledger.site/home/',
   );
   await expect(page.locator('body')).not.toContainText('$149');
-  await expect(page.locator('#vRoi')).toHaveText('185×');
+  await expect(page.locator('#vRoi')).toHaveText('184×');
   for (const name of ['change-brief', 'invoice']) {
     const response = await request.get(`/samples/${name}.pdf`);
     expect(response.status()).toBe(200);
@@ -113,7 +113,7 @@ test('lifetime choices preserve focus and hand Agency intent to activation witho
   await trigger.click();
   const dialog = page.getByRole('dialog', { name: 'Choose your license.' });
   await expect(dialog).toBeVisible();
-  await expect(dialog.locator('.access-plan').first()).toContainText('$48.78');
+  await expect(dialog.locator('.access-plan').first()).toContainText('$49');
   await expect(dialog.locator('.access-plan').last()).toContainText('$99');
   await page.keyboard.press('Control+k');
   await expect(page.locator('#cmdk')).toBeHidden();
@@ -281,7 +281,7 @@ test('failed Home modules preserve readable copy, correct ROI and both direct li
   await page.goto('/home/');
   await expect(page.locator('html')).not.toHaveClass(/\bjs\b/);
   await expect(page.locator('.hero h1')).toBeVisible();
-  await expect(page.locator('#vRoi')).toHaveText('185×');
+  await expect(page.locator('#vRoi')).toHaveText('184×');
   const fallback = page.locator('.access-fallback');
   await expect(fallback).toBeVisible();
   await expect(fallback.getByRole('link', { name: 'Agency · $99' })).toHaveAttribute(
@@ -373,7 +373,7 @@ test('public product description matches manual workflows and both device licens
 }) => {
   await page.goto('/home/');
   await expect(page.locator('.license-summary')).toContainText('Individual');
-  await expect(page.locator('.license-summary')).toContainText('48.78');
+  await expect(page.locator('.license-summary')).toContainText('49');
   await expect(page.locator('.license-summary')).toContainText('Agency');
   await expect(page.locator('.license-summary')).toContainText('99');
   await expect(page.locator('.license-summary')).toContainText('1 activated browser/device');

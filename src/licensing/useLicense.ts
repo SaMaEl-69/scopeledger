@@ -27,12 +27,18 @@ export async function licenseRequest<T>(path: string, body?: object): Promise<T>
         'The licensing server returned an unreadable response. Retry or contact Lifetime support.',
       );
     });
-    if (!response.ok)
+    if (!response.ok) {
+      const details = data && typeof data === 'object' ? (data as Record<string, unknown>) : {};
+      const nested =
+        details.error && typeof details.error === 'object'
+          ? (details.error as Record<string, unknown>)
+          : {};
       throw new Error(
-        data.message ||
-          data.error?.message ||
+        (typeof details.message === 'string' && details.message) ||
+          (typeof nested.message === 'string' && nested.message) ||
           'Licensing is temporarily unavailable. Your local work is preserved.',
       );
+    }
     return data as T;
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError')

@@ -13,9 +13,11 @@ npm run dev
 
 Open [Home](http://127.0.0.1:5173/home/) or [the demo workspace](http://127.0.0.1:5173/workspace/). Development listens on loopback. For the optimized build, run `npm run build`, then `npm start`; open `http://127.0.0.1:4173/home/` or `/workspace/` on that origin. `PORT` changes that port. Home, workspace, assets and `/api` share one server/origin. Moving from `/app` to `/workspace/` on the same origin retains existing IndexedDB records and activation cookies. Different origins/browsers have independent data; transfer it deliberately through backup/restore.
 
-Both pages share the `sl-theme` dark/light preference. The workspace Home link drains saves and preserves saved document drafts; failed/conflicting edits require a current backup before leaving. Get lifetime access opens the Individual USD 48.78/one-device and Agency USD 99/five-device chooser. A plan choice opens configured live checkout or existing-license activation; it does not activate a license itself. See [site deployment](docs/SITE-DEPLOYMENT.md) for the intended `scopeledger.site` setup and launch requirements, and [site verification](docs/SITE-VERIFICATION.md) for fresh integration evidence. Hosting is not set up yet.
+Both pages share the `sl-theme` dark/light preference. The workspace Home link drains saves and preserves saved document drafts; failed/conflicting edits require a current backup before leaving. Get lifetime access opens the Individual USD 49/one-device and Agency USD 99/five-device chooser. A plan choice opens configured live checkout or existing-license activation; it does not activate a license itself. See [site deployment](docs/SITE-DEPLOYMENT.md) for the intended `scopeledger.site` setup and launch requirements, and [site verification](docs/SITE-VERIFICATION.md) for fresh integration evidence. Hosting is not set up yet.
 
 ## Safe owner testing
+
+For Cloudflare Workers hosting, see [Cloudflare deployment](docs/CLOUDFLARE-DEPLOYMENT.md). `npm run cloudflare:deploy` builds and publishes the current public demo. The existing Node/SQLite paid backend requires separate persistent hosting or a verified migration before commercial activation and customer PDF exports can be enabled.
 
 The default server is demo mode. Purchases, real activation and protected customer-document PDF exports remain unavailable without configuration. Home's public sample PDFs are synthetic design-review documents and request no payment. To test actual one/five-device allocation and HTML-to-PDF locally:
 
@@ -47,7 +49,7 @@ Current fee, delivery and document checks are recorded in [the October 9 verific
 
 ## Commercial and data contract
 
-Individual is USD 48.78 lifetime with one activated browser/device. Agency is USD 99 lifetime with five. Both have identical paid features. Devices keep independent local workspaces; there are no customer accounts or cloud synchronization. The demo permits the sample plus one custom project, including archived/trashed custom records. Additional project creation and PDF export require server activation. A backup cannot grant access.
+Individual is USD 49 lifetime with one activated browser/device. Agency is USD 99 lifetime with five. Both have identical paid features. Devices keep independent local workspaces; there are no customer accounts or cloud synchronization. The demo permits the sample plus one custom project, including archived/trashed custom records. Additional project creation and PDF export require server activation. A backup cannot grant access.
 
 Workspace schema is version 3; the IndexedDB structure remains version 1. Native schema-2 and known legacy version-1 sources migrate while preserving identities and history. Undated legacy approvals require dated reconfirmation before new invoicing/reconciliation. Existing local work is not erased because licensing is unavailable.
 

@@ -104,7 +104,7 @@ const info = {
   terms: {
     title: 'License and service information',
     paragraphs: [
-      'Individual costs $48.78 once for one activated browser/device. Agency costs $99 once for five activated browsers/devices. Both plans have identical paid features and lifetime access.',
+      'Individual costs $49 once for one activated browser/device. Agency costs $99 once for five activated browsers/devices. Both plans have identical paid features and lifetime access.',
       'Agency devices keep independent local workspaces. Backups transfer your records deliberately; a backup does not grant a paid activation. You can release the current browser without deleting local projects.',
       'A workspace save or JSON backup is limited to 10 MiB, including images and document history. Protected PDF export currently allows up to 100 new render jobs per activated device per UTC day and 500 per license per UTC day. The renderer runs at most two jobs at a time; when busy, retry shortly.',
       'Approvals and payments are manual records. Record real client agreement and money actually received; issued invoices preserve their recorded values. The workspace does not process payments or sign agreements for clients.',
