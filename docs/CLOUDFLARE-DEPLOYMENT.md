@@ -21,7 +21,7 @@ Wrangler authentication, `.wrangler`, `.dev.vars`, `.env`, local databases, cust
 
 ## Domain
 
-`scopeledger.site` and `www.scopeledger.site` are attached to the `scopeledger` Worker as custom domains, declared in `wrangler.jsonc`. The Worker redirects www and HTTP navigation to the HTTPS apex while preserving paths and queries. Mail MX and SPF records remain intact. Future publishes use the same checked-in domain configuration; GitHub upload alone does not deploy a release.
+`scopeledger.site` and `www.scopeledger.site` are attached to the `scopeledger` Worker as custom domains, declared in `wrangler.jsonc`. The Worker redirects www and HTTP navigation to the HTTPS apex while preserving paths and queries. Mail now uses Cloudflare Email Routing; see [email and discovery configuration](SHARING-EMAIL-AND-DISCOVERY.md). Future publishes use the same checked-in domain configuration; GitHub upload alone does not deploy a release.
 
 ## Commercial launch
 
@@ -33,7 +33,18 @@ The existing Node backend remains in `server/`, with encrypted durable SQLite li
 
 `playwright.cloudflare.config.ts` runs the existing site journeys against port 8787. Set `SCOPELEDGER_SITE_URL` to the deployed HTTPS origin to repeat them there. Browser tests create isolated contexts and do not alter the owner's local workspace.
 
-## Current release — document and storage update, 9 October 2026
+## Current release — sharing, discovery and support email, 9 October 2026
+
+- Application commit: `e1fc829`, including sharing/discovery commit `7aa75ba`, pushed to the private repository.
+- Worker version: `685f7247-ec96-4565-9821-5f3f47118b5f`.
+- Release: `20261009T112413Z-0df81e57d9c0`.
+- Adds a branded 1200 × 630 PNG, complete Open Graph/X metadata, factual structured data, public `llms.txt` and a product guide. The public sharing card alone permits external embedding; workspace and API protections remain intact.
+- Publishes the verified `support@scopeledger.site` address. Cloudflare forwards it to the verified destination, and an authorized test message reached the destination Gmail inbox. MX, SPF, DKIM and DMARC records resolve publicly.
+- A zone configuration rule disables automatic RUM injection, which had caused CSP errors. Workers operational logs and tracing remain enabled. This rule is managed outside Wrangler; preserve it when changing zone settings.
+- Verification: 471 unit/server tests, strict production build, three HTTP upload/timeout protections and 20 sharing/discovery checks against the live domain, including all three browser engines with no console errors. OpenGraph.xyz confirms a loaded PNG at the expected dimensions and zero metadata errors. The GitHub startup test now has an isolated public-directory fixture and no longer depends on a pre-existing local build. Full GitHub CI was still installing browser dependencies when this report was saved; do not interpret that pending run as a completed CI pass.
+- [Implementation, email limits and reproduction steps](SHARING-EMAIL-AND-DISCOVERY.md).
+
+## Previous release — document and storage update, 9 October 2026
 
 - Application commit: `80af5e2` on the private GitHub repository, including the main update `9dec3d2`.
 - Worker deployment version: `e606a559-fda1-4b91-8ad0-4b6e769e2df0`.
