@@ -33,7 +33,17 @@ The existing Node backend remains in `server/`, with encrypted durable SQLite li
 
 `playwright.cloudflare.config.ts` runs the existing site journeys against port 8787. Set `SCOPELEDGER_SITE_URL` to the deployed HTTPS origin to repeat them there. Browser tests create isolated contexts and do not alter the owner's local workspace.
 
-## Verified release — 9 October 2026
+## Current release — document and storage update, 9 October 2026
+
+- Application commit: `80af5e2` on the private GitHub repository, including the main update `9dec3d2`.
+- Worker deployment version: `e606a559-fda1-4b91-8ad0-4b6e769e2df0`.
+- Release: `20261009T104539Z-05832df54dec`.
+- Adds guided Brief / Invoice / Credit note selection, tax-inclusive total adjustment, six image upload formats up to 2 MiB, a 50 MiB expanded workspace cap, compact encrypted backups, and an optional browser storage-retention request. The invoice approval requirement now focuses the commercial decision step directly.
+- Local validation: 465 unit/server tests after the final correction; 37 browser checks across new document/storage journeys, real PDF/capacity journeys and existing workflow/signature/logo tests; all three engines additionally repeat the final approval-navigation regression. Strict build and full/production npm audits pass. Staged source and Git history secret scans report no findings; ignored local test credentials and historical diagnostic artifacts are excluded from publication.
+- Live verification: 21 connected-site checks across Chromium, Firefox and WebKit after the main publish, including Home at 35 widths from 320 to 2560 px in both themes. The final corrected release additionally passes the document/fee/storage/approval journey in all three engines and all 19 HTTP checks for routes, TLS/security headers, redirects, private-file denial, samples, demo status and protected-service rejection.
+- [Implementation, limits and storage proposal](STORAGE-AND-DOCUMENT-UPDATE.md). Workspace data remains in the browser. This release does not enable paid checkout, production licensing or protected customer PDF exports.
+
+## Initial custom-domain release — 9 October 2026
 
 - Repository: `https://github.com/SaMaEl-69/scopeledger` (private, full source/assets and local commit history pushed).
 - Deployed site: `https://scopeledger.site/home/` and `/workspace/`. The initial `https://scopeledger.olim855597.workers.dev` address remains available.
