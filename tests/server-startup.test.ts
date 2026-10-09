@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { spawnSync } from 'node:child_process';
-import { mkdtemp, rm, access } from 'node:fs/promises';
+import { mkdtemp, mkdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { randomBytes } from 'node:crypto';
@@ -38,12 +38,15 @@ describe('production entry-point fail-closed gates', () => {
     'rejects an unusable sandbox runtime without disclosing the signing secret',
     async () => {
       root = await mkdtemp(join(tmpdir(), 'scopeledger-startup-gate-'));
+      const publicDirectory = join(root, 'public');
+      await mkdir(publicDirectory);
       const secret = randomBytes(32).toString('hex');
       const error = launch({
         NODE_ENV: 'production',
         SCOPELEDGER_MODE: 'live',
         SCOPELEDGER_ORIGIN: 'https://scopeledger.site',
         SCOPELEDGER_DB_PATH: join(root, 'qa.sqlite'),
+        SCOPELEDGER_PUBLIC_DIR: publicDirectory,
         SCOPELEDGER_SESSION_SECRET: secret,
         SCOPELEDGER_GUMROAD_SELLER_ID: 'synthetic-startup-seller',
         SCOPELEDGER_GUMROAD_INDIVIDUAL_PRODUCT_ID: 'synthetic-individual',

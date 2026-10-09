@@ -7,7 +7,7 @@ import { resolve, relative as relativePath, sep, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { contentPolicy } from '../server/security.mjs';
-import { publicAssetPath as publicPath } from '../shared/public-assets.mjs';
+import { publicAssetPath as publicPath, shareableAssetPath } from '../shared/public-assets.mjs';
 import { rendererReady } from '../server/pdf.mjs';
 import { promisify } from 'node:util';
 import { brotliCompress, gzip, constants } from 'node:zlib';
@@ -241,6 +241,8 @@ export function createScopeLedgerServer({
           return;
         }
         const extension = extname(actualFile).toLowerCase();
+        if (shareableAssetPath(actualName))
+          response.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
         const file = await fileBody(actualFile, metadata);
         if (extension === '.html')
           response.setHeader('Content-Security-Policy', contentPolicy(file.body.toString('utf8')));

@@ -1,5 +1,12 @@
+# Public product information is available to search engines and AI crawlers.
+# The same rules apply to every crawler, including OAI-SearchBot and GPTBot.
 User-agent: *
 Allow: /home/
-Disallow: /workspace/
-Disallow: /api/
+Allow: /brand/
+Allow: /samples/
+Allow: /llms.txt
+Allow: /product-guide.txt
+Disallow: /workspace
+Disallow: /app
+Disallow: /api
 Sitemap: https://scopeledger.site/sitemap.xml

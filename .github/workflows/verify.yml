@@ -35,6 +35,8 @@ jobs:
         run: |
           node --input-type=module -e "import { chromium } from 'playwright'; const p=chromium.executablePath(); console.log('PLAYWRIGHT_CHROME_PATH='+p); console.log('SCOPELEDGER_CHROME_PATH='+p)" >> "$GITHUB_ENV"
       - run: npm run test:local-browser
+      - name: Verify social previews and public crawler access
+        run: node scripts/sharing-qa.mjs
       - name: Verify HTTPS reverse proxy and security gates
         run: |
           sudo apt-get update -qq

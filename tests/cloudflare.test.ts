@@ -13,6 +13,10 @@ const files = new Map([
   ['/release.json', '{"id":"20261009-test"}'],
   ['/assets/app-12345678.js', 'console.log("app")'],
   ['/samples/change-brief.pdf', '%PDF-1.7 sample'],
+  ['/brand/scopeledger-social-v1.png', 'public sharing card'],
+  ['/llms.txt', '# ScopeLedger'],
+  ['/product-guide.txt', '# ScopeLedger product guide'],
+  ['/private-notes.txt', 'private'],
   // Deliberately present: neither sensitive files nor source maps become public.
   ['/.env', 'private'],
   ['/backup.sqlite', 'private'],
@@ -104,6 +108,17 @@ describe('Cloudflare public demo boundary', () => {
     expect(await sample.text()).toContain('%PDF-1.7');
     const script = await run('/assets/app-12345678.js');
     expect(script.headers.get('Cache-Control')).toContain('immutable');
+  });
+  it('allows external embedding only of the public sharing card', async () => {
+    const card = await run('/brand/scopeledger-social-v1.png');
+    expect(card.status).toBe(200);
+    expect(card.headers.get('Cross-Origin-Resource-Policy')).toBe('cross-origin');
+    for (const path of ['/home/', '/workspace/', '/samples/change-brief.pdf', '/api/health']) {
+      expect((await run(path)).headers.get('Cross-Origin-Resource-Policy')).toBe('same-origin');
+    }
+    for (const path of ['/llms.txt', '/product-guide.txt'])
+      expect((await run(path)).status).toBe(200);
+    expect((await run('/private-notes.txt')).status).toBe(404);
   });
   it('reports demo access without granting a cookie or accepting client-supplied activation', async () => {
     const response = await run('/api/license/status', {

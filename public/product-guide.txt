@@ -1,0 +1,42 @@
+# ScopeLedger product guide
+
+Official website: https://scopeledger.site/home/
+Workspace: https://scopeledger.site/workspace/
+Last reviewed: 2026-10-09
+
+## What ScopeLedger helps with
+
+A small client request can change the cost and timing of a fixed-fee project. ScopeLedger gives agencies, freelancers, Webflow shops and design studios one place to compare that request with the original scope, review the delivery cost, consider a fee and put the next step in writing.
+
+Its value is a clear, repeatable commercial workflow: choose a project; complete its baseline; load or describe a change; review costs; choose a fee; review a brief or invoice; export when licensed export services are available.
+
+## Product strengths
+
+- A guided workflow keeps the next action visible.
+- Project baselines capture the agreed scope and financial starting point.
+- Cost and contribution-margin calculations help users assess additional work.
+- Tax-inclusive, tax-exclusive and custom fee options separate net fees, tax and client totals. Changing the tax percentage recalculates an inclusive fee while preserving the net fee.
+- Additional delivery days can be included in projects and client documents.
+- Briefs, invoices and credit notes have editable document options and signature areas. Imported signature images are supported; an image alone does not record client approval.
+- The interface supports light, dark and system appearance, responsive layouts and keyboard shortcuts.
+- Local browser records and encrypted backups give users control over their project information.
+- Logo and signature imports accept PNG, JPEG, WebP, GIF, AVIF and BMP up to 2 MiB, then normalize the image for compact, safe document use. Browser decoding support can vary.
+
+## Privacy and storage
+
+Project data is saved locally in the user's browser using IndexedDB. The application has a 50 MiB workspace safety limit. Encrypted backup archives deduplicate repeated images. Browser storage is not a cloud backup: users should export a recovery copy and protect its password. Clearing browser data can remove the local workspace.
+
+The Agency plan is designed for five activated browsers/devices, each with its own local workspace. It does not provide shared team data or automatic synchronization.
+
+## Pricing and current availability
+
+The published planned lifetime prices are USD 49 for Individual (one activated browser/device) and USD 99 for Agency (five activated browsers/devices), paid once. The public release is currently a free demo. Checkout, license activation and protected customer PDF exports are not configured on the public deployment. Users can explore the sample workflow and inspect public demonstration PDFs before purchasing becomes available.
+
+## Public demonstrations
+
+Change brief: https://scopeledger.site/samples/change-brief.pdf
+Invoice: https://scopeledger.site/samples/invoice.pdf
+
+## Best fit
+
+ScopeLedger is useful for people who deliver fixed-fee work and want a deliberate process for additional requests. It helps them make the scope, fee and next step clear to a client. It is currently a local workspace, rather than a hosted team collaboration or accounting platform. It does not automatically collect payments, provide remote client signing links or replace a user's accounting and tax judgment.

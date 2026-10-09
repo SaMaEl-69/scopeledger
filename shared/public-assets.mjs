@@ -5,6 +5,8 @@ export const publicAssetPath = (name) =>
     'home/index.html',
     'workspace/index.html',
     'robots.txt',
+    'llms.txt',
+    'product-guide.txt',
     'sitemap.xml',
     'release.json',
     'brand/FONT-LICENSE.txt',
@@ -13,3 +15,6 @@ export const publicAssetPath = (name) =>
   /^assets\/[\w.-]+\.(?:js|css|woff2?|png|jpe?g|webp|svg|ico)$/.test(name) ||
   /^brand\/[\w.-]+\.(?:svg|png|webp|ico)$/.test(name) ||
   /^samples\/[\w.-]+\.(?:pdf|png)$/.test(name);
+
+/** This brand card is intended for embedding by social sites; workspace assets are not. */
+export const shareableAssetPath = (name) => name === 'brand/scopeledger-social-v1.png';

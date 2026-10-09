@@ -1,0 +1,20 @@
+# ScopeLedger
+
+> Clear scope. Considered decisions. A browser workspace for fixed-fee agencies, freelancers and design studios to review additional work, choose a fee and prepare professional client documents.
+
+ScopeLedger puts the original agreement, a change request, its cost and the proposed fee in one workflow. Project records stay in the user's browser. The public release currently offers a free demo; checkout, license activation and protected customer PDF exports are not yet enabled.
+
+## Product information
+
+- [Home](https://scopeledger.site/home/): Product overview, workflow, planned license prices, privacy details and frequently asked questions.
+- [Product guide](https://scopeledger.site/product-guide.txt): Capabilities, ideal users, pricing and current availability.
+- [Sample change brief](https://scopeledger.site/samples/change-brief.pdf): Public demonstration document.
+- [Sample invoice](https://scopeledger.site/samples/invoice.pdf): Public demonstration document.
+
+## Try the product
+
+- [Workspace demo](https://scopeledger.site/workspace/): An interactive browser application. Local project records are not public website content.
+
+## Current availability
+
+Planned one-time lifetime license prices: Individual USD 49 for one activated browser/device; Agency USD 99 for five activated browsers/devices. Each device keeps a separate local workspace. Team synchronization, a hosted client portal, remote e-signatures and automatic payment collection are not currently available. Confirm purchase availability on the live site.

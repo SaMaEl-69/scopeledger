@@ -1,6 +1,6 @@
 import { contentPolicy } from '../server/security.mjs';
 import { siteDocumentPath, siteRedirect } from '../server/site-routes.mjs';
-import { publicAssetPath } from '../shared/public-assets.mjs';
+import { publicAssetPath, shareableAssetPath } from '../shared/public-assets.mjs';
 
 // The current public release is a demo. The Node/SQLite licensing and sandboxed
 // PDF service stay in server/; no client flag or cookie activates this adapter.
@@ -25,7 +25,10 @@ function secure(response, request, policy = contentPolicy()) {
   headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   headers.set('Cross-Origin-Opener-Policy', 'same-origin');
-  headers.set('Cross-Origin-Resource-Policy', 'same-origin');
+  headers.set(
+    'Cross-Origin-Resource-Policy',
+    shareableAssetPath(new URL(request.url).pathname.slice(1)) ? 'cross-origin' : 'same-origin',
+  );
   if (new URL(request.url).protocol === 'https:')
     headers.set('Strict-Transport-Security', 'max-age=31536000');
   headers.delete('Set-Cookie');
