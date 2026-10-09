@@ -52,6 +52,28 @@ Receiving is free through Email Routing. Replies sent directly from the destinat
 
 Manage the rule through Cloudflare → Compute → Email Service → Email Routing → scopeledger.site → Routing rules. Gmail and this Cloudflare page were left open for the user.
 
+### Outgoing Gmail setup
+
+The user selected Resend's free SMTP plan for `scopeledger@gmail.com` to send as `ScopeLedger Support <support@scopeledger.site>`. Resend's free transactional plan currently allows 3,000 emails per month and 100 per day. No paid subscription or overage billing has been enabled. [Resend pricing](https://resend.com/pricing).
+
+The sending domain is registered in Resend in Tokyo (`ap-northeast-1`), domain ID `f553d9df-1b18-406f-9bc9-b447166d6b08`. Three provider-specified records were added through Cloudflare and confirmed on public DNS:
+
+| Type | Name | Purpose |
+| --- | --- | --- |
+| TXT | `resend._domainkey.scopeledger.site` | Resend DKIM public key |
+| CNAME | `rsend.scopeledger.site` | Sending authentication, targeting `rsend-apne1.forge.rmta.net` |
+| CNAME | `send.scopeledger.site` | Return path, targeting `send.forge.rmta.net` |
+
+Both CNAME records are DNS only. Cloudflare's existing root MX, root SPF, routing DKIM and strict DMARC remain in place. Resend receiving is disabled so it does not replace Cloudflare's incoming route. Resend's domain configuration uses enforced TLS; delivery fails for recipients whose mail servers do not support encrypted transport. Tracking has not been configured.
+
+Gmail's verified sender uses `smtp.resend.com`, port `587`, username `resend` and TLS. The user created and entered the private Resend API key and completed Gmail's address confirmation. The prepared key form restricted Sending access to `scopeledger.site`; the agent did not read or retain the secret. No secret belongs in this repository, reports or chat. [Resend SMTP settings](https://resend.com/docs/send-with-smtp).
+
+The initial test supplied by the user was sent using the original Gmail identity, before their address confirmation completed. Verifying an alias does not automatically make it the default, and it does not alter already-sent messages. Gmail now marks `support@scopeledger.site` as the default sender and has “Always reply from default address” selected. The user re-entered the existing key to save an explicit Reply-To of `support@scopeledger.site`; the final settings row confirms both the default and Reply-To. A newly composed draft visibly uses `ScopeLedger Support <support@scopeledger.site>` in its From field.
+
+**Current status:** Resend reports the domain verified and ready to send. Gmail's sender, default and Reply-To are configured and visually verified. The user chose to perform the outgoing delivery test themselves, so the agent did not send the prepared test. Outgoing recipient-side SPF, DKIM and DMARC results have not been independently verified. On the Gmail mobile app, start a fresh message and check its From selector; existing drafts and sent messages may retain their original Gmail identity. The Google account's login identity remains `scopeledger@gmail.com`.
+
+This setup is temporary: Google says third-party Send mail as ends in January 2027, including in the Gmail mobile app. Forwarded incoming mail continues to work. Before that date, migrate the outgoing address to a supported mailbox provider or Google Workspace; do not assume this SMTP alias will keep working indefinitely. [Google's Send mail as changes](https://support.google.com/mail/answer/17101213?hl=en).
+
 ## Deployment settings and verification
 
 A live test caught Cloudflare inserting its Web Analytics script into pages while the application's strict CSP blocked that script. The zone now has an explicit `http_config_settings` rule with `disable_rum: true` for `scopeledger.site` and `www.scopeledger.site`. It takes precedence over automatic RUM rules. The CSP remains strict, and Workers operational logs/tracing remain enabled. [Cloudflare configuration-rule precedence](https://developers.cloudflare.com/rules/configuration-rules/settings/#disable-real-user-monitoring-rum).
