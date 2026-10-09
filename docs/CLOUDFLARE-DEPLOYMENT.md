@@ -21,7 +21,7 @@ Wrangler authentication, `.wrangler`, `.dev.vars`, `.env`, local databases, cust
 
 ## Domain
 
-Deploy to the account's `workers.dev` address first. To attach `scopeledger.site`, the domain must be an active Cloudflare zone in the deployment account. Add a custom domain through Cloudflare or an explicit `routes` entry with `custom_domain: true` after checking existing DNS and services. Do not assume the GitHub repository, domain registrar and Cloudflare account already have a shared integration.
+`scopeledger.site` and `www.scopeledger.site` are attached to the `scopeledger` Worker as custom domains, declared in `wrangler.jsonc`. The Worker redirects www and HTTP navigation to the HTTPS apex while preserving paths and queries. Mail MX and SPF records remain intact. Future publishes use the same checked-in domain configuration; GitHub upload alone does not deploy a release.
 
 ## Commercial launch
 
@@ -32,3 +32,22 @@ The existing Node backend remains in `server/`, with encrypted durable SQLite li
 `tests/cloudflare.test.ts` checks canonical URLs, CSP, safe public files, demo authorization, protected routes, origin rejection, health/readiness and failures. Also run the adapter with `wrangler dev` and repeat HTTP and browser smoke checks against the live URL after publishing. A successful dry run alone does not prove deployment or domain readiness.
 
 `playwright.cloudflare.config.ts` runs the existing site journeys against port 8787. Set `SCOPELEDGER_SITE_URL` to the deployed HTTPS origin to repeat them there. Browser tests create isolated contexts and do not alter the owner's local workspace.
+
+## Verified release — 9 October 2026
+
+- Repository: `https://github.com/SaMaEl-69/scopeledger` (private, full source/assets and local commit history pushed).
+- Deployed site: `https://scopeledger.site/home/` and `/workspace/`. The initial `https://scopeledger.olim855597.workers.dev` address remains available.
+- Worker: `scopeledger`, Cloudflare account `1e27f19ccd8101c4b41e0b911c507781`.
+- Deployment version: `fb0a3729-ad74-4d1a-9c72-55494641334b`.
+- Release: `20261009T093239Z-249c20145876`.
+- Verification: 440 unit/server tests before final domain binding and all 24 current Worker contract tests after the HTTPS/www update; 9 targeted browser checks against the local Workers runtime; 18 checks against the initial Workers address and another 18 against `https://scopeledger.site`, across Chromium, Firefox and WebKit. These cover canonical routes, sample downloads, price/ROI, mobile navigation, both themes, short screens and larger text. All 19 final domain HTTP checks passed, including private-file denial, protected APIs and HTTPS/www redirects. Both projects' npm dependency audits and the application Git history secret scan reported zero findings.
+- Cloudflare's official agent setup installed 16 skills and registered/authenticated its MCP server. Wrangler 4.149.0 is pinned locally; its OAuth credentials are encrypted with the key stored in macOS Keychain.
+- Separate Remotion 4.0.534 project: `/Users/samaelsmacbook/Documents/scopeledger-launch-video`. Lint, TypeScript, bundling and Studio startup passed. Its blank starter composition is ready for later video work.
+
+### Verified domain connection
+
+Zone `984eccd0ee474a6795d755097cc4ecb5` is active with nameservers `braden.ns.cloudflare.com` and `zainab.ns.cloudflare.com`. The apex A and www CNAME parking records were replaced by Cloudflare-managed Worker records. All five MX records and the SPF TXT record were retained. Both custom domains are enabled and have issued certificate identifiers.
+
+The public HTTPS Home response returned 200 with the updated $49 price, CSP, HSTS and nosniff headers. Domain verification also checks Workspace, both sample PDFs, canonical redirects, protected APIs and private-file denial. No certificate validation bypass was used. No registrar credentials or Cloudflare API tokens belong in the repository.
+
+The old localhost workspace and the live domain have different origins. Transfer the owner's project data deliberately using backup/restore; deploying source does not migrate IndexedDB records.

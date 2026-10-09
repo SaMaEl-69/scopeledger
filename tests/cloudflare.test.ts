@@ -42,6 +42,22 @@ const run = (path: string, init?: RequestInit) => worker.fetch(request(path, ini
 
 describe('Cloudflare public demo boundary', () => {
   it.each([
+    'https://www.scopeledger.site/workspace/?view=settings&project=harbor',
+    'http://www.scopeledger.site/workspace/?view=settings&project=harbor',
+    'http://scopeledger.site/workspace/?view=settings&project=harbor',
+  ])('uses the HTTPS apex and preserves navigation for %s', async (url) => {
+    const response = await worker.fetch(new Request(url), env);
+    expect(response.status).toBe(308);
+    expect(response.headers.get('Location')).toBe(
+      'https://scopeledger.site/workspace/?view=settings&project=harbor',
+    );
+    expect(await response.text()).toBe('');
+    expect(response.headers.get('Set-Cookie')).toBe(null);
+    const rejected = await worker.fetch(new Request(url, { method: 'POST', body: 'private' }), env);
+    expect(rejected.status).toBe(405);
+    expect(rejected.headers.get('Location')).toBe(null);
+  });
+  it.each([
     ['/?source=test', '/home/?source=test'],
     ['/home', '/home/'],
     ['/workspace/index.html?view=projects', '/workspace/?view=projects'],

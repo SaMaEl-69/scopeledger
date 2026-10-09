@@ -1,6 +1,6 @@
 # Server operations and commercial readiness
 
-The prior server audit and document-refinement evidence below dates from **5 October 2026**; external cost research dates from 4 October unless noted. Fresh Home/workspace integration evidence is in [site verification](SITE-VERIFICATION.md), with the intended `scopeledger.site` routes and preserved-copy review limits in [site deployment](SITE-DEPLOYMENT.md). Hosting is not set up yet. This guide covers the integrated server and its costs. For everyday use, backups, calendar limits and support, start with [owner operations](OWNER-OPERATIONS.md). Exact settings, local keys and the lost-device command are in [server configuration](SERVER-CONFIGURATION.md).
+The prior server audit and document-refinement evidence below dates from **5 October 2026**; external cost research dates from 4 October unless noted. Fresh Home/workspace integration evidence is in [site verification](SITE-VERIFICATION.md), with the intended `scopeledger.site` routes and preserved-copy review limits in [site deployment](SITE-DEPLOYMENT.md). The public demo is now [hosted on Cloudflare](CLOUDFLARE-DEPLOYMENT.md); this integrated commercial server remains unhosted. This guide covers that server and its costs. For everyday use, backups, calendar limits and support, start with [owner operations](OWNER-OPERATIONS.md). Exact settings, local keys and the lost-device command are in [server configuration](SERVER-CONFIGURATION.md).
 
 ## Current launch decision
 

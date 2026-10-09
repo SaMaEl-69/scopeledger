@@ -72,6 +72,23 @@ async function releaseId(env, request) {
 
 async function handle(request, env) {
   const url = new URL(request.url);
+  if (
+    url.hostname === 'www.scopeledger.site' ||
+    (url.hostname === 'scopeledger.site' && url.protocol === 'http:')
+  ) {
+    if (!['GET', 'HEAD'].includes(request.method))
+      return json(request, 405, { error: 'method_not_allowed' }, { Allow: 'GET, HEAD' });
+    url.hostname = 'scopeledger.site';
+    url.protocol = 'https:';
+    url.port = '';
+    return secure(
+      new Response(null, {
+        status: 308,
+        headers: { Location: url.href, 'Cache-Control': 'no-store' },
+      }),
+      request,
+    );
+  }
   let path;
   try {
     path = decodeURIComponent(url.pathname);

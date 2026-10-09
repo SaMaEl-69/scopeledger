@@ -1,6 +1,8 @@
+> **9 October 2026 update:** the public demo is live on Cloudflare at [Home](https://scopeledger.site/home/) and [Workspace](https://scopeledger.site/workspace/). Both custom domains are attached; HTTP and www navigation redirect to the HTTPS apex. [Current deployment guide](CLOUDFLARE-DEPLOYMENT.md). The Node commercial backend described below is still a separate paid-launch requirement.
+
 # ScopeLedger connected site
 
-Prepared 6 October 2026 for `scopeledger.site`. Hosting is not set up yet; these routes and files are implemented and verified locally. This document does not record a live deployment.
+The original Node hosting plan below was prepared 6 October 2026. The dated update above and [Cloudflare deployment](CLOUDFLARE-DEPLOYMENT.md) record the current live demo; the persistent Node commercial backend remains unhosted.
 
 ## Pages and navigation
 

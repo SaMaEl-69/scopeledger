@@ -7,6 +7,10 @@
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
   "preview_urls": false,
+  "routes": [
+    { "pattern": "scopeledger.site", "custom_domain": true },
+    { "pattern": "www.scopeledger.site", "custom_domain": true },
+  ],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
