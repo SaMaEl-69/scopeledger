@@ -23,6 +23,8 @@ export interface Project {
   deletedAt: string | null;
   state?: 'active' | 'on-hold' | 'completed';
   deadline?: string | null;
+  /** Calendar days added to the original deadline; unfinished drafts remain text. */
+  additionalDays?: string;
 }
 export interface Client {
   id: string;
@@ -48,6 +50,9 @@ export interface ChangeTerms {
   removed: string;
   removedScope: string;
   fee: string;
+  feeMode?: 'excluding-tax' | 'including-tax' | 'custom';
+  taxRate?: string;
+  additionalDays?: string;
   credit: string;
   creditReason: string;
   contractConfirmed: boolean;
@@ -95,6 +100,9 @@ export interface Reconciliation {
   removedFuture: string;
   before: Baseline;
   after: Baseline;
+  beforeAdditionalDays?: string;
+  afterAdditionalDays?: string;
+  deliveryDate?: string;
 }
 export interface AgencySettings {
   name: string;
@@ -177,6 +185,19 @@ export interface ClientDocument {
   demo: boolean;
   /** Optional extension: older preserved documents remain valid and unchanged. */
   signatures?: DocumentSignatures;
+  feeMode?: ChangeTerms['feeMode'];
+  additionalDays?: string;
+  deliveryDate?: string;
+  sections?: DocumentSections;
+}
+export interface DocumentSections {
+  agencyLogo: boolean;
+  contactDetails: boolean;
+  exclusions: boolean;
+  dependencies: boolean;
+  assumptions: boolean;
+  delivery: boolean;
+  footer: boolean;
 }
 export interface DocumentRecord {
   id: string;
@@ -205,6 +226,7 @@ export type DocumentOverrides = Partial<
     | 'footer'
     | 'demo'
     | 'signatures'
+    | 'sections'
   >
 >;
 /** Editable settings are saved separately from preserved client-document snapshots. */

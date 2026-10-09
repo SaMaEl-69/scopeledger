@@ -77,8 +77,14 @@ export function ComparisonModal({
             id={`comparison-${k}`}
             label={
               {
-                fee: 'Proposed fee',
-                credit: 'Client credit',
+                fee:
+                  terms.feeMode === 'including-tax'
+                    ? 'Proposed fee, including tax'
+                    : 'Proposed fee',
+                credit:
+                  terms.feeMode === 'including-tax'
+                    ? 'Client credit, including tax'
+                    : 'Client credit',
                 hours: 'Hours',
                 rate: 'Loaded cost',
                 outside: 'Outside cost',
@@ -118,7 +124,7 @@ export function ComparisonModal({
               : 'Estimates are incomplete'}
         </strong>
         <p>
-          Effective fee {formatMoney(result.effectiveFee, project.currency)} · Change floor{' '}
+          Net fee, before tax {formatMoney(result.effectiveFee, project.currency)} · Change floor{' '}
           {formatMoney(result.changeFloor, project.currency)} · Project restoration{' '}
           {formatMoney(result.restorationFee, project.currency)}
         </p>

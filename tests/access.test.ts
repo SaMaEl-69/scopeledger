@@ -21,13 +21,13 @@ const project = (sample: boolean, deletedAt: string | null = null) =>
 describe('fixed commercial and demo access contract', () => {
   it('keeps both one-time plans complete and distinguishes devices from projects', () => {
     expect(PLANS.individual).toMatchObject({
-      price: '49.79',
+      price: '48.78',
       currency: 'USD',
       activations: 1,
       completeFeatures: true,
     });
     expect(PLANS.agency).toMatchObject({
-      price: '69.79',
+      price: '99',
       currency: 'USD',
       activations: 5,
       completeFeatures: true,

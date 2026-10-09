@@ -1,5 +1,7 @@
 import Decimal from 'decimal.js';
 import type { Baseline, ChangeTerms, Currency } from './types';
+import { feeAmounts } from '../../shared/fee-math.mjs';
+import { deliveryDays } from './delivery';
 
 // Inputs span 10⁻¹⁰⁰…10²⁴ and at most 120 characters: scalar units are no smaller
 // than 10⁻²¹⁹, and product units no smaller than 10⁻⁴³⁸. Exact products/sums need
@@ -70,6 +72,31 @@ const percent = (value: Decimal) => value.times(100).toString();
 const minimumFee = (value: Decimal) =>
   Money.max(0, value).toDecimalPlaces(2, Decimal.ROUND_CEIL).toFixed(2);
 
+export function feeBasisPatch(
+  change: ChangeTerms,
+  mode: NonNullable<ChangeTerms['feeMode']>,
+): Partial<ChangeTerms> {
+  const patch: Partial<ChangeTerms> = { feeMode: mode };
+  const inclusiveBefore = change.feeMode === 'including-tax',
+    inclusiveAfter = mode === 'including-tax';
+  const errors: Record<string, string> = {};
+  const tax = parseAmount(change.taxRate ?? '0', 'taxRate', errors, 'Tax percentage');
+  if (inclusiveBefore === inclusiveAfter || !tax || tax.gt(100) || !tax.eq(tax.toDecimalPlaces(2)))
+    return patch;
+  for (const key of ['fee', 'credit'] as const) {
+    const amount = parseAmount(change[key], key, errors, key);
+    if (amount && amount.eq(amount.toDecimalPlaces(2))) {
+      const parts = feeAmounts(
+        amount.toString(),
+        tax.toString(),
+        inclusiveBefore ? 'including-tax' : 'excluding-tax',
+      );
+      patch[key] = inclusiveAfter ? parts.total : parts.subtotal;
+    }
+  }
+  return patch;
+}
+
 export function calculate(baseline: Baseline, change: ChangeTerms): Calculation {
   const errors: Record<string, string> = {};
   const F = parseAmount(baseline.fee, 'baselineFee', errors, 'Approved project fee');
@@ -85,6 +112,25 @@ export function calculate(baseline: Baseline, change: ChangeTerms): Calculation 
       ? new Money(0)
       : parseAmount(change.fee, 'fee', errors, 'Proposed additional fee');
   const credit = parseAmount(change.credit, 'credit', errors, 'Client credit');
+  const taxRate = parseAmount(change.taxRate ?? '0', 'taxRate', errors, 'Tax percentage');
+  if (
+    taxRate &&
+    (!/^\d+(?:\.\d{1,2})?$/.test(change.taxRate ?? '0') ||
+      taxRate.gt(100) ||
+      !taxRate.eq(taxRate.toDecimalPlaces(2)))
+  )
+    errors.taxRate = 'Enter a tax percentage from 0 to 100 with at most two decimal places.';
+  if (
+    change.feeMode !== undefined &&
+    !['excluding-tax', 'including-tax', 'custom'].includes(change.feeMode)
+  )
+    errors.feeMode = 'Choose a valid fee basis.';
+  if (deliveryDays(change.additionalDays) === null)
+    errors.additionalDays = 'Enter whole calendar days from 0 to 3,650.';
+  if (change.feeMode === 'including-tax' && fee && !fee.eq(fee.toDecimalPlaces(2)))
+    errors.fee = 'Enter the tax-inclusive total in whole currency cents.';
+  if (change.feeMode === 'including-tax' && credit && !credit.eq(credit.toDecimalPlaces(2)))
+    errors.credit = 'Enter the tax-inclusive credit in whole currency cents.';
   if (F?.isZero()) errors.baselineFee = 'Approved project fee must be greater than zero.';
   if (target?.greaterThanOrEqualTo(100))
     errors.target = 'Target margin must be at least 0% and less than 100%.';
@@ -97,7 +143,11 @@ export function calculate(baseline: Baseline, change: ChangeTerms): Calculation 
   if (change.route === 'Absorb' && credit?.greaterThan(0))
     errors.credit =
       'Absorb has no additional fee. Choose Quote or Exchange to record a client credit.';
-  const Q = fee && credit ? fee.minus(credit) : null;
+  const adjustment = fee && credit ? fee.minus(credit) : null;
+  const Q =
+    adjustment && taxRate && !errors.taxRate && !errors.fee && change.feeMode === 'including-tax'
+      ? new Money(feeAmounts(adjustment.toString(), taxRate.toString(), 'including-tax').subtotal)
+      : adjustment;
   if (Q && F && F.plus(Q).lessThanOrEqualTo(0))
     errors.credit = 'The credit must leave positive total project revenue.';
 
@@ -109,7 +159,13 @@ export function calculate(baseline: Baseline, change: ChangeTerms): Calculation 
   // round to 1 and accidentally introduce a zero denominator.
   const targetRemainder = targetValid ? new Money(100).minus(target).div(100) : null;
   const deferred = change.route === 'Defer';
-  const executableFee = Q && !errors.fee && !errors.credit && !errors.creditReason;
+  const executableFee =
+    Q &&
+    !errors.fee &&
+    !errors.credit &&
+    !errors.creditReason &&
+    !errors.taxRate &&
+    !errors.feeMode;
   return {
     valid: Object.keys(errors).length === 0,
     errors,

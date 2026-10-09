@@ -1,4 +1,3 @@
-import { scopeLedgerDocumentLogo } from '../shared/document-branding.mjs';
 import { chromium } from 'playwright-core';
 import { access } from 'node:fs/promises';
 import { documentHtml, validateClientDocument } from '../shared/client-document.mjs';
@@ -138,7 +137,7 @@ export async function renderPdf(snapshot, { executablePath, timeoutMs = 45000 } 
       outline: true,
       displayHeaderFooter: true,
       headerTemplate: '<span></span>',
-      footerTemplate: `<div style="font:9px Arial;color:#656b70;width:100%;margin:0 18mm;padding-top:7px;border-top:1px solid #d9dddf;display:flex;justify-content:space-between;align-items:center;gap:16px"><span style="min-width:0;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${doc.reference.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])}</span><span style="display:flex;align-items:center;gap:7px;flex:none;white-space:nowrap"><span style="font-size:8px">Prepared with</span><img src="${scopeLedgerDocumentLogo}" alt="ScopeLedger" style="display:block;width:90px;height:14.5px"></span><span style="white-space:nowrap;flex:none"><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`,
+      footerTemplate: `<div style="font:9px Arial;color:#656b70;width:100%;margin:0 18mm;padding-top:7px;border-top:1px solid #d9dddf;display:flex;justify-content:space-between;align-items:center;gap:16px"><span style="min-width:0;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${doc.reference.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])}</span><span style="white-space:nowrap;flex:none"><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`,
     });
     if (pdf.length > 20000000)
       throw new ServiceError(

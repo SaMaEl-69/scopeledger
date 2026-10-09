@@ -7,14 +7,14 @@ import {
 import { fixture, logo } from './server/fixtures.mjs';
 describe('client-facing transfer confidentiality and shared HTML', () => {
   it.each(['brief', 'invoice', 'credit'] as const)(
-    'embeds the approved ScopeLedger logo offline without replacing the %s issuer',
+    'keeps %s customer documents free of ScopeLedger attribution',
     (kind) => {
       const html = documentHtml(
         fixture({ kind, ...(kind === 'brief' ? { tax: '0', total: '800.00' } : {}) }),
       );
-      expect(html).toContain('class="document-brand"');
-      expect(html).toContain('alt="ScopeLedger"');
-      expect(html).toContain('data:image/svg+xml;charset=utf-8,');
+      expect(html).not.toContain('class="document-brand"');
+      expect(html).not.toContain('alt="ScopeLedger"');
+      expect(html).not.toContain('Prepared with');
       expect(html).toContain('class="agency-name">Aster Studio');
     },
   );

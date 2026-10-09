@@ -4,7 +4,7 @@ import type { Workspace } from './types';
 export const PLANS = Object.freeze({
   individual: Object.freeze({
     name: 'Individual',
-    price: '49.79',
+    price: '48.78',
     currency: 'USD',
     purchase: 'one-time lifetime',
     activations: 1,
@@ -12,7 +12,7 @@ export const PLANS = Object.freeze({
   }),
   agency: Object.freeze({
     name: 'Agency',
-    price: '69.79',
+    price: '99',
     currency: 'USD',
     purchase: 'one-time lifetime',
     activations: 5,

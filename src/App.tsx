@@ -67,12 +67,22 @@ import { compareRecordedDates, recordedDateToDate } from './domain/dates';
 import { workspaceCapacity } from './storage/capacity';
 import { confirmDefaults, defaultsReviewed } from './domain/setup';
 import { readWorkspaceRoute, workspaceRouteUrl } from './navigation';
-import { calculate, formatMoney, formatPercent, Money, parseAmount } from './domain/finance';
+import {
+  calculate,
+  formatMoney,
+  formatPercent,
+  Money,
+  parseAmount,
+  feeBasisPatch,
+} from './domain/finance';
+import { feeAmounts } from '../shared/fee-math.mjs';
+import { deliveryDays, projectDeliveryDate } from './domain/delivery';
 import {
   createProject,
   createChange,
   updateChange,
   updateBaseline,
+  updateProjectTiming,
   saveDecision,
   recordApproval,
   reconcileChange,
@@ -535,11 +545,20 @@ export default function App() {
     if (target.view === 'workspace' && target.field) {
       const field = target.field;
       setFlowStep(
-        ['hours', 'rate', 'outside', 'removed', 'cost-section'].includes(field)
-          ? 4
-          : ['proposed-fee', 'credit', 'price-section', 'commercial-results'].includes(field)
-            ? 5
-            : 3,
+        field === 'project-additional-days'
+          ? 2
+          : ['hours', 'rate', 'outside', 'removed', 'cost-section'].includes(field)
+            ? 4
+            : [
+                  'proposed-fee',
+                  'credit',
+                  'price-section',
+                  'commercial-results',
+                  'additional-days',
+                  'fee-tax-rate',
+                ].includes(field)
+              ? 5
+              : 3,
       );
     }
     if (target.view !== 'calendar') setCalendarCreateIntent(0);
@@ -577,7 +596,13 @@ export default function App() {
     if (!pendingField) return;
     const focusField = () => {
       const element = document.getElementById(pendingField);
-      if (!element || !element.getClientRects().length) return;
+      if (!element) return;
+      let container = element.parentElement;
+      while (container) {
+        if (container instanceof HTMLDetailsElement) container.open = true;
+        container = container.parentElement;
+      }
+      if (!element.getClientRects().length) return;
       observer.disconnect();
       clearTimeout(timer);
       element.focus({ preventScroll: true });
@@ -637,6 +662,12 @@ export default function App() {
   const included = w?.reconciliations.find((r) => r.changeId === change?.id);
   const readOnly = !!(change?.includedAt || change?.archivedAt || project?.archivedAt);
   const calc = project && change ? calculate(included?.before ?? project.baseline, change) : null;
+  const suggestedFee =
+    calc?.changeFloor === null || calc?.changeFloor === undefined
+      ? null
+      : change?.feeMode === 'including-tax' && !calc.errors.taxRate
+        ? feeAmounts(calc.changeFloor, change.taxRate ?? '0').total
+        : calc.changeFloor;
   useEffect(() => {
     const update = () => {
       const rect = document.getElementById('commercial-results')?.getBoundingClientRect();
@@ -1263,14 +1294,25 @@ export default function App() {
         >
           <BrandLogo />
         </button>
-        <div className="agency-switch">
-          <div className="agency-avatar">{w.agency.name.slice(0, 1)}</div>
+        <button
+          type="button"
+          className="agency-switch"
+          aria-label="Open workspace settings"
+          onClick={() => setView('settings')}
+        >
+          <div className="agency-avatar">
+            {w.agency.logoDataUrl ? (
+              <img src={w.agency.logoDataUrl} alt="Agency logo" />
+            ) : (
+              w.agency.name.slice(0, 1)
+            )}
+          </div>
           <div>
             <strong>{w.agency.name}</strong>
             <span>Local workspace</span>
           </div>
           <span className="local-dot" title="Stored on this device" />
-        </div>
+        </button>
         <div className="nav-label">YOUR WORK</div>
         <nav>
           <a
@@ -1459,7 +1501,18 @@ export default function App() {
             >
               <CircleHelp size={19} />
             </button>
-            <div className="user-avatar">{w.agency.name.slice(0, 1)}</div>
+            <button
+              type="button"
+              className="user-avatar"
+              aria-label="Open agency settings"
+              onClick={() => setView('settings')}
+            >
+              {w.agency.logoDataUrl ? (
+                <img src={w.agency.logoDataUrl} alt="" />
+              ) : (
+                w.agency.name.slice(0, 1)
+              )}
+            </button>
           </div>
         </header>
         <main id="main-content" className="page-content">
@@ -1696,8 +1749,8 @@ export default function App() {
                       : project.state === 'completed'
                         ? 'Completed'
                         : 'Active'}
-                    {project.deadline
-                      ? ` · Due ${dateLabel(project.deadline, w.agency.timezone)}`
+                    {projectDeliveryDate(project)
+                      ? ` · Due ${dateLabel(projectDeliveryDate(project)!, w.agency.timezone)}`
                       : ''}
                   </span>
                   <ChevronDown size={15} />
@@ -1730,7 +1783,7 @@ export default function App() {
                   </Field>
                   <Field
                     label="Project deadline"
-                    hint="Calendar date in the workspace timezone. Change reminders separately from issued invoice terms."
+                    hint="Original calendar deadline. Additional project days below extend this date."
                   >
                     <input
                       type="date"
@@ -1738,17 +1791,33 @@ export default function App() {
                       disabled={!!project.archivedAt}
                       value={project.deadline ?? ''}
                       onChange={(e) =>
-                        store.mutate((x) => ({
-                          ...x,
-                          projects: x.projects.map((p) =>
-                            p.id === project.id
-                              ? { ...p, deadline: e.target.value || null, updatedAt: now() }
-                              : p,
-                          ),
-                        }))
+                        store.mutate((x) =>
+                          updateProjectTiming(x, project.id, { deadline: e.target.value || null }),
+                        )
                       }
                     />
                   </Field>
+                  <NumberField
+                    id="project-additional-days"
+                    label="Additional project days"
+                    suffix="days"
+                    step="1"
+                    disabled={!!project.archivedAt}
+                    value={project.additionalDays ?? '0'}
+                    onChange={(additionalDays) =>
+                      store.mutate((x) => updateProjectTiming(x, project.id, { additionalDays }))
+                    }
+                    error={
+                      deliveryDays(project.additionalDays, 36500) === null
+                        ? 'Enter whole calendar days from 0 to 36,500.'
+                        : undefined
+                    }
+                    hint={
+                      projectDeliveryDate(project)
+                        ? `Adjusted delivery: ${dateLabel(projectDeliveryDate(project)!, w.agency.timezone)}. Approved changes add their days here when included in the baseline.`
+                        : 'Calendar days. Set a deadline to see the adjusted delivery date.'
+                    }
+                  />
                 </div>
               </details>
               <details
@@ -2173,6 +2242,39 @@ export default function App() {
                           </Field>
                         )}
                         {(showAllSteps || change.route !== 'Defer') && (
+                          <div className="fee-basis-fields">
+                            <Field label="Fee basis">
+                              <select
+                                aria-label="Fee basis"
+                                value={change.feeMode ?? 'excluding-tax'}
+                                disabled={change.route === 'Absorb' || change.route === 'Defer'}
+                                onChange={(event) =>
+                                  patch(
+                                    feeBasisPatch(
+                                      change,
+                                      event.target.value as NonNullable<ChangeTerms['feeMode']>,
+                                    ),
+                                  )
+                                }
+                              >
+                                <option value="excluding-tax">Excluding tax</option>
+                                <option value="including-tax">Including tax</option>
+                                <option value="custom">Custom fee</option>
+                              </select>
+                            </Field>
+                            <NumberField
+                              id="fee-tax-rate"
+                              label="Tax percentage"
+                              value={change.taxRate ?? '0'}
+                              suffix="%"
+                              onChange={(taxRate) => patch({ taxRate })}
+                              error={calc.errors.taxRate}
+                              hint="Use the tax rate agreed with your client."
+                              disabled={change.route === 'Absorb' || change.route === 'Defer'}
+                            />
+                          </div>
+                        )}
+                        {(showAllSteps || change.route !== 'Defer') && (
                           <div className="fee-row">
                             <NumberField
                               id="proposed-fee"
@@ -2184,26 +2286,80 @@ export default function App() {
                                 change.route === 'Absorb' || change.route === 'Defer' || readOnly
                               }
                               error={calc.errors.fee}
-                              hint="Excluding sales tax"
+                              hint={
+                                change.feeMode === 'including-tax'
+                                  ? 'Client total, including the tax percentage above.'
+                                  : change.feeMode === 'custom'
+                                    ? 'Your own fee before tax. Tax is added using the percentage above.'
+                                    : 'Fee before tax. Tax is added using the percentage above.'
+                              }
                             />
-                            {calc.changeFloor !== null &&
+                            {suggestedFee !== null &&
+                              change.feeMode !== 'custom' &&
                               change.route !== 'Absorb' &&
                               change.route !== 'Defer' && (
                                 <button
                                   className="button secondary floor-button"
-                                  disabled={new Money(calc.changeFloor).greaterThan('1e24')}
+                                  disabled={new Money(suggestedFee).greaterThan('1e24')}
                                   title={
-                                    new Money(calc.changeFloor).greaterThan('1e24')
+                                    new Money(suggestedFee).greaterThan('1e24')
                                       ? 'This recommendation exceeds the supported editable amount of 10²⁴. Review the target and estimates.'
                                       : undefined
                                   }
-                                  onClick={() => patch({ fee: calc.changeFloor! })}
+                                  onClick={() => patch({ fee: suggestedFee })}
                                 >
                                   Use suggested fee
                                 </button>
                               )}
                           </div>
                         )}
+                        {change.route !== 'Defer' &&
+                          change.route !== 'Absorb' &&
+                          calc.effectiveFee !== null &&
+                          !calc.errors.taxRate && (
+                            <dl className="fee-breakdown">
+                              {(() => {
+                                const amounts = feeAmounts(
+                                  change.feeMode === 'including-tax'
+                                    ? new Money(change.fee).minus(change.credit).toString()
+                                    : calc.effectiveFee!,
+                                  change.taxRate ?? '0',
+                                  change.feeMode,
+                                );
+                                return (
+                                  <>
+                                    <div>
+                                      <dt>Net fee</dt>
+                                      <dd>{money(amounts.subtotal)}</dd>
+                                    </div>
+                                    <div>
+                                      <dt>Tax</dt>
+                                      <dd>{money(amounts.tax)}</dd>
+                                    </div>
+                                    <div>
+                                      <dt>Client total</dt>
+                                      <dd>{money(amounts.total)}</dd>
+                                    </div>
+                                  </>
+                                );
+                              })()}
+                            </dl>
+                          )}
+                        <NumberField
+                          id="additional-days"
+                          label="Additional delivery days"
+                          suffix="days"
+                          step="1"
+                          value={change.additionalDays ?? '0'}
+                          onChange={(additionalDays) => patch({ additionalDays })}
+                          disabled={change.route === 'Defer'}
+                          error={calc.errors.additionalDays}
+                          hint={
+                            change.route === 'Defer'
+                              ? 'Deferred requests do not commit to a delivery date.'
+                              : 'Calendar days for this change. They extend the project deadline when the approved change is included in its baseline.'
+                          }
+                        />
                         {!showAllSteps && (
                           <dl className="fee-facts">
                             <div>
@@ -2249,7 +2405,11 @@ export default function App() {
                               value={change.credit}
                               onChange={(s) => patch({ credit: s })}
                               error={calc.errors.credit}
-                              hint="Subtracts from the proposed fee. Agree a credit explicitly; a zero floor does not decide it."
+                              hint={
+                                change.feeMode === 'including-tax'
+                                  ? 'Subtracts from the tax-inclusive total. Agree the credit explicitly.'
+                                  : 'Subtracts from the before-tax fee. Agree the credit explicitly.'
+                              }
                             />
                             <Field label="Reason for credit">
                               <textarea
@@ -2447,8 +2607,8 @@ export default function App() {
                         <div className="effective-fee">
                           <span>
                             {Number(calc.effectiveFee) < 0
-                              ? 'Agreed credit'
-                              : 'Additional client fee'}
+                              ? 'Client credit · before tax'
+                              : 'Additional fee · before tax'}
                           </span>
                           <strong>{money(calc.effectiveFee)}</strong>
                         </div>
@@ -3018,8 +3178,8 @@ export default function App() {
                         : 'Demo'}{' '}
                   </span>
                   <p>
-                    Individual: $49.79 lifetime, one activated browser/device. Agency: $69.79
-                    lifetime, five activations. Both plans receive the complete paid feature set.
+                    Individual: $48.78 lifetime, one activated browser/device. Agency: $99 lifetime,
+                    five activations. Both plans receive the complete paid feature set.
                   </p>
                   <button className="button secondary" onClick={() => setModal('license')}>
                     Manage activation <ArrowUpRight size={15} />

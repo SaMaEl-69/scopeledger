@@ -3,6 +3,7 @@ import { canCreateProject } from './access';
 import { id, now } from './types';
 import type { Baseline, Change, ChangeTerms, Currency, Project, Workspace } from './types';
 import { MESSAGE_TEMPLATES } from '../toolkit/messages';
+import { deliveryDays, projectDeliveryDate } from './delivery';
 import {
   calendarDate,
   localDate,
@@ -30,6 +31,9 @@ export const blankTerms = (rate = '65'): ChangeTerms => ({
   removed: '0',
   removedScope: '',
   fee: '',
+  feeMode: 'excluding-tax',
+  taxRate: '0',
+  additionalDays: '0',
   credit: '0',
   creditReason: '',
   contractConfirmed: false,
@@ -252,7 +256,9 @@ export function createProject(
     archivedAt: null,
     deletedAt: null,
   };
-  const change = newChange(project.id, next.agency.defaultRate);
+  const change = newChange(project.id, next.agency.defaultRate, {
+    taxRate: next.agency.defaultTaxRate ?? '0',
+  });
   next.projects.push(project);
   next.changes.push(change);
   next.context = { ...next.context, projectId: project.id, changeId: change.id, view: 'workspace' };
@@ -274,7 +280,9 @@ export function createChange(workspace: Workspace, projectId: string): Workspace
     );
   }
   const next = clone(workspace);
-  const change = newChange(projectId, next.agency.defaultRate);
+  const change = newChange(projectId, next.agency.defaultRate, {
+    taxRate: next.agency.defaultTaxRate ?? '0',
+  });
   next.changes.push(change);
   next.context = { ...next.context, projectId, changeId: change.id, view: 'workspace' };
   return finish(next);
@@ -328,9 +336,52 @@ export function updateBaseline(
   return finish(next);
 }
 
+export function updateProjectTiming(
+  workspace: Workspace,
+  projectId: string,
+  patch: Pick<Partial<Project>, 'additionalDays' | 'deadline'>,
+): Workspace {
+  const source = projectOf(workspace, projectId);
+  if (source.archivedAt || source.deletedAt)
+    throw new Error('Recover or unarchive the project before editing delivery timing.');
+  if (patch.deadline !== undefined && patch.deadline !== null && !calendarDate(patch.deadline))
+    throw new Error('Enter a real calendar deadline.');
+  const values = Object.fromEntries(
+    Object.entries(patch).filter(([key]) => ['additionalDays', 'deadline'].includes(key)),
+  );
+  if (Object.entries(values).every(([key, value]) => source[key as keyof Project] === value))
+    return workspace;
+  const next = clone(workspace),
+    project = projectOf(next, projectId);
+  Object.assign(project, values, { updatedAt: now() });
+  next.changes
+    .filter((change) => change.projectId === projectId && !change.includedAt && !change.deletedAt)
+    .forEach((change) =>
+      invalidate(
+        next,
+        change,
+        'Project delivery timing changed. Review and reconfirm this request.',
+      ),
+    );
+  return finish(next);
+}
+
 function validateDecision(workspace: Workspace, change: Change, approving: boolean) {
-  const result = calculate(projectOf(workspace, change.projectId).baseline, change);
+  const project = projectOf(workspace, change.projectId);
+  const result = calculate(project.baseline, change);
   if (!result.valid) throw new Error(Object.values(result.errors)[0]);
+  const existingDays = deliveryDays(project.additionalDays, 36500),
+    addedDays = deliveryDays(change.additionalDays);
+  if (
+    existingDays === null ||
+    addedDays === null ||
+    existingDays + addedDays > 36500 ||
+    (project.deadline &&
+      !projectDeliveryDate({ ...project, additionalDays: String(existingDays + addedDays) }))
+  )
+    throw new Error(
+      'Review project delivery days and the adjusted deadline before agreeing this change.',
+    );
   if (!change.title.trim() || !change.request.trim() || !change.deliverables.trim())
     throw new Error(
       'Add a title, request description, and deliverables before quoting or approving.',
@@ -486,6 +537,15 @@ export function reconcileChange(
     'Resulting remaining delivery cost',
   );
   if (Object.keys(baselineErrors).length) throw new Error(Object.values(baselineErrors)[0]);
+  const beforeDays = deliveryDays(project.additionalDays, 36500);
+  const changeDays = deliveryDays(current.additionalDays);
+  if (beforeDays === null || changeDays === null || beforeDays + changeDays > 36500)
+    throw new Error(
+      'Review additional delivery days before updating the project. The total must be at most 36,500 calendar days.',
+    );
+  const afterDays = String(beforeDays + changeDays);
+  if (project.deadline && !projectDeliveryDate({ ...project, additionalDays: afterDays }))
+    throw new Error('The adjusted delivery date is outside the supported calendar.');
   const next = clone(workspace);
   const changedProject = projectOf(next, project.id);
   const changed = changeOf(next, changeId);
@@ -499,6 +559,7 @@ export function reconcileChange(
   };
   const at = now();
   changedProject.baseline = after;
+  changedProject.additionalDays = afterDays;
   changedProject.updatedAt = at;
   changed.includedAt = at;
   changed.updatedAt = at;
@@ -514,6 +575,9 @@ export function reconcileChange(
     removedFuture: removed.toString(),
     before,
     after: clone(after),
+    beforeAdditionalDays: String(beforeDays),
+    afterAdditionalDays: afterDays,
+    deliveryDate: projectDeliveryDate(changedProject) ?? '',
   });
   // Other outstanding decisions were priced against the former baseline.
   next.changes

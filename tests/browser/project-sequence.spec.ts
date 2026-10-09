@@ -241,6 +241,16 @@ test('incomplete baselines, costs and agreements direct the user back to the req
     .check();
   await page.getByRole('button', { name: '7. Export', exact: true }).click();
   await current(page, 6);
+  await expect(
+    page.getByRole('button', { name: 'Continue to export', exact: true }),
+  ).toBeDisabled();
+  await page.getByRole('button', { name: /^Studio defaults reviewed/ }).click();
+  await expect(page.getByRole('heading', { name: 'Settings & backup', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Confirm these defaults', exact: true }).click();
+  await expect(page.locator('.topbar .save-indicator')).toHaveText('Saved on this device');
+  await open(page);
+  await page.getByRole('button', { name: '6. Review the brief', exact: true }).click();
+  await current(page, 6);
   await page.getByRole('button', { name: 'Continue to export', exact: true }).click();
   await current(page, 7);
   await page.getByRole('button', { name: 'Activate for PDF', exact: true }).click();

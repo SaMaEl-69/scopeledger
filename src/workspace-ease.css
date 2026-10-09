@@ -392,7 +392,8 @@
 .app-shell .project-flow.focused.flow-stage-2 .project-context {
   display: flex;
 }
-.app-shell .project-flow.focused.flow-stage-2 .project-numbers-disclosure {
+.app-shell .project-flow.focused.flow-stage-2 .project-numbers-disclosure,
+.app-shell .project-flow.focused.flow-stage-2 .project-planning-disclosure {
   display: block;
 }
 .app-shell .project-flow.focused.flow-stage-1 .workflow-grid,

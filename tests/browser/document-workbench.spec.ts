@@ -56,7 +56,13 @@ async function seed(page: Page, workspace: Workspace) {
       }),
     workspace,
   );
-  await page.reload();
+  await page.goto(
+    `/workspace/?${new URLSearchParams({
+      view: workspace.context.view,
+      project: workspace.context.projectId,
+      change: workspace.context.changeId,
+    })}`,
+  );
   await saved(page);
 }
 

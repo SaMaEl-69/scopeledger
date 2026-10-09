@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import { documentFonts } from './document-fonts.mjs';
-import { scopeLedgerDocumentLogo } from './document-branding.mjs';
+import { feeAmounts } from './fee-math.mjs';
 const D = Decimal.clone({ precision: 80 });
 const FIELDS = [
   'schemaVersion',
@@ -125,7 +125,12 @@ export function validateClientDocument(input) {
   // This optional, explicit extension keeps schema-1 snapshots byte-for-byte compatible.
   shape(
     input,
-    Object.hasOwn(input ?? {}, 'signatures') ? [...FIELDS, 'signatures'] : FIELDS,
+    [
+      ...FIELDS,
+      ...['signatures', 'feeMode', 'additionalDays', 'deliveryDate', 'sections'].filter((key) =>
+        Object.hasOwn(input ?? {}, key),
+      ),
+    ],
     'snapshot',
   );
   shape(input.agency, AGENCY, 'agency');
@@ -141,10 +146,40 @@ export function validateClientDocument(input) {
     fail('Invalid version, kind, currency, revision, or demo state.');
   let length = 0;
   for (const [key, value] of Object.entries(input)) {
-    if (['schemaVersion', 'revision', 'demo', 'agency', 'client', 'signatures'].includes(key))
+    if (
+      ['schemaVersion', 'revision', 'demo', 'agency', 'client', 'signatures', 'sections'].includes(
+        key,
+      )
+    )
       continue;
     if (typeof value !== 'string' || value.length > 100000) fail(`${key} must be bounded text.`);
     length += value.length;
+  }
+  if (
+    input.feeMode !== undefined &&
+    !['excluding-tax', 'including-tax', 'custom'].includes(input.feeMode)
+  )
+    fail('Invalid fee basis.');
+  if (
+    input.additionalDays !== undefined &&
+    !(input.kind === 'brief' && input.additionalDays === '') &&
+    (!/^\d{1,4}$/.test(input.additionalDays) || Number(input.additionalDays) > 3650)
+  )
+    fail('Additional days must be whole calendar days from 0 to 3,650.');
+  if (input.deliveryDate !== undefined) calendar(input.deliveryDate, 'deliveryDate', true);
+  if (input.sections !== undefined) {
+    const sectionKeys = [
+      'agencyLogo',
+      'contactDetails',
+      'exclusions',
+      'dependencies',
+      'assumptions',
+      'delivery',
+      'footer',
+    ];
+    shape(input.sections, sectionKeys, 'sections');
+    if (Object.values(input.sections).some((value) => typeof value !== 'boolean'))
+      fail('Document section visibility must be boolean.');
   }
   for (const record of [input.agency, input.client])
     for (const [key, value] of Object.entries(record)) {
@@ -207,7 +242,7 @@ export function validateClientDocument(input) {
       numbers[key] = null;
       continue;
     }
-    const signedBrief = input.kind === 'brief' && ['subtotal', 'total'].includes(key);
+    const signedBrief = input.kind === 'brief' && ['subtotal', 'tax', 'total'].includes(key);
     if (
       !(signedBrief ? /^-?\d+(?:\.\d{1,2})?$/ : /^\d+(?:\.\d{1,2})?$/).test(input[key]) ||
       new D(input[key]).abs().greaterThan('1e24')
@@ -218,7 +253,7 @@ export function validateClientDocument(input) {
     numbers[key] = new D(input[key]);
   }
   if (numbers.taxRate?.greaterThan(100)) fail('Tax rate must be between 0% and 100%.');
-  if (input.kind === 'brief') {
+  if (input.kind === 'brief' && input.feeMode === undefined) {
     if (
       (numbers.subtotal === null) !== (numbers.total === null) ||
       (numbers.subtotal !== null && !numbers.total.equals(numbers.subtotal))
@@ -230,6 +265,26 @@ export function validateClientDocument(input) {
       fail(
         'Briefs state an excluding-tax adjustment; actual tax belongs on the invoice or credit note.',
       );
+  }
+  if (input.feeMode !== undefined && input.kind === 'brief') {
+    if (
+      [numbers.subtotal, numbers.tax, numbers.total].some((value) => value === null) &&
+      ![numbers.subtotal, numbers.tax, numbers.total].every((value) => value === null)
+    )
+      fail('Brief amounts must all be known or all remain unknown.');
+  }
+  if (input.feeMode !== undefined && numbers.subtotal !== null && numbers.taxRate !== null) {
+    const expected = feeAmounts(
+      input.feeMode === 'including-tax' ? input.total : input.subtotal,
+      input.taxRate,
+      input.feeMode,
+    );
+    if (
+      !numbers.subtotal.eq(expected.subtotal) ||
+      !numbers.tax.eq(expected.tax) ||
+      !numbers.total.eq(expected.total)
+    )
+      fail('Tax and total do not match the selected fee basis.');
   }
   if (input.kind !== 'brief') {
     if (input.status !== 'Approved' || !input.approvalRecorded.trim())
@@ -251,9 +306,13 @@ export function validateClientDocument(input) {
     calendar(input.dueDate, 'dueDate');
     calendar(input.approvalDate, 'approvalDate');
     if (
-      !numbers.tax.equals(
-        numbers.subtotal.times(numbers.taxRate).div(100).toDecimalPlaces(2, Decimal.ROUND_HALF_UP),
-      ) ||
+      (input.feeMode !== 'including-tax' &&
+        !numbers.tax.equals(
+          numbers.subtotal
+            .times(numbers.taxRate)
+            .div(100)
+            .toDecimalPlaces(2, Decimal.ROUND_HALF_UP),
+        )) ||
       !numbers.total.equals(numbers.subtotal.plus(numbers.tax))
     )
       fail('Tax and total do not match the stated subtotal and tax rate.');
@@ -272,6 +331,7 @@ const money = (value, currency) =>
 export function documentHtml(snapshot) {
   const d = validateClientDocument(snapshot),
     e = escape;
+  const visible = (key) => d.sections?.[key] !== false;
   const section = (label, value) =>
     value
       ? `<section class="document-section${value.length > 900 ? ' section-long' : ''}"><h2>${label}</h2><div class="section-body">${value
@@ -311,10 +371,10 @@ export function documentHtml(snapshot) {
           ? 'Agreed adjustment'
           : 'Proposed adjustment';
   const supportingTerms = [
-    ['Exclusions', d.exclusions],
-    ['Dependencies', d.dependencies],
-    ['Assumptions', d.assumptions],
-    ['Delivery implications', d.deliveryImplications],
+    ['Exclusions', visible('exclusions') ? d.exclusions : ''],
+    ['Dependencies', visible('dependencies') ? d.dependencies : ''],
+    ['Assumptions', visible('assumptions') ? d.assumptions : ''],
+    ['Delivery implications', visible('delivery') ? d.deliveryImplications : ''],
   ];
   const compactTerms = supportingTerms.every(
     ([, value]) => value.length <= 400 && value.split('\n').length <= 5,
@@ -323,16 +383,35 @@ export function documentHtml(snapshot) {
   const wideAmounts = [d.subtotal, d.tax, d.total].some(
     (value) => money(value, d.currency).length > 23,
   );
-  const feeSummary = `<div class="brief-summary${wideAmounts ? ' wide' : ''}"><span class="fee-label">${feeLabel}</span><strong>${money(d.subtotal, d.currency)}</strong><p class="summary-caption">Excluding tax · ${agreed ? 'Recorded terms for this revision' : 'Subject to written approval'}</p></div>`;
+  const inclusive = d.feeMode === 'including-tax';
+  const feeSummary = `<div class="brief-summary${wideAmounts ? ' wide' : ''}"><span class="fee-label">${feeLabel}</span><strong>${money(inclusive ? d.total : d.subtotal, d.currency)}</strong><p class="summary-caption">${inclusive ? `Including ${e(d.taxRate)}% tax` : 'Excluding tax'} · ${agreed ? 'Recorded terms for this revision' : 'Subject to written approval'}</p>${d.feeMode && d.tax !== '' && !new D(d.tax).isZero() ? `<p class="fee-tax-detail">${inclusive ? `Net fee ${money(d.subtotal, d.currency)} · Tax ${money(d.tax, d.currency)}` : `Tax (${e(d.taxRate)}%) ${money(d.tax, d.currency)} · Total ${money(d.total, d.currency)}`}</p>` : ''}</div>`;
   const detail = (label, value) =>
     `<div><dt>${label}</dt><dd>${e(value || 'To confirm')}</dd></div>`;
   const issuer = lines([
     d.agency.logoDataUrl || d.agency.legalName !== d.agency.name ? d.agency.legalName : '',
-    d.agency.address,
-    d.agency.email,
-    d.agency.website,
+    !brief || visible('contactDetails') ? d.agency.address : '',
+    visible('contactDetails') ? d.agency.email : '',
+    visible('contactDetails') ? d.agency.website : '',
   ]);
-  const recipient = lines([d.client.name, d.client.contact, d.client.email, d.client.address]);
+  const recipient = lines([
+    d.client.name,
+    visible('contactDetails') ? d.client.contact : '',
+    visible('contactDetails') ? d.client.email : '',
+    !brief || visible('contactDetails') ? d.client.address : '',
+  ]);
+  const delivery = visible('delivery')
+    ? section(
+        'Delivery timing',
+        [
+          d.additionalDays && Number(d.additionalDays) > 0
+            ? `${d.additionalDays} additional calendar ${Number(d.additionalDays) === 1 ? 'day' : 'days'}.`
+            : '',
+          d.deliveryDate ? `${agreed ? 'Agreed' : 'Proposed'} delivery: ${d.deliveryDate}.` : '',
+        ]
+          .filter(Boolean)
+          .join('\n'),
+      )
+    : '';
   const totals = `<div class="amounts${wideAmounts ? ' wide' : ''}">
     <div><span>${credit ? 'Credit subtotal' : 'Subtotal'}, excluding tax</span><strong>${money(d.subtotal, d.currency)}</strong></div>
     <div><span>Tax (${e(d.taxRate)}%)</span><strong>${money(d.tax, d.currency)}</strong></div>
@@ -381,6 +460,7 @@ export function documentHtml(snapshot) {
   .brief-summary strong{display:block;font-family:"Document Display",Arial,sans-serif;font-size:25pt;line-height:1.2;letter-spacing:-.8px;color:var(--ink);font-variant-numeric:tabular-nums;margin:7px 0}
   .brief-summary.wide strong{font-size:13pt}.brief-summary .summary-caption{font-size:8pt;color:var(--muted)}
   .meta .brief-summary{margin:0}
+  .fee-tax-detail{font-size:7.5pt;color:var(--muted);margin-top:5px}
   section{margin:10px 0;break-inside:auto}section h2{break-after:avoid}section p{orphans:3;widows:3}section p+p{margin-top:1.2em}section p.short-paragraph{break-inside:avoid;page-break-inside:avoid}
   .document-section{display:grid;grid-template-columns:112px minmax(0,1fr);column-gap:25px;padding-bottom:11px;border-bottom:1px solid var(--line)}
   .document-section h2{font-size:9pt}.section-body{min-width:0}
@@ -404,29 +484,29 @@ export function documentHtml(snapshot) {
   .signatory{min-width:0}.signatory h3{font-size:8pt;font-weight:500;color:var(--ink);margin:0 0 3px}.signer-organisation{color:var(--muted);font-size:7.5pt;line-height:1.4}
   .signature-space{height:36px;margin:4px 0 2px}.signature-space img{display:block;width:100%;height:100%;object-fit:contain;object-position:left bottom}
   .signature-rule{border-top:1px solid #8b9295}.signer-name{font-size:8pt;color:var(--ink);padding-top:5px}.signer-role{display:block;font-size:7.5pt;color:var(--muted);margin-top:2px}.blank-label{color:var(--muted)}.signer-date{font-size:7.5pt;color:var(--muted);margin-top:5px;display:flex;align-items:baseline;gap:5px}.date-rule{display:inline-block;border-bottom:1px solid var(--line);flex:1;max-width:110px}
+  .brief-document header{padding-bottom:10px}.brief-document .document-intro{margin:13px 0 11px}.brief-document .meta{padding:10px 0;margin-bottom:14px}
+  .brief-document .document-section{padding-bottom:9px;break-inside:avoid}.brief-document .document-section h2{break-after:auto}.brief-document .section-long{break-inside:auto}.brief-document .section-long h2{break-after:avoid}
+  .brief-document .support-grid{gap:9px 24px;padding-bottom:10px}.brief-document .support-grid .document-section{padding:0}.brief-document .signoff{margin-top:12px}.brief-document .signatories{padding-top:8px}.brief-document .signature-space{height:30px}
   .watermark{font-size:8pt;font-weight:500;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--line);margin-bottom:20px}
   .demo-watermark{position:absolute;inset:0;z-index:2;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='210' viewBox='0 0 320 210'%3E%3Cg transform='translate(160 105) rotate(-28)' fill='%23202326' fill-opacity='.12' font-family='Arial,sans-serif' font-size='21' font-weight='600' text-anchor='middle'%3E%3Ctext y='0'%3ESCOPELEDGER%3C/text%3E%3Ctext y='27' font-size='14' letter-spacing='4'%3EDEMO PREVIEW%3C/text%3E%3C/g%3E%3C/svg%3E");background-size:320px 210px}
   footer{padding-top:7px;margin-top:10px;color:var(--muted);font-size:7.5pt;line-height:1.5;white-space:pre-wrap;orphans:3;widows:3}
-  .document-brand{display:flex;justify-content:flex-end;align-items:center;gap:8px;border-top:1px solid var(--line);margin-top:18px;padding-top:11px;color:var(--muted);font-size:7pt;break-inside:avoid}
-  .document-brand img{display:block;width:90px;height:auto;flex:none}
-  @media print{.document-brand{display:none}}
   a{color:inherit;text-decoration:none}
   @media screen{body{padding:26px;background:#e8eaec}article{background:#fff;padding:42px;box-shadow:0 3px 12px #0001;min-height:1040px}}
   @media screen and (max-width:600px){body{padding:10px}article{padding:24px 18px;min-height:0}header{grid-template-columns:minmax(0,1fr);gap:18px;padding-bottom:18px}.reference{border-top:1px solid var(--line);padding-top:14px}.reference strong{font-size:10pt}.issuer img{width:140px;height:42px}.meta{grid-template-columns:minmax(0,1fr);gap:22px}.document-intro{margin-top:22px}h1{font-size:26pt}.document-section{grid-template-columns:minmax(0,1fr);gap:7px}.support-grid{grid-template-columns:minmax(0,1fr)}.invoice-settlement{grid-template-columns:minmax(0,1fr);gap:20px}.signatories{grid-template-columns:minmax(0,1fr);gap:24px}.signatories.issuer-only{max-width:100%}.amounts.wide div{grid-template-columns:minmax(0,1fr);gap:5px}.amounts.wide strong{white-space:normal;overflow-wrap:anywhere;text-align:left}.amounts .total strong{font-size:21pt}.brief-summary strong{font-size:22pt}.brief-summary.wide strong{font-size:12pt;overflow-wrap:anywhere}}
   @media print{.demo-watermark{position:fixed;inset:-10mm;z-index:10}.watermark{font-size:8pt}header{break-inside:auto}.brief-summary.wide strong{white-space:nowrap;overflow-wrap:normal}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
-  </style></head><body><article>
+  </style></head><body><article class="${brief ? 'brief-document' : 'invoice-document'}">
   ${d.demo ? '<div class="demo-watermark" aria-hidden="true"></div><div class="watermark">DEMO PREVIEW · Activate for an unwatermarked PDF</div>' : ''}
-  <header><div class="issuer">${d.agency.logoDataUrl ? `<img src="${d.agency.logoDataUrl}" alt="Agency logo">` : `<strong class="agency-name">${e(d.agency.name)}</strong>`}${issuer ? `<p>${issuer}</p>` : ''}</div><div class="reference"><span class="eyebrow">${brief ? 'Brief' : title} reference</span><strong>${e(d.reference || 'To confirm')}</strong><p>${e(d.status)} · Revision ${d.revision}</p>${brief ? `<p>Prepared ${e(d.issueDate || 'To confirm')}${d.dueDate ? `<br>Due ${e(d.dueDate)}` : ''}</p>` : ''}</div></header>
+  <header><div class="issuer">${d.agency.logoDataUrl && visible('agencyLogo') ? `<img src="${d.agency.logoDataUrl}" alt="Agency logo">` : `<strong class="agency-name">${e(d.agency.name)}</strong>`}${issuer ? `<p>${issuer}</p>` : ''}</div><div class="reference"><span class="eyebrow">${brief ? 'Brief' : title} reference</span><strong>${e(d.reference || 'To confirm')}</strong><p>${e(d.status)} · Revision ${d.revision}</p>${brief ? `<p>Prepared ${e(d.issueDate || 'To confirm')}${d.dueDate ? `<br>Due ${e(d.dueDate)}` : ''}</p>` : ''}</div></header>
   <div class="document-intro"><h1>${title}</h1><p class="project-name">${e(d.projectName)}${brief && !sourceIsUuid ? ` · ${e(d.changeReference)}` : ''}</p><p class="change-title">${e(d.changeTitle)}</p></div>
   <div class="meta"><div><h2>${brief ? 'Prepared for' : credit ? 'Credit to' : 'Bill to'}</h2><p>${recipient || 'To confirm'}</p></div><div>${brief && !wideAmounts ? feeSummary : `<h2>Document details</h2><dl>${detail(brief ? 'Prepared' : 'Issued', d.issueDate)}${!brief || d.dueDate ? detail('Due', d.dueDate) : ''}${detail('Currency', d.currency)}${detail(sourceIsUuid ? 'Revision' : 'Change', sourceIsUuid ? String(d.revision) : d.changeReference)}</dl>`}</div></div>
   ${brief && wideAmounts ? feeSummary : ''}
-  ${brief ? section('Scope of request', d.scope) + section('Deliverables', d.deliverables) + section(agreed ? 'Approved scope removal' : 'Proposed scope removal', d.removedScope) + (compactTerms ? `<div class="support-grid">${supportingHtml}</div>` : supportingHtml) : section('Approved description', d.description)}
+  ${brief ? section('Scope of request', d.scope) + section('Deliverables', d.deliverables) + section(agreed ? 'Approved scope removal' : 'Proposed scope removal', d.removedScope) + (compactTerms && supportingHtml ? `<div class="support-grid">${supportingHtml}</div>` : supportingHtml) : section('Approved description', d.description)}
+  ${delivery}
   ${settlement}
   ${proposedCredit ? section('Credit explanation', d.description) : ''}
   ${brief ? section('Approval requirements', d.approvalText) : ''}
   ${brief ? recordedApproval : ''}
   ${signatures}
-  <footer>${e(d.footer)}${credit ? '\nThis is a credit adjustment, not a request for payment.' : ''}</footer>
-  <div class="document-brand"><span>Prepared with</span><img src="${scopeLedgerDocumentLogo}" alt="ScopeLedger" width="249" height="40"></div>
+  ${(visible('footer') && d.footer) || credit ? `<footer>${visible('footer') ? e(d.footer) : ''}${credit ? '\nThis is a credit adjustment, not a request for payment.' : ''}</footer>` : ''}
   </article></body></html>`;
 }

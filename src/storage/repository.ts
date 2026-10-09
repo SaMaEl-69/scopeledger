@@ -135,6 +135,13 @@ const termText = [
   'creditReason',
 ];
 const termNumeric = ['hours', 'rate', 'outside', 'removed', 'fee', 'credit'];
+const termExtensions = ['feeMode', 'taxRate', 'additionalDays'];
+function validateTermExtensions(item: Record<string, unknown>, path: string) {
+  if (item.feeMode !== undefined)
+    enumeration(item.feeMode, `${path}.feeMode`, ['excluding-tax', 'including-tax', 'custom']);
+  for (const key of ['taxRate', 'additionalDays'])
+    if (item[key] !== undefined) string(item[key], `${path}.${key}`, NUMBER_LIMIT);
+}
 const changeKeys = [
   ...termText,
   ...termNumeric,
@@ -152,7 +159,8 @@ const changeKeys = [
   'includedAt',
 ];
 function validateChange(value: unknown, path: string) {
-  const item = shape(value, path, changeKeys);
+  const item = shape(value, path, changeKeys, termExtensions);
+  validateTermExtensions(item, path);
   identity(item.id, `${path}.id`);
   identity(item.projectId, `${path}.projectId`);
   fields(item, path, termText);
@@ -213,13 +221,13 @@ const agencyTextKeys = [
   'deliveryImplications',
 ];
 function validateTerms(value: unknown, path: string) {
-  const terms = shape(value, path, [
-    ...termText,
-    ...termNumeric,
-    'classification',
-    'route',
-    'contractConfirmed',
-  ]);
+  const terms = shape(
+    value,
+    path,
+    [...termText, ...termNumeric, 'classification', 'route', 'contractConfirmed'],
+    termExtensions,
+  );
+  validateTermExtensions(terms, path);
   fields(terms, path, termText);
   fields(terms, path, termNumeric, NUMBER_LIMIT);
   enumeration(terms.classification, `${path}.classification`, classifications);
@@ -266,11 +274,25 @@ export function validateWorkspace(value: unknown): asserts value is Workspace {
           'footer',
           'demo',
           'signatures',
+          'sections',
         ],
       );
       for (const [key, input] of Object.entries(fields)) {
         if (key === 'demo') boolean(input, `${path}.values.demo`);
-        else if (key === 'signatures') {
+        else if (key === 'sections') {
+          const sectionKeys = [
+            'agencyLogo',
+            'contactDetails',
+            'exclusions',
+            'dependencies',
+            'assumptions',
+            'delivery',
+            'footer',
+          ];
+          const sections = shape(input, `${path}.values.sections`, sectionKeys);
+          for (const section of sectionKeys)
+            boolean(sections[section], `${path}.values.sections.${section}`);
+        } else if (key === 'signatures') {
           const signatures = shape(input, `${path}.values.signatures`, [
             'enabled',
             'showClient',
@@ -381,7 +403,7 @@ export function validateWorkspace(value: unknown): asserts value is Workspace {
           'archivedAt',
           'deletedAt',
         ],
-        ['state', 'deadline'],
+        ['state', 'deadline', 'additionalDays'],
       );
     identity(project.id, `${path}.id`);
     identity(project.clientId, `${path}.clientId`);
@@ -398,6 +420,8 @@ export function validateWorkspace(value: unknown): asserts value is Workspace {
     date(project.deletedAt, `${path}.deletedAt`, true);
     if (project.state !== undefined)
       enumeration(project.state, `${path}.state`, ['active', 'on-hold', 'completed']);
+    if (project.additionalDays !== undefined)
+      string(project.additionalDays, `${path}.additionalDays`, NUMBER_LIMIT);
     if (
       project.deadline !== undefined &&
       project.deadline !== null &&
@@ -450,19 +474,33 @@ export function validateWorkspace(value: unknown): asserts value is Workspace {
   });
   list(item.reconciliations, 'reconciliations', 10_000).forEach((value, index) => {
     const path = `reconciliations[${index}]`,
-      record = shape(value, path, [
-        'id',
-        'projectId',
-        'changeId',
-        'approvalId',
-        'at',
-        'addedFee',
-        'incurred',
-        'remaining',
-        'removedFuture',
-        'before',
-        'after',
-      ]);
+      record = shape(
+        value,
+        path,
+        [
+          'id',
+          'projectId',
+          'changeId',
+          'approvalId',
+          'at',
+          'addedFee',
+          'incurred',
+          'remaining',
+          'removedFuture',
+          'before',
+          'after',
+        ],
+        ['beforeAdditionalDays', 'afterAdditionalDays', 'deliveryDate'],
+      );
+    for (const key of ['beforeAdditionalDays', 'afterAdditionalDays'])
+      if (record[key] !== undefined) string(record[key], `${path}.${key}`, NUMBER_LIMIT);
+    if (
+      record.deliveryDate !== undefined &&
+      record.deliveryDate !== '' &&
+      !isDateOnly(record.deliveryDate)
+    )
+      fail(`${path}.deliveryDate`, 'expected a real calendar delivery date');
+    if (record.deliveryDate !== undefined) string(record.deliveryDate, `${path}.deliveryDate`, 10);
     for (const key of ['id', 'projectId', 'changeId', 'approvalId'])
       identity(record[key], `${path}.${key}`);
     date(record.at, `${path}.at`);

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { PenLine, Upload, X } from 'lucide-react';
-import type { DocumentSignatures } from '../domain/types';
+import { SlidersHorizontal, Upload, X } from 'lucide-react';
+import type { DocumentSignatures, DocumentSections, ClientDocument } from '../domain/types';
 import { prepareSignature } from './signatures';
 
 function keepControlVisible(control: HTMLElement) {
@@ -20,10 +20,16 @@ export function SignatureEditor({
   value,
   onChange,
   onBusy,
+  sections,
+  onSectionsChange,
+  kind,
 }: {
   value: DocumentSignatures;
   onChange: (value: DocumentSignatures) => boolean | void;
   onBusy: (busy: boolean) => void;
+  sections: DocumentSections;
+  onSectionsChange: (value: DocumentSections) => void;
+  kind: ClientDocument['kind'];
 }) {
   const [busy, setBusy] = useState<'issuer' | 'client' | null>(null);
   const [error, setError] = useState('');
@@ -104,13 +110,46 @@ export function SignatureEditor({
   return (
     <details ref={panel} className="document-signature-editor">
       <summary>
-        <PenLine size={17} aria-hidden="true" />
-        <span>Signatures</span>
-        <span className="signature-summary">
-          {value.enabled ? 'Edit names or import an image' : 'Add a sign-off area'}
-        </span>
+        <SlidersHorizontal size={17} aria-hidden="true" />
+        <span>Document options</span>
+        <span className="signature-summary">Content, signatures & layout</span>
       </summary>
       <div className="signature-editor-body">
+        <p className="field-hint">
+          Choose what appears in this document. Hidden content stays in the saved agreement.
+        </p>
+        <fieldset className="document-section-options">
+          <legend>Visible content</legend>
+          {(
+            [
+              ['agencyLogo', 'Agency logo'],
+              ['contactDetails', 'Contact details'],
+              ['exclusions', 'Exclusions'],
+              ['dependencies', 'Dependencies'],
+              ['assumptions', 'Assumptions'],
+              ['delivery', 'Delivery timing'],
+              ['footer', 'Custom footer'],
+            ] as const
+          )
+            .filter(
+              ([key]) =>
+                kind === 'brief' || !['exclusions', 'dependencies', 'assumptions'].includes(key),
+            )
+            .map(([key, label]) => (
+              <label className="signature-option" key={key}>
+                <input
+                  type="checkbox"
+                  checked={sections[key]}
+                  disabled={!!busy}
+                  onChange={(event) =>
+                    onSectionsChange({ ...sections, [key]: event.target.checked })
+                  }
+                />
+                {label}
+              </label>
+            ))}
+        </fieldset>
+        <h3 className="document-options-heading">Signatures</h3>
         <label className="signature-option">
           <input
             type="checkbox"

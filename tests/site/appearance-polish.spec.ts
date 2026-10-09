@@ -125,7 +125,7 @@ test('new identity, actual PDF sample, evidence and aligned document controls re
     await expect(page.locator('body')).not.toContainText('1,200+ studios');
     await expect(page.locator('#paper img')).toHaveAttribute(
       'src',
-      '/samples/change-brief.png?v=4',
+      '/samples/change-brief.png?v=5',
     );
     for (const width of [
       320, 360, 390, 469, 471, 520, 600, 699, 701, 759, 761, 768, 899, 901, 1024, 1280, 1434, 1920,

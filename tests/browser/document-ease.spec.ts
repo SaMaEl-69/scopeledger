@@ -257,9 +257,15 @@ test('unissued drafts survive reload with signature names and are included in th
   await page
     .getByRole('combobox', { name: 'Search workspace records and actions' })
     .fill('Export workspace backup');
+  await page.keyboard.press('Enter');
+  const security = page.getByRole('dialog', { name: 'Back up your workspace' });
+  await security.getByLabel('Use an unencrypted JSON file instead').check();
+  await security
+    .getByLabel('I understand anyone with this JSON file can read its client and project details.')
+    .check();
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.keyboard.press('Enter'),
+    security.getByRole('button', { name: 'Download JSON backup', exact: true }).click(),
   ]);
   const file = await download.path();
   if (!file) throw new Error('Backup not downloaded');

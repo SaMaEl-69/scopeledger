@@ -14,6 +14,8 @@ import type {
 } from './types';
 import { validateClientDocument } from '../../shared/client-document.mjs';
 import { calendarDate, localDate, recordedDateHasOccurred, recordedDateToDate } from './dates';
+import { deliveryDays, addDeliveryDays, projectDeliveryDate } from './delivery';
+import { feeAmounts } from '../../shared/fee-math.mjs';
 export { calendarDate, localDate } from './dates';
 
 export interface NavigateTarget {
@@ -127,12 +129,28 @@ export function buildBrief(
       : '',
     description: `${change.title}\n${change.request}\n${change.deliverables}`,
     subtotal: clientFee?.toFixed(2) ?? '',
-    taxRate: '0',
+    taxRate: change.taxRate ?? '0',
     tax: clientFee ? '0.00' : '',
     total: clientFee?.toFixed(2) ?? '',
     paymentInstructions: '',
     footer: w.agency.documentFooter ?? '',
     demo: true,
+    feeMode: change.feeMode ?? 'excluding-tax',
+    additionalDays:
+      change.route === 'Defer'
+        ? '0'
+        : deliveryDays(change.additionalDays) === null
+          ? ''
+          : String(deliveryDays(change.additionalDays)),
+    deliveryDate:
+      change.route === 'Defer'
+        ? ''
+        : ((change.includedAt
+            ? w.reconciliations.find((record) => record.changeId === changeId)?.deliveryDate || null
+            : addDeliveryDays(
+                projectDeliveryDate(project),
+                deliveryDays(change.additionalDays) ?? 0,
+              )) ?? ''),
     ...overrides,
   };
   doc.reference = doc.reference.trim();
@@ -150,6 +168,19 @@ export function buildBrief(
   if (!calendarDate(doc.dueDate) || (doc.issueDate && doc.dueDate < doc.issueDate))
     doc.dueDate = '';
   if (!/^\d+(?:\.\d{1,2})?$/.test(doc.taxRate) || new Money(doc.taxRate).gt(100)) doc.taxRate = '';
+  if (doc.feeMode === 'including-tax')
+    doc.taxRate = calculation.errors.taxRate ? '' : new Money(change.taxRate ?? '0').toString();
+  if (clientFee && doc.taxRate !== '') {
+    const amount =
+      doc.feeMode === 'including-tax' && change.route !== 'Absorb'
+        ? new Money(change.fee).minus(change.credit).toString()
+        : clientFee.toString();
+    Object.assign(doc, feeAmounts(amount, doc.taxRate, doc.feeMode));
+  } else if (doc.taxRate === '') {
+    doc.tax = '';
+    doc.total = '';
+    doc.subtotal = '';
+  }
   return validateClientDocument(doc);
 }
 
@@ -197,6 +228,23 @@ export function documentReadiness(
     clientId: client.id,
     field: 'client-name',
   });
+  const projectDays = deliveryDays(project.additionalDays, 36500),
+    changeDays = deliveryDays(change.additionalDays);
+  add(
+    'delivery',
+    'Valid delivery days',
+    change.route === 'Defer' ||
+      (projectDays !== null &&
+        changeDays !== null &&
+        (!project.deadline || !!doc.deliveryDate || !!change.includedAt)),
+    'Enter whole calendar days and review the adjusted project delivery date.',
+    {
+      view: 'workspace',
+      projectId: project.id,
+      changeId,
+      field: projectDays === null ? 'project-additional-days' : 'additional-days',
+    },
+  );
   add(
     'scope',
     'Scope and deliverables',
@@ -239,6 +287,13 @@ export function documentReadiness(
       !fee || fee.eq(fee.toDecimalPlaces(2)),
       'Review the fractional-cent client fee before preserving this brief. The original draft amount has not been rounded or changed.',
       { view: 'workspace', projectId: project.id, changeId, field: 'proposed-fee' },
+    );
+    add(
+      'taxRate',
+      'Valid tax percentage',
+      change.route === 'Defer' || !calculation.errors.taxRate,
+      'Enter a tax percentage from 0 to 100 with at most two decimals.',
+      { view: 'workspace', projectId: project.id, changeId, field: 'fee-tax-rate' },
     );
   } else {
     add(
@@ -312,8 +367,13 @@ export function documentReadiness(
     add(
       'taxRate',
       'Manual tax percentage',
-      !!tax && tax.lte(100) && tax.eq(tax.toDecimalPlaces(2)),
-      'Enter a manual tax percentage from 0 to 100 with at most two decimal places. This is arithmetic, not tax-compliance advice.',
+      !!tax &&
+        tax.lte(100) &&
+        tax.eq(tax.toDecimalPlaces(2)) &&
+        (change.feeMode !== 'including-tax' || tax.eq(change.taxRate ?? '0')),
+      change.feeMode === 'including-tax'
+        ? 'Tax-inclusive invoices use the tax rate agreed in Choose a fee. Review the source agreement to change it.'
+        : 'Enter a manual tax percentage from 0 to 100 with at most two decimal places. This is arithmetic, not tax-compliance advice.',
       { view: 'documents', field: 'document-tax-rate' },
     );
   }
@@ -328,7 +388,8 @@ export function buildInvoice(
 ): ClientDocument {
   const defaults: DocumentOverrides = {
     reference: `${w.agency.invoicePrefix?.trim() || (kind === 'credit' ? 'CR' : 'INV')}-${String(w.documents.length + 1).padStart(4, '0')}`,
-    taxRate: w.agency.defaultTaxRate ?? '0',
+    taxRate:
+      w.changes.find((change) => change.id === changeId)?.taxRate ?? w.agency.defaultTaxRate ?? '0',
     paymentInstructions: w.agency.paymentInstructions ?? '',
     ...overrides,
   };
@@ -336,16 +397,13 @@ export function buildInvoice(
   const missing = readiness.filter((item) => !item.complete);
   if (missing.length) throw new Error(missing.map((item) => item.message).join(' '));
   const doc = buildBrief(w, changeId, defaults);
-  const { calculation } = records(w, changeId);
-  const subtotal = new Money(calculation.effectiveFee!).abs();
-  const tax = subtotal.times(doc.taxRate).div(100).toDecimalPlaces(2);
   return validateClientDocument({
     ...doc,
     kind,
-    subtotal: subtotal.toFixed(2),
+    subtotal: new Money(doc.subtotal).abs().toFixed(2),
     taxRate: new Money(doc.taxRate).toString(),
-    tax: tax.toFixed(2),
-    total: subtotal.plus(tax).toFixed(2),
+    tax: new Money(doc.tax).abs().toFixed(2),
+    total: new Money(doc.total).abs().toFixed(2),
   });
 }
 
@@ -364,7 +422,10 @@ export function issueDocument(
       : {
           reference: `${w.agency.invoicePrefix?.trim() || (kind === 'credit' ? 'CR' : 'INV')}-${String(w.documents.length + 1).padStart(4, '0')}`,
           paymentInstructions: w.agency.paymentInstructions ?? '',
-          taxRate: w.agency.defaultTaxRate ?? '0',
+          taxRate:
+            w.changes.find((change) => change.id === changeId)?.taxRate ??
+            w.agency.defaultTaxRate ??
+            '0',
           ...overrides,
         },
   );

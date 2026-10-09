@@ -16,6 +16,7 @@ import {
 import { Modal, Empty } from '../components/ui';
 import type { CalendarEvent, EventType, Workspace } from '../domain/types';
 import { recordedDateToDate } from '../domain/dates';
+import { projectDeliveryDate } from '../domain/delivery';
 import type { OperationalProps } from './types';
 import {
   EVENT_LABELS,
@@ -1052,6 +1053,7 @@ function ProjectDeadlineEditor({
   const project = w.projects.find((project) => project.id === projectId)!;
   const [date, setDate] = useState(project.deadline ?? '');
   const originalDate = useRef(date);
+  const adjustedDate = projectDeliveryDate({ ...project, deadline: date || null });
   return (
     <Modal title="Edit project deadline" onClose={onClose} dirty={date !== originalDate.current}>
       <form
@@ -1062,8 +1064,8 @@ function ProjectDeadlineEditor({
         }}
       >
         <p>
-          {project.name}. This updates the source project deadline and its connected calendar event
-          once.
+          {project.name}. Edit the original deadline. Additional project days still extend its
+          connected calendar event.
         </p>
         <label>
           Project deadline
@@ -1074,6 +1076,12 @@ function ProjectDeadlineEditor({
             onChange={(e) => setDate(e.target.value)}
           />
         </label>
+        {adjustedDate && (
+          <p className="field-hint">
+            Adjusted delivery: {dateLabel(adjustedDate)} · {project.additionalDays ?? '0'}{' '}
+            additional calendar days.
+          </p>
+        )}
         <p className="field-hint">
           An empty date removes the deadline. Issued invoices and approved change terms stay
           preserved.

@@ -39,6 +39,7 @@ import {
 import { ProjectSequence } from '../components/ProjectSequence';
 import { SignatureEditor } from './SignatureEditor';
 import { emptySignatures } from './signatures';
+import { defaultSections } from './options';
 import './documents.css';
 import { serializeWorkspace } from '../storage/repository';
 
@@ -58,11 +59,16 @@ export interface DocumentsViewProps {
   onFlowStep?: (step: number) => void;
   onLeaveFlow?: () => void;
 }
-const makeDefaults = (w: Workspace, kind: ClientDocument['kind']): DocumentOverrides => ({
+const makeDefaults = (
+  w: Workspace,
+  kind: ClientDocument['kind'],
+  changeId = w.context.changeId,
+): DocumentOverrides => ({
   reference: `${kind === 'brief' ? 'BRF' : w.agency.invoicePrefix?.trim() || (kind === 'credit' ? 'CR' : 'INV')}-${String(w.documents.length + 1).padStart(4, '0')}`,
   issueDate: localDate(w.agency.timezone),
   dueDate: '',
-  taxRate: w.agency.defaultTaxRate ?? '0',
+  taxRate:
+    w.changes.find((change) => change.id === changeId)?.taxRate ?? w.agency.defaultTaxRate ?? '0',
   paymentInstructions: w.agency.paymentInstructions ?? '',
   deliveryImplications: w.agency.deliveryImplications ?? '',
   approvalText:
@@ -70,6 +76,7 @@ const makeDefaults = (w: Workspace, kind: ClientDocument['kind']): DocumentOverr
     'Please confirm the scope, fee and dependencies in writing before additional work begins. Existing agreement terms apply.',
   footer: w.agency.documentFooter ?? '',
   signatures: emptySignatures(kind),
+  sections: defaultSections(),
 });
 const documentNames: Record<ClientDocument['kind'], string> = {
   brief: 'Change brief',
@@ -114,14 +121,14 @@ export function DocumentsView({
   const [kind, setKind] = useState<ClientDocument['kind']>(
       () => recentDocumentDraftKind(w, projectId, changeId) ?? 'brief',
     ),
-    [overrides, setOverrides] = useState<DocumentOverrides>(
+    [draftOverrides, setOverrides] = useState<DocumentOverrides>(
       () =>
         readDocumentDraft(w, documentDraftKey(w, projectId, changeId, kind)) ??
-        makeDefaults(w, kind),
+        makeDefaults(w, kind, changeId),
     );
   const draftKey = documentDraftKey(w, projectId, changeId, kind);
   useEffect(() => {
-    setOverrides(readDocumentDraft(w, draftKey) ?? makeDefaults(w, kind));
+    setOverrides(readDocumentDraft(w, draftKey) ?? makeDefaults(w, kind, changeId));
   }, [draftKey, w.documentDrafts]);
   const editOverrides = (next: DocumentOverrides) => {
     try {
@@ -171,6 +178,13 @@ export function DocumentsView({
   const project = w.projects.find((record) => record.id === projectId),
     changes = w.changes.filter((record) => record.projectId === projectId && !record.deletedAt),
     change = changes.find((record) => record.id === changeId);
+  const overrides = useMemo(
+    () =>
+      change?.feeMode === 'including-tax'
+        ? { ...draftOverrides, taxRate: change.taxRate ?? '0' }
+        : draftOverrides,
+    [draftOverrides, change?.feeMode, change?.taxRate],
+  );
   const balances = useMemo(
     () => paymentBalances(w),
     [w.documents, w.payments, w.agency.timezone, clockVersion],
@@ -259,7 +273,7 @@ export function DocumentsView({
     if (value !== kind || selected) {
       setOverrides(
         readDocumentDraft(w, documentDraftKey(w, projectId, changeId, value)) ??
-          makeDefaults(w, value),
+          makeDefaults(w, value, changeId),
       );
     }
     setSelectedId('');
@@ -297,7 +311,7 @@ export function DocumentsView({
   const resetDraft = () => {
     onChange(forgetDocumentDraft(w, draftKey));
     setSelectedId('');
-    setOverrides(makeDefaults(w, kind));
+    setOverrides(makeDefaults(w, kind, changeId));
     onNavigate({ view: 'documents', projectId, changeId, documentId: '' });
     setModal(null);
   };
@@ -770,6 +784,34 @@ export function DocumentsView({
                 </button>
               </div>
               <div className="document-fields">
+                <div className="document-delivery-summary">
+                  <span>Delivery timing</span>
+                  <strong>
+                    {change?.route === 'Defer'
+                      ? 'No date commitment'
+                      : `${change?.additionalDays || '0'} additional calendar days`}
+                  </strong>
+                  {preview?.deliveryDate && (
+                    <p className="field-hint">
+                      {preview.status === 'Approved' ? 'Agreed' : 'Proposed'} delivery:{' '}
+                      {preview.deliveryDate}
+                    </p>
+                  )}
+                  <button
+                    className="text-button"
+                    disabled={!change}
+                    onClick={() =>
+                      onNavigate({
+                        view: 'workspace',
+                        projectId,
+                        changeId,
+                        field: 'additional-days',
+                      })
+                    }
+                  >
+                    Edit delivery timing <ArrowRight size={13} />
+                  </button>
+                </div>
                 {documentFields.map((key) => {
                   const label = {
                     reference: 'Document reference',
@@ -807,11 +849,18 @@ export function DocumentsView({
                           id={`document-${key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`}
                           type={key.endsWith('Date') ? 'date' : 'text'}
                           aria-label={label}
+                          disabled={key === 'taxRate' && change?.feeMode === 'including-tax'}
                           value={overrides[key] ?? ''}
                           onChange={(event) =>
                             editOverrides({ ...overrides, [key]: event.target.value })
                           }
                         />
+                      )}
+                      {key === 'taxRate' && change?.feeMode === 'including-tax' && (
+                        <span className="field-hint">
+                          Uses the agreed tax-inclusive rate. Edit Choose a fee to change the
+                          agreement.
+                        </span>
                       )}
                     </label>
                   );
@@ -881,6 +930,9 @@ export function DocumentsView({
             <SignatureEditor
               key={draftKey}
               value={overrides.signatures ?? emptySignatures(kind)}
+              sections={overrides.sections ?? defaultSections()}
+              kind={kind}
+              onSectionsChange={(sections) => editOverrides({ ...overrides, sections })}
               onChange={(signatures) => editOverrides({ ...overrides, signatures })}
               onBusy={setSignatureBusy}
             />

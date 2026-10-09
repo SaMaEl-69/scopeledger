@@ -14,7 +14,7 @@ This is a concrete preparation checklist for ScopeLedger's paid launch. It conta
 
 ## Facts the final policies should explain
 
-- Individual is $49.79 for one activated browser/device. Agency is $69.79 for five; both have the same paid features. Workspaces are independent. A new browser/profile or cleared device cookie may require another slot; the current authenticated device can release only its own allocation.
+- Individual is $48.78 for one activated browser/device. Agency is $99 for five; both have the same paid features. Workspaces are independent. A new browser/profile or cleared device cookie may require another slot; the current authenticated device can release only its own allocation.
 - Projects, clients, estimates, decisions, approvals, invoices, payments and drafts are saved locally in the browser. Backups are unencrypted JSON. Clearing local data removes local work; server entitlement recovery does not restore project records.
 - The workspace save/restore limit is **10 MiB**, including repeated document/signature/branding snapshots and revisions. Images are bounded/resized on import. Storage warnings appear at 80%; excessive edits are refused without replacing the prior state. Asset deduplication/cloud storage are not implemented.
 - Deliberate PDF export sends the allowlisted client-facing document fields, including supplied identities, scope, fee, terms and signature images, to the protected renderer. Private cost/margin/notes fields are excluded. Rendering disables document scripts and remote resources. Requests are processed in memory; the application does not create a server document archive. Actual host/proxy/provider behavior and logging need verification.

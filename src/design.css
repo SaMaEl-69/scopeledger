@@ -171,11 +171,66 @@ body {
   display: none;
 }
 .app-shell .agency-switch {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
   margin-top: 24px;
   margin-bottom: 24px;
   padding: 13px 11px;
   border-color: var(--line);
   background: var(--surface-muted);
+}
+.app-shell .agency-switch:hover {
+  border-color: var(--accent-readable);
+}
+.agency-avatar img,
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: inherit;
+  padding: 3px;
+}
+.app-shell .user-avatar {
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+.fee-basis-fields,
+.fee-breakdown {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.fee-basis-fields {
+  align-items: start;
+  margin-bottom: 20px;
+}
+.fee-breakdown {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 16px 0;
+  margin: 0 0 24px;
+  border-bottom: 1px solid var(--line);
+}
+.fee-breakdown dt {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  margin-bottom: 6px;
+}
+.fee-breakdown dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .fee-basis-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .fee-breakdown {
+    gap: 10px;
+  }
 }
 .app-shell .agency-switch .agency-avatar {
   color: var(--accent-readable);
@@ -223,7 +278,7 @@ body {
 .app-shell .nav-item.active {
   background: var(--accent-soft);
   color: var(--accent-readable);
-  box-shadow: inset 3px 0 var(--brand);
+  box-shadow: none;
 }
 .app-shell .nav-item.active:hover {
   background: var(--accent-soft);
@@ -1418,7 +1473,7 @@ body {
 .app-shell .documents-view .document-purpose-bar {
   background: var(--surface);
   border-color: var(--line);
-  border-left-color: var(--brand);
+  border-left-color: var(--line);
   box-shadow: var(--shadow);
 }
 .app-shell .documents-view .document-invoice-action {
@@ -1477,7 +1532,7 @@ body {
 }
 .app-shell .documents-view .document-history-row.selected {
   background: var(--accent-soft);
-  box-shadow: inset 3px 0 var(--brand);
+  box-shadow: none;
 }
 .app-shell .documents-view .client-document-frame {
   border-color: var(--line-strong);

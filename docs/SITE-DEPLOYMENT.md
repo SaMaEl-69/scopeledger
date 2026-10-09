@@ -4,11 +4,11 @@ Prepared 6 October 2026 for `scopeledger.site`. Hosting is not set up yet; these
 
 ## Pages and navigation
 
-- `https://scopeledger.site/home/`: the supplied landing page, with its descriptions retained and the requested price changed from $149 to $49.79.
+- `https://scopeledger.site/home/`: the supplied landing page, with its descriptions retained and the requested price changed from $149 to $48.78.
 - `https://scopeledger.site/workspace/`: the current operational application, with a shared dark/light preference, charcoal surfaces, mint accents and guarded Home navigation.
 - `/` redirects to `/home/`. Entry paths gain canonical trailing slashes. Old `/app` and `/app/*` links redirect into `/workspace/`, preserving query strings.
 - Home opens the workspace, its license activation flow and safe public sample PDFs. Workspace opens Home after draining saves; saved document drafts are preserved and included in backups. Failed/conflicting edits require a current backup before leaving.
-- Get lifetime access opens Individual **$49.79 / one device** and Agency **$69.79 / five devices**. Both keep identical paid features. Valid configured live checkout links open on Gumroad; otherwise the chooser offers demo/existing-license activation. Choosing a plan never activates a license itself.
+- Get lifetime access opens Individual **$48.78 / one device** and Agency **$99 / five devices**. Both keep identical paid features. Valid configured live checkout links open on Gumroad; otherwise the chooser offers demo/existing-license activation. Choosing a plan never activates a license itself.
 - `/samples/change-brief.pdf` and `/samples/invoice.pdf` contain only synthetic design-review fixtures. They request no payment. Customer document exports still require protected authorization.
 
 The origin must stay the same for both pages and `/api/*`. Browser records are origin-bound; a different hostname, protocol or port represents a separate local workspace. Licensing cookies follow host/path and secure-cookie rules and are not isolated by port; the backend additionally validates the configured request origin. Path redirects preserve the origin and local records. Do not introduce a separate app subdomain without a deliberate data-transfer plan.

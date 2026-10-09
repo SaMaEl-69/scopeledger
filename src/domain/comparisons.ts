@@ -16,13 +16,18 @@ export const TERM_LABELS: Record<keyof ChangeTerms, string> = {
   removed: 'Removed future cost',
   removedScope: 'Removed scope',
   fee: 'Proposed fee',
+  feeMode: 'Fee basis',
+  taxRate: 'Tax percentage',
+  additionalDays: 'Additional delivery days',
   credit: 'Client credit',
   creditReason: 'Credit reason',
   contractConfirmed: 'Contract review',
 };
 export function pickTerms(change: ChangeTerms): ChangeTerms {
   return Object.fromEntries(
-    Object.keys(TERM_LABELS).map((key) => [key, change[key as keyof ChangeTerms]]),
+    Object.keys(TERM_LABELS)
+      .filter((key) => change[key as keyof ChangeTerms] !== undefined)
+      .map((key) => [key, change[key as keyof ChangeTerms]]),
   ) as unknown as ChangeTerms;
 }
 export function saveComparison(
@@ -51,12 +56,22 @@ export function saveComparison(
   };
 }
 export function revisionDifferences(before: ChangeTerms, after: ChangeTerms) {
+  const value = (terms: ChangeTerms, key: keyof ChangeTerms) => {
+    if (key === 'feeMode')
+      return {
+        'excluding-tax': 'Excluding tax',
+        'including-tax': 'Including tax',
+        custom: 'Custom fee',
+      }[terms.feeMode ?? 'excluding-tax'];
+    if (key === 'taxRate' || key === 'additionalDays') return terms[key] ?? '0';
+    return String(terms[key]);
+  };
   return (Object.keys(TERM_LABELS) as (keyof ChangeTerms)[])
-    .filter((key) => before[key] !== after[key])
+    .filter((key) => value(before, key) !== value(after, key))
     .map((key) => ({
       key,
       label: TERM_LABELS[key],
-      before: String(before[key]),
-      after: String(after[key]),
+      before: value(before, key),
+      after: value(after, key),
     }));
 }

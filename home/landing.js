@@ -7,7 +7,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fmt$ = (n) => '$' + Math.round(n).toLocaleString('en-US');
   const RATE = 150,
-    PRICE = 49.79;
+    PRICE = 48.78;
 
   /* =====================================================================
    MODERN AVATARS — deterministic flat portraits + optional logo badge
@@ -1356,7 +1356,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
     const F = [
       [
         'What does the lifetime license include?',
-        'Individual is <b>$49.79 once for one activated browser/device</b>. Agency is <b>$69.79 once for five</b>. Both have the same paid features. Purchase availability and seller terms are shown before checkout.',
+        'Individual is <b>$48.78 once for one activated browser/device</b>. Agency is <b>$99 once for five</b>. Both have the same paid features. Purchase availability and seller terms are shown before checkout.',
       ],
       [
         'How does a client approve a change?',
@@ -1380,11 +1380,11 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       ],
       [
         'Where is my client data stored?',
-        'Project records and document drafts are saved in this browser. Backups are unencrypted, so keep them safely. Activation uses the licensing service. Deliberate PDF export sends public client-document fields to the rendering service; internal cost and margin fields are excluded. There is no selectable cloud region.',
+        'Project records and document drafts are saved in this browser. Password-protected backups encrypt your exported copy; optional plain JSON backups contain readable records. Keep your backup and passphrase safely. Activation uses the licensing service. Deliberate PDF export sends public client-document fields to the rendering service; internal cost and margin fields are excluded. There is no selectable cloud region.',
       ],
       [
         'How do I keep a copy of my work?',
-        'Export a JSON workspace backup from Settings & backup. Download issued documents as individual PDFs while export is available. Clearing browser storage removes local records, so keep copies outside this browser.',
+        'Export a password-protected workspace backup from Settings & backup, or deliberately choose plain JSON. Download issued documents as individual PDFs while export is available. Clearing browser storage removes local records, so keep copies outside this browser.',
       ],
       [
         'Can I try it before purchasing?',
@@ -1484,12 +1484,12 @@ import { createAppearanceController } from '../shared/appearance.mjs';
           location.href = '/workspace/';
         },
       ],
-      ['Jump to', 'Pricing', 'price lifetime cost 49.79 69.79', 'tag', go('#pricing')],
+      ['Jump to', 'Pricing', 'price lifetime cost 48.78 99', 'tag', go('#pricing')],
       ['Jump to', 'FAQ', 'questions refund team data', 'help', go('#faq')],
       ['Jump to', 'Why this exists', 'purpose about scope', 'user', go('#founder')],
       [
         'Actions',
-        'Get lifetime access — $49.79',
+        'Get lifetime access — $48.78',
         'buy checkout purchase',
         'buy',
         () =>

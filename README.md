@@ -4,7 +4,7 @@ A connected homepage and local-first commercial workspace for fixed-fee web agen
 
 ## Run locally
 
-Use Node.js 24 or newer; verification used Node.js 26 and installed macOS Google Chrome. Node 22.13+ in the 22 line is also supported. Use Node 24 LTS for deployment.
+Use Node.js 24 or newer; verification used Node.js 26 and installed macOS Google Chrome. Node 22.16+ in the 22 line is also supported. Use Node 24 LTS for deployment.
 
 ```sh
 npm ci
@@ -13,7 +13,7 @@ npm run dev
 
 Open [Home](http://127.0.0.1:5173/home/) or [the demo workspace](http://127.0.0.1:5173/workspace/). Development listens on loopback. For the optimized build, run `npm run build`, then `npm start`; open `http://127.0.0.1:4173/home/` or `/workspace/` on that origin. `PORT` changes that port. Home, workspace, assets and `/api` share one server/origin. Moving from `/app` to `/workspace/` on the same origin retains existing IndexedDB records and activation cookies. Different origins/browsers have independent data; transfer it deliberately through backup/restore.
 
-Both pages share the `sl-theme` dark/light preference. The workspace Home link drains saves and preserves saved document drafts; failed/conflicting edits require a current backup before leaving. Get lifetime access opens the Individual USD 49.79/one-device and Agency USD 69.79/five-device chooser. A plan choice opens configured live checkout or existing-license activation; it does not activate a license itself. See [site deployment](docs/SITE-DEPLOYMENT.md) for the intended `scopeledger.site` setup and launch requirements, and [site verification](docs/SITE-VERIFICATION.md) for fresh integration evidence. Hosting is not set up yet.
+Both pages share the `sl-theme` dark/light preference. The workspace Home link drains saves and preserves saved document drafts; failed/conflicting edits require a current backup before leaving. Get lifetime access opens the Individual USD 48.78/one-device and Agency USD 99/five-device chooser. A plan choice opens configured live checkout or existing-license activation; it does not activate a license itself. See [site deployment](docs/SITE-DEPLOYMENT.md) for the intended `scopeledger.site` setup and launch requirements, and [site verification](docs/SITE-VERIFICATION.md) for fresh integration evidence. Hosting is not set up yet.
 
 ## Safe owner testing
 
@@ -31,18 +31,23 @@ Read [server configuration](docs/SERVER-CONFIGURATION.md) and [server operations
 ## Included workflows
 
 - One shared decimal engine, saved revisions, dated approval evidence and exact-once reconciliation.
+- Choose an excluding-tax, including-tax or custom fee with an explicit tax percentage. Inclusive amounts retain the entered client total; delivery margins and baseline revenue use the fee before tax.
+- Additional calendar days appear in project planning, briefs and invoices. Including an approved change adds its delivery days once to the project schedule; payment due dates remain independent.
 - Dashboard attention queues, drill-downs, explicit filters, currency-grouped weighted contribution margins, tax and manually recorded cash separated.
 - Month/week/agenda calendar, connected source deadlines, editable reminders, completion/cancellation/recovery, timezone validation and genuine `.ics` export.
 - Reusable clients, agency identity/logo/defaults, custom scenarios, assumptions, editable message templates, search, archive and explicit project duplication.
 - Client-response composer, saved alternative comparisons that preserve the active draft, and differences between preserved revisions.
 - A visible Prepare invoice entry, counted document history, full-size brief/invoice/credit previews, linked readiness checks, immutable issued snapshots, manual payments/void history, and protected actual PDF downloads when activated. Proposed negative fees include a credit explanation; issued invoices/credits require dated approval and consistent tax/totals.
-- Atomic IndexedDB saving, cross-tab conflict protection, recovery records, migrations and complete JSON backups.
+- Document options can hide logos, contact details, supporting scope sections, delivery timing, custom footers and signatures without deleting saved agreement content. Customer PDFs carry the agency's identity without a ScopeLedger credit; public samples retain demonstration branding and demo previews retain their watermark.
+- Atomic IndexedDB saving, cross-tab conflict protection, recovery records, migrations and password-protected backups and an explicit plain JSON option.
 - Optional view/dialog failures retain the application shell, navigation and core draft. Recovery offers workspace export and deliberate reload, explains temporary-form limits, and never automatically reloads or pretends a rejected lazy download can retry.
 - In-app activation, current-device release, honest failure/retry guidance, and Lifetime support at `olim855597@gmail.com`.
 
+Current fee, delivery and document checks are recorded in [the October 9 verification report](docs/FEE-DELIVERY-DOCUMENT-VERIFICATION.md).
+
 ## Commercial and data contract
 
-Individual is USD 49.79 lifetime with one activated browser/device. Agency is USD 69.79 lifetime with five. Both have identical paid features. Devices keep independent local workspaces; there are no customer accounts or cloud synchronization. The demo permits the sample plus one custom project, including archived/trashed custom records. Additional project creation and PDF export require server activation. A backup cannot grant access.
+Individual is USD 48.78 lifetime with one activated browser/device. Agency is USD 99 lifetime with five. Both have identical paid features. Devices keep independent local workspaces; there are no customer accounts or cloud synchronization. The demo permits the sample plus one custom project, including archived/trashed custom records. Additional project creation and PDF export require server activation. A backup cannot grant access.
 
 Workspace schema is version 3; the IndexedDB structure remains version 1. Native schema-2 and known legacy version-1 sources migrate while preserving identities and history. Undated legacy approvals require dated reconfirmation before new invoicing/reconciliation. Existing local work is not erased because licensing is unavailable.
 

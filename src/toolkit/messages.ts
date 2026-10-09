@@ -4,11 +4,11 @@ import { formatMoney, Money } from '../domain/finance';
 export type TemplateKind = keyof NonNullable<AgencySettings['messageTemplates']>;
 export const MESSAGE_TEMPLATES: NonNullable<AgencySettings['messageTemplates']> = {
   quote:
-    'Hello {{client_name}},\n\nFor {{project_name}}, we have reviewed “{{change_title}}”.\n\n{{scope}}\n\nDeliverables: {{deliverables}}\nExclusions: {{exclusions}}\nDependencies: {{dependencies}}\nAssumptions: {{assumptions}}\n\nProposed additional fee or explicit credit: {{fee}} ({{currency}}), excluding tax.\n\n{{approval_requirements}}\nStatus: {{approval_status}}',
+    'Hello {{client_name}},\n\nFor {{project_name}}, we have reviewed “{{change_title}}”.\n\n{{scope}}\n\nDeliverables: {{deliverables}}\nExclusions: {{exclusions}}\nDependencies: {{dependencies}}\nAssumptions: {{assumptions}}\n\nProposed additional fee or explicit credit: {{fee}} ({{currency}}), {{fee_tax_basis}}.\nDelivery: {{delivery_timing}}\n\n{{approval_requirements}}\nStatus: {{approval_status}}',
   absorb:
     'Hello {{client_name}},\n\nFor {{project_name}}, we propose handling “{{change_title}}” with no additional client fee.\n\n{{scope}}\nDeliverables: {{deliverables}}\nExclusions: {{exclusions}}\nDependencies: {{dependencies}}\nAssumptions: {{assumptions}}\n\n{{approval_requirements}}\nStatus: {{approval_status}}',
   exchange:
-    'Hello {{client_name}},\n\nFor {{project_name}}, we propose this scope exchange for “{{change_title}}”:\n\n{{scope}}\nAdded deliverables: {{deliverables}}\nProposed removed scope: {{removed_scope}}\nDependencies: {{dependencies}}\nAssumptions: {{assumptions}}\nAdditional fee or explicit credit: {{fee}} ({{currency}}), excluding tax.\n\nPlease confirm both the added and removed scope. {{approval_requirements}}\nStatus: {{approval_status}}',
+    'Hello {{client_name}},\n\nFor {{project_name}}, we propose this scope exchange for “{{change_title}}”:\n\n{{scope}}\nAdded deliverables: {{deliverables}}\nProposed removed scope: {{removed_scope}}\nDependencies: {{dependencies}}\nAssumptions: {{assumptions}}\nAdditional fee or explicit credit: {{fee}} ({{currency}}), {{fee_tax_basis}}.\nDelivery: {{delivery_timing}}\n\nPlease confirm both the added and removed scope. {{approval_requirements}}\nStatus: {{approval_status}}',
   defer:
     'Hello {{client_name}},\n\nWe have kept “{{change_title}}” for {{project_name}} as a deferred request.\n\n{{scope}}\n\nThis message makes no delivery, date or fee commitment. We can review the scope and dependencies before agreeing the next step.',
   followup:
@@ -26,6 +26,8 @@ export const MESSAGE_TOKENS = [
   'removed_scope',
   'fee',
   'currency',
+  'fee_tax_basis',
+  'delivery_timing',
   'approval_requirements',
   'approval_status',
 ] as const;
@@ -54,8 +56,14 @@ export function composeClientMessage(
       'Choose this response in the change workspace before composing its client message.',
     );
   const document = buildBrief(w, change.id);
-  const template =
-    customText ?? w.agency.messageTemplates?.[selected] ?? MESSAGE_TEMPLATES[selected];
+  let template = customText ?? w.agency.messageTemplates?.[selected] ?? MESSAGE_TEMPLATES[selected];
+  if (!customText && (selected === 'quote' || selected === 'exchange')) {
+    const legacy = MESSAGE_TEMPLATES[selected]
+      .replace('{{fee_tax_basis}}', 'excluding tax')
+      .replace('\nDelivery: {{delivery_timing}}', '');
+    if (template === legacy) template = MESSAGE_TEMPLATES[selected];
+  }
+  const inclusive = document.feeMode === 'including-tax' && template.includes('{{fee_tax_basis}}');
   const credit = document.subtotal !== '' && new Money(document.subtotal).isNegative();
   const fields: Record<(typeof MESSAGE_TOKENS)[number], string> = {
     client_name: document.client.name || '[client name to confirm]',
@@ -72,8 +80,18 @@ export function composeClientMessage(
         ? 'No commitment'
         : document.subtotal === ''
           ? '[fee to confirm]'
-          : `${credit ? 'Credit ' : ''}${formatMoney(new Money(document.subtotal).abs().toString(), document.currency)}`,
+          : `${credit ? 'Credit ' : ''}${formatMoney(new Money(inclusive ? document.total : document.subtotal).abs().toString(), document.currency)}`,
     currency: document.currency,
+    fee_tax_basis: inclusive ? `including ${document.taxRate}% tax` : 'excluding tax',
+    delivery_timing:
+      change.route === 'Defer'
+        ? 'No date commitment'
+        : [
+            document.additionalDays
+              ? `${document.additionalDays} additional calendar days`
+              : 'Additional days to confirm',
+            document.deliveryDate ? `delivery ${document.deliveryDate}` : 'delivery date to agree',
+          ].join(' · '),
     approval_requirements: !change.contractConfirmed
       ? `Contract review is still pending. ${document.approvalText}`
       : document.approvalText,

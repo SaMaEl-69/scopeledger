@@ -98,13 +98,13 @@ const info = {
     paragraphs: [
       'Projects, clients, financial estimates and manual records stay in this browser. The workspace has no customer account or cloud synchronization. Keep workspace backups outside the browser.',
       'Activation communicates with the licensing service. PDF export deliberately sends the public client-document fields to the protected rendering service; private hours, costs, margins, notes and comparisons are excluded.',
-      'Workspace backups are unencrypted. Clearing browser storage removes local work. Use Settings & backup to export, restore or delete your workspace deliberately.',
+      'Password-protected workspace backups encrypt the exported copy. Optional plain JSON backups contain readable records. Clearing browser storage removes local work. Use Settings & backup to export, restore or delete your workspace deliberately.',
     ],
   },
   terms: {
     title: 'License and service information',
     paragraphs: [
-      'Individual costs $49.79 once for one activated browser/device. Agency costs $69.79 once for five activated browsers/devices. Both plans have identical paid features and lifetime access.',
+      'Individual costs $48.78 once for one activated browser/device. Agency costs $99 once for five activated browsers/devices. Both plans have identical paid features and lifetime access.',
       'Agency devices keep independent local workspaces. Backups transfer your records deliberately; a backup does not grant a paid activation. You can release the current browser without deleting local projects.',
       'A workspace save or JSON backup is limited to 10 MiB, including images and document history. Protected PDF export currently allows up to 100 new render jobs per activated device per UTC day and 500 per license per UTC day. The renderer runs at most two jobs at a time; when busy, retry shortly.',
       'Approvals and payments are manual records. Record real client agreement and money actually received; issued invoices preserve their recorded values. The workspace does not process payments or sign agreements for clients.',

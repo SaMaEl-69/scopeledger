@@ -284,7 +284,7 @@
   padding: 20px 22px;
   margin-bottom: 24px;
   border: 1px solid var(--line);
-  border-left: 3px solid #256c59;
+  border-left: 1px solid var(--line);
   border-radius: var(--radius);
   background: #fff;
   box-shadow: 0 4px 18px #17283d05;
@@ -698,6 +698,53 @@
 }
 .signature-editor-body {
   padding: 0 16px 16px;
+}
+.document-section-options {
+  border: 0;
+  padding: 0 0 16px;
+  margin: 16px 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 20px;
+}
+.document-section-options legend,
+.document-options-heading {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.document-section-options .signature-option {
+  margin: 6px 0;
+  align-items: start;
+}
+.document-section-options .signature-option input {
+  margin-top: 2px;
+}
+.document-delivery-summary {
+  margin: 18px 0;
+  padding: 14px 0;
+  border-block: 1px solid var(--line);
+  grid-column: 1 / -1;
+}
+.document-delivery-summary > span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.75rem;
+  margin-bottom: 6px;
+}
+.document-delivery-summary > strong {
+  display: block;
+  font-size: 0.875rem;
+  margin-bottom: 6px;
+}
+.document-delivery-summary .text-button {
+  margin-top: 8px;
+}
+@media (max-width: 480px) {
+  .document-section-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 .signature-option {
   display: flex;

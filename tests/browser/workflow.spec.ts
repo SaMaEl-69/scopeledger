@@ -268,8 +268,8 @@ test('one custom demo project is allowed and archive or trash cannot bypass acti
     await page.getByRole('button', { name: 'New project', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: 'Activate ScopeLedger' });
     await expect(dialog).toContainText('Purchases and activation are unavailable');
-    await expect(dialog).toContainText('$49.79');
-    await expect(dialog).toContainText('$69.79');
+    await expect(dialog).toContainText('$48.78');
+    await expect(dialog).toContainText('$99');
     await dialog.getByRole('button', { name: 'Continue with demo', exact: true }).click();
   };
   await requireActivation();

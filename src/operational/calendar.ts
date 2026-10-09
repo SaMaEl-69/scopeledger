@@ -1,6 +1,8 @@
 import { Temporal } from '@js-temporal/polyfill';
+import { projectDeliveryDate } from '../domain/delivery';
 import { paymentBalance, paymentBalances, type PaymentBalance } from '../domain/commercial';
 import { id, now as timestamp } from '../domain/types';
+import { updateProjectTiming } from '../domain/operations';
 import type { CalendarEvent, DocumentRecord, EventType, Workspace } from '../domain/types';
 import {
   activeTimezone,
@@ -102,23 +104,25 @@ export function calendarEvents(
             ) < 0),
     });
   }
-  for (const project of workspace.projects)
-    if (project.deadline && !project.deletedAt) {
+  for (const project of workspace.projects) {
+    const deliveryDate = projectDeliveryDate(project);
+    if (deliveryDate && !project.deletedAt) {
       const status = project.state === 'completed' ? 'completed' : 'open';
       result.push({
         id: `project-deadline:${project.id}`,
         projectId: project.id,
         title: `${project.name} · project deadline`,
-        startsAt: project.deadline,
+        startsAt: deliveryDate,
         allDay: true,
         timezone,
         type: 'delivery',
         status,
         source: 'project',
         derived: true,
-        overdue: status === 'open' && project.deadline < today,
+        overdue: status === 'open' && deliveryDate < today,
       });
     }
+  }
   for (const document of workspace.documents)
     if (document.kind === 'invoice' && document.issuedAt && document.snapshot?.dueDate) {
       const summary = invoiceSummary(
@@ -324,11 +328,10 @@ export function setProjectDeadline(
 ): Workspace {
   if (deadline !== null && !isDateOnly(deadline))
     throw new Error('Enter a real project deadline, or remove the date.');
-  const result = structuredClone(workspace),
+  const result = updateProjectTiming(workspace, projectId, { deadline }),
     project = result.projects.find((project) => project.id === projectId);
   if (!project || project.deletedAt)
     throw new Error('Recover the project before changing its deadline.');
-  project.deadline = deadline;
   project.updatedAt = timestamp();
   result.updatedAt = timestamp();
   result.activity.push({
