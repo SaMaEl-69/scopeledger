@@ -3,6 +3,7 @@
 Official website: https://scopeledger.site/home/
 Workspace: https://scopeledger.site/workspace/
 Last reviewed: 2026-10-09
+Support: support@scopeledger.site
 
 ## What ScopeLedger helps with
 

@@ -34,7 +34,7 @@ describe('fixed commercial and demo access contract', () => {
     });
     expect(Object.isFrozen(PLANS)).toBe(true);
     expect(Object.isFrozen(PLANS.agency)).toBe(true);
-    expect(SUPPORT_EMAIL).toBe('olim855597@gmail.com');
+    expect(SUPPORT_EMAIL).toBe('support@scopeledger.site');
     expect(getAccess()).toEqual({
       mode: 'demo',
       licensingConfigured: false,

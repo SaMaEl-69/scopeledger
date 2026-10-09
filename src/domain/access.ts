@@ -19,7 +19,7 @@ export const PLANS = Object.freeze({
     completeFeatures: true,
   }),
 });
-export const SUPPORT_EMAIL = 'olim855597@gmail.com';
+export const SUPPORT_EMAIL = 'support@scopeledger.site';
 export const DEMO_CUSTOM_PROJECT_LIMIT = 1;
 export const DEMO_SAMPLE_PROJECT_LIMIT = 1;
 
