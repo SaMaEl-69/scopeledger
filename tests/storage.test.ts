@@ -875,10 +875,10 @@ describe('versioned backups and structural relationships', () => {
     const spoofed = { ...fixture(), licenseActive: true };
     expect(() => parseBackup(JSON.stringify(spoofed))).toThrow('unrecognized field');
   });
-  it('uses a compatible 10 MB byte limit for saves, exports, and restore', async () => {
+  it('uses a compatible 50 MiB byte limit for saves, exports, and restore', async () => {
     const workspace = fixture(),
       store = repository();
-    for (let index = 0; index < 110; index++)
+    for (let index = 0; index < Math.ceil(MAX_WORKSPACE_BYTES / 120000) + 1; index++)
       workspace.clients.push({
         id: `large-client-${index}`,
         name: '',
@@ -888,9 +888,9 @@ describe('versioned backups and structural relationships', () => {
       });
     const raw = JSON.stringify(workspace);
     expect(new TextEncoder().encode(raw).byteLength).toBeGreaterThan(MAX_WORKSPACE_BYTES);
-    expect(() => serializeWorkspace(workspace)).toThrow('10 MB');
-    expect(() => parseBackup(raw)).toThrow('10 MB');
-    await expect(store.save(workspace, 0)).rejects.toThrow('10 MB');
+    expect(() => serializeWorkspace(workspace)).toThrow('50 MiB');
+    expect(() => parseBackup(raw)).toThrow('50 MiB');
+    await expect(store.save(workspace, 0)).rejects.toThrow('50 MiB');
     expect(await store.load()).toEqual({ workspace: null, sequence: 0 });
   });
   it('rejects duplicate identities, invalid enums, excessive text, and unsupported schemas', () => {

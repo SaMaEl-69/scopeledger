@@ -1,7 +1,8 @@
 import { test, expect } from './fixtures';
 import type { Page } from '@playwright/test';
 import { createWorkspace } from '../../src/domain/operations';
-import { MAX_WORKSPACE_BYTES, serializeWorkspace } from '../../src/storage/repository';
+import { serializeWorkspace } from '../../src/storage/repository';
+import { fillNearCapacity } from '../helpers/capacity';
 const saved = (page: Page) =>
   expect(page.locator('.save-indicator')).toHaveText('Saved on this device');
 const navigate = async (page: Page, name: string) => {
@@ -157,18 +158,7 @@ test('a core settings edit at capacity preserves the prior saved value and remai
   await saved(page);
   const w = createWorkspace();
   w.context.view = 'settings';
-  for (let index = 0; index < 104; index++)
-    w.clients.push({
-      id: `capacity-${index}`,
-      name: `Client ${index}`,
-      contact: '',
-      email: '',
-      notes: 'x'.repeat(100000),
-    });
-  w.clients.push({ id: 'capacity-tail', name: 'Tail', contact: '', email: '', notes: '' });
-  w.clients.at(-1)!.notes = 'x'.repeat(
-    MAX_WORKSPACE_BYTES - 512 - Buffer.byteLength(JSON.stringify(w)),
-  );
+  fillNearCapacity(w, 512);
   const raw = serializeWorkspace(w);
   await page.evaluate(
     (raw) =>

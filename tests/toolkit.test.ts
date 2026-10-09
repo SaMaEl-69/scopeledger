@@ -96,30 +96,42 @@ describe('actual-data client response composer', () => {
 });
 
 describe('logo upload validation and proportional fitting', () => {
-  const pngBytes = () => new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
+  const pngBytes = () => {
+    const bytes = new Uint8Array(33);
+    bytes.set([137, 80, 78, 71, 13, 10, 26, 10]);
+    bytes.set([73, 72, 68, 82], 12);
+    const view = new DataView(bytes.buffer);
+    view.setUint32(8, 13);
+    view.setUint32(16, 1200);
+    view.setUint32(20, 400);
+    return bytes;
+  };
   it('rejects SVG, oversized and mislabeled files before decoding', async () => {
     await expect(
       prepareLogo(new File(['<svg/>'], 'logo.svg', { type: 'image/svg+xml' })),
-    ).rejects.toThrow(/PNG or JPEG/);
+    ).rejects.toThrow(/PNG, JPEG/);
     await expect(
       prepareLogo(
         new File([new Uint8Array(LOGO_MAX_BYTES + 1)], 'large.png', { type: 'image/png' }),
       ),
-    ).rejects.toThrow(/300 KB/);
+    ).rejects.toThrow(/2 MiB/);
     await expect(
       prepareLogo(new File(['not-an-image'], 'wrong.png', { type: 'image/png' })),
     ).rejects.toThrow(/contents/);
   });
   it('rejects decoded invalid dimensions/aspect and closes resources', async () => {
     const close = vi.fn();
-    vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ width: 63, height: 64, close }));
+    vi.stubGlobal(
+      'createImageBitmap',
+      vi.fn().mockResolvedValue({ width: 5000, height: 64, close }),
+    );
     await expect(
       prepareLogo(new File([pngBytes()], 'logo.png', { type: 'image/png' })),
-    ).rejects.toThrow(/64 to 2048/);
+    ).rejects.toThrow(/4096/);
     expect(close).toHaveBeenCalledOnce();
     vi.stubGlobal(
       'createImageBitmap',
-      vi.fn().mockResolvedValue({ width: 1024, height: 64, close }),
+      vi.fn().mockResolvedValue({ width: 2048, height: 64, close }),
     );
     await expect(
       prepareLogo(new File([pngBytes()], 'logo.png', { type: 'image/png' })),

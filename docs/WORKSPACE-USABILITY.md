@@ -36,7 +36,7 @@ The default Change requests view follows this sequence:
 | 3. Change   | Current request chooser, New request, examples, description, deliverables and a plain-language type chooser | Checks the required scope details, then opens costs.              |
 | 4. Costs    | Hours needed, hourly cost, extra expenses and explicit scope savings                                        | Checks the delivery estimate, then opens the fee.                 |
 | 5. Fee      | Plain-language response choice, proposed fee, a compact cost/margin summary and agreement confirmation      | Checks the response, then prepares the public brief.              |
-| 6. Brief    | Full client brief preview, Edit brief details and All documents                                             | Continues to Export when document requirements are complete.      |
+| 6. Brief    | Brief / Invoice / Credit note switch, full document preview, Edit document details and All documents        | Continues to Export when document requirements are complete.      |
 | 7. Export   | Reviewed brief and explicit PDF action                                                                      | Downloads an authorized PDF, or opens activation if needed.       |
 
 **Back** and **Continue** remain visible at the bottom on desktop and phone. The seven numbered buttons let you revisit steps. Jumping to Brief or Export returns to missing baseline, scope, cost or agreement details; entering Export from the editor opens Brief first. If you are not estimating yet, **Keep this request for later** in Costs selects a deferred response and moves to Fee. Unknown estimates remain unchanged. Deferred requests retain their existing no-delivery, no-date, no-fee commitment rules; the focused view hides the unused fee and agreement inputs.
@@ -47,7 +47,7 @@ In Fee, the cost and margin summary sits below the proposed fee, followed immedi
 
 **Show all steps** restores the complete editor, including planning, history, comparisons and response tools. **Focus on one step** returns to the quieter presentation. These are views of the same draft. Choosing a step never records approval, includes work in the baseline, issues an invoice or starts an export. Those actions retain their explicit controls and safeguards.
 
-In the guided brief, **Edit brief details** reveals document settings and the optional Save brief snapshot action. Missing document requirements remain visible automatically. **All documents**, the Documents navigation item or its shortcut opens the normal document hub for invoices, credits and saved records.
+In the guided document review, the **Brief / Invoice / Credit note** switch selects the document without leaving the seven-step workflow. Each kind retains its own draft settings. **Edit document details** reveals document settings and the optional snapshot/issue action. Missing document requirements remain visible automatically; invoices still require recorded approval and valid billing details. The selected kind carries through Export and Back. **All documents**, the Documents navigation item or its shortcut opens the normal document hub for saved records and payments.
 
 ## Filters without clutter
 

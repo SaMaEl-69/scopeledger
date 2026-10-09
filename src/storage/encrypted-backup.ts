@@ -1,5 +1,6 @@
-import { MAX_WORKSPACE_BYTES } from './repository';
-export const MAX_ENCRYPTED_BACKUP_BYTES = 14 * 1024 * 1024;
+import { MAX_WORKSPACE_BYTES } from './limits';
+export { MAX_ENCRYPTED_BACKUP_BYTES } from './limits';
+import { MAX_ENCRYPTED_BACKUP_BYTES } from './limits';
 const FORMAT = 'scopeledger-encrypted-backup';
 const ITERATIONS = 600000;
 const aad = new TextEncoder().encode('ScopeLedger workspace backup v1');
@@ -60,7 +61,7 @@ export function isEncryptedBackup(raw: string) {
 export async function encryptWorkspaceBackup(raw: string, passphrase: string) {
   const plain = new TextEncoder().encode(raw);
   if (plain.length > MAX_WORKSPACE_BYTES)
-    throw new Error('Choose a workspace no larger than 10 MB.');
+    throw new Error('Choose a workspace no larger than 50 MiB.');
   const api = cryptoApi(),
     salt = api.getRandomValues(new Uint8Array(16)),
     iv = api.getRandomValues(new Uint8Array(12));

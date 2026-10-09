@@ -8,6 +8,6 @@ export function workspaceCapacity(workspace: Workspace) {
 export function assertWorkspaceCapacity(workspace: Workspace) {
   if (workspaceCapacity(workspace).bytes > MAX_WORKSPACE_BYTES)
     throw new Error(
-      'This edit exceeds the 10 MiB workspace limit and was not applied. Your previous work is preserved. Export a backup, reduce image sizes, or use a separate browser workspace before adding more.',
+      'This edit exceeds the 50 MiB workspace safety limit and was not applied. Your previous work is preserved. Export a backup before adding more records.',
     );
 }

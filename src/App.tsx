@@ -65,6 +65,8 @@ import type {
 import { CURRENCIES, id, now } from './domain/types';
 import { compareRecordedDates, recordedDateToDate } from './domain/dates';
 import { workspaceCapacity } from './storage/capacity';
+import { DeviceStorageStatus } from './storage/DeviceStorageStatus';
+import { WORKSPACE_LIMIT_MIB, ENCRYPTED_BACKUP_LIMIT_MIB } from './storage/limits';
 import { confirmDefaults, defaultsReviewed } from './domain/setup';
 import { readWorkspaceRoute, workspaceRouteUrl } from './navigation';
 import {
@@ -74,6 +76,8 @@ import {
   Money,
   parseAmount,
   feeBasisPatch,
+  feeTaxPatch,
+  validFeeTaxRate,
 } from './domain/finance';
 import { feeAmounts } from '../shared/fee-math.mjs';
 import { deliveryDays, projectDeliveryDate } from './domain/delivery';
@@ -356,6 +360,8 @@ export default function App() {
   const [flowStep, setFlowStep] = useState(1);
   const [showAllSteps, setShowAllSteps] = useState(false);
   const [briefFlow, setBriefFlow] = useState(false);
+  const [documentFlowKind, setDocumentFlowKind] = useState<'brief' | 'invoice' | 'credit'>('brief');
+  const lastFeeTax = useRef<{ changeId: string; rate: string } | null>(null);
   const [pendingField, setPendingField] = useState('');
   const [replaceConfirmed, setReplaceConfirmed] = useState(false);
   const routeWorkspace = useRef(w);
@@ -680,6 +686,20 @@ export default function App() {
   const patch = (p: Partial<ChangeTerms>) => {
     if (change) run(() => store.mutate((x) => updateChange(x, change.id, p)));
   };
+  useEffect(() => {
+    if (change && validFeeTaxRate(change.taxRate ?? '0'))
+      lastFeeTax.current = { changeId: change.id, rate: change.taxRate ?? '0' };
+  }, [change?.id, change?.taxRate]);
+  const changeTaxRate = (taxRate: string) => {
+    if (!change) return;
+    const previous = lastFeeTax.current;
+    patch(
+      feeTaxPatch(
+        previous?.changeId === change.id ? { ...change, taxRate: previous.rate } : change,
+        taxRate,
+      ),
+    );
+  };
   const baselineComplete = completeBaseline(project?.baseline);
   const costNeedsReview =
     change?.route !== 'Defer' &&
@@ -705,6 +725,7 @@ export default function App() {
         setSelectedDocumentId('');
         setSelectedCalendarEventId('');
         setDocumentKindIntent(null);
+        setDocumentFlowKind('brief');
         setCalendarCreateIntent(0);
       }, 'New request created');
   };
@@ -718,7 +739,8 @@ export default function App() {
     if (!w) return;
     navigate({ view: 'documents', projectId: project?.id, changeId: change?.id });
     setDocumentKindIntent(kind ?? null);
-    setBriefFlow(kind === 'brief' && !!step);
+    setBriefFlow(!!step);
+    if (kind) setDocumentFlowKind(kind);
     if (step) setFlowStep(step);
   };
   const openNewReminder = () => {
@@ -744,7 +766,7 @@ export default function App() {
         );
         return;
       }
-      openDocuments('brief', step === 7 && !(briefFlow && flowStep >= 6) ? 6 : step);
+      openDocuments(documentFlowKind, step === 7 && !(briefFlow && flowStep >= 6) ? 6 : step);
       return;
     }
     setFlowStep(step);
@@ -893,7 +915,9 @@ export default function App() {
   const readBackup = async (file: File) => {
     try {
       if (file.size > MAX_ENCRYPTED_BACKUP_BYTES)
-        throw Error('Choose a JSON backup up to 10 MB or an encrypted backup up to 14 MB.');
+        throw Error(
+          `Choose a JSON backup up to ${WORKSPACE_LIMIT_MIB} MiB or an encrypted backup up to ${ENCRYPTED_BACKUP_LIMIT_MIB} MiB.`,
+        );
       const raw = new TextDecoder('utf-8', { fatal: true }).decode(await file.arrayBuffer());
       if (isEncryptedBackup(raw)) {
         setBackupRequest({ raw, unlocking: true });
@@ -1227,7 +1251,11 @@ export default function App() {
           ? 'Continue to costs'
           : flowStep === 4
             ? 'Continue to fee'
-            : 'Review the brief';
+            : documentFlowKind === 'invoice'
+              ? 'Review the invoice'
+              : documentFlowKind === 'credit'
+                ? 'Review the credit note'
+                : 'Review the brief';
   const openNextStep = () => {
     if (flowStep === 1) {
       jumpToStep(2);
@@ -1558,12 +1586,18 @@ export default function App() {
               </div>
               <h1 tabIndex={-1}>
                 {view === 'documents' && briefFlow
-                  ? PROJECT_STEPS[flowStep - 1].title
+                  ? flowStep === 6 && documentFlowKind !== 'brief'
+                    ? documentFlowKind === 'invoice'
+                      ? 'Review the invoice'
+                      : 'Review the credit note'
+                    : PROJECT_STEPS[flowStep - 1].title
                   : VIEW_LABELS[view]}
               </h1>
               <p>
                 {view === 'documents' && briefFlow
-                  ? PROJECT_STEPS[flowStep - 1].detail
+                  ? documentFlowKind !== 'brief'
+                    ? 'Review the approved fee, tax, billing details and payment terms.'
+                    : PROJECT_STEPS[flowStep - 1].detail
                   : view === 'workspace'
                     ? 'From an approved project to a clear client brief.'
                     : view === 'dashboard'
@@ -1653,7 +1687,11 @@ export default function App() {
                 </button>
               </div>
               <div className="request-route">
-                <ProjectSequence step={flowStep} onSelect={jumpToStep} />
+                <ProjectSequence
+                  step={flowStep}
+                  onSelect={jumpToStep}
+                  documentKind={documentFlowKind}
+                />
                 <div className="request-next">
                   <div>
                     <span className="eyebrow">STEP {flowStep} OF 7</span>
@@ -2267,9 +2305,13 @@ export default function App() {
                               label="Tax percentage"
                               value={change.taxRate ?? '0'}
                               suffix="%"
-                              onChange={(taxRate) => patch({ taxRate })}
+                              onChange={changeTaxRate}
                               error={calc.errors.taxRate}
-                              hint="Use the tax rate agreed with your client."
+                              hint={
+                                change.feeMode === 'including-tax'
+                                  ? 'Changing tax updates the client total and keeps the before-tax fee.'
+                                  : 'Tax is added to the before-tax fee using this percentage.'
+                              }
                               disabled={change.route === 'Absorb' || change.route === 'Defer'}
                             />
                           </div>
@@ -2846,6 +2888,7 @@ export default function App() {
                   selectedDocumentId={selectedDocumentId}
                   requestedKind={documentKindIntent}
                   onKindHandled={() => setDocumentKindIntent(null)}
+                  onKindChange={setDocumentFlowKind}
                   flowStep={briefFlow ? flowStep : undefined}
                   onFlowStep={jumpToStep}
                   onLeaveFlow={() => setBriefFlow(false)}
@@ -3131,7 +3174,9 @@ export default function App() {
                   <div className="workspace-capacity">
                     <div>
                       <span>Workspace storage</span>
-                      <strong>{(capacity.bytes / 1048576).toFixed(2)} / 10 MiB</strong>
+                      <strong>
+                        {(capacity.bytes / 1048576).toFixed(2)} / {WORKSPACE_LIMIT_MIB} MiB
+                      </strong>
                     </div>
                     <meter
                       min={0}
@@ -3143,10 +3188,13 @@ export default function App() {
                       aria-label="Workspace storage used"
                     />
                     <p className="field-hint">
-                      Includes images, saved documents, revisions and editable drafts. Smaller PNG
-                      or JPEG files leave more room for work. Records are never silently removed.
+                      Includes saved documents, revisions and drafts. Images are fitted
+                      automatically; backups store repeated images once. The {WORKSPACE_LIMIT_MIB}{' '}
+                      MiB safety limit keeps saving and restoring manageable. Records are never
+                      silently removed.
                     </p>
                   </div>
+                  <DeviceStorageStatus />
                   <div className="backup-status">
                     <span>Last backup</span>
                     <strong>
@@ -3165,7 +3213,8 @@ export default function App() {
                   </div>
                   <p className="field-hint">
                     Restore replaces this workspace after a preview and confirmation. It preserves
-                    identities and does not create copies. Save and restore limit: 10 MB.
+                    identities and does not create copies. Workspace limit: {WORKSPACE_LIMIT_MIB}{' '}
+                    MiB; encrypted backup files can be up to {ENCRYPTED_BACKUP_LIMIT_MIB} MiB.
                   </p>
                 </section>
                 <section className="card license-settings">

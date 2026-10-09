@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SlidersHorizontal, Upload, X } from 'lucide-react';
 import type { DocumentSignatures, DocumentSections, ClientDocument } from '../domain/types';
 import { prepareSignature } from './signatures';
+import { IMAGE_UPLOAD_ACCEPT } from './image-import';
 
 function keepControlVisible(control: HTMLElement) {
   if (document.activeElement !== control) return;
@@ -232,7 +233,7 @@ export function SignatureEditor({
                           <input
                             aria-label={`Import ${party} signature`}
                             type="file"
-                            accept="image/png,image/jpeg"
+                            accept={IMAGE_UPLOAD_ACCEPT}
                             disabled={!!busy}
                             onChange={(event) => {
                               const file = event.target.files?.[0];
@@ -262,8 +263,9 @@ export function SignatureEditor({
                 })}
             </div>
             <p className="field-hint">
-              PNG or JPEG · up to 2 MB · fitted proportionally with transparency preserved. Save a
-              snapshot to keep signatures in document history and backups.
+              PNG, JPEG, WebP, GIF, AVIF or BMP · up to 2 MiB · saved as a fitted static image with
+              transparency preserved. Save a snapshot to keep signatures in document history and
+              backups.
             </p>
           </>
         )}

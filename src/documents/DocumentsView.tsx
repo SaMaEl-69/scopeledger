@@ -55,6 +55,7 @@ export interface DocumentsViewProps {
   selectedDocumentId?: string;
   requestedKind?: ClientDocument['kind'] | null;
   onKindHandled?: () => void;
+  onKindChange?: (kind: ClientDocument['kind']) => void;
   flowStep?: number;
   onFlowStep?: (step: number) => void;
   onLeaveFlow?: () => void;
@@ -112,6 +113,7 @@ export function DocumentsView({
   selectedDocumentId,
   requestedKind,
   onKindHandled,
+  onKindChange,
   flowStep,
   onFlowStep,
   onLeaveFlow,
@@ -165,6 +167,9 @@ export function DocumentsView({
   const exporting = usePdfExport();
   const [showBriefDetails, setShowBriefDetails] = useState(false);
   const [signatureBusy, setSignatureBusy] = useState(false);
+  useEffect(() => {
+    onKindChange?.(kind);
+  }, [kind, onKindChange]);
   const [clockVersion, setClockVersion] = useState(0);
   useEffect(() => {
     const timer = setInterval(() => setClockVersion((version) => version + 1), 60_000);
@@ -330,7 +335,7 @@ export function DocumentsView({
   const missingReadiness = authoring.readiness.filter((item) => !item.complete);
   const completeReadiness = authoring.readiness.filter((item) => item.complete);
   const readyToSave = !!authoring.document && missingReadiness.length === 0 && !signatureBusy;
-  const guidedBrief = !!flowStep && flowStep >= 6 && kind === 'brief' && !selected;
+  const guidedBrief = !!flowStep && flowStep >= 6 && !selected;
   const exportStep = guidedBrief && flowStep === 7;
   const downloadPreview = () => {
     if (signatureBusy) return;
@@ -372,7 +377,7 @@ export function DocumentsView({
     >
       {guidedBrief && onFlowStep && (
         <section className="request-route brief-flow-route">
-          <ProjectSequence step={flowStep!} onSelect={onFlowStep} />
+          <ProjectSequence step={flowStep!} onSelect={onFlowStep} documentKind={kind} />
           <div className="brief-flow-context">
             <span>
               {project?.name} · {change?.title || 'Change brief'}
@@ -384,7 +389,7 @@ export function DocumentsView({
                   aria-pressed={showBriefDetails}
                   onClick={() => setShowBriefDetails((value) => !value)}
                 >
-                  {showBriefDetails ? 'Hide brief details' : 'Edit brief details'}
+                  {showBriefDetails ? 'Hide document details' : 'Edit document details'}
                 </button>
               )}
               <button className="text-button" onClick={onLeaveFlow}>
@@ -454,6 +459,34 @@ export function DocumentsView({
           ))}
         </div>
       </section>
+      {guidedBrief && (
+        <div className="guided-document-switch" role="group" aria-label="Document type">
+          <span>Document</span>
+          <div>
+            {(['brief', 'invoice', 'credit'] as const).map((value) => (
+              <button
+                type="button"
+                key={value}
+                aria-pressed={kind === value}
+                disabled={signatureBusy || exporting.busy}
+                onClick={() => {
+                  setShowBriefDetails(false);
+                  changeKind(value);
+                }}
+              >
+                {value === 'brief' ? (
+                  <FileText size={16} />
+                ) : value === 'invoice' ? (
+                  <Receipt size={16} />
+                ) : (
+                  <Undo2 size={16} />
+                )}
+                {value === 'brief' ? 'Brief' : value === 'invoice' ? 'Invoice' : 'Credit note'}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="document-toolbar">
         <label>
           Project
@@ -892,7 +925,13 @@ export function DocumentsView({
         <section className="document-preview-panel">
           <div className="document-preview-heading">
             <div>
-              <h2>{guidedBrief ? 'Client brief' : 'Full-size document preview'}</h2>
+              <h2>
+                {guidedBrief
+                  ? kind === 'brief'
+                    ? 'Client brief'
+                    : documentNames[kind]
+                  : 'Full-size document preview'}
+              </h2>
               <p>
                 {selected
                   ? 'Preserved document values'

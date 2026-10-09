@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { encryptWorkspaceBackup, decryptWorkspaceBackup } from '../src/storage/encrypted-backup';
 import { createWorkspace } from '../src/domain/operations';
-import { serializeWorkspace, parseBackup } from '../src/storage/repository';
+import { serializeWorkspace, parseBackup, MAX_WORKSPACE_BYTES } from '../src/storage/repository';
 const phrase = 'A long unique recovery phrase 2026';
 describe('encrypted workspace transport', () => {
   it('round trips a full workspace with fresh salts/nonces and no exposed client copy', async () => {
@@ -47,8 +47,8 @@ describe('encrypted workspace transport', () => {
   );
   it('rejects short passphrases and over-sized plaintext', async () => {
     await expect(encryptWorkspaceBackup('{}', 'short')).rejects.toThrow('16');
-    await expect(encryptWorkspaceBackup('x'.repeat(10 * 1024 * 1024 + 1), phrase)).rejects.toThrow(
-      '10 MB',
-    );
+    await expect(
+      encryptWorkspaceBackup('x'.repeat(MAX_WORKSPACE_BYTES + 1), phrase),
+    ).rejects.toThrow('50 MiB');
   });
 });

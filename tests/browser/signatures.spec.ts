@@ -1,3 +1,4 @@
+import { fillNearCapacity } from '../helpers/capacity';
 import { test, expect, type Page } from '@playwright/test';
 import { resolve } from 'node:path';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -339,7 +340,7 @@ test('a signature rejected at workspace capacity never claims success or replace
   const fixture = await stored(page);
   fixture.context.view = 'documents';
   const { emptySignatures } = await import('../../src/documents/signatures');
-  const { MAX_WORKSPACE_BYTES, serializeWorkspace } = await import('../../src/storage/repository');
+  const { serializeWorkspace } = await import('../../src/storage/repository');
   fixture.documentDrafts = [
     {
       projectId: fixture.projects[0].id,
@@ -350,24 +351,7 @@ test('a signature rejected at workspace capacity never claims success or replace
       values: { reference: 'CAPACITY-BRIEF', signatures: emptySignatures('brief') },
     },
   ];
-  for (let i = 0; i < 104; i++)
-    fixture.clients.push({
-      id: `capacity-${i}`,
-      name: `Capacity client ${i}`,
-      contact: '',
-      email: '',
-      notes: 'x'.repeat(100000),
-    });
-  fixture.clients.push({
-    id: 'capacity-tail',
-    name: 'Capacity tail',
-    contact: '',
-    email: '',
-    notes: '',
-  });
-  fixture.clients.at(-1).notes = 'x'.repeat(
-    MAX_WORKSPACE_BYTES - 128 - Buffer.byteLength(JSON.stringify(fixture)),
-  );
+  fillNearCapacity(fixture, 128);
   const raw = serializeWorkspace(fixture);
   await page.evaluate(
     (raw) =>

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Download, LockKeyhole } from 'lucide-react';
 import { Modal } from './ui';
 import { encryptWorkspaceBackup, decryptWorkspaceBackup } from '../storage/encrypted-backup';
+import { compactBackup } from '../storage/compact-backup';
 export function BackupSecurityModal({
   raw,
   unlocking = false,
@@ -34,11 +35,12 @@ export function BackupSecurityModal({
     setBusy(true);
     setError('');
     try {
+      const compact = unlocking ? raw : compactBackup(raw);
       const processed = plain
-        ? raw
+        ? compact
         : unlocking
           ? await decryptWorkspaceBackup(raw, passphrase)
-          : await encryptWorkspaceBackup(raw, passphrase);
+          : await encryptWorkspaceBackup(compact, passphrase);
       if (alive.current) onComplete(processed, !plain);
     } catch (reason) {
       if (alive.current)
@@ -61,6 +63,12 @@ export function BackupSecurityModal({
           ? 'Enter the passphrase used to encrypt this file. Your current work stays in place until you review and confirm the restore.'
           : 'Protect client details with an encrypted file. Encryption happens in this browser; your passphrase is never saved or sent to the server.'}
       </p>
+      {!unlocking && (
+        <p className="field-hint">
+          Backups store repeated logos and signatures once. Restoring keeps every saved document and
+          signature unchanged.
+        </p>
+      )}
       {!unlocking && (
         <label className="check-label">
           <input

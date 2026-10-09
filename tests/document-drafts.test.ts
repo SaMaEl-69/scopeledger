@@ -16,6 +16,7 @@ import {
   rememberDocumentDraft,
 } from '../src/documents/drafts';
 import { emptySignatures } from '../src/documents/signatures';
+import { fillNearCapacity } from './helpers/capacity';
 
 describe('durable, revision-scoped document drafts', () => {
   it('round-trips independent brief and invoice edits, unfinished values and signatures through a backup', () => {
@@ -118,17 +119,10 @@ describe('durable, revision-scoped document drafts', () => {
   });
   it('refuses a draft that exceeds capacity without changing saved work or evicting another draft', () => {
     const w = createWorkspace();
-    for (let i = 0; i < 104; i++)
-      w.clients.push({
-        id: crypto.randomUUID(),
-        name: `Client ${i}`,
-        contact: '',
-        email: '',
-        notes: 'x'.repeat(100000),
-      });
+    fillNearCapacity(w, 50000);
     expect(() => serializeWorkspace(w)).not.toThrow();
     const key = documentDraftKey(w, w.projects[0].id, w.changes[0].id, 'brief');
-    expect(() => rememberDocumentDraft(w, key, { footer: 'x'.repeat(100000) })).toThrow(/10 MB/);
+    expect(() => rememberDocumentDraft(w, key, { footer: 'x'.repeat(100000) })).toThrow(/50 MiB/);
     expect(w.documentDrafts).toBeUndefined();
   });
 });

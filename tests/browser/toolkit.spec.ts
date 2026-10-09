@@ -388,13 +388,13 @@ test('logo upload, replacement, validation and backup recovery preserve concurre
   expect(originalFile.readUInt32BE(20)).toBe(140);
   await open(page);
   await navigate(page, 'Settings & backup');
-  const upload = page.locator('input[type=file][accept="image/png,image/jpeg"]');
+  const upload = page.getByLabel('Upload agency logo image');
   await upload.setInputFiles({
     name: 'unsupported.svg',
     mimeType: 'image/svg+xml',
     buffer: Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"></svg>'),
   });
-  await expect(page.locator('.logo-editor [role=alert]')).toContainText('Choose a PNG or JPEG');
+  await expect(page.locator('.logo-editor [role=alert]')).toContainText('Choose PNG, JPEG');
   await upload.setInputFiles(logoPath);
   await expect(page.locator('.agency-logo-preview')).toBeVisible();
   await saved(page);
@@ -410,14 +410,14 @@ test('logo upload, replacement, validation and backup recovery preserve concurre
       ctx.fillRect(0, 0, width, height);
       return canvas.toDataURL('image/png').split(',')[1];
     };
-    return { tiny: make(8, 8, '#172940'), replacement: make(256, 96, '#27695d') };
+    return { tiny: make(2048, 64, '#172940'), replacement: make(256, 96, '#27695d') };
   });
   await upload.setInputFiles({
-    name: 'too-small.png',
+    name: 'too-wide.png',
     mimeType: 'image/png',
     buffer: Buffer.from(generated.tiny, 'base64'),
   });
-  await expect(page.locator('.logo-editor [role=alert]')).toContainText('64 to 2048');
+  await expect(page.locator('.logo-editor [role=alert]')).toContainText('aspect ratio');
   expect((await stored(page)).agency.logoDataUrl).toBe(original);
   await page.evaluate(() => {
     const original = window.createImageBitmap.bind(window);

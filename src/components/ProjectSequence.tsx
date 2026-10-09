@@ -37,9 +37,11 @@ export const PROJECT_STEPS = [
 export function ProjectSequence({
   step,
   onSelect,
+  documentKind = 'brief',
 }: {
   step: number;
   onSelect: (step: number) => void;
+  documentKind?: 'brief' | 'invoice' | 'credit';
 }) {
   return (
     <nav className="project-sequence" aria-label="Project workflow">
@@ -47,7 +49,7 @@ export function ProjectSequence({
         <button
           type="button"
           key={label}
-          aria-label={`${index + 1}. ${title}`}
+          aria-label={`${index + 1}. ${index === 5 && documentKind !== 'brief' ? (documentKind === 'invoice' ? 'Review the invoice' : 'Review the credit note') : title}`}
           aria-current={step === index + 1 ? 'step' : undefined}
           aria-keyshortcuts={`Alt+${index + 1}`}
           className={step === index + 1 ? 'current' : ''}
@@ -56,7 +58,13 @@ export function ProjectSequence({
           <span className="sequence-number" aria-hidden="true">
             {index + 1}
           </span>
-          <span className="sequence-label">{label}</span>
+          <span className="sequence-label">
+            {index === 5 && documentKind !== 'brief'
+              ? documentKind === 'invoice'
+                ? 'Invoice'
+                : 'Credit'
+              : label}
+          </span>
         </button>
       ))}
     </nav>

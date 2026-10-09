@@ -72,6 +72,31 @@ const percent = (value: Decimal) => value.times(100).toString();
 const minimumFee = (value: Decimal) =>
   Money.max(0, value).toDecimalPlaces(2, Decimal.ROUND_CEIL).toFixed(2);
 
+export function validFeeTaxRate(value: string): boolean {
+  return value.length <= 120 && /^\d+(?:\.\d{1,2})?$/.test(value) && new Money(value).lte(100);
+}
+
+/** Tax edits preserve the before-tax fee and credit, rather than consuming margin. */
+export function feeTaxPatch(change: ChangeTerms, taxRate: string): Partial<ChangeTerms> {
+  const patch: Partial<ChangeTerms> = { taxRate };
+  if (
+    change.feeMode !== 'including-tax' ||
+    !validFeeTaxRate(taxRate) ||
+    !validFeeTaxRate(change.taxRate ?? '0') ||
+    new Money(taxRate).eq(change.taxRate ?? '0')
+  )
+    return patch;
+  const errors: Record<string, string> = {};
+  for (const key of ['fee', 'credit'] as const) {
+    const amount = parseAmount(change[key], key, errors, key);
+    if (!amount || !amount.eq(amount.toDecimalPlaces(2))) continue;
+    const net = feeAmounts(amount.toString(), change.taxRate ?? '0', 'including-tax').subtotal;
+    const total = feeAmounts(net, taxRate).total;
+    patch[key] = total;
+  }
+  return patch;
+}
+
 export function feeBasisPatch(
   change: ChangeTerms,
   mode: NonNullable<ChangeTerms['feeMode']>,

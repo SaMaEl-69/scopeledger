@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Workspace } from '../domain/types';
 import { prepareLogo } from './branding';
+import { IMAGE_UPLOAD_ACCEPT } from '../documents/image-import';
 import { activeTimezone, validTimezone } from '../operational/dates';
 import './toolkit.css';
 
@@ -129,7 +130,8 @@ export function AgencyBranding({
         <input
           ref={file}
           type="file"
-          accept="image/png,image/jpeg"
+          accept={IMAGE_UPLOAD_ACCEPT}
+          aria-label="Upload agency logo image"
           hidden
           onChange={(event) => {
             const upload = event.target.files?.[0];
@@ -180,8 +182,9 @@ export function AgencyBranding({
           )}
         </div>
         <p className="field-hint">
-          PNG/JPEG · up to 300 KB · 64–2048 px on each side · fitted proportionally. Stored in this
-          browser and included in backups.
+          PNG, JPEG, WebP, GIF, AVIF or BMP · up to 2 MiB · up to 4096 px per side. Automatically
+          fitted and saved as a static image with transparency preserved. Stored in this browser and
+          included in backups.
         </p>
         {error && (
           <p role="alert" className="field-error">

@@ -132,15 +132,15 @@ describe('signature import boundary', () => {
   it('rejects unsupported, empty, oversized and disguised files before decoding', async () => {
     await expect(
       prepareSignature(new File(['<svg/>'], 'signature.svg', { type: 'image/svg+xml' })),
-    ).rejects.toThrow(/PNG or JPEG/);
+    ).rejects.toThrow(/PNG, JPEG/);
     await expect(
       prepareSignature(new File([], 'empty.png', { type: 'image/png' })),
-    ).rejects.toThrow(/2 MB/);
+    ).rejects.toThrow(/2 MiB/);
     await expect(
       prepareSignature(
         new File([new Uint8Array(2 * 1024 * 1024 + 1)], 'large.png', { type: 'image/png' }),
       ),
-    ).rejects.toThrow(/2 MB/);
+    ).rejects.toThrow(/2 MiB/);
     await expect(
       prepareSignature(new File(['not a PNG'], 'fake.png', { type: 'image/png' })),
     ).rejects.toThrow(/contents/);

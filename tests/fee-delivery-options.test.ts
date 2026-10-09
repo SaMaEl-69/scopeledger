@@ -12,7 +12,7 @@ import {
   issueDocument,
   documentReadiness,
 } from '../src/domain/commercial';
-import { calculate, feeBasisPatch } from '../src/domain/finance';
+import { calculate, feeBasisPatch, feeTaxPatch } from '../src/domain/finance';
 import { projectDeliveryDate } from '../src/domain/delivery';
 import { calendarEvents, setProjectDeadline } from '../src/operational/calendar';
 import { defaultSections } from '../src/documents/options';
@@ -55,6 +55,61 @@ const approval = (w: ReturnType<typeof ready>) =>
 const invoice = (w: ReturnType<typeof ready>) =>
   buildInvoice(w, w.changes[0].id, { dueDate: '2030-01-01', demo: false });
 describe('fee basis across estimates and client documents', () => {
+  it('updates an inclusive total and credit on a tax edit without consuming the net fee', () => {
+    const w = ready('including-tax', '1100', '10', '110');
+    const patch = feeTaxPatch(w.changes[0], '20');
+    expect(patch).toEqual({ taxRate: '20', fee: '1200.00', credit: '120.00' });
+    const next = updateChange(w, w.changes[0].id, patch);
+    expect(calculate(next.projects[0].baseline, next.changes[0]).effectiveFee).toBe('900');
+    expect(buildBrief(next, next.changes[0].id)).toMatchObject({
+      subtotal: '900.00',
+      tax: '180.00',
+      total: '1080.00',
+    });
+    expect(invoice(approval(next))).toMatchObject({
+      subtotal: '900.00',
+      tax: '180.00',
+      total: '1080.00',
+    });
+    expect(feeTaxPatch(next.changes[0], '0')).toEqual({
+      taxRate: '0',
+      fee: '1000.00',
+      credit: '100.00',
+    });
+  });
+  it.each(['excluding-tax', 'custom'] as const)(
+    'retains the before-tax amount in %s mode while documents update tax',
+    (mode) => {
+      const w = ready(mode, '1000', '10');
+      expect(feeTaxPatch(w.changes[0], '20')).toEqual({ taxRate: '20' });
+      const next = updateChange(w, w.changes[0].id, feeTaxPatch(w.changes[0], '20'));
+      expect(buildBrief(next, next.changes[0].id)).toMatchObject({
+        subtotal: '1000.00',
+        tax: '200.00',
+        total: '1200.00',
+      });
+    },
+  );
+  it('does not reinterpret unchanged rates, unfinished fees or invalid tax drafts', () => {
+    const w = ready('including-tax', '0.03', '100');
+    expect(feeTaxPatch(w.changes[0], '100')).toEqual({ taxRate: '100' });
+    for (const tax of ['', '.', '-1', '100.01', '1.001', 'Infinity'])
+      expect(feeTaxPatch(w.changes[0], tax)).toEqual({ taxRate: tax });
+    for (const fee of ['', '.', '0.001', '-1', 'Infinity'])
+      expect(feeTaxPatch({ ...w.changes[0], fee, credit: '' }, '20')).toEqual({ taxRate: '20' });
+  });
+  it('invalidates previous approval for a tax edit and retains issued invoices unchanged', () => {
+    let w = approval(ready('including-tax', '1100', '10'));
+    w = issueDocument(w, w.changes[0].id, 'invoice', { dueDate: '2030-01-01' });
+    const snapshot = structuredClone(w.documents[0].snapshot);
+    w = updateChange(w, w.changes[0].id, feeTaxPatch(w.changes[0], '20'));
+    expect(w.approvals[0].invalidatedAt).toBeTruthy();
+    expect(w.changes[0].status).toBe('Draft');
+    expect(w.documents[0].snapshot).toEqual(snapshot);
+    expect(
+      documentReadiness(w, w.changes[0].id, 'invoice').find((x) => x.key === 'approval')?.complete,
+    ).toBe(false);
+  });
   it('compares legacy fee terms using readable defaults rather than undefined fields', () => {
     const legacy = ready('excluding-tax').changes[0];
     delete legacy.feeMode;

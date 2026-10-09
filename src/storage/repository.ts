@@ -11,9 +11,11 @@ import {
   validTimezone,
   validateEventDates,
 } from '../operational/dates';
+import { MAX_WORKSPACE_BYTES } from './limits';
+import { expandCompactBackup } from './compact-backup';
 
 /** The same UTF-8 limit applies to local saves, backup exports, and restores. */
-export const MAX_WORKSPACE_BYTES = 10 * 1024 * 1024;
+export { MAX_WORKSPACE_BYTES } from './limits';
 export const DATABASE_VERSION = 1;
 export const WORKSPACE_STORE = 'workspace';
 export const EVENTS_CHANNEL = 'scopeledger-core-events';
@@ -862,7 +864,7 @@ export function validateWorkspace(value: unknown): asserts value is Workspace {
 
 function checkSize(raw: string) {
   if (new TextEncoder().encode(raw).byteLength > MAX_WORKSPACE_BYTES)
-    fail('workspace', 'backup and local save limit is 10 MB');
+    fail('workspace', 'backup and local save limit is 50 MiB');
 }
 export function serializeWorkspace(workspace: Workspace): string {
   validateWorkspace(workspace);
@@ -1123,6 +1125,7 @@ export function parseBackup(raw: string): Workspace {
   } catch {
     fail('backup', 'could not read JSON; the original recovery copy has not been changed');
   }
+  value = expandCompactBackup(value);
   const item = object(value, 'backup');
   const workspace =
     item.version === 1
@@ -1132,7 +1135,7 @@ export function parseBackup(raw: string): Workspace {
         : value;
   validateWorkspace(workspace);
   // Migration can add metadata; its result must obey the exact same save limit.
-  if (item.version === 1 || item.schemaVersion === 2) checkSize(JSON.stringify(workspace));
+  checkSize(JSON.stringify(workspace));
   return workspace;
 }
 /** Version 2 has the same record identities; schema 3 adds arrays without replacing old work. */

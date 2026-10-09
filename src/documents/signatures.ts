@@ -1,5 +1,6 @@
 import type { ClientDocument, DocumentSignatures } from '../domain/types';
-import { signatureDimensions, signatureUploadDimensions } from '../../shared/client-document.mjs';
+import { signatureDimensions } from '../../shared/client-document.mjs';
+import { decodeUploadImage } from './image-import';
 
 export function emptySignatures(kind: ClientDocument['kind']): DocumentSignatures {
   return {
@@ -11,20 +12,7 @@ export function emptySignatures(kind: ClientDocument['kind']): DocumentSignature
 }
 
 export async function prepareSignature(file: File): Promise<string> {
-  if (!['image/png', 'image/jpeg'].includes(file.type))
-    throw new Error('Choose a PNG or JPEG signature image.');
-  if (!file.size || file.size > 2 * 1024 * 1024)
-    throw new Error('Choose a signature image no larger than 2 MB.');
-  const bytes = new Uint8Array(await file.arrayBuffer());
-  const png = [137, 80, 78, 71, 13, 10, 26, 10].every((value, index) => bytes[index] === value);
-  const jpeg = bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255;
-  if ((file.type === 'image/png' && !png) || (file.type === 'image/jpeg' && !jpeg))
-    throw new Error('The file contents do not match a PNG or JPEG image.');
-  // Reject huge declared dimensions before asking the browser to allocate a bitmap.
-  signatureUploadDimensions(bytes, file.type);
-  const bitmap = await createImageBitmap(file).catch(() => {
-    throw new Error('This signature could not be read. Choose another PNG or JPEG.');
-  });
+  const bitmap = await decodeUploadImage(file);
   try {
     if (!bitmap.width || !bitmap.height || bitmap.width > 4096 || bitmap.height > 4096)
       throw new Error('Signature width and height must each be from 1 to 4096 pixels.');

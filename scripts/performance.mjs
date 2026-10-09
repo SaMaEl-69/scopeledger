@@ -182,7 +182,7 @@ try {
   await page.getByRole('heading', { name: 'Settings & backup', exact: true }).waitFor();
   start = performance.now();
   await page
-    .locator('input[type=file][accept="image/png,image/jpeg"]')
+    .getByLabel('Upload agency logo image')
     .setInputFiles(resolve('tests/server/qa-logo.png'));
   await page.locator('.agency-logo-preview').waitFor();
   await page
