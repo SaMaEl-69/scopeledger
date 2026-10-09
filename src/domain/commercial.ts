@@ -301,7 +301,7 @@ export function documentReadiness(
       'Approval for this revision',
       change.status === 'Approved' && !!approval?.evidence.trim(),
       'Record approval evidence for the current revision before invoicing. If imported evidence is future-dated, review the device clock and actual date or reopen and reconfirm the decision.',
-      { view: 'workspace', projectId: project.id, changeId },
+      { view: 'workspace', projectId: project.id, changeId, field: 'commercial-results' },
     );
     add(
       'agency.legal',

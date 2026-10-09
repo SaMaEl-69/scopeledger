@@ -254,6 +254,19 @@ test('switching to invoice cannot bypass approval and fits responsive layouts in
     const a11y = await new AxeBuilder({ page }).include('.guided-document-switch').analyze();
     expect(a11y.violations).toEqual([]);
   }
+  await switcher.getByRole('button', { name: 'Invoice', exact: true }).click();
+  await page
+    .locator('.document-required-details')
+    .getByRole('button', { name: /^Approval for this revision/ })
+    .click();
+  await expect(page.getByRole('button', { name: '5. Choose a fee', exact: true })).toHaveAttribute(
+    'aria-current',
+    'step',
+  );
+  await expect(page.locator('#commercial-results')).toBeFocused();
+  await expect(
+    page.locator('#commercial-results').getByRole('button', { name: 'Save decision', exact: true }),
+  ).toBeVisible();
   expect(errors).toEqual([]);
 });
 
