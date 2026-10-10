@@ -57,6 +57,7 @@ Final seller identity, checkout terms, production retention and refund handling 
 
 - Google Search Console domain ownership: **verified**.
 - Homepage before update: **indexed**; Google smartphone fetch successful and canonical matched. Its update has now been accepted into Google’s priority crawl queue.
+- New guide hub: accepted into Google’s priority crawl queue; it was not yet indexed at inspection.
 - Manual actions and security issues: **none detected in Search Console**.
 - Updated nine-page sitemap: **submitted**. Initial Search Console processing reported “Sitemap could not be read”; the sitemap ingestion report remains unresolved. Google’s own live Inspection Tool then confirmed **URL available to Google, Crawl allowed: Yes, Page fetch: Successful**, using its smartphone fetcher. Independent HTTP checks confirmed valid XML, correct MIME type, HTTP 200, no challenge/login/redirect, no `noindex`, and nine same-origin URLs. This establishes live Google fetchability, while the sitemap processing report still needs to update.
 - IndexNow: the nine canonical URLs were received with **HTTP 202**. Key validation/processing remains the participating engines’ work. This does not submit to Google or prove indexing.
