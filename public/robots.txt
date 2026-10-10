@@ -6,7 +6,9 @@ Allow: /brand/
 Allow: /samples/
 Allow: /llms.txt
 Allow: /product-guide.txt
-Disallow: /workspace
-Disallow: /app
+# The public app shell must remain crawlable so its noindex rule can be read.
+# Local projects are stored in the visitor's browser, not at these URLs.
+Allow: /workspace
+Allow: /app
 Disallow: /api
 Sitemap: https://scopeledger.site/sitemap.xml

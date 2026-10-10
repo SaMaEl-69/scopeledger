@@ -102,7 +102,11 @@ describe('independently authorized HTTP actions', () => {
     try {
       let status = 0,
         payload: any;
+      const headers: Record<string, string> = {};
       const response: any = {
+        setHeader: (name: string, value: string) => {
+          headers[name.toLowerCase()] = value;
+        },
         writeHead: (value: number) => {
           status = value;
         },
@@ -112,6 +116,7 @@ describe('independently authorized HTTP actions', () => {
       };
       failed.middleware({ url: '/api/license/status', method: 'GET' } as any, response, () => {});
       expect(status).toBe(200);
+      expect(headers['x-robots-tag']).toBe('noindex, nofollow');
       expect(payload).toMatchObject({
         configured: false,
         active: false,

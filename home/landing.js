@@ -1353,49 +1353,12 @@ import { createAppearanceController } from '../shared/appearance.mjs';
    FAQ
    ===================================================================== */
   (() => {
-    const F = [
-      [
-        'What does the lifetime license include?',
-        'Individual is <b>$49 once for one activated browser/device</b>. Agency is <b>$99 once for five</b>. Both have the same paid features. Purchase availability and seller terms are shown before checkout.',
-      ],
-      [
-        'How does a client approve a change?',
-        'Export the brief and share it through your usual channel. Record the client’s written response in the workspace. Imported signatures and signing lines are supported; the app does not send approval links or authenticate client signatures.',
-      ],
-      [
-        'How is this different from my project management tool?',
-        'ScopeLedger focuses on the commercial decision behind a scope change: the agreed baseline, additional costs, a chosen fee and a reviewed client document. It can sit alongside your existing task tools.',
-      ],
-      [
-        'Does it connect to Slack, email or Figma?',
-        'There are no live capture integrations. Enter or paste the request and review it against the project baseline. Links and source text can provide context, but ScopeLedger does not fetch or interpret them automatically.',
-      ],
-      [
-        'I don’t have a detailed SOW. Can I still use it?',
-        'Yes. Enter the agreed deliverables, baseline fee and delivery costs. Use the scenario prompts to describe the change and review what is included, excluded or dependent on the client.',
-      ],
-      [
-        'Can my whole team use it?',
-        'Agency allows five activated browsers/devices. <b>Each has an independent local workspace</b>; there are no shared accounts, client viewers or automatic synchronization. Backups transfer records deliberately.',
-      ],
-      [
-        'Where is my client data stored?',
-        'Project records and document drafts are saved in this browser. Password-protected backups encrypt your exported copy; optional plain JSON backups contain readable records. Keep your backup and passphrase safely. Activation uses the licensing service. Deliberate PDF export sends public client-document fields to the rendering service; internal cost and margin fields are excluded. There is no selectable cloud region.',
-      ],
-      [
-        'How do I keep a copy of my work?',
-        'Export a password-protected workspace backup from Settings & backup, or deliberately choose plain JSON. Download issued documents as individual PDFs while export is available. Clearing browser storage removes local records, so keep copies outside this browser.',
-      ],
-      [
-        'Can I try it before purchasing?',
-        'Yes. Explore one sample project in the demo workspace and download the public sample brief and invoice. Checkout remains unavailable until seller setup is complete. Review the published seller terms when purchasing becomes available.',
-      ],
-    ];
     const list = $('#faqList');
-    list.innerHTML = F.map(
-      ([q, a], i) =>
-        `<div class="fq${i === 0 ? ' open' : ''}" data-reveal style="--d:${i * 60}ms"><button aria-expanded="${i === 0}" aria-controls="fa${i}" id="fq${i}">${q}<span class="pm"></span></button><div class="fq-a" id="fa${i}" role="region" aria-labelledby="fq${i}"><div><p>${a}</p></div></div></div>`,
-    ).join('');
+    // Answers live in HTML; the accordion is a progressive enhancement.
+    $$('.fq', list).forEach((item, index) => {
+      item.classList.toggle('open', index === 0);
+      item.querySelector('button').setAttribute('aria-expanded', String(index === 0));
+    });
     list.addEventListener('click', (e) => {
       const b = e.target.closest('button');
       if (!b) return;
@@ -1489,7 +1452,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       ['Jump to', 'Why this exists', 'purpose about scope', 'user', go('#founder')],
       [
         'Actions',
-        'Get lifetime access — $49',
+        'View license options — $49',
         'buy checkout purchase',
         'buy',
         () =>

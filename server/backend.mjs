@@ -3,7 +3,7 @@ import { LicenseService, configuration, ServiceError, loopback } from './licensi
 import { renderPdf } from './pdf.mjs';
 import { validateClientDocument } from '../shared/client-document.mjs';
 import { activationAddress } from './client-address.mjs';
-import { siteRedirect } from './site-routes.mjs';
+import { siteRedirect, noindexPath } from './site-routes.mjs';
 export const SESSION_COOKIE = 'scopeledger_session',
   DEVICE_COOKIE = 'scopeledger_device';
 const cookies = (req) =>
@@ -18,6 +18,7 @@ const send = (res, status, payload) => {
     'Content-Type': 'application/json; charset=utf-8',
     'Cache-Control': 'no-store',
     'X-Content-Type-Options': 'nosniff',
+    'X-Robots-Tag': 'noindex, nofollow',
     ...(status >= 400 ? { Connection: 'close' } : {}),
   });
   res.end(JSON.stringify(payload));
@@ -159,10 +160,11 @@ export function createBackend({
       send(res, 400, { error: 'invalid_path' });
       return;
     }
+    if (noindexPath(path)) res.setHeader('X-Robots-Tag', 'noindex, nofollow');
     if (!/^\/api(?:\/|$)/i.test(path)) {
       const location = siteRedirect(path, req.url);
       if (location && (req.method === 'GET' || req.method === 'HEAD')) {
-        res.writeHead(302, { Location: location, 'Cache-Control': 'no-store' });
+        res.writeHead(308, { Location: location, 'Cache-Control': 'no-store' });
         res.end();
       } else next();
       return;

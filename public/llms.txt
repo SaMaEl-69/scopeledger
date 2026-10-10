@@ -11,6 +11,16 @@ ScopeLedger puts the original agreement, a change request, its cost and the prop
 - [Sample change brief](https://scopeledger.site/samples/change-brief.pdf): Public demonstration document.
 - [Sample invoice](https://scopeledger.site/samples/invoice.pdf): Public demonstration document.
 
+## Practical guides
+
+- [Scope creep response](https://scopeledger.site/guides/handle-scope-creep/): Compare a new request with agreed scope.
+- [Change order template](https://scopeledger.site/guides/change-order-template/): Scope, fees, tax, delivery changes and approval.
+- [Additional-work pricing](https://scopeledger.site/guides/price-additional-work/): Costs and contribution margin with worked calculations.
+- [Baseline checklist](https://scopeledger.site/guides/project-baseline-checklist/): Agreed deliverables, revision limits and financial inputs.
+- [About](https://scopeledger.site/about/): Product purpose and current availability.
+- [Privacy](https://scopeledger.site/privacy/): Local storage, backup and public hosting data flow.
+- [License information](https://scopeledger.site/license/): Planned prices and current demo limits.
+
 ## Try the product
 
 - [Workspace demo](https://scopeledger.site/workspace/): An interactive browser application. Local project records are not public website content.

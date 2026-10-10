@@ -34,7 +34,7 @@ test('built pages retain working theme, menus and document previews under CSP', 
     await expect(page.locator('#appearancePicker')).toBeVisible();
     await page.locator('#appearancePicker [data-set="system"]').click();
     await page
-      .getByRole('link', { name: /Get lifetime access/ })
+      .getByRole('link', { name: /View license options/ })
       .first()
       .click();
     await expect(page.locator('#lifetimeDialog')).toBeVisible();

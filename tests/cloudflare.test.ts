@@ -16,6 +16,25 @@ const files = new Map([
   ['/brand/scopeledger-social-v1.png', 'public sharing card'],
   ['/llms.txt', '# ScopeLedger'],
   ['/product-guide.txt', '# ScopeLedger product guide'],
+  ['/guides/index.html', '<!doctype html><title>ScopeLedger guides</title>'],
+  ['/guides/handle-scope-creep/index.html', '<!doctype html><title>Handle scope creep</title>'],
+  [
+    '/guides/change-order-template/index.html',
+    '<!doctype html><title>Change order template</title>',
+  ],
+  [
+    '/guides/price-additional-work/index.html',
+    '<!doctype html><title>Price additional work</title>',
+  ],
+  [
+    '/guides/project-baseline-checklist/index.html',
+    '<!doctype html><title>Project baseline</title>',
+  ],
+  ['/about/index.html', '<!doctype html><title>About ScopeLedger</title>'],
+  ['/privacy/index.html', '<!doctype html><title>Privacy</title>'],
+  ['/license/index.html', '<!doctype html><title>License information</title>'],
+  ['/guides/guides.css', 'body { color: #0c0d10; }'],
+  ['/guides/forgotten/index.html', '<title>Accidental unpublished page</title>'],
   ['/private-notes.txt', 'private'],
   // Deliberately present: neither sensitive files nor source maps become public.
   ['/.env', 'private'],
@@ -68,7 +87,7 @@ describe('Cloudflare public demo boundary', () => {
     ['/app?view=settings', '/workspace/?view=settings'],
   ])('preserves canonical navigation for %s', async (path, location) => {
     const response = await run(path);
-    expect(response.status).toBe(302);
+    expect(response.status).toBe(308);
     expect(response.headers.get('Location')).toBe(location);
   });
   it('uses hashed inline script CSP and security headers on both documents, including HEAD', async () => {
@@ -86,6 +105,54 @@ describe('Cloudflare public demo boundary', () => {
       expect(await head.text()).toBe('');
       expect(head.headers.get('Content-Security-Policy')).toBe(policy);
     }
+  });
+  it('publishes only known guide and service pages with permanent aliases and indexable canonical documents', async () => {
+    for (const path of [
+      '/guides/',
+      '/guides/handle-scope-creep/',
+      '/guides/change-order-template/',
+      '/guides/price-additional-work/',
+      '/guides/project-baseline-checklist/',
+      '/about/',
+      '/privacy/',
+      '/license/',
+    ]) {
+      for (const method of ['GET', 'HEAD']) {
+        const canonical = await run(path, { method });
+        expect(canonical.status, `${method} ${path}`).toBe(200);
+        expect(canonical.headers.get('Content-Type')).toBe('text/html');
+        expect(canonical.headers.get('X-Robots-Tag')).toBe(null);
+        for (const alias of [path.slice(0, -1), path + 'index.html']) {
+          const redirected = await run(alias + '?source=a%26b', { method });
+          expect(redirected.status).toBe(308);
+          expect(redirected.headers.get('Location')).toBe(path + '?source=a%26b');
+        }
+      }
+    }
+    expect((await run('/guides/guides.css')).status).toBe(200);
+    for (const path of ['/guides/forgotten/', '/guides/forgotten/index.html', '/guides/unknown/'])
+      expect((await run(path)).status).toBe(404);
+  });
+  it('keeps app shells, demo documents, machine guides and errors out of search while serving public marketing content', async () => {
+    for (const path of [
+      '/workspace/?view=documents',
+      '/workspace/projects/harbor',
+      '/api/license/status',
+      '/samples/change-brief.pdf?v=5',
+      '/llms.txt',
+      '/product-guide.txt',
+      '/release.json',
+      '/missing',
+      '/%zz',
+    ]) {
+      const response = await run(path);
+      expect(response.headers.get('X-Robots-Tag'), path).toBe('noindex, nofollow');
+    }
+    expect((await run('/workspace/', { method: 'HEAD' })).headers.get('X-Robots-Tag')).toBe(
+      'noindex, nofollow',
+    );
+    for (const path of ['/home/', '/guides/', '/brand/scopeledger-social-v1.png'])
+      expect((await run(path)).headers.get('X-Robots-Tag'), path).toBe(null);
   });
   it.each([
     '/.env',

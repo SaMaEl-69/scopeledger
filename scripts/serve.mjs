@@ -1,7 +1,12 @@
 import { createServer } from 'node:http';
 import { createBackend } from '../server/backend.mjs';
 import { privateFileBoundary } from '../server/private-files.mjs';
-import { siteDocumentPath, siteRedirect, workspaceRoute } from '../server/site-routes.mjs';
+import {
+  siteDocumentPath,
+  siteRedirect,
+  workspaceRoute,
+  noindexPath,
+} from '../server/site-routes.mjs';
 import { readFile, realpath, stat } from 'node:fs/promises';
 import { resolve, relative as relativePath, sep, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -106,6 +111,7 @@ export function createScopeLedgerServer({
       response.writeHead(status, {
         'Content-Type': 'application/json; charset=utf-8',
         'Cache-Control': 'no-store',
+        'X-Robots-Tag': 'noindex, nofollow',
       });
       response.end(request.method === 'HEAD' ? undefined : JSON.stringify(payload));
     };
@@ -116,6 +122,8 @@ export function createScopeLedgerServer({
       sendJson(400, { error: 'invalid_path' });
       return;
     }
+
+    if (noindexPath(pathname)) response.setHeader('X-Robots-Tag', 'noindex, nofollow');
 
     if (['/api/health', '/api/ready'].includes(pathname)) {
       if (!['GET', 'HEAD'].includes(request.method)) {
@@ -187,7 +195,7 @@ export function createScopeLedgerServer({
     }
     const location = siteRedirect(pathname, request.url);
     if (location) {
-      response.writeHead(302, { Location: location, 'Cache-Control': 'no-store' });
+      response.writeHead(308, { Location: location, 'Cache-Control': 'no-store' });
       response.end();
       return;
     }
@@ -319,7 +327,11 @@ export function createScopeLedgerServer({
         void handle(request, response).catch(() => {
           if (response.headersSent) response.destroy();
           else {
-            response.writeHead(500, { 'Cache-Control': 'no-store', Connection: 'close' });
+            response.writeHead(500, {
+              'Cache-Control': 'no-store',
+              'X-Robots-Tag': 'noindex, nofollow',
+              Connection: 'close',
+            });
             response.end('Server error');
           }
         });

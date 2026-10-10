@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ScopeLedger privacy overview — Local records and data flow</title>
+    <meta
+      name="description"
+      content="Learn where ScopeLedger stores project records, how encrypted and plain backups differ, what hosting receives and which service features are currently unavailable."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#f5f5f2" />
+    <link rel="canonical" href="https://scopeledger.site/privacy/" />
+    <link rel="icon" type="image/svg+xml" href="/brand/scopeledger-favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ScopeLedger" />
+    <meta
+      property="og:title"
+      content="ScopeLedger privacy overview — Local records and data flow"
+    />
+    <meta
+      property="og:description"
+      content="Learn where ScopeLedger stores project records, how encrypted and plain backups differ, what hosting receives and which service features are currently unavailable."
+    />
+    <meta property="og:url" content="https://scopeledger.site/privacy/" />
+    <meta property="og:image" content="https://scopeledger.site/brand/scopeledger-social-v1.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ScopeLedger — Clear scope. Considered decisions." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="ScopeLedger privacy overview — Local records and data flow"
+    />
+    <meta
+      name="twitter:description"
+      content="Learn where ScopeLedger stores project records, how encrypted and plain backups differ, what hosting receives and which service features are currently unavailable."
+    />
+    <meta name="twitter:image" content="https://scopeledger.site/brand/scopeledger-social-v1.png" />
+    <link rel="stylesheet" href="/guides/guides.css" />
+    <script src="/guides/guides.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://scopeledger.site/privacy/#page",
+            "url": "https://scopeledger.site/privacy/",
+            "name": "ScopeLedger privacy overview — Local records and data flow",
+            "description": "Learn where ScopeLedger stores project records, how encrypted and plain backups differ, what hosting receives and which service features are currently unavailable.",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@type": "WebSite",
+              "@id": "https://scopeledger.site/#website",
+              "name": "ScopeLedger",
+              "url": "https://scopeledger.site/"
+            },
+            "breadcrumb": { "@id": "https://scopeledger.site/privacy/#breadcrumb" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://scopeledger.site/privacy/#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://scopeledger.site/home/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Privacy",
+                "item": "https://scopeledger.site/privacy/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body class="sl-guide">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/home/" aria-label="ScopeLedger home"
+          ><img
+            class="logo-light"
+            src="/brand/scopeledger-logo-light.svg"
+            width="249"
+            height="40"
+            alt="ScopeLedger" /><img
+            class="logo-dark"
+            src="/brand/scopeledger-logo-dark.svg"
+            width="249"
+            height="40"
+            alt="ScopeLedger"
+        /></a>
+        <nav class="header-nav" aria-label="Main navigation">
+          <a class="home-link" href="/home/">Home</a
+          ><a class="guides-link" href="/guides/">Guides</a
+          ><a class="button" href="/workspace/">Try the demo</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/home/">Home</a></li>
+          <li aria-current="page">Privacy</li>
+        </ol>
+      </nav>
+      <div class="article-header">
+        <p class="eyebrow">Service information</p>
+        <h1>Privacy overview</h1>
+        <p class="intro">
+          Where your records live, what leaves the browser and how to keep a recovery copy.
+        </p>
+      </div>
+      <div class="article-layout">
+        <article class="article-body" aria-label="Privacy">
+          <section id="local-records">
+            <h2>Your project records stay in this browser</h2>
+            <p>
+              ScopeLedger saves projects, client details, financial estimates, documents and manual
+              records locally using IndexedDB, the browser’s storage system. The workspace has no
+              customer account or automatic cloud synchronization.
+            </p>
+            <p>
+              Each browser or device holds its own workspace. Opening ScopeLedger on another device
+              does not bring your records with you. Appearance preferences are also saved in the
+              browser.
+            </p>
+            <p>
+              The local workspace records are not encrypted by ScopeLedger as a whole. Password
+              protection applies to an encrypted backup you deliberately export.
+            </p>
+          </section>
+          <section id="backups">
+            <h2>Keep a recovery copy you control</h2>
+            <p>
+              Choose a password-protected encrypted backup, or an optional plain JSON backup. An
+              encrypted export protects its contents with the password you set. A plain JSON backup
+              contains readable records, so store and share it accordingly.
+            </p>
+            <p>
+              The application has a <strong>50 MiB workspace safety limit</strong>, including
+              records and images. Backups can deduplicate repeated images; an encrypted file’s
+              transport size can differ from the expanded workspace size.
+            </p>
+            <p>
+              Clearing browser data or deleting the local workspace can remove your work. Export a
+              recovery copy first, keep it outside the browser and protect its password. A backup is
+              a deliberate transfer of records, not a cloud backup or a license activation.
+            </p>
+          </section>
+          <section id="hosting">
+            <h2>Website requests and hosting</h2>
+            <p>
+              Loading the website and checking service availability still make network requests.
+              Cloudflare hosts the public site and may process request information such as IP
+              address, browser headers, requested paths and timestamps to deliver and protect the
+              service. This is separate from the locally saved project records. See
+              <a href="https://www.cloudflare.com/privacypolicy/" rel="external"
+                >Cloudflare’s privacy policy</a
+              >.
+            </p>
+            <p>
+              The current Worker logging configuration redacts query strings, and its application
+              error logs do not include request bodies, headers or project data. This does not mean
+              every hosting or network record is absent.
+            </p>
+            <p>
+              The current application has no integrated advertising or behavioral analytics service.
+              Its local preferences and workspace storage support the product itself.
+            </p>
+          </section>
+          <section id="services">
+            <h2>Activation and document services</h2>
+            <p>
+              <strong>The current public deployment is a demo.</strong> Purchases, license
+              activation and protected customer PDF exports are not configured. The public
+              demonstration PDFs are sample documents.
+            </p>
+            <p>
+              When those services are configured, activation communicates with the licensing
+              service. A protected PDF request deliberately sends the client-facing document fields
+              and selected branding to a rendering service. Private delivery hours, internal costs,
+              margins, notes and comparison figures are excluded from that document request.
+            </p>
+            <p>
+              These prepared service flows describe how the application is designed to work when
+              enabled. Production retention details and final service policies need to be published
+              before paid launch.
+            </p>
+          </section>
+          <section id="control">
+            <h2>Your records and support messages</h2>
+            <p>
+              Use <a href="/workspace/?view=settings">Settings &amp; backup</a> to export, restore
+              or deliberately delete your local workspace. Because the project records are local,
+              support cannot retrieve a lost workspace from a cloud account.
+            </p>
+            <p>
+              If you email support, the information you choose to send is handled through the
+              support email service. Avoid sending client records, passwords or license keys unless
+              they are needed and you intend to disclose them.
+            </p>
+            <p>
+              Questions about this overview can be sent to
+              <a href="mailto:support@scopeledger.site">support@scopeledger.site</a>.
+            </p>
+          </section>
+        </article>
+        <aside class="toc" aria-label="On this page">
+          <p>On this page</p>
+          <ol>
+            <li><a href="#local-records">Your project records stay in this browser</a></li>
+            <li><a href="#backups">Keep a recovery copy you control</a></li>
+            <li><a href="#hosting">Website requests and hosting</a></li>
+            <li><a href="#services">Activation and document services</a></li>
+            <li><a href="#control">Your records and support messages</a></li>
+          </ol>
+        </aside>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>ScopeLedger · Clear scope. Considered decisions.</span>
+        <nav class="footer-links" aria-label="Service information">
+          <a href="/about/">About</a><a href="/privacy/">Privacy</a
+          ><a href="/license/">License information</a
+          ><a href="mailto:support@scopeledger.site">Support</a>
+        </nav>
+        <label class="appearance" for="appearance"
+          >Appearance<select id="appearance" data-appearance>
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select></label
+        >
+      </div>
+    </footer>
+  </body>
+</html>

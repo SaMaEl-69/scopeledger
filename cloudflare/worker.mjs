@@ -1,5 +1,5 @@
 import { contentPolicy } from '../server/security.mjs';
-import { siteDocumentPath, siteRedirect } from '../server/site-routes.mjs';
+import { siteDocumentPath, siteRedirect, noindexPath } from '../server/site-routes.mjs';
 import { publicAssetPath, shareableAssetPath } from '../shared/public-assets.mjs';
 
 // The current public release is a demo. The Node/SQLite licensing and sandboxed
@@ -19,6 +19,13 @@ const protectedActions = new Set([
 
 function secure(response, request, policy = contentPolicy()) {
   const headers = new Headers(response.headers);
+  let path = new URL(request.url).pathname;
+  try {
+    path = decodeURIComponent(path);
+  } catch {
+    // Malformed paths receive an error response and are excluded below.
+  }
+  if (response.status >= 400 || noindexPath(path)) headers.set('X-Robots-Tag', 'noindex, nofollow');
   headers.set('Content-Security-Policy', policy);
   headers.set('X-Content-Type-Options', 'nosniff');
   headers.set('X-Frame-Options', 'SAMEORIGIN');
@@ -150,7 +157,7 @@ async function handle(request, env) {
   if (location)
     return secure(
       new Response(null, {
-        status: 302,
+        status: 308,
         headers: { Location: location, 'Cache-Control': 'no-store' },
       }),
       request,
@@ -166,7 +173,7 @@ async function handle(request, env) {
   let policy = contentPolicy(),
     body = response.body;
   if (target.endsWith('.html')) {
-    // The build owns these two small documents; never buffer arbitrary assets.
+    // The build owns these allowlisted small documents; never buffer arbitrary assets.
     if (Number(headers.get('Content-Length')) > 2 * 1024 * 1024)
       return json(request, 500, { error: 'invalid_document' });
     const html = await response.text();

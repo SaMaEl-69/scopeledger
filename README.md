@@ -86,3 +86,11 @@ See [the owner guide](docs/OWNER-OPERATIONS.md), [the checkpoint](SCOPELEDGER-CH
 # Production preparation
 
 The 8 October prelaunch implementation is described in [Part 1](docs/PRELAUNCH-REPAIR-PART1.md) and [Part 2](docs/PRELAUNCH-REPAIR-PART2.md). Use the [production runbook](docs/PRODUCTION-RUNBOOK.md) for versioned rollout, health checks, monitoring and paired database/secret recovery. Persistent commercial backend hosting, seller onboarding, approved policies and human/device acceptance remain paid-launch gates.
+
+## Public SEO and search discovery
+
+The public site includes a guide hub, four practical guides, and about/privacy/license information. Its canonical URLs are governed by the explicit public document manifest. Workspace/API/demo-document indexing exclusions are independent of access authorization.
+
+Run `npm run test:seo` before publishing (also part of the build), and `npm run test:seo:live` after deployment. After a meaningful public content update has been deployed, `npm run seo:indexnow` notifies participating search engines; Google discovery is managed through the sitemap and verified Search Console property. Avoid repeated submissions of unchanged pages.
+
+See [the SEO implementation and handover report](docs/seo-launch-report.md) for actual Google indexing evidence, verification limits, current demo availability and ongoing work. Search-engine processing and rankings are not guaranteed by a successful build or submission.

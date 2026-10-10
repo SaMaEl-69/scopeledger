@@ -1,9 +1,20 @@
+import { publicDocuments } from '../shared/public-assets.mjs';
+
+const publicRoutes = new Map(
+  publicDocuments.map((document) => [
+    '/' + document.slice(0, -'index.html'.length),
+    '/' + document,
+  ]),
+);
+
 /** Keep the public site and legacy workspace entry points at one origin. */
 export function siteRedirect(pathname, url = '/') {
   const queryAt = url.indexOf('?'),
     query = queryAt === -1 ? '' : url.slice(queryAt);
   if (pathname === '/' || pathname === '/index.html') return '/home/' + query;
-  if (pathname === '/home' || pathname === '/home/index.html') return '/home/' + query;
+  for (const [canonical, document] of publicRoutes) {
+    if (pathname === canonical.slice(0, -1) || pathname === document) return canonical + query;
+  }
   if (pathname === '/workspace' || pathname === '/workspace/index.html')
     return '/workspace/' + query;
   if (pathname === '/app' || pathname.startsWith('/app/')) {
@@ -36,9 +47,14 @@ export function workspaceRoute(pathname) {
 }
 
 export function siteDocumentPath(pathname) {
-  return workspaceRoute(pathname)
-    ? '/workspace/index.html'
-    : pathname === '/home/'
-      ? '/home/index.html'
-      : null;
+  return workspaceRoute(pathname) ? '/workspace/index.html' : (publicRoutes.get(pathname) ?? null);
+}
+
+/** Crawling these URLs is safe, but their app/demo/machine content is not a search result. */
+export function noindexPath(pathname) {
+  return (
+    /^\/(?:workspace|app|api)(?:\/|$)/i.test(pathname) ||
+    ['/llms.txt', '/product-guide.txt', '/release.json', '/indexnow-key.txt'].includes(pathname) ||
+    /^\/samples\/[^/]+\.pdf$/i.test(pathname)
+  );
 }

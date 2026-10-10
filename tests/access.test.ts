@@ -80,7 +80,11 @@ describe('Vite access boundary', () => {
     let status = 0;
     let body = '';
     let calledNext = false;
+    const headers: Record<string, string> = {};
     const response = {
+      setHeader: (name: string, value: string) => {
+        headers[name.toLowerCase()] = value;
+      },
       writeHead: (value: number) => {
         status = value;
       },
@@ -101,6 +105,7 @@ describe('Vite access boundary', () => {
     );
     expect(status).toBe(503);
     expect(JSON.parse(body).error).toBe('licensing_not_configured');
+    expect(headers['x-robots-tag']).toBe('noindex, nofollow');
     expect(calledNext).toBe(false);
   });
 });
@@ -170,7 +175,7 @@ describe('production static server security', () => {
       ['/app/projects/example?source=a%26b', '/workspace/projects/example?source=a%26b'],
     ])
       expect(await read(path), path).toMatchObject({
-        status: 302,
+        status: 308,
         headers: { location, 'cache-control': 'no-store' },
       });
     expect(await read('/workspace/projects/example')).toMatchObject({ status: 200 });
@@ -246,7 +251,7 @@ describe('production static server security', () => {
   });
   it('handles HEAD and unsupported write methods without exposing files', async () => {
     expect(await read('/app?view=documents', 'HEAD')).toMatchObject({
-      status: 302,
+      status: 308,
       body: '',
       headers: { location: '/workspace/?view=documents' },
     });

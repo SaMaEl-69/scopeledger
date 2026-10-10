@@ -47,8 +47,11 @@ describe('public sharing and discovery', () => {
   it('keeps crawlable public facts separate from local projects and unavailable checkout', async () => {
     const robots = await readFile('public/robots.txt', 'utf8');
     expect(robots).toContain('User-agent: *');
-    for (const path of ['/workspace', '/app', '/api'])
-      expect(robots).toContain(`Disallow: ${path}`);
+    for (const path of ['/workspace', '/app']) {
+      expect(robots).toContain(`Allow: ${path}`);
+      expect(robots).not.toContain(`Disallow: ${path}`);
+    }
+    expect(robots).toContain('Disallow: /api');
     const guide = await readFile('public/product-guide.txt', 'utf8');
     expect(guide).toContain('USD 49');
     expect(guide).toContain('USD 99');

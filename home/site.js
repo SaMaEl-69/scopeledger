@@ -97,16 +97,16 @@ const info = {
     title: 'Privacy overview',
     paragraphs: [
       'Projects, clients, financial estimates and manual records stay in this browser. The workspace has no customer account or cloud synchronization. Keep workspace backups outside the browser.',
-      'Activation communicates with the licensing service. PDF export deliberately sends the public client-document fields to the protected rendering service; private hours, costs, margins, notes and comparisons are excluded.',
+      'When configured, activation communicates with the licensing service. Protected PDF export deliberately sends the public client-document fields to the protected rendering service; private hours, costs, margins, notes and comparisons are excluded.',
       'Password-protected workspace backups encrypt the exported copy. Optional plain JSON backups contain readable records. Clearing browser storage removes local work. Use Settings & backup to export, restore or delete your workspace deliberately.',
     ],
   },
   terms: {
     title: 'License and service information',
     paragraphs: [
-      'Individual costs $49 once for one activated browser/device. Agency costs $99 once for five activated browsers/devices. Both plans have identical paid features and lifetime access.',
+      'The planned Individual license costs $49 once for one activated browser/device. The planned Agency license costs $99 once for five activated browsers/devices. Both plans are designed for identical paid features and lifetime access. The public release is currently a free demo; purchases, activation and protected customer PDF exports are not configured.',
       'Agency devices keep independent local workspaces. Backups transfer your records deliberately; a backup does not grant a paid activation. You can release the current browser without deleting local projects.',
-      'A workspace save or JSON backup is limited to 10 MiB, including images and document history. Protected PDF export currently allows up to 100 new render jobs per activated device per UTC day and 500 per license per UTC day. The renderer runs at most two jobs at a time; when busy, retry shortly.',
+      'The local workspace has a 50 MiB safety limit, including images and document history. Encrypted backups deduplicate repeated images; they are recovery copies, not cloud synchronization. Protected PDF export currently allows up to 100 new render jobs per activated device per UTC day and 500 per license per UTC day. The renderer runs at most two jobs at a time; when busy, retry shortly.',
       'Approvals and payments are manual records. Record real client agreement and money actually received; issued invoices preserve their recorded values. The workspace does not process payments or sign agreements for clients.',
       'Final seller policies and refund handling are provided by the seller at the configured checkout. Review those published terms before purchasing.',
     ],
@@ -114,7 +114,7 @@ const info = {
   dpa: {
     title: 'Data processing overview',
     paragraphs: [
-      'The current workspace saves records on your device. It uses a licensing service for entitlement and a protected service for deliberate client-document PDF export.',
+      'The current demo saves records on your device. Purchases, activation and protected customer PDF exports are not enabled. When configured, the prepared services handle entitlement and deliberate client-document PDF export.',
       'PDF requests use a bounded public schema and validated raster branding. Rendering blocks document scripts and remote resources. Workspace backups exclude license keys and activation cookies.',
       'A formal data processing agreement must be provided by the seller when applicable. This overview describes the current application data flow; it is not a signed agreement.',
     ],

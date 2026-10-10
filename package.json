@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "prebuild": "node scripts/sync-document-branding.mjs",
+    "prebuild": "node scripts/sync-document-branding.mjs && node scripts/seo-check.mjs",
     "build": "tsc -b && vite build",
     "postbuild": "node scripts/release.mjs stamp dist",
     "start": "node scripts/serve.mjs",
@@ -26,7 +26,10 @@
     "test:site": "playwright test --config playwright.site.config.ts",
     "cloudflare:dev": "wrangler dev --port 8787",
     "cloudflare:deploy": "npm run build && wrangler deploy",
-    "cloudflare:check": "wrangler deploy --dry-run"
+    "cloudflare:check": "wrangler deploy --dry-run",
+    "test:seo": "node scripts/seo-check.mjs",
+    "test:seo:live": "node scripts/seo-check.mjs --live",
+    "seo:indexnow": "node scripts/submit-indexnow.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.6",

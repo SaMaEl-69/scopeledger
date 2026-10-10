@@ -2,7 +2,7 @@
 
 Official website: https://scopeledger.site/home/
 Workspace: https://scopeledger.site/workspace/
-Last reviewed: 2026-10-09
+Last reviewed: 2026-10-11
 Support: support@scopeledger.site
 
 ## What ScopeLedger helps with
@@ -41,3 +41,11 @@ Invoice: https://scopeledger.site/samples/invoice.pdf
 ## Best fit
 
 ScopeLedger is useful for people who deliver fixed-fee work and want a deliberate process for additional requests. It helps them make the scope, fee and next step clear to a client. It is currently a local workspace, rather than a hosted team collaboration or accounting platform. It does not automatically collect payments, provide remote client signing links or replace a user's accounting and tax judgment.
+
+
+## Practical resources
+
+Guides and templates: https://scopeledger.site/guides/
+About and availability: https://scopeledger.site/about/
+Privacy and data flow: https://scopeledger.site/privacy/
+License information: https://scopeledger.site/license/

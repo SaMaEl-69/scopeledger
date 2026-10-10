@@ -96,6 +96,68 @@ describe('configured licensing storage remains private under static-path mistake
 });
 
 describe('connected public home and project workspace', () => {
+  it('serves known public guides and service pages, consolidates aliases, and excludes local app and demonstration content from search', async () => {
+    directory = await mkdtemp(join(tmpdir(), 'scopeledger-seo-routing-'));
+    for (const folder of [
+      'home',
+      'workspace',
+      'guides',
+      'guides/handle-scope-creep',
+      'privacy',
+      'samples',
+      'guides/unpublished',
+    ])
+      await mkdir(join(directory, folder), { recursive: true });
+    for (const [name, content] of [
+      ['home/index.html', '<title>ScopeLedger home</title>'],
+      ['workspace/index.html', '<title>Workspace app</title>'],
+      ['guides/index.html', '<title>ScopeLedger guides</title>'],
+      ['guides/handle-scope-creep/index.html', '<title>Handle scope creep</title>'],
+      ['privacy/index.html', '<title>Privacy overview</title>'],
+      ['guides/unpublished/index.html', '<title>Accidental private draft</title>'],
+      ['samples/brief.pdf', '%PDF-1.7 demonstration'],
+      ['llms.txt', '# ScopeLedger product facts'],
+      ['product-guide.txt', '# Product guide'],
+    ])
+      await writeFile(join(directory, name), content);
+    server = createScopeLedgerServer({
+      directory,
+      backend: createBackend({ config: configuration({}), service: null }),
+    });
+    await new Promise<void>((resolve) => server!.listen(0, '127.0.0.1', resolve));
+    const origin = `http://127.0.0.1:${(server.address() as any).port}`;
+    for (const path of ['/home/', '/guides/', '/guides/handle-scope-creep/', '/privacy/']) {
+      for (const method of ['GET', 'HEAD']) {
+        const canonical = await fetch(origin + path, { method });
+        expect(canonical.status).toBe(200);
+        expect(canonical.headers.get('x-robots-tag')).toBeNull();
+        await canonical.body?.cancel();
+        for (const alias of [path.slice(0, -1), path + 'index.html']) {
+          const response = await fetch(origin + alias + '?source=a%26b', {
+            method,
+            redirect: 'manual',
+          });
+          expect(response.status).toBe(308);
+          expect(response.headers.get('location')).toBe(path + '?source=a%26b');
+        }
+      }
+    }
+    for (const path of [
+      '/workspace/',
+      '/workspace/project/harbor',
+      '/api/license/status',
+      '/samples/brief.pdf',
+      '/llms.txt',
+      '/product-guide.txt',
+      '/missing',
+    ]) {
+      const response = await fetch(origin + path);
+      expect(response.headers.get('x-robots-tag'), path).toBe('noindex, nofollow');
+      await response.body?.cancel();
+    }
+    for (const path of ['/guides/unpublished/', '/guides/unpublished/index.html'])
+      expect((await fetch(origin + path)).status).toBe(404);
+  });
   it('serves both built entries, preserves canonical/legacy queries and keeps assets/API distinct', async () => {
     directory = await mkdtemp(join(tmpdir(), 'scopeledger-static-pages-'));
     await mkdir(join(directory, 'home'));
@@ -130,7 +192,7 @@ describe('connected public home and project workspace', () => {
         ['/app/documents?ref=INV-001', '/workspace/documents?ref=INV-001'],
       ]) {
         const response = await fetch(origin + path, { method, redirect: 'manual' });
-        expect(response.status, `${method} ${path}`).toBe(302);
+        expect(response.status, `${method} ${path}`).toBe(308);
         expect(response.headers.get('location')).toBe(location);
         expect(response.headers.get('cache-control')).toBe('no-store');
       }

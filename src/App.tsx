@@ -3293,8 +3293,8 @@ export default function App() {
                   <h2>Privacy & local storage</h2>
                   <p>
                     Project data is stored in IndexedDB on this browser. There is no account,
-                    analytics integration, or cloud synchronization. Backups are unencrypted JSON
-                    files under your control.
+                    analytics integration, or cloud synchronization. Password-protected backups
+                    encrypt the exported copy; optional plain JSON backups contain readable records.
                   </p>
                   <p>
                     When configured, activation sends the license key over HTTPS to the server and

@@ -3,17 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>ScopeLedger — Stop doing free work for paying clients</title>
+    <title>ScopeLedger | Scope Change Management for Fixed-Fee Agencies</title>
     <meta
       name="description"
-      content="Review scope changes, costs and fees in one place. Prepare clear client briefs and invoices. Built for fixed-fee agencies and design studios. Try ScopeLedger."
+      content="Compare client scope changes with your agreed baseline, review costs and margin, and prepare clear briefs and invoices. Try the free workspace demo."
     />
     <meta name="theme-color" content="#08090a" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="ScopeLedger — Stop doing free work for paying clients" />
+    <meta
+      property="og:title"
+      content="ScopeLedger | Scope Change Management for Fixed-Fee Agencies"
+    />
     <meta
       property="og:description"
-      content="Clear scope. Considered fees. Client-ready documents. Review the complete workflow in the free ScopeLedger demo."
+      content="Scope change management for fixed-fee agencies. Review costs, choose a fee and prepare client documents. Try the free workspace demo."
     />
     <meta property="og:site_name" content="ScopeLedger" />
     <meta property="og:locale" content="en_US" />
@@ -54,14 +58,16 @@
             "@type": "Organization",
             "@id": "https://scopeledger.site/#organization",
             "name": "ScopeLedger",
-            "url": "https://scopeledger.site/home/",
-            "logo": "https://scopeledger.site/brand/scopeledger-mark.svg"
+            "url": "https://scopeledger.site/",
+            "email": "support@scopeledger.site",
+            "logo": "https://scopeledger.site/brand/scopeledger-mark-256.svg"
           },
           {
             "@type": "WebSite",
             "@id": "https://scopeledger.site/#website",
             "name": "ScopeLedger",
-            "url": "https://scopeledger.site/home/",
+            "alternateName": "Scope Ledger",
+            "url": "https://scopeledger.site/",
             "inLanguage": "en",
             "publisher": { "@id": "https://scopeledger.site/#organization" }
           },
@@ -113,6 +119,47 @@
     <meta property="og:url" content="https://scopeledger.site/home/" />
     <link rel="icon" type="image/svg+xml" href="/brand/scopeledger-favicon.svg?v=6" />
     <style>
+      .seo-resource-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin: 32px 0 24px;
+      }
+      .seo-resource-grid > a {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--panel);
+      }
+      .seo-resource-grid h3 {
+        font-size: 20px;
+        letter-spacing: -0.025em;
+        margin: 0 0 12px;
+      }
+      .seo-resource-grid p {
+        color: var(--muted);
+        line-height: 1.7;
+        margin: 0 0 24px;
+      }
+      .seo-resource-grid span {
+        margin-top: auto;
+        color: var(--brand);
+        font-size: 14px;
+      }
+      .seo-resource-grid a:hover {
+        border-color: var(--brand);
+      }
+      @media (max-width: 600px) {
+        .seo-resource-grid {
+          grid-template-columns: 1fr;
+        }
+        .seo-resource-grid > a {
+          padding: 24px;
+        }
+      }
       /* ==========================================================================
    Tokens
    ========================================================================== */
@@ -5877,7 +5924,7 @@
               <p id="appearanceStatus">Follows your device</p>
             </div>
           </details>
-          <a href="#pricing" data-lifetime class="btn btn-primary btn-sm">Get access</a>
+          <a href="#pricing" data-lifetime class="btn btn-primary btn-sm">License options</a>
           <button
             class="icon-btn menu-btn"
             id="menuBtn"
@@ -5914,7 +5961,7 @@
         >FAQ <svg width="16" height="16"><use href="#i-arrow" /></svg
       ></a>
       <a href="#pricing" data-lifetime class="btn btn-primary btn-lg" style="--i: 6"
-        >Get lifetime access — $49</a
+        >View license options — $49</a
       >
     </nav>
 
@@ -5942,13 +5989,14 @@
               Stop doing free work for <span class="soft">paying clients.</span>
             </h1>
             <p class="hero-sub" data-reveal style="--d: 250ms">
-              Bring your original scope, the new request and its costs into one clear workflow.
+              Scope change management for fixed-fee projects. Bring your original scope, the new
+              request and its costs into one clear workflow.
               <b>Choose a fair fee</b>, exchange work or defer it — then review a client brief
               before exporting.
             </p>
             <div class="hero-ctas" data-reveal style="--d: 350ms">
               <a href="#pricing" data-lifetime class="btn btn-primary btn-lg"
-                >Get lifetime access <span class="sub">· $49</span></a
+                >View license options <span class="sub">· $49</span></a
               >
               <a href="/workspace/" class="link workspace-entry"
                 >Open workspace <svg class="arr" width="15" height="15"><use href="#i-arrow" /></svg
@@ -5967,7 +6015,7 @@
                 ><svg width="16" height="16" aria-hidden="true"><use href="#i-doc" /></svg>Inspect a
                 real PDF</span
               >
-              <span>One-time payment · from $49</span>
+              <span>Free demo now · planned licenses from $49</span>
             </div>
           </div>
 
@@ -6414,7 +6462,7 @@
         <div class="wrap">
           <div class="head center">
             <span class="label" data-reveal>Your numbers</span>
-            <h2 class="split" data-split>It pays for itself the first time you use it.</h2>
+            <h2 class="split" data-split>See what unpriced changes can cost.</h2>
             <p class="lead" data-reveal>
               Set the sliders to match your studio. Be honest — most founders underestimate how
               often “quick” happens.
@@ -6753,7 +6801,9 @@
           </div>
           <div class="price-wrap" data-reveal>
             <div class="pc-main">
-              <div class="pc-name">Lifetime license <span class="chip bill">Pay once</span></div>
+              <div class="pc-name">
+                Planned lifetime license <span class="chip bill">Pay once</span>
+              </div>
               <div class="license-summary" aria-label="Lifetime license prices">
                 <div>
                   <h3>Individual</h3>
@@ -6771,15 +6821,16 @@
                 </div>
               </div>
               <p class="pc-note">
-                Paid access enables additional projects and protected PDF exports. Try the sample
-                workspace and inspect the documents before choosing a license.
+                The public release is a free demo. Purchases, activation and protected customer PDF
+                exports are not enabled yet. Planned licenses are $49 for Individual and $99 for
+                Agency. Try the sample workspace and inspect the demonstration documents.
               </p>
               <a
                 href="/workspace/?activate=1"
                 class="btn btn-primary btn-lg pc-cta"
                 id="buyBtn"
                 data-lifetime
-                >Get lifetime access
+                >View license options
                 <svg class="arr" width="16" height="16"><use href="#i-arrow" /></svg
               ></a>
               <p class="access-fallback">
@@ -6858,14 +6909,17 @@
               ><span>Export a document and share it through your usual channel.</span>
             </div>
             <div>
-              <svg width="16" height="16"><use href="#i-download" /></svg><b>Export anytime</b
-              ><span>Password-protected or plain JSON backups and individual PDFs.</span>
+              <svg width="16" height="16"><use href="#i-download" /></svg><b>Keep a recovery copy</b
+              ><span
+                >Password-protected or plain JSON backups. Public demonstration PDFs are available
+                now.</span
+              >
             </div>
             <div>
               <svg width="16" height="16"><use href="#i-lock" /></svg><b>Saved on this device</b
               ><span
-                >Keep a backup. PDF export sends client-document fields to the rendering
-                service.</span
+                >Keep a backup. When available, protected PDF export sends client-document fields to
+                the rendering service.</span
               >
             </div>
             <div>
@@ -6900,10 +6954,184 @@
               for product guidance.
             </p>
           </div>
-          <div class="faq-list" id="faqList"></div>
+          <div class="faq-list" id="faqList">
+            <div class="fq open" data-reveal style="--d: 0ms">
+              <button type="button" aria-expanded="true" aria-controls="fa0" id="fq0">
+                What does ScopeLedger do?<span class="pm" aria-hidden="true"></span>
+              </button>
+              <div class="fq-a" id="fa0" role="region" aria-labelledby="fq0">
+                <div>
+                  <p>
+                    ScopeLedger helps fixed-fee agencies, freelancers and design studios review a
+                    client request against the agreed project scope, estimate its cost, choose a fee
+                    and prepare a client brief or invoice. It focuses on the commercial decision
+                    behind additional work.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fq open" data-reveal style="--d: 60ms">
+              <button type="button" aria-expanded="true" aria-controls="fa1" id="fq1">
+                Can I try ScopeLedger before purchasing?<span class="pm" aria-hidden="true"></span>
+              </button>
+              <div class="fq-a" id="fa1" role="region" aria-labelledby="fq1">
+                <div>
+                  <p>
+                    Yes. The free workspace demo includes one sample project. You can inspect the
+                    workflow and download the public sample brief and invoice. Purchases, license
+                    activation and protected customer PDF exports are not enabled in the current
+                    public release.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fq open" data-reveal style="--d: 120ms">
+              <button type="button" aria-expanded="true" aria-controls="fa2" id="fq2">
+                What are the planned lifetime license prices?<span
+                  class="pm"
+                  aria-hidden="true"
+                ></span>
+              </button>
+              <div class="fq-a" id="fa2" role="region" aria-labelledby="fq2">
+                <div>
+                  <p>
+                    Individual is planned at <b>$49 once for one activated browser/device</b>.
+                    Agency is planned at <b>$99 once for five</b>. Both have the same paid features.
+                    Read the <a href="/license/">license and availability information</a> before
+                    purchasing becomes available.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fq open" data-reveal style="--d: 180ms">
+              <button type="button" aria-expanded="true" aria-controls="fa3" id="fq3">
+                How does a client approve a scope change?<span class="pm" aria-hidden="true"></span>
+              </button>
+              <div class="fq-a" id="fa3" role="region" aria-labelledby="fq3">
+                <div>
+                  <p>
+                    Share the reviewed client document through your usual channel and record the
+                    client’s written response in the workspace. Imported signature images and
+                    signing lines are supported. An imported image does not record approval, and
+                    ScopeLedger does not authenticate signatures or provide remote signing links.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fq open" data-reveal style="--d: 240ms">
+              <button type="button" aria-expanded="true" aria-controls="fa4" id="fq4">
+                Can my whole team use the same workspace?<span class="pm" aria-hidden="true"></span>
+              </button>
+              <div class="fq-a" id="fa4" role="region" aria-labelledby="fq4">
+                <div>
+                  <p>
+                    Each activated browser/device has an <b>independent local workspace</b>. The
+                    Agency plan is designed for five devices; it does not provide shared accounts or
+                    automatic team synchronization. Backups transfer records deliberately.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fq open" data-reveal style="--d: 300ms">
+              <button type="button" aria-expanded="true" aria-controls="fa5" id="fq5">
+                Where is my client data stored?<span class="pm" aria-hidden="true"></span>
+              </button>
+              <div class="fq-a" id="fa5" role="region" aria-labelledby="fq5">
+                <div>
+                  <p>
+                    Project records and document drafts are stored locally in this browser using
+                    IndexedDB, with a 50 MiB workspace safety limit. Password-protected backups
+                    encrypt the exported copy; local browser records themselves are not fully
+                    encrypted. Optional plain JSON backups are readable. See the
+                    <a href="/privacy/">privacy and data-flow overview</a>.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fq open" data-reveal style="--d: 360ms">
+              <button type="button" aria-expanded="true" aria-controls="fa6" id="fq6">
+                Does ScopeLedger connect to Slack, email or Figma?<span
+                  class="pm"
+                  aria-hidden="true"
+                ></span>
+              </button>
+              <div class="fq-a" id="fa6" role="region" aria-labelledby="fq6">
+                <div>
+                  <p>
+                    There are no live capture integrations. Enter or paste the request and compare
+                    it with the project baseline. Source text and links provide context; ScopeLedger
+                    does not fetch or interpret them automatically.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fq open" data-reveal style="--d: 420ms">
+              <button type="button" aria-expanded="true" aria-controls="fa7" id="fq7">
+                What if I do not have a detailed statement of work?<span
+                  class="pm"
+                  aria-hidden="true"
+                ></span>
+              </button>
+              <div class="fq-a" id="fa7" role="region" aria-labelledby="fq7">
+                <div>
+                  <p>
+                    Start with the agreed deliverables, revision limits, baseline fee and delivery
+                    costs. Record exclusions, dependencies and the authorized approver. The
+                    <a href="/guides/project-baseline-checklist/">project baseline checklist</a>
+                    helps you fill in the gaps without inventing an agreement.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="fq open" data-reveal style="--d: 480ms">
+              <button type="button" aria-expanded="true" aria-controls="fa8" id="fq8">
+                How do I protect my work from browser data loss?<span
+                  class="pm"
+                  aria-hidden="true"
+                ></span>
+              </button>
+              <div class="fq-a" id="fa8" role="region" aria-labelledby="fq8">
+                <div>
+                  <p>
+                    Export a password-protected recovery backup from Settings &amp; backup and keep
+                    it outside this browser. Keep its password safely. Plain JSON export is also
+                    available deliberately. Clearing browser storage can remove the local workspace;
+                    browser storage is not a cloud backup.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <section class="sec tight" id="resources" aria-labelledby="resources-heading">
+        <div class="wrap">
+          <span class="label">Practical guides</span>
+          <h2 id="resources-heading">Make the next scope change easier.</h2>
+          <p class="lead">Use a clear baseline, a considered estimate and a written next step.</p>
+          <div class="seo-resource-grid">
+            <a href="/guides/handle-scope-creep/"
+              ><h3>Handle scope creep</h3>
+              <p>Compare a request with the agreement and choose a clear response.</p>
+              <span>Read the guide →</span></a
+            ><a href="/guides/change-order-template/"
+              ><h3>Change order template</h3>
+              <p>A practical structure for scope, fee, delivery changes and approval.</p>
+              <span>Use the template →</span></a
+            ><a href="/guides/price-additional-work/"
+              ><h3>Price additional work</h3>
+              <p>Work through costs, contribution margin and tax with a clear example.</p>
+              <span>Review the calculation →</span></a
+            ><a href="/guides/project-baseline-checklist/"
+              ><h3>Project baseline checklist</h3>
+              <p>Capture the agreed scope before the next request arrives.</p>
+              <span>Open the checklist →</span></a
+            >
+          </div>
+          <p><a class="link" href="/guides/">Browse all guides →</a></p>
+        </div>
+      </section>
       <!-- ============================== FINAL CTA ============================== -->
       <section class="final">
         <div class="horizon" aria-hidden="true"></div>
@@ -6916,9 +7144,9 @@
           </p>
           <div class="final-ctas" data-reveal>
             <a href="#pricing" data-lifetime class="btn btn-primary btn-lg"
-              >Get lifetime access <span class="sub">· $49</span></a
+              >View license options <span class="sub">· $49</span></a
             >
-            <small>Individual $49 · Agency $99 · One-time licenses</small>
+            <small>Planned: Individual $49 · Agency $99 · Purchases not yet available</small>
           </div>
         </div>
       </section>
@@ -6954,15 +7182,15 @@
           </div>
           <div>
             <h6>Help</h6>
-            <a href="#faq">FAQ</a><a href="#founder">Why this exists</a
+            <a href="#faq">FAQ</a><a href="/about/">About ScopeLedger</a
+            ><a href="/guides/">Guides &amp; templates</a
             ><a href="/workspace/?view=support">Help &amp; support</a
             ><a href="#pricing">License options</a>
           </div>
           <div>
             <h6>Service information</h6>
-            <a href="/workspace/?view=support" data-information="privacy">Privacy overview</a
-            ><a href="/workspace/?view=support" data-information="terms">License information</a
-            ><a href="/workspace/?view=support" data-information="dpa">Data flow overview</a>
+            <a href="/privacy/">Privacy overview</a><a href="/license/">License information</a
+            ><a href="/privacy/#data-flow">Data flow overview</a>
           </div>
         </div>
         <div class="foot-b">
@@ -6981,7 +7209,7 @@
     </footer>
 
     <div class="mcta" id="mcta">
-      <a href="#pricing" data-lifetime class="btn btn-primary btn-lg">Get lifetime access — $49</a>
+      <a href="#pricing" data-lifetime class="btn btn-primary btn-lg">View license options — $49</a>
     </div>
     <div class="cmdk" id="cmdk" role="dialog" aria-modal="true" aria-label="Command menu" hidden>
       <div class="cmdk-bg" data-close></div>

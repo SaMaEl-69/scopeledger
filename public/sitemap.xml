@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://scopeledger.site/home/</loc></url></urlset>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://scopeledger.site/home/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://scopeledger.site/guides/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://scopeledger.site/guides/handle-scope-creep/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://scopeledger.site/guides/change-order-template/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://scopeledger.site/guides/price-additional-work/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://scopeledger.site/guides/project-baseline-checklist/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://scopeledger.site/about/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://scopeledger.site/privacy/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://scopeledger.site/license/</loc><lastmod>2026-10-11</lastmod></url>
+</urlset>

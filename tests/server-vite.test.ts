@@ -123,7 +123,7 @@ describe('actual Vite development and preview private-file boundary', () => {
           ['/app/documents?ref=INV-001', '/workspace/documents?ref=INV-001'],
         ]) {
           const response = await fetch(origin + path, { method, redirect: 'manual' });
-          expect(response.status, `${mode} ${method} ${path}`).toBe(302);
+          expect(response.status, `${mode} ${method} ${path}`).toBe(308);
           expect(response.headers.get('location')).toBe(location);
         }
         for (const path of ['/home/', '/workspace/', '/workspace/documents']) {
