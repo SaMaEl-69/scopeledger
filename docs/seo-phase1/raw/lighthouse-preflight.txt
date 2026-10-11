@@ -1,0 +1,3 @@
+SCOPELEDGER_CHROME_PATH=/Users/samaelsmacbook/Library/Caches/ms-playwright/chromium-1243/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+ENOENT: no such file or directory, access '/Users/samaelsmacbook/Library/Caches/ms-playwright/chromium-1243/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'
+UNVERIFIED: Lighthouse mobile /home/ and /guides/handle-scope-creep/ not run; required executable missing. No browser installation or substitution.

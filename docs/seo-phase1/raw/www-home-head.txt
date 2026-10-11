@@ -1,0 +1,21 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/2 308 
+date: Sun, 11 Oct 2026 04:33:34 GMT
+location: https://scopeledger.site/home/
+cache-control: no-store
+strict-transport-security: max-age=31536000
+content-security-policy: default-src 'self'; script-src 'self'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), microphone=(), geolocation=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=1qwoTWmhNWt671kb6FZ83biqNIw%2FoC1Gii1zRL%2FBP0BmX2mbbVTz14su9wR%2F7F7OE1CTuyG9b9kX7pbiNlV0N88Fg3zrFBROVGs5wjphT%2B8SN%2FjH2yKw8V5lO5K0M6d%2FzpX7yLJb7g%3D%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a48b25c18e2d7356-DAC
+alt-svc: h3=":443"; ma=86400
+

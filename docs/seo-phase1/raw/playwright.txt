@@ -1,0 +1,298 @@
+[WebServer] (node:29536) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:29540) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+npm run test:seo:live
+SCOPELEDGER_SEO_ORIGIN=http://127.0.0.1:4173
+
+> scopeledger-core@1.0.0 test:seo:live
+> node scripts/seo-check.mjs --live
+
+SEO audit: 9 pages; 30 strict failures; 4 length warnings; HTTP checks at http://127.0.0.1:4173.
+(node:29571) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+WARNING /guides/handle-scope-creep/: title length 61, guidance 50–60 (not a gate)
+WARNING /guides/price-additional-work/: title length 62, guidance 50–60 (not a gate)
+WARNING /privacy/: description length 163, guidance 120–160 (not a gate)
+WARNING /license/: title length 63, guidance 50–60 (not a gate)
+FAIL /home/: file: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+FAIL /home/: browser: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+FAIL /home/: googlebot: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+FAIL /home/: bingbot: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+FAIL /workspace/: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /workspace/: required workspace meta robots noarchive missing
+FAIL /workspace/projects: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /workspace/projects: required workspace meta robots noarchive missing
+FAIL /app: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (308)
+FAIL /api/license/status: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /api/license/activate: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (405)
+FAIL /api/pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (405)
+FAIL /api/ready: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (503)
+FAIL /api/health: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /api/unknown-seo-path: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (404)
+FAIL /samples/change-brief.pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /samples/invoice.pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /llms.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /product-guide.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /release.json: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /indexnow-key.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /not-a-public-page: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (404)
+
+exit=1
+
+  ✘   1 [chromium] › tests/site/seo.spec.ts:13:3 › served public SEO: seo-check.mjs (410ms)
+(node:29572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+/opt/homebrew/Cellar/node/26.0.0/bin/node scripts/audit-links.mjs
+SCOPELEDGER_SEO_ORIGIN=http://127.0.0.1:4173
+Link audit: 9/9 served pages; 36 real HTTP responses; 31 strict failures.
+(node:29573) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+FAIL /home/: missing #anchor target /privacy/#data-flow (target http://127.0.0.1:4173/privacy/)
+FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+
+exit=1
+
+  ✘   2 [chromium] › tests/site/seo.spec.ts:13:3 › served public SEO: audit-links.mjs (359ms)
+(node:29574) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"path":"/home/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓   3 [chromium] › tests/site/seo.spec.ts:31:5 › /home/ has a mobile viewport and no horizontal overflow at 360px (558ms)
+{"path":"/home/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓   4 [chromium] › tests/site/seo.spec.ts:31:5 › /home/ has a mobile viewport and no horizontal overflow at 390px (501ms)
+{"path":"/guides/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓   5 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/ has a mobile viewport and no horizontal overflow at 360px (311ms)
+{"path":"/guides/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓   6 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/ has a mobile viewport and no horizontal overflow at 390px (310ms)
+{"path":"/guides/handle-scope-creep/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓   7 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/handle-scope-creep/ has a mobile viewport and no horizontal overflow at 360px (290ms)
+{"path":"/guides/handle-scope-creep/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓   8 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/handle-scope-creep/ has a mobile viewport and no horizontal overflow at 390px (292ms)
+{"path":"/guides/change-order-template/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓   9 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/change-order-template/ has a mobile viewport and no horizontal overflow at 360px (315ms)
+{"path":"/guides/change-order-template/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓  10 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/change-order-template/ has a mobile viewport and no horizontal overflow at 390px (298ms)
+{"path":"/guides/price-additional-work/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓  11 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/price-additional-work/ has a mobile viewport and no horizontal overflow at 360px (435ms)
+{"path":"/guides/price-additional-work/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓  12 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/price-additional-work/ has a mobile viewport and no horizontal overflow at 390px (296ms)
+{"path":"/guides/project-baseline-checklist/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓  13 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/project-baseline-checklist/ has a mobile viewport and no horizontal overflow at 360px (312ms)
+{"path":"/guides/project-baseline-checklist/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓  14 [chromium] › tests/site/seo.spec.ts:31:5 › /guides/project-baseline-checklist/ has a mobile viewport and no horizontal overflow at 390px (285ms)
+{"path":"/about/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓  15 [chromium] › tests/site/seo.spec.ts:31:5 › /about/ has a mobile viewport and no horizontal overflow at 360px (296ms)
+{"path":"/about/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓  16 [chromium] › tests/site/seo.spec.ts:31:5 › /about/ has a mobile viewport and no horizontal overflow at 390px (285ms)
+{"path":"/privacy/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓  17 [chromium] › tests/site/seo.spec.ts:31:5 › /privacy/ has a mobile viewport and no horizontal overflow at 360px (303ms)
+{"path":"/privacy/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓  18 [chromium] › tests/site/seo.spec.ts:31:5 › /privacy/ has a mobile viewport and no horizontal overflow at 390px (307ms)
+{"path":"/license/","width":360,"innerWidth":360,"scrollWidth":360,"bodyWidth":360}
+  ✓  19 [chromium] › tests/site/seo.spec.ts:31:5 › /license/ has a mobile viewport and no horizontal overflow at 360px (320ms)
+{"path":"/license/","width":390,"innerWidth":390,"scrollWidth":390,"bodyWidth":390}
+  ✓  20 [chromium] › tests/site/seo.spec.ts:31:5 › /license/ has a mobile viewport and no horizontal overflow at 390px (295ms)
+
+
+  1) [chromium] › tests/site/seo.spec.ts:13:3 › served public SEO: seo-check.mjs ───────────────────
+
+    Error: npm run test:seo:live
+    SCOPELEDGER_SEO_ORIGIN=http://127.0.0.1:4173
+
+    > scopeledger-core@1.0.0 test:seo:live
+    > node scripts/seo-check.mjs --live
+
+    SEO audit: 9 pages; 30 strict failures; 4 length warnings; HTTP checks at http://127.0.0.1:4173.
+    (node:29571) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+    (Use `node --trace-warnings ...` to show where the warning was created)
+    WARNING /guides/handle-scope-creep/: title length 61, guidance 50–60 (not a gate)
+    WARNING /guides/price-additional-work/: title length 62, guidance 50–60 (not a gate)
+    WARNING /privacy/: description length 163, guidance 120–160 (not a gate)
+    WARNING /license/: title length 63, guidance 50–60 (not a gate)
+    FAIL /home/: file: skipped heading level h2 → h6: Product
+    FAIL /home/: WebApplication rich-result requirement missing: offers.price
+    FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+    FAIL /home/: browser: skipped heading level h2 → h6: Product
+    FAIL /home/: WebApplication rich-result requirement missing: offers.price
+    FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+    FAIL /home/: googlebot: skipped heading level h2 → h6: Product
+    FAIL /home/: WebApplication rich-result requirement missing: offers.price
+    FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+    FAIL /home/: bingbot: skipped heading level h2 → h6: Product
+    FAIL /home/: WebApplication rich-result requirement missing: offers.price
+    FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+    FAIL /workspace/: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /workspace/: required workspace meta robots noarchive missing
+    FAIL /workspace/projects: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /workspace/projects: required workspace meta robots noarchive missing
+    FAIL /app: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (308)
+    FAIL /api/license/status: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /api/license/activate: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (405)
+    FAIL /api/pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (405)
+    FAIL /api/ready: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (503)
+    FAIL /api/health: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /api/unknown-seo-path: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (404)
+    FAIL /samples/change-brief.pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /samples/invoice.pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /llms.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /product-guide.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /release.json: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /indexnow-key.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+    FAIL /not-a-public-page: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (404)
+
+    exit=1
+
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 1
+
+      23 |     console.log(raw);
+      24 |     expect(result.error, raw).toBeUndefined();
+    > 25 |     expect(result.status, raw).toBe(0);
+         |                                ^
+      26 |   });
+      27 | }
+      28 |
+        at /Users/samaelsmacbook/Documents/scopeledger/tests/site/seo.spec.ts:25:32
+
+    attachment #1: seo-check.mjs-raw-output (text/plain) ───────────────────────────────────────────
+    npm run test:seo:live
+    SCOPELEDGER_SEO_ORIGIN=http://127.0.0.1:4173
+    
+    > scopeledger-core@1.0.0 test:seo:live
+    > node scripts/seo-check.mjs --live
+    
+    SEO audit: 9 pages; 30 strict failures; 4 length warnings; HTTP checks at http://127.0.0.1:4173.
+    (node:29571) Warning: The 'NO_COLOR' env is ignored due to ...
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site/seo-served-public-SEO-seo-check-mjs-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/site/seo-served-public-SEO-seo-check-mjs-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/site/seo-served-public-SEO-seo-check-mjs-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › tests/site/seo.spec.ts:13:3 › served public SEO: audit-links.mjs ─────────────────
+
+    Error: /opt/homebrew/Cellar/node/26.0.0/bin/node scripts/audit-links.mjs
+    SCOPELEDGER_SEO_ORIGIN=http://127.0.0.1:4173
+    Link audit: 9/9 served pages; 36 real HTTP responses; 31 strict failures.
+    (node:29573) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+    (Use `node --trace-warnings ...` to show where the warning was created)
+    FAIL /home/: missing #anchor target /privacy/#data-flow (target http://127.0.0.1:4173/privacy/)
+    FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+    FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+    FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+
+    exit=1
+
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 1
+
+      23 |     console.log(raw);
+      24 |     expect(result.error, raw).toBeUndefined();
+    > 25 |     expect(result.status, raw).toBe(0);
+         |                                ^
+      26 |   });
+      27 | }
+      28 |
+        at /Users/samaelsmacbook/Documents/scopeledger/tests/site/seo.spec.ts:25:32
+
+    attachment #1: audit-links.mjs-raw-output (text/plain) ─────────────────────────────────────────
+    /opt/homebrew/Cellar/node/26.0.0/bin/node scripts/audit-links.mjs
+    SCOPELEDGER_SEO_ORIGIN=http://127.0.0.1:4173
+    Link audit: 9/9 served pages; 36 real HTTP responses; 31 strict failures.
+    (node:29573) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+    (Use `node --trace-warn...
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/site/seo-served-public-SEO-audit-links-mjs-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/site/seo-served-public-SEO-audit-links-mjs-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/site/seo-served-public-SEO-audit-links-mjs-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › tests/site/seo.spec.ts:13:3 › served public SEO: seo-check.mjs ────────────────────
+    [chromium] › tests/site/seo.spec.ts:13:3 › served public SEO: audit-links.mjs ──────────────────
+  18 passed (9.8s)

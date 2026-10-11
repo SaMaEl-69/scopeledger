@@ -1,0 +1,1 @@
+Image inventory: 94 elements; 51 with report-only findings; 0 unverified fetches. See output/seo/images.md (all elements, including decorative images).

@@ -1,0 +1,12 @@
+
+> scopeledger-core@1.0.0 prebuild
+> node scripts/sync-document-branding.mjs && node scripts/seo-check.mjs
+
+WARNING /guides/handle-scope-creep/: title length 61, guidance 50–60 (not a gate)
+WARNING /guides/price-additional-work/: title length 62, guidance 50–60 (not a gate)
+WARNING /privacy/: description length 163, guidance 120–160 (not a gate)
+WARNING /license/: title length 63, guidance 50–60 (not a gate)
+FAIL /home/: file: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+SEO audit: 9 pages; 3 strict failures; 4 length warnings; source only (served HTTP requires SCOPELEDGER_SEO_ORIGIN or --live).
