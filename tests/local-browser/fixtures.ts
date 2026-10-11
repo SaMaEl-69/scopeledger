@@ -31,6 +31,29 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
         return '[invalid-url]';
       }
     };
+    const workspaceView = (value: string) => {
+      try {
+        const url = new URL(value);
+        if (url.origin !== origin) return null;
+        const view = url.searchParams.get('view');
+        return view !== null &&
+          [
+            'dashboard',
+            'projects',
+            'workspace',
+            'documents',
+            'calendar',
+            'clients',
+            'playbook',
+            'settings',
+            'support',
+          ].includes(view)
+          ? view
+          : null;
+      } catch {
+        return null;
+      }
+    };
     const record = (event: Record<string, unknown>) => {
       events.push({ atMs: atMs(), ...event });
       if (events.length > 500) {
@@ -74,6 +97,7 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
         event: 'framenavigated',
         frame: frame === page.mainFrame() ? 'main' : 'child',
         pathname: pathname(frame.url()),
+        ...(frame === page.mainFrame() ? { urlView: workspaceView(frame.url()) } : {}),
       });
     const onFrameAttached = () => record({ event: 'frameattached' });
     const onFrameDetached = () => record({ event: 'framedetached' });
@@ -88,6 +112,81 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
     page.on('framenavigated', onFrameNavigated);
     page.on('frameattached', onFrameAttached);
     page.on('framedetached', onFrameDetached);
+    await page.addInitScript(() => {
+      if (window !== window.top) return;
+      const sidebarViews = [
+        'dashboard',
+        'projects',
+        'workspace',
+        'documents',
+        'calendar',
+        'clients',
+        'playbook',
+      ];
+      const views = [...sidebarViews, 'settings', 'support'];
+      const native = {
+        events: [] as Record<string, unknown>[],
+        droppedEvents: 0,
+      };
+      const host = window as typeof window & {
+        __margvantNativeNavigation?: typeof native;
+      };
+      host.__margvantNativeNavigation = native;
+      const record = (event: string, navIndex: number | null = null) => {
+        const buttons = [...document.querySelectorAll('.sidebar nav button.nav-item')];
+        const activeIndex = buttons.findIndex(
+          (button) => button.getAttribute('aria-current') === 'page',
+        );
+        const requestedView = new URL(window.location.href).searchParams.get('view');
+        native.events.push({
+          atMs: Math.round(performance.now()),
+          event,
+          navIndex,
+          targetView: navIndex === null ? null : sidebarViews[navIndex],
+          activeIndex: activeIndex < 0 || activeIndex >= sidebarViews.length ? null : activeIndex,
+          activeView: sidebarViews[activeIndex] ?? null,
+          urlView: requestedView !== null && views.includes(requestedView) ? requestedView : null,
+          viewport: { width: innerWidth, height: innerHeight },
+          readyState: document.readyState,
+        });
+        if (native.events.length > 200) {
+          native.events.shift();
+          native.droppedEvents += 1;
+        }
+      };
+      const interaction = (event: Event) => {
+        const button =
+          event.target instanceof Element
+            ? event.target.closest('.sidebar nav button.nav-item')
+            : null;
+        if (!button) return;
+        const index = [...document.querySelectorAll('.sidebar nav button.nav-item')].indexOf(
+          button,
+        );
+        if (index >= 0 && index < sidebarViews.length) record(event.type, index);
+      };
+      for (const event of ['pointerdown', 'pointerup', 'click', 'focus'])
+        document.addEventListener(event, interaction, { capture: true, passive: true });
+      document.addEventListener('readystatechange', () => record('readystatechange'), {
+        capture: true,
+        passive: true,
+      });
+      document.addEventListener('DOMContentLoaded', () => record('DOMContentLoaded'), {
+        capture: true,
+        passive: true,
+      });
+      window.addEventListener('popstate', () => record('popstate'), {
+        capture: true,
+        passive: true,
+      });
+      window.addEventListener(
+        'load',
+        (event) => {
+          if (event.target === document) record('load');
+        },
+        { capture: true, passive: true },
+      );
+    });
     try {
       await use(page);
     } finally {
@@ -124,6 +223,17 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
                 readyState: document.readyState,
                 fontsStatus: document.fonts.status,
                 iframeCount: document.querySelectorAll('iframe').length,
+                nativeNavigation: (
+                  window as typeof window & {
+                    __margvantNativeNavigation?: {
+                      events: Record<string, unknown>[];
+                      droppedEvents: number;
+                    };
+                  }
+                ).__margvantNativeNavigation ?? {
+                  status: 'UNVERIFIED',
+                  reason: 'native-observer-unavailable',
+                },
               }));
             } catch {
               observation.document = { status: 'UNVERIFIED', reason: 'inspection-unavailable' };
