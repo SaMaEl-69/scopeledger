@@ -57,7 +57,7 @@ for (const [index, file] of publicDocuments.entries()) {
   assert.equal(attr(metadata(html, 'og:url') ?? '', 'content'), origin + path, `${path}: og:url`);
   assert.equal(
     attr(metadata(html, 'og:image') ?? '', 'content'),
-    origin + '/brand/scopeledger-social-v1.png',
+    origin + '/brand/scopeledger-social-v1.png?v=2',
     `${path}: social image`,
   );
   assert(

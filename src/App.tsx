@@ -219,14 +219,14 @@ function BrandLogo() {
     <span className="brand-lockup" aria-hidden="true">
       <img
         className="brand-image-light"
-        src="/brand/scopeledger-logo-light.svg?v=6"
+        src="/brand/scopeledger-logo-light.svg?v=7"
         width="202"
         height="40"
         alt=""
       />
       <img
         className="brand-image-dark"
-        src="/brand/scopeledger-logo-dark.svg?v=6"
+        src="/brand/scopeledger-logo-dark.svg?v=7"
         width="202"
         height="40"
         alt=""

@@ -3,14 +3,17 @@ import { readFile } from 'node:fs/promises';
 import { contentPolicy } from '../server/security.mjs';
 import { publicAssetPath, shareableAssetPath } from '../shared/public-assets.mjs';
 
-const image = 'https://scopeledger.site/brand/scopeledger-social-v1.png';
+const image = 'https://scopeledger.site/brand/scopeledger-social-v1.png?v=2';
+const imagePattern = image.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 describe('public sharing and discovery', () => {
   it.each(['home', 'workspace'])(
     'provides complete fetchable social metadata for %s',
     async (page) => {
       const html = await readFile(`${page}/index.html`, 'utf8');
       for (const field of ['og:image', 'twitter:image']) {
-        expect(html).toMatch(new RegExp(`(?:property|name)="${field}" content="${image}"`));
+        expect(html).toMatch(
+          new RegExp(`(?:property|name)="${field}"\\s+content="${imagePattern}"`),
+        );
       }
       expect(html).toContain('property="og:image:width" content="1200"');
       expect(html).toContain('property="og:image:height" content="630"');

@@ -93,7 +93,7 @@ const guides = [
         id: 'sample',
         title: 'Inspect the public demonstration PDFs.',
         content:
-          '<p>The samples show how a brief and an invoice present scope and fees at different points in the workflow. They do not show approval by a real customer.</p><div class="actions"><a class="button" href="/samples/change-brief.pdf">Open the sample brief PDF</a><a class="button" href="/samples/invoice.pdf">Open the sample invoice PDF</a></div><p class="small">The free workspace includes document previews. Protected customer PDF exports require activated export services, which are not yet enabled on the public deployment.</p>',
+          '<p>The samples show how a brief and an invoice present scope and fees at different points in the workflow. They do not show approval by a real customer.</p><div class="actions"><a class="button" href="/samples/change-brief.pdf?v=6">Open the sample brief PDF</a><a class="button" href="/samples/invoice.pdf?v=6">Open the sample invoice PDF</a></div><p class="small">The free workspace includes document previews. Protected customer PDF exports require activated export services, which are not yet enabled on the public deployment.</p>',
       },
     ],
   },
@@ -222,13 +222,13 @@ function head(title, description, path, graph) {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="theme-color" content="#f5f5f2"><meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="${origin}${path}"><link rel="icon" type="image/svg+xml" href="/brand/scopeledger-favicon.svg"><link rel="stylesheet" href="/guides/guides.css"><script src="/guides/guides.js"></script>
-<meta property="og:type" content="${path === '/guides/' ? 'website' : 'article'}"><meta property="og:site_name" content="Margvant"><meta property="og:locale" content="en_US"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${origin}${path}"><meta property="og:image" content="${origin}/brand/scopeledger-social-v1.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Margvant: scope changes, made clear">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${origin}/brand/scopeledger-social-v1.png"><meta name="twitter:image:alt" content="Margvant: scope changes, made clear">
+<meta property="og:type" content="${path === '/guides/' ? 'website' : 'article'}"><meta property="og:site_name" content="Margvant"><meta property="og:locale" content="en_US"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${origin}${path}"><meta property="og:image" content="${origin}/brand/scopeledger-social-v1.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Margvant: scope changes, made clear">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${origin}/brand/scopeledger-social-v1.png?v=2"><meta name="twitter:image:alt" content="Margvant: scope changes, made clear">
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': [organization, ...graph] }).replaceAll('<', '\\u003c')}</script></head>`;
 }
 
 function header() {
-  return `<body class="sl-guide"><a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="Margvant home"><img class="logo-light" src="/brand/scopeledger-logo-light.svg" width="202" height="40" alt="Margvant"><img class="logo-dark" src="/brand/scopeledger-logo-dark.svg" width="202" height="40" alt="Margvant"></a><nav class="header-nav" aria-label="Main navigation"><a class="home-link" href="/">Product</a><a class="guides-link" href="/guides/">Guides</a><a class="button" href="/workspace/">Try the free demo</a></nav></div></header>`;
+  return `<body class="sl-guide"><a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="Margvant home"><img class="logo-light" src="/brand/scopeledger-logo-light.svg?v=7" width="202" height="40" alt="Margvant"><img class="logo-dark" src="/brand/scopeledger-logo-dark.svg?v=7" width="202" height="40" alt="Margvant"></a><nav class="header-nav" aria-label="Main navigation"><a class="home-link" href="/">Product</a><a class="guides-link" href="/guides/">Guides</a><a class="button" href="/workspace/">Try the free demo</a></nav></div></header>`;
 }
 
 function footer() {
@@ -256,7 +256,7 @@ function guideHtml(guide) {
     inLanguage: 'en',
     author: { '@id': organization['@id'] },
     publisher: { '@id': organization['@id'] },
-    image: `${origin}/brand/scopeledger-social-v1.png`,
+    image: `${origin}/brand/scopeledger-social-v1.png?v=2`,
   };
   const related = guides
     .filter((item) => item.slug !== guide.slug)
