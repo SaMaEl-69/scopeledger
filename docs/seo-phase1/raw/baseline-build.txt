@@ -1,0 +1,50 @@
+
+> scopeledger-core@1.0.0 prebuild
+> node scripts/sync-document-branding.mjs && node scripts/seo-check.mjs
+
+SEO checks passed for 9 canonical public pages.
+
+> scopeledger-core@1.0.0 build
+> tsc -b && vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 1808 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                   1.89 kB │ gzip:   0.77 kB
+dist/workspace/index.html                         3.37 kB │ gzip:   1.10 kB
+dist/home/index.html                            218.18 kB │ gzip:  37.97 kB
+dist/assets/appearance-Dq2iwmi2.css               0.57 kB │ gzip:   0.27 kB
+dist/assets/toolkit-opKvWz9U.css                  2.20 kB │ gzip:   0.75 kB
+dist/assets/home-CYJPGBn9.css                     7.23 kB │ gzip:   2.09 kB
+dist/assets/operational-BPPtVKCL.css             12.25 kB │ gzip:   2.84 kB
+dist/assets/DocumentsView-vyY14xPM.css           15.23 kB │ gzip:   3.44 kB
+dist/assets/main-9CypQkWv.css                   104.67 kB │ gzip:  18.24 kB
+dist/assets/file-text-DWZYkPL0.js                 0.39 kB │ gzip:   0.25 kB
+dist/assets/appearance-DhgcaitL.js                2.00 kB │ gzip:   0.94 kB
+dist/assets/image-import-nCD4_Nsm.js              2.96 kB │ gzip:   1.39 kB
+dist/assets/ClientResponseComposer-xSkpliqY.js    3.12 kB │ gzip:   1.36 kB
+dist/assets/SettingsExtras-DxJLV3u-.js            4.93 kB │ gzip:   2.20 kB
+dist/assets/ComparisonModal-DzgxIiDO.js           4.94 kB │ gzip:   1.95 kB
+dist/assets/operational-Bc-VP1XG.js               7.07 kB │ gzip:   2.98 kB
+dist/assets/PlaybookView-B2vyS-sH.js              7.58 kB │ gzip:   2.28 kB
+dist/assets/CalendarView-sjoPEAbp.js             21.04 kB │ gzip:   6.59 kB
+dist/assets/DashboardView-BrXEy_SI.js            29.56 kB │ gzip:   8.30 kB
+dist/assets/decimal-CNo3oIkL.js                  32.01 kB │ gzip:  12.66 kB
+dist/assets/DocumentsView-CvUz66O7.js            39.29 kB │ gzip:  11.84 kB
+dist/assets/home-ZR3vGaAI.js                     48.71 kB │ gzip:  18.96 kB
+dist/assets/dates-D0rLQFhn.js                   154.12 kB │ gzip:  44.53 kB
+dist/assets/runtime-U9hr0yNf.js                 221.82 kB │ gzip:  68.95 kB
+dist/assets/main-CHP5OoG6.js                    320.76 kB │ gzip: 121.87 kB
+✓ built in 1.39s
+
+> scopeledger-core@1.0.0 postbuild
+> node scripts/release.mjs stamp dist
+
+20261011T042716Z-2ea388e0b208
+npm notice
+npm notice New major version of npm available! 11.12.1 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,759 @@
+{
+  "checkedAt": "2026-10-11T04:47:58.030Z",
+  "publicOrigin": "https://scopeledger.site",
+  "servedOrigin": null,
+  "built": false,
+  "schemaSources": {
+    "software": "https://developers.google.com/search/docs/appearance/structured-data/software-app",
+    "breadcrumb": "https://developers.google.com/search/docs/appearance/structured-data/breadcrumb",
+    "article": "https://developers.google.com/search/docs/appearance/structured-data/article",
+    "organization": "https://developers.google.com/search/docs/appearance/structured-data/organization",
+    "siteName": "https://developers.google.com/search/docs/appearance/site-names"
+  },
+  "sitemapEntries": [
+    {
+      "url": "https://scopeledger.site/home/",
+      "lastmod": "2026-10-11"
+    },
+    {
+      "url": "https://scopeledger.site/guides/",
+      "lastmod": "2026-10-11"
+    },
+    {
+      "url": "https://scopeledger.site/guides/handle-scope-creep/",
+      "lastmod": "2026-10-11"
+    },
+    {
+      "url": "https://scopeledger.site/guides/change-order-template/",
+      "lastmod": "2026-10-11"
+    },
+    {
+      "url": "https://scopeledger.site/guides/price-additional-work/",
+      "lastmod": "2026-10-11"
+    },
+    {
+      "url": "https://scopeledger.site/guides/project-baseline-checklist/",
+      "lastmod": "2026-10-11"
+    },
+    {
+      "url": "https://scopeledger.site/about/",
+      "lastmod": "2026-10-11"
+    },
+    {
+      "url": "https://scopeledger.site/privacy/",
+      "lastmod": "2026-10-11"
+    },
+    {
+      "url": "https://scopeledger.site/license/",
+      "lastmod": "2026-10-11"
+    }
+  ],
+  "pages": [
+    {
+      "path": "/home/",
+      "title": "ScopeLedger | Scope Change Management for Fixed-Fee Agencies",
+      "titleLength": 60,
+      "description": "Compare client scope changes with your agreed baseline, review costs and margin, and prepare clear briefs and invoices. Try the free workspace demo.",
+      "descriptionLength": 148,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "Stop doing free work for paying clients."
+        },
+        {
+          "level": "h2",
+          "text": "You priced the project carefully. Then the “small” requests started."
+        },
+        {
+          "level": "h2",
+          "text": "Every extra request gets a decision. Not a reflexive yes."
+        },
+        {
+          "level": "h3",
+          "text": "Start with your agreement"
+        },
+        {
+          "level": "h3",
+          "text": "Swap, Bill or Defer"
+        },
+        {
+          "level": "h3",
+          "text": "Prepare the client brief"
+        },
+        {
+          "level": "h3",
+          "text": "Try it yourself"
+        },
+        {
+          "level": "h2",
+          "text": "Never wonder what to say again."
+        },
+        {
+          "level": "h2",
+          "text": "No awkward conversation. Just a clean change order."
+        },
+        {
+          "level": "h2",
+          "text": "See what unpriced changes can cost."
+        },
+        {
+          "level": "h2",
+          "text": "Confidence comes from clarity."
+        },
+        {
+          "level": "h3",
+          "text": "Know what changed."
+        },
+        {
+          "level": "h3",
+          "text": "Know what it costs."
+        },
+        {
+          "level": "h3",
+          "text": "Send clear terms."
+        },
+        {
+          "level": "h3",
+          "text": "Keep a useful record."
+        },
+        {
+          "level": "h3",
+          "text": "Your workspace, on your device."
+        },
+        {
+          "level": "h3",
+          "text": "One purchase. Clear choices."
+        },
+        {
+          "level": "h2",
+          "text": "There are three ways to handle “can you just…”"
+        },
+        {
+          "level": "h2",
+          "text": "Two licenses. Pay once."
+        },
+        {
+          "level": "h3",
+          "text": "Individual"
+        },
+        {
+          "level": "h3",
+          "text": "Agency"
+        },
+        {
+          "level": "h4",
+          "text": "Everything included"
+        },
+        {
+          "level": "h2",
+          "text": "Questions, answered honestly."
+        },
+        {
+          "level": "h2",
+          "text": "Make the next scope change easier."
+        },
+        {
+          "level": "h3",
+          "text": "Handle scope creep"
+        },
+        {
+          "level": "h3",
+          "text": "Change order template"
+        },
+        {
+          "level": "h3",
+          "text": "Price additional work"
+        },
+        {
+          "level": "h3",
+          "text": "Project baseline checklist"
+        },
+        {
+          "level": "h2",
+          "text": "Your next “quick tweak” is already on its way."
+        },
+        {
+          "level": "h6",
+          "text": "Product"
+        },
+        {
+          "level": "h6",
+          "text": "Help"
+        },
+        {
+          "level": "h6",
+          "text": "Service information"
+        },
+        {
+          "level": "h2",
+          "text": "Choose your license."
+        },
+        {
+          "level": "h2",
+          "text": ""
+        }
+      ],
+      "schema": [
+        {
+          "type": "Organization"
+        },
+        {
+          "type": "WebSite"
+        },
+        {
+          "type": "WebApplication"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "path": "/guides/",
+      "title": "Scope Change Guides & Agency Templates | ScopeLedger",
+      "titleLength": 52,
+      "description": "Practical guides for fixed-fee agencies: build a project baseline, handle scope creep, price additional work and prepare a clear change order.",
+      "descriptionLength": 142,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "A clearer process for the next “can you just…”"
+        },
+        {
+          "level": "h2",
+          "text": "How to Handle Scope Creep on Fixed-Fee Projects"
+        },
+        {
+          "level": "h2",
+          "text": "Agency Change Order Template & Worked Example"
+        },
+        {
+          "level": "h2",
+          "text": "How to Price Additional Work: Cost, Margin & Tax"
+        },
+        {
+          "level": "h2",
+          "text": "Project Scope Baseline Checklist for Agencies"
+        },
+        {
+          "level": "h2",
+          "text": "Explore the process in the free workspace."
+        }
+      ],
+      "schema": [
+        {
+          "type": "Organization"
+        },
+        {
+          "type": "CollectionPage"
+        },
+        {
+          "type": "BreadcrumbList"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "path": "/guides/handle-scope-creep/",
+      "title": "How to Handle Scope Creep on Fixed-Fee Projects | ScopeLedger",
+      "titleLength": 61,
+      "description": "A practical process for fixed-fee agencies: compare requests with agreed scope, estimate costs, choose a response and confirm the next step in writing.",
+      "descriptionLength": 151,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "Handle scope creep before the next small yes."
+        },
+        {
+          "level": "h2",
+          "text": "Check what changed in the agreement."
+        },
+        {
+          "level": "h2",
+          "text": "Estimate the work before you answer."
+        },
+        {
+          "level": "h3",
+          "text": "A small request with a measurable cost"
+        },
+        {
+          "level": "h2",
+          "text": "Choose an explicit response."
+        },
+        {
+          "level": "h2",
+          "text": "Give the client a calm, specific next step."
+        },
+        {
+          "level": "h3",
+          "text": "For an additional fee"
+        },
+        {
+          "level": "h3",
+          "text": "For an exchange"
+        },
+        {
+          "level": "h3",
+          "text": "For a later phase"
+        },
+        {
+          "level": "h2",
+          "text": "Put the decision and approval in writing."
+        },
+        {
+          "level": "h2",
+          "text": "Try the workflow with the sample project."
+        },
+        {
+          "level": "h2",
+          "text": "Related guides"
+        }
+      ],
+      "schema": [
+        {
+          "type": "Organization"
+        },
+        {
+          "type": "Article",
+          "dateModified": "2026-10-11"
+        },
+        {
+          "type": "BreadcrumbList"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "path": "/guides/change-order-template/",
+      "title": "Agency Change Order Template & Worked Example | ScopeLedger",
+      "titleLength": 59,
+      "description": "Use a copyable agency change order template, a website example and a checklist for scope, fees, tax, delivery days and client approval.",
+      "descriptionLength": 135,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "A change order template that makes the next step clear."
+        },
+        {
+          "level": "h2",
+          "text": "Use a brief before issuing an invoice."
+        },
+        {
+          "level": "h2",
+          "text": "Copy the template and add the actual details."
+        },
+        {
+          "level": "h2",
+          "text": "A worked website change."
+        },
+        {
+          "level": "h3",
+          "text": "Harbor / Website — journal collection"
+        },
+        {
+          "level": "h2",
+          "text": "Review the terms before sharing."
+        },
+        {
+          "level": "h2",
+          "text": "Inspect the public demonstration PDFs."
+        },
+        {
+          "level": "h2",
+          "text": "Try the workflow with the sample project."
+        },
+        {
+          "level": "h2",
+          "text": "Related guides"
+        }
+      ],
+      "schema": [
+        {
+          "type": "Organization"
+        },
+        {
+          "type": "Article",
+          "dateModified": "2026-10-11"
+        },
+        {
+          "type": "BreadcrumbList"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "path": "/guides/price-additional-work/",
+      "title": "How to Price Additional Work: Cost, Margin & Tax | ScopeLedger",
+      "titleLength": 62,
+      "description": "Calculate delivery costs, compare contribution margins and separate a net additional fee from tax and the client total. Includes a worked agency example.",
+      "descriptionLength": 153,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "Price additional work with cost and margin in view."
+        },
+        {
+          "level": "h2",
+          "text": "Calculate the additional delivery cost."
+        },
+        {
+          "level": "h3",
+          "text": "Illustrative Harbor request"
+        },
+        {
+          "level": "h2",
+          "text": "See the effect of absorbing the work."
+        },
+        {
+          "level": "h2",
+          "text": "Use a margin calculation, not a markup."
+        },
+        {
+          "level": "h2",
+          "text": "Separate the net fee, tax and client total."
+        },
+        {
+          "level": "h3",
+          "text": "Illustrative tax calculation"
+        },
+        {
+          "level": "h2",
+          "text": "Agree delivery as well as the fee."
+        },
+        {
+          "level": "h2",
+          "text": "Try the workflow with the sample project."
+        },
+        {
+          "level": "h2",
+          "text": "Related guides"
+        }
+      ],
+      "schema": [
+        {
+          "type": "Organization"
+        },
+        {
+          "type": "Article",
+          "dateModified": "2026-10-11"
+        },
+        {
+          "type": "BreadcrumbList"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "path": "/guides/project-baseline-checklist/",
+      "title": "Project Scope Baseline Checklist for Agencies | ScopeLedger",
+      "titleLength": 59,
+      "description": "Set up a fixed-fee project baseline with agreed deliverables, revision limits, exclusions, dependencies, fees, costs, dates and an approval record.",
+      "descriptionLength": 147,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "Build a baseline you can compare the next request against."
+        },
+        {
+          "level": "h2",
+          "text": "Record what the client actually agreed."
+        },
+        {
+          "level": "h3",
+          "text": "A baseline with useful boundaries"
+        },
+        {
+          "level": "h2",
+          "text": "Separate fees, costs and unknowns."
+        },
+        {
+          "level": "h2",
+          "text": "Make dates and dependencies visible."
+        },
+        {
+          "level": "h2",
+          "text": "Keep approval attached to the right revision."
+        },
+        {
+          "level": "h2",
+          "text": "Review the baseline before using it."
+        },
+        {
+          "level": "h2",
+          "text": "Keep a recovery copy."
+        },
+        {
+          "level": "h2",
+          "text": "Try the workflow with the sample project."
+        },
+        {
+          "level": "h2",
+          "text": "Related guides"
+        }
+      ],
+      "schema": [
+        {
+          "type": "Organization"
+        },
+        {
+          "type": "Article",
+          "dateModified": "2026-10-11"
+        },
+        {
+          "type": "BreadcrumbList"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "path": "/about/",
+      "title": "About ScopeLedger — Clear scope. Considered decisions.",
+      "titleLength": 54,
+      "description": "ScopeLedger helps fixed-fee agencies and freelancers review scope changes, estimate delivery costs, choose a response and prepare clear client briefs.",
+      "descriptionLength": 150,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "Clear scope. Considered decisions."
+        },
+        {
+          "level": "h2",
+          "text": "Why ScopeLedger exists"
+        },
+        {
+          "level": "h2",
+          "text": "A decision you can follow"
+        },
+        {
+          "level": "h2",
+          "text": "Built around fixed-fee work"
+        },
+        {
+          "level": "h2",
+          "text": "Try the current public demo"
+        },
+        {
+          "level": "h3",
+          "text": "Explore before you decide"
+        },
+        {
+          "level": "h2",
+          "text": "Contact ScopeLedger"
+        }
+      ],
+      "schema": [
+        {
+          "type": "AboutPage"
+        },
+        {
+          "type": "BreadcrumbList"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "path": "/privacy/",
+      "title": "ScopeLedger privacy overview — Local records and data flow",
+      "titleLength": 58,
+      "description": "Learn where ScopeLedger stores project records, how encrypted and plain backups differ, what hosting receives and which service features are currently unavailable.",
+      "descriptionLength": 163,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "Privacy overview"
+        },
+        {
+          "level": "h2",
+          "text": "Your project records stay in this browser"
+        },
+        {
+          "level": "h2",
+          "text": "Keep a recovery copy you control"
+        },
+        {
+          "level": "h2",
+          "text": "Website requests and hosting"
+        },
+        {
+          "level": "h2",
+          "text": "Activation and document services"
+        },
+        {
+          "level": "h2",
+          "text": "Your records and support messages"
+        }
+      ],
+      "schema": [
+        {
+          "type": "WebPage"
+        },
+        {
+          "type": "BreadcrumbList"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    },
+    {
+      "path": "/license/",
+      "title": "ScopeLedger license information — Individual $49 and Agency $99",
+      "titleLength": 63,
+      "description": "Compare ScopeLedger’s planned one-time Individual and Agency licenses, independent device allowances, local storage and the current free demo availability.",
+      "descriptionLength": 155,
+      "headings": [
+        {
+          "level": "h1",
+          "text": "License & service information"
+        },
+        {
+          "level": "h2",
+          "text": "Current availability"
+        },
+        {
+          "level": "h3",
+          "text": "The public release is a free demo"
+        },
+        {
+          "level": "h2",
+          "text": "Published planned licenses"
+        },
+        {
+          "level": "h2",
+          "text": "Each device has its own workspace"
+        },
+        {
+          "level": "h2",
+          "text": "Storage and imported images"
+        },
+        {
+          "level": "h2",
+          "text": "Documents, approvals and payments"
+        },
+        {
+          "level": "h2",
+          "text": "Questions before you choose"
+        }
+      ],
+      "schema": [
+        {
+          "type": "WebPage"
+        },
+        {
+          "type": "BreadcrumbList"
+        }
+      ],
+      "ogImage": "https://scopeledger.site/brand/scopeledger-social-v1.png",
+      "socialImage": {
+        "status": null,
+        "bytes": 66583,
+        "format": "PNG",
+        "width": 1200,
+        "height": 630
+      }
+    }
+  ],
+  "assetsCheckedAgainstRobots": [
+    "/brand/scopeledger-favicon.svg",
+    "/brand/scopeledger-logo-dark.svg",
+    "/brand/scopeledger-logo-light.svg",
+    "/guides/fonts/dm-sans-latin-400-normal.woff2",
+    "/guides/fonts/dm-sans-latin-600-normal.woff2",
+    "/guides/fonts/space-grotesk-latin-500-normal.woff2",
+    "/guides/fonts/space-grotesk-latin-600-normal.woff2",
+    "/guides/guides.css",
+    "/guides/guides.js",
+    "/home/landing.js",
+    "/home/site.css",
+    "/home/site.js",
+    "/product-guide.txt",
+    "/samples/change-brief.pdf",
+    "/samples/change-brief.png",
+    "/samples/invoice.pdf",
+    "/shared/brand.css"
+  ],
+  "warnings": [
+    {
+      "path": "/guides/handle-scope-creep/",
+      "message": "title length 61, guidance 50–60 (not a gate)"
+    },
+    {
+      "path": "/guides/price-additional-work/",
+      "message": "title length 62, guidance 50–60 (not a gate)"
+    },
+    {
+      "path": "/privacy/",
+      "message": "description length 163, guidance 120–160 (not a gate)"
+    },
+    {
+      "path": "/license/",
+      "message": "title length 63, guidance 50–60 (not a gate)"
+    }
+  ],
+  "errors": [
+    {
+      "path": "/home/",
+      "message": "file: skipped heading level h2 → h6: Product"
+    },
+    {
+      "path": "/home/",
+      "message": "WebApplication rich-result requirement missing: offers.price"
+    },
+    {
+      "path": "/home/",
+      "message": "WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)"
+    }
+  ]
+}

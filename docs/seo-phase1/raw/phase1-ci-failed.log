@@ -1,0 +1,17 @@
+verify	Run npm run build	﻿2026-10-11T04:52:18.0406364Z ##[group]Run npm run build
+verify	Run npm run build	2026-10-11T04:52:18.0406673Z ^[[36;1mnpm run build^[[0m
+verify	Run npm run build	2026-10-11T04:52:18.0470385Z shell: /usr/bin/bash -e {0}
+verify	Run npm run build	2026-10-11T04:52:18.0470667Z ##[endgroup]
+verify	Run npm run build	2026-10-11T04:52:18.1566938Z 
+verify	Run npm run build	2026-10-11T04:52:18.1568133Z > scopeledger-core@1.0.0 prebuild
+verify	Run npm run build	2026-10-11T04:52:18.1569131Z > node scripts/sync-document-branding.mjs && node scripts/seo-check.mjs
+verify	Run npm run build	2026-10-11T04:52:18.1569742Z 
+verify	Run npm run build	2026-10-11T04:52:18.2526304Z WARNING /guides/handle-scope-creep/: title length 61, guidance 50–60 (not a gate)
+verify	Run npm run build	2026-10-11T04:52:18.2527793Z WARNING /guides/price-additional-work/: title length 62, guidance 50–60 (not a gate)
+verify	Run npm run build	2026-10-11T04:52:18.2528783Z WARNING /privacy/: description length 163, guidance 120–160 (not a gate)
+verify	Run npm run build	2026-10-11T04:52:18.2529489Z WARNING /license/: title length 63, guidance 50–60 (not a gate)
+verify	Run npm run build	2026-10-11T04:52:18.2530384Z FAIL /home/: file: skipped heading level h2 → h6: Product
+verify	Run npm run build	2026-10-11T04:52:18.2530939Z FAIL /home/: WebApplication rich-result requirement missing: offers.price
+verify	Run npm run build	2026-10-11T04:52:18.2531788Z FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+verify	Run npm run build	2026-10-11T04:52:18.2533091Z SEO audit: 9 pages; 3 strict failures; 4 length warnings; source only (served HTTP requires SCOPELEDGER_SEO_ORIGIN or --live).
+verify	Run npm run build	2026-10-11T04:52:18.2672436Z ##[error]Process completed with exit code 1.

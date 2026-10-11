@@ -1,0 +1,39 @@
+
+> scopeledger-core@1.0.0 test:seo:live
+> node scripts/seo-check.mjs --live
+
+WARNING /guides/handle-scope-creep/: title length 61, guidance 50–60 (not a gate)
+WARNING /guides/price-additional-work/: title length 62, guidance 50–60 (not a gate)
+WARNING /privacy/: description length 163, guidance 120–160 (not a gate)
+WARNING /license/: title length 63, guidance 50–60 (not a gate)
+FAIL /home/: file: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+FAIL /home/: browser: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+FAIL /home/: googlebot: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+FAIL /home/: bingbot: skipped heading level h2 → h6: Product
+FAIL /home/: WebApplication rich-result requirement missing: offers.price
+FAIL /home/: WebApplication rich-result requirement missing: aggregateRating or review (do not fabricate either)
+FAIL /workspace/: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /workspace/: required workspace meta robots noarchive missing
+FAIL /workspace/projects: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /workspace/projects: required workspace meta robots noarchive missing
+FAIL /app: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (308)
+FAIL /api/license/status: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /api/license/activate: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (405)
+FAIL /api/pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (405)
+FAIL /api/ready: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (503)
+FAIL /api/health: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /api/unknown-seo-path: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (404)
+FAIL /samples/change-brief.pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /samples/invoice.pdf: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /llms.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /product-guide.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /release.json: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /indexnow-key.txt: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (200)
+FAIL /not-a-public-page: required X-Robots-Tag noarchive missing; actual "noindex, nofollow" (404)
+SEO audit: 9 pages; 30 strict failures; 4 length warnings; HTTP checks at http://127.0.0.1:4173.

@@ -1,0 +1,2 @@
+{"file":"public/brand/scopeledger-social-v1.png","bytes":66583,"format":"PNG","width":1200,"height":630}
+{"file":"tests/server/qa-signature.jpg","bytes":13769,"format":"JPEG","width":640,"height":160}

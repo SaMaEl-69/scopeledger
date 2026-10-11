@@ -34,6 +34,8 @@ jobs:
       - name: Select sandboxed browser runtime
         run: |
           node --input-type=module -e "import { chromium } from 'playwright'; const p=chromium.executablePath(); console.log('PLAYWRIGHT_CHROME_PATH='+p); console.log('SCOPELEDGER_CHROME_PATH='+p)" >> "$GITHUB_ENV"
+      - name: Validate served SEO, links and mobile overflow
+        run: npx playwright test --config playwright.site.config.ts tests/site/seo.spec.ts --project chromium
       - run: npm run test:local-browser
       - name: Verify social previews and public crawler access
         run: node scripts/sharing-qa.mjs
@@ -47,5 +49,7 @@ jobs:
         if: failure()
         with:
           name: verification-failures
-          path: test-results/
+          path: |
+            test-results/
+            output/seo/
           retention-days: 7

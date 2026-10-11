@@ -1,0 +1,2 @@
+git diff --exit-code main -- package.json package-lock.json home public src server shared index.html vite.config.ts playwright.config.ts playwright.audit.config.ts playwright.site.config.ts wrangler.jsonc wrangler.toml
+exit=0

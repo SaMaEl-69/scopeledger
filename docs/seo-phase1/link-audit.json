@@ -1,0 +1,1201 @@
+{
+  "origin": "http://127.0.0.1:4173",
+  "checkedAt": "2026-10-11T04:48:00.999Z",
+  "manifestRoutes": [
+    "/home/",
+    "/guides/",
+    "/guides/handle-scope-creep/",
+    "/guides/change-order-template/",
+    "/guides/price-additional-work/",
+    "/guides/project-baseline-checklist/",
+    "/about/",
+    "/privacy/",
+    "/license/"
+  ],
+  "pagesFetched": [
+    "/home/",
+    "/guides/",
+    "/guides/handle-scope-creep/",
+    "/guides/change-order-template/",
+    "/guides/price-additional-work/",
+    "/guides/project-baseline-checklist/",
+    "/about/",
+    "/privacy/",
+    "/license/"
+  ],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:4173/home/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/guides/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/guides/handle-scope-creep/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/guides/change-order-template/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/guides/price-additional-work/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/guides/project-baseline-checklist/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/about/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/privacy/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/license/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/product-guide.txt",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/brand/scopeledger-favicon.svg?v=6",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/home-ZR3vGaAI.js",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/appearance-DhgcaitL.js",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/appearance-Dq2iwmi2.css",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/assets/home-CYJPGBn9.css",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/brand/scopeledger-logo-light.svg?v=6",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/brand/scopeledger-logo-dark.svg?v=6",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/workspace/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/samples/invoice.pdf?v=5",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/samples/change-brief.pdf?v=5",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/samples/change-brief.png?v=5",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/workspace/?activate=1",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/workspace/?activate=1&plan=individual",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/workspace/?activate=1&plan=agency",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/workspace/?view=support",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/brand/scopeledger-favicon.svg",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/guides/guides.css",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/guides/guides.js",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/",
+      "status": 308,
+      "location": "/home/"
+    },
+    {
+      "url": "http://127.0.0.1:4173/home/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/brand/scopeledger-logo-light.svg",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/brand/scopeledger-logo-dark.svg",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/workspace/?project=sample-harbor",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/samples/change-brief.pdf",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/samples/invoice.pdf",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "http://127.0.0.1:4173/workspace/?view=settings",
+      "status": 200,
+      "location": null
+    }
+  ],
+  "edges": [
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#top"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#how"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#playbook"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#change-orders"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#roi"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#faq"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#how"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#playbook"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#change-orders"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#roi"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#faq"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#how"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#problem"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#roi"
+    },
+    {
+      "from": "/home/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/home/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/home/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "/guides/project-baseline-checklist/"
+    },
+    {
+      "from": "/home/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "/guides/handle-scope-creep/"
+    },
+    {
+      "from": "/home/",
+      "to": "/guides/change-order-template/",
+      "href": "/guides/change-order-template/"
+    },
+    {
+      "from": "/home/",
+      "to": "/guides/price-additional-work/",
+      "href": "/guides/price-additional-work/"
+    },
+    {
+      "from": "/home/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "/guides/project-baseline-checklist/"
+    },
+    {
+      "from": "/home/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#top"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#how"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#playbook"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#change-orders"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#roi"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#compare"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#faq"
+    },
+    {
+      "from": "/home/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/home/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/home/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/home/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/home/",
+      "to": "/privacy/",
+      "href": "/privacy/#data-flow"
+    },
+    {
+      "from": "/home/",
+      "to": "/home/",
+      "href": "#pricing"
+    },
+    {
+      "from": "/guides/",
+      "to": "/guides/",
+      "href": "#main-content"
+    },
+    {
+      "from": "/guides/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "/guides/handle-scope-creep/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/guides/change-order-template/",
+      "href": "/guides/change-order-template/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/guides/price-additional-work/",
+      "href": "/guides/price-additional-work/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "/guides/project-baseline-checklist/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/guides/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "#main-content"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "/guides/project-baseline-checklist/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/change-order-template/",
+      "href": "/guides/change-order-template/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/change-order-template/",
+      "href": "/guides/change-order-template/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/price-additional-work/",
+      "href": "/guides/price-additional-work/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "/guides/project-baseline-checklist/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "#recognize"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "#estimate"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "#respond"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "#conversation"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "#record"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/guides/handle-scope-creep/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/change-order-template/",
+      "href": "#main-content"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "/guides/handle-scope-creep/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/price-additional-work/",
+      "href": "/guides/price-additional-work/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "/guides/project-baseline-checklist/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/change-order-template/",
+      "href": "#purpose"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/change-order-template/",
+      "href": "#template"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/change-order-template/",
+      "href": "#example"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/change-order-template/",
+      "href": "#review"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/change-order-template/",
+      "href": "#sample"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/guides/change-order-template/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/price-additional-work/",
+      "href": "#main-content"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/change-order-template/",
+      "href": "/guides/change-order-template/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "/guides/handle-scope-creep/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/change-order-template/",
+      "href": "/guides/change-order-template/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "/guides/project-baseline-checklist/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/price-additional-work/",
+      "href": "#cost"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/price-additional-work/",
+      "href": "#margin"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/price-additional-work/",
+      "href": "#fee"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/price-additional-work/",
+      "href": "#tax"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/price-additional-work/",
+      "href": "#timing"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/guides/price-additional-work/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "#main-content"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/price-additional-work/",
+      "href": "/guides/price-additional-work/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "/guides/handle-scope-creep/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/handle-scope-creep/",
+      "href": "/guides/handle-scope-creep/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/change-order-template/",
+      "href": "/guides/change-order-template/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/price-additional-work/",
+      "href": "/guides/price-additional-work/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "#scope"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "#financials"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "#schedule"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "#approval"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "#checklist"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/project-baseline-checklist/",
+      "href": "#storage"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/guides/project-baseline-checklist/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/about/",
+      "to": "/about/",
+      "href": "#main"
+    },
+    {
+      "from": "/about/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/about/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/about/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/about/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/about/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/about/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/about/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/about/",
+      "to": "/about/",
+      "href": "#why"
+    },
+    {
+      "from": "/about/",
+      "to": "/about/",
+      "href": "#workflow"
+    },
+    {
+      "from": "/about/",
+      "to": "/about/",
+      "href": "#fit"
+    },
+    {
+      "from": "/about/",
+      "to": "/about/",
+      "href": "#availability"
+    },
+    {
+      "from": "/about/",
+      "to": "/about/",
+      "href": "#contact"
+    },
+    {
+      "from": "/about/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/about/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/about/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/privacy/",
+      "href": "#main"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/privacy/",
+      "href": "#local-records"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/privacy/",
+      "href": "#backups"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/privacy/",
+      "href": "#hosting"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/privacy/",
+      "href": "#services"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/privacy/",
+      "href": "#control"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/privacy/",
+      "to": "/license/",
+      "href": "/license/"
+    },
+    {
+      "from": "/license/",
+      "to": "/license/",
+      "href": "#main"
+    },
+    {
+      "from": "/license/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/license/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/license/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/license/",
+      "to": "/home/",
+      "href": "/home/"
+    },
+    {
+      "from": "/license/",
+      "to": "/home/",
+      "href": "/home/#pricing"
+    },
+    {
+      "from": "/license/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/license/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/license/",
+      "to": "/guides/",
+      "href": "/guides/"
+    },
+    {
+      "from": "/license/",
+      "to": "/license/",
+      "href": "#availability"
+    },
+    {
+      "from": "/license/",
+      "to": "/license/",
+      "href": "#plans"
+    },
+    {
+      "from": "/license/",
+      "to": "/license/",
+      "href": "#devices"
+    },
+    {
+      "from": "/license/",
+      "to": "/license/",
+      "href": "#storage"
+    },
+    {
+      "from": "/license/",
+      "to": "/license/",
+      "href": "#records"
+    },
+    {
+      "from": "/license/",
+      "to": "/license/",
+      "href": "#contact"
+    },
+    {
+      "from": "/license/",
+      "to": "/about/",
+      "href": "/about/"
+    },
+    {
+      "from": "/license/",
+      "to": "/privacy/",
+      "href": "/privacy/"
+    },
+    {
+      "from": "/license/",
+      "to": "/license/",
+      "href": "/license/"
+    }
+  ],
+  "errors": [
+    {
+      "page": "/home/",
+      "message": "missing #anchor target /privacy/#data-flow (target http://127.0.0.1:4173/privacy/)"
+    },
+    {
+      "page": "/guides/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/handle-scope-creep/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/handle-scope-creep/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/handle-scope-creep/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/handle-scope-creep/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/handle-scope-creep/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/handle-scope-creep/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/change-order-template/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/change-order-template/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/change-order-template/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/change-order-template/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/change-order-template/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/change-order-template/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/price-additional-work/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/price-additional-work/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/price-additional-work/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/price-additional-work/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/price-additional-work/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/price-additional-work/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/project-baseline-checklist/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/project-baseline-checklist/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/project-baseline-checklist/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/project-baseline-checklist/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    },
+    {
+      "page": "/guides/project-baseline-checklist/",
+      "message": "internal document link lacks canonical path/trailing slash: /"
+    },
+    {
+      "page": "/guides/project-baseline-checklist/",
+      "message": "noncanonical internal link redirects: / → http://127.0.0.1:4173/home/"
+    }
+  ]
+}

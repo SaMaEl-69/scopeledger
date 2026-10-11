@@ -1,0 +1,1422 @@
+{
+  "checkedAt": "2026-10-11T04:40:52.012Z",
+  "origin": "https://scopeledger.site",
+  "mode": "local production DOM at 390px; all img plus visible SVG",
+  "images": [
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg?v=6",
+      "alt": "",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": true
+    },
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg?v=6",
+      "alt": "",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": true
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@2",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 263,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@3",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "11",
+      "height": "11",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@4",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 73,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@5",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 73,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@6",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 80,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@7",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 78,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@8",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1558,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@9",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 201,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg?v=6",
+      "alt": "",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": true
+    },
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg?v=6",
+      "alt": "",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": true
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@12",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 60,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@13",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 60,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@14",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@15",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1558,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@16",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 201,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@17",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1241,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@18",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 201,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@19",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1333,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@20",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 201,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@21",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1558,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@22",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 201,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@23",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1275,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@24",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 201,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@25",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1558,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@26",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1241,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@27",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1333,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@28",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1275,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@29",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 1558,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@30",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 201,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@31",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "13",
+      "height": "13",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@32",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 60,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@33",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 60,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@34",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@35",
+      "alt": null,
+      "ariaHidden": null,
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 417,
+      "issues": [
+        "no explicit accessible name/decorative designation",
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@36",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "12",
+      "height": "12",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@37",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@38",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "13",
+      "height": "13",
+      "format": "inline SVG",
+      "bytes": 60,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@39",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 78,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@40",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 78,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@41",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 81,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@42",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 78,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@43",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 64,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@44",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 59,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/samples/change-brief.png?v=5",
+      "alt": "ScopeLedger demonstration brief for Harbor: journal collection, scope, deliverables, USD 840 including tax, two additional delivery days and sign-off areas.",
+      "ariaHidden": null,
+      "width": "893",
+      "height": "1263",
+      "format": "PNG",
+      "bytes": 124698,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@46",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 64,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@47",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": null,
+      "height": null,
+      "format": "inline SVG",
+      "bytes": 340,
+      "issues": [
+        "missing explicit positive width",
+        "missing explicit positive height"
+      ],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@48",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "22",
+      "height": "22",
+      "format": "inline SVG",
+      "bytes": 78,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@49",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "22",
+      "height": "22",
+      "format": "inline SVG",
+      "bytes": 79,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@50",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "22",
+      "height": "22",
+      "format": "inline SVG",
+      "bytes": 78,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@51",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "22",
+      "height": "22",
+      "format": "inline SVG",
+      "bytes": 81,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@52",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "22",
+      "height": "22",
+      "format": "inline SVG",
+      "bytes": 79,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@53",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "22",
+      "height": "22",
+      "format": "inline SVG",
+      "bytes": 80,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@54",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 80,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@55",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "15",
+      "height": "15",
+      "format": "inline SVG",
+      "bytes": 80,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg?v=6",
+      "alt": "",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": true
+    },
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg?v=6",
+      "alt": "",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": true
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@58",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 113,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@59",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 73,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@60",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "13",
+      "height": "13",
+      "format": "inline SVG",
+      "bytes": 60,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@61",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "13",
+      "height": "13",
+      "format": "inline SVG",
+      "bytes": 59,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@62",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@63",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@64",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@65",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@66",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@67",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "14",
+      "height": "14",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@68",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "18",
+      "height": "18",
+      "format": "inline SVG",
+      "bytes": 62,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@69",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 59,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@70",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 64,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@71",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 60,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@72",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg?v=6",
+      "alt": "",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": true
+    },
+    {
+      "page": "/home/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg?v=6",
+      "alt": "",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": true
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@75",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "13",
+      "height": "13",
+      "format": "inline SVG",
+      "bytes": 78,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@76",
+      "alt": null,
+      "ariaHidden": "true",
+      "width": "13",
+      "height": "13",
+      "format": "inline SVG",
+      "bytes": 79,
+      "issues": [],
+      "decorative": true,
+      "accessibleName": null
+    },
+    {
+      "page": "/home/",
+      "element": "svg",
+      "source": "inline@77",
+      "alt": null,
+      "ariaHidden": null,
+      "width": "16",
+      "height": "16",
+      "format": "inline SVG",
+      "bytes": 61,
+      "issues": [
+        "no explicit accessible name/decorative designation"
+      ],
+      "decorative": false,
+      "accessibleName": null
+    },
+    {
+      "page": "/guides/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/handle-scope-creep/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/handle-scope-creep/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/change-order-template/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/change-order-template/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/price-additional-work/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/price-additional-work/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/project-baseline-checklist/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/guides/project-baseline-checklist/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/about/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/about/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/privacy/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/privacy/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/license/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-light.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    },
+    {
+      "page": "/license/",
+      "element": "img",
+      "source": "/brand/scopeledger-logo-dark.svg",
+      "alt": "ScopeLedger",
+      "ariaHidden": null,
+      "width": "249",
+      "height": "40",
+      "format": "SVG",
+      "bytes": 8474,
+      "issues": [],
+      "decorative": false
+    }
+  ],
+  "unverified": []
+}

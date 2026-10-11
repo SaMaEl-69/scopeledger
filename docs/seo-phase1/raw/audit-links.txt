@@ -1,0 +1,32 @@
+FAIL /home/: missing #anchor target /privacy/#data-flow (target http://127.0.0.1:4173/privacy/)
+FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/handle-scope-creep/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/handle-scope-creep/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/change-order-template/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/change-order-template/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/price-additional-work/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/price-additional-work/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+FAIL /guides/project-baseline-checklist/: internal document link lacks canonical path/trailing slash: /
+FAIL /guides/project-baseline-checklist/: noncanonical internal link redirects: / → http://127.0.0.1:4173/home/
+Link audit: 9/9 served pages; 36 real HTTP responses; 31 strict failures.

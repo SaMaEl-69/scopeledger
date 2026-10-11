@@ -1,0 +1,23 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/2 200 
+date: Sun, 11 Oct 2026 04:33:35 GMT
+content-type: text/html
+cf-cache-status: MISS
+cache-control: no-cache
+etag: "1fb28ac24cc03ea1179b6c69e34aa65e"
+strict-transport-security: max-age=31536000
+content-security-policy: default-src 'self'; script-src 'self' 'sha256-oIDSvi7ffu0IxYGGcr/W5VTJCk/w6p4Ij4SFaGJLZWo=' 'sha256-COofktSs1Zf4j1DUaQMN1HixPncocLKCKCz3pG4ugPE=' 'sha256-Y5KdytE3HTJRit08Jw74r8Bs7GMfpgbYod+SHNu+C7c='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), microphone=(), geolocation=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=zARxjQcXP9X6EvFrGM3XlW%2FBq7BXHiyEevLz%2BU91bdHYA8bO%2B0DlRAQSrGjtqxHCCnNDiy8CeZtpWWJfoXNhoyv77E0ThVEM2RazKl0pzSkdq%2FICbDwHS%2FCPIbNs%2F6xAb3BO"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a48b25c13d37e682-DAC
+alt-svc: h3=":443"; ma=86400
+

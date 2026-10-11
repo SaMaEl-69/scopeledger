@@ -1,0 +1,13 @@
+
+> scopeledger-core@1.0.0 test
+> vitest run
+
+
+ RUN  v4.1.11 /Users/samaelsmacbook/Documents/scopeledger
+
+
+ Test Files  30 passed (30)
+      Tests  474 passed (474)
+   Start at  10:37:30
+   Duration  2.38s (transform 1.59s, setup 0ms, import 4.97s, tests 10.49s, environment 2ms)
+
