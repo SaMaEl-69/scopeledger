@@ -146,7 +146,7 @@ describe('production static server security', () => {
     await writeFile(join(root, 'workspace/index.html'), workspaceEntry);
     await writeFile(
       join(root, 'index.html'),
-      '<!doctype html><title>ScopeLedger application</title>',
+      '<!doctype html><title>Margvant application</title>',
     );
     await writeFile(join(root, 'assets/app.js'), 'export const app = true;');
     await writeFile(join(directory, 'outside.txt'), 'must not be served');
@@ -195,7 +195,7 @@ describe('production static server security', () => {
       expect(response.body).toContain(
         `<link rel="canonical" href="https://scopeledger.site/${entry}/"`,
       );
-      expect(response.body).toContain('ScopeLedger');
+      expect(response.body).toContain('Margvant');
     }
     for (const path of ['/home/?raw=../outside.txt', '/workspace/?raw&file=../outside.txt']) {
       const response = await read(path);

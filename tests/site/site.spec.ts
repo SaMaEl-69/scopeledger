@@ -83,7 +83,7 @@ test('canonical pages, legacy links and public samples resolve on one origin', a
     page.waitForEvent('download'),
     page.locator('#exportBtn2').click(),
   ]);
-  expect(download.suggestedFilename()).toBe('ScopeLedger-sample-brief.pdf');
+  expect(download.suggestedFilename()).toBe('Margvant-sample-brief.pdf');
   expect(await download.failure()).toBeNull();
   expect((await request.get('/samples/missing.pdf')).status()).toBe(404);
   expect((await request.post('/api/pdf', { data: {} })).status()).not.toBe(200);
@@ -122,7 +122,7 @@ test('lifetime choices preserve focus and hand Agency intent to activation witho
   await expect(trigger).toBeFocused();
   await trigger.click();
   await dialog.getByRole('link', { name: 'Choose Agency' }).click();
-  const activation = page.getByRole('dialog', { name: 'Activate ScopeLedger' });
+  const activation = page.getByRole('dialog', { name: 'Activate Margvant' });
   await expect(activation).toBeVisible();
   await expect(activation.getByLabel('Purchased plan', { exact: true })).toHaveValue('agency');
   await expect(page).toHaveURL(

@@ -88,7 +88,7 @@ export function useWorkspace() {
             setError('');
             if (migrating.current) {
               setMigrationNotice(
-                'Your previous ScopeLedger workspace was migrated. Its original saved copy is still preserved in this browser.',
+                'Your previous Margvant workspace was migrated. Its original saved copy is still preserved in this browser.',
               );
               migrating.current = false;
             }
@@ -162,7 +162,7 @@ export function useWorkspace() {
             lock.current = new StorageRecoveryError();
             setRecovery({
               raw: legacy,
-              reason: `Previous ScopeLedger data needs recovery. ${reason}`,
+              reason: `Previous Margvant data needs recovery. ${reason}`,
             });
             setSaveState('failed');
             setError(reason);

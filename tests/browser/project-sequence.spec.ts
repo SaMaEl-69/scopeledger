@@ -254,7 +254,7 @@ test('incomplete baselines, costs and agreements direct the user back to the req
   await page.getByRole('button', { name: 'Continue to export', exact: true }).click();
   await current(page, 7);
   await page.getByRole('button', { name: 'Activate for PDF', exact: true }).click();
-  await expect(page.getByRole('dialog', { name: 'Activate ScopeLedger' })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'Activate Margvant' })).toBeVisible();
   expect(exports).toBe(0);
 });
 

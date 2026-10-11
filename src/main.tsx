@@ -9,5 +9,5 @@ ReactDOM.createRoot(document.getElementById('root')!, {
   // A boundary displays recovery controls. Never echo exception payloads that
   // might include client text; unexpected uncaught errors keep React's reporting.
   onCaughtError: () =>
-    console.warn('A ScopeLedger view could not render. Recovery controls are available.'),
+    console.warn('A Margvant view could not render. Recovery controls are available.'),
 }).render(<App />);

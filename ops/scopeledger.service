@@ -1,5 +1,5 @@
 [Unit]
-Description=ScopeLedger application and protected export server
+Description=Margvant application and protected export server
 After=network-online.target
 Wants=network-online.target
 

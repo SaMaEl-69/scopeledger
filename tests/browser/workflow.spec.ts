@@ -266,7 +266,7 @@ test('one custom demo project is allowed and archive or trash cannot bypass acti
   await expect(page.locator('.project-card')).toHaveCount(2);
   const requireActivation = async () => {
     await page.getByRole('button', { name: 'New project', exact: true }).click();
-    const dialog = page.getByRole('dialog', { name: 'Activate ScopeLedger' });
+    const dialog = page.getByRole('dialog', { name: 'Activate Margvant' });
     await expect(dialog).toContainText('Purchases and activation are unavailable');
     await expect(dialog).toContainText('$49');
     await expect(dialog).toContainText('$99');
@@ -484,7 +484,7 @@ test('the client brief preview is watermarked and excludes internal delivery cos
   await expect(brief.locator('body')).not.toContainText('$520');
   await expect(brief.locator('body')).not.toContainText('35%');
   await page.getByRole('button', { name: 'Activate for PDF', exact: true }).click();
-  await expect(page.getByRole('dialog', { name: 'Activate ScopeLedger' })).toContainText(
+  await expect(page.getByRole('dialog', { name: 'Activate Margvant' })).toContainText(
     'Purchases and activation are unavailable',
   );
 });

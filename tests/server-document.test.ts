@@ -7,13 +7,13 @@ import {
 import { fixture, logo } from './server/fixtures.mjs';
 describe('client-facing transfer confidentiality and shared HTML', () => {
   it.each(['brief', 'invoice', 'credit'] as const)(
-    'keeps %s customer documents free of ScopeLedger attribution',
+    'keeps %s customer documents free of Margvant attribution',
     (kind) => {
       const html = documentHtml(
         fixture({ kind, ...(kind === 'brief' ? { tax: '0', total: '800.00' } : {}) }),
       );
       expect(html).not.toContain('class="document-brand"');
-      expect(html).not.toContain('alt="ScopeLedger"');
+      expect(html).not.toContain('alt="Margvant"');
       expect(html).not.toContain('Prepared with');
       expect(html).toContain('class="agency-name">Aster Studio');
     },

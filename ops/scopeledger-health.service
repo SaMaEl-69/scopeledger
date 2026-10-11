@@ -1,5 +1,5 @@
 [Unit]
-Description=ScopeLedger readiness check (failure appears in the service journal)
+Description=Margvant readiness check (failure appears in the service journal)
 
 [Service]
 Type=oneshot

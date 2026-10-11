@@ -15,7 +15,7 @@ const reviewed = '2026-10-11';
 const guides = [
   {
     slug: 'handle-scope-creep',
-    title: 'How to Handle Scope Creep on Fixed-Fee Projects | ScopeLedger',
+    title: 'How to Handle Scope Creep on Fixed-Fee Projects | Margvant',
     heading: 'Handle scope creep before the next small yes.',
     category: 'Client conversations',
     description:
@@ -57,7 +57,7 @@ const guides = [
   },
   {
     slug: 'change-order-template',
-    title: 'Agency Change Order Template & Worked Example | ScopeLedger',
+    title: 'Agency Change Order Template & Worked Example | Margvant',
     heading: 'A change order template that makes the next step clear.',
     category: 'Document template',
     description:
@@ -99,7 +99,7 @@ const guides = [
   },
   {
     slug: 'price-additional-work',
-    title: 'How to Price Additional Work: Cost, Margin & Tax | ScopeLedger',
+    title: 'How to Price Additional Work: Cost, Margin & Tax | Margvant',
     heading: 'Price additional work with cost and margin in view.',
     category: 'Pricing calculations',
     description:
@@ -129,7 +129,7 @@ const guides = [
         id: 'tax',
         title: 'Separate the net fee, tax and client total.',
         content:
-          '<p>Tax collected for the transaction should not inflate delivery margin. State whether your proposed fee is net of tax or the total including tax.</p><ul><li><strong>Excluding tax:</strong> start with the net fee and add tax for the client total.</li><li><strong>Including tax:</strong> show the total and calculate its net fee and tax components.</li><li><strong>Custom fee:</strong> choose an amount deliberately and check the resulting margin and document totals.</li></ul><div class="example"><h3>Illustrative tax calculation</h3><p>At an illustrative 5% tax rate, a USD 800 net fee has USD 40 tax and a USD 840 client total. From the inclusive amount, <strong>840 ÷ 1.05 = USD 800 net</strong>.</p><p>In ScopeLedger, changing the tax percentage recalculates an inclusive proposed fee while preserving the net fee. Review all three values before confirming the decision.</p></div><p>Tax applicability varies by transaction and location. Confirm it through your accounting process. Percentage arithmetic does not establish tax compliance.</p>',
+          '<p>Tax collected for the transaction should not inflate delivery margin. State whether your proposed fee is net of tax or the total including tax.</p><ul><li><strong>Excluding tax:</strong> start with the net fee and add tax for the client total.</li><li><strong>Including tax:</strong> show the total and calculate its net fee and tax components.</li><li><strong>Custom fee:</strong> choose an amount deliberately and check the resulting margin and document totals.</li></ul><div class="example"><h3>Illustrative tax calculation</h3><p>At an illustrative 5% tax rate, a USD 800 net fee has USD 40 tax and a USD 840 client total. From the inclusive amount, <strong>840 ÷ 1.05 = USD 800 net</strong>.</p><p>In Margvant, changing the tax percentage recalculates an inclusive proposed fee while preserving the net fee. Review all three values before confirming the decision.</p></div><p>Tax applicability varies by transaction and location. Confirm it through your accounting process. Percentage arithmetic does not establish tax compliance.</p>',
       },
       {
         id: 'timing',
@@ -141,7 +141,7 @@ const guides = [
   },
   {
     slug: 'project-baseline-checklist',
-    title: 'Project Scope Baseline Checklist for Agencies | ScopeLedger',
+    title: 'Project Scope Baseline Checklist for Agencies | Margvant',
     heading: 'Build a baseline you can compare the next request against.',
     category: 'Project setup',
     description:
@@ -183,7 +183,7 @@ const guides = [
         id: 'storage',
         title: 'Keep a recovery copy.',
         content:
-          '<p>ScopeLedger keeps project records locally in the browser with a 50 MiB workspace safety limit. Clearing browser data or losing access to the browser can remove local records; browser storage is not a cloud backup.</p><p>Export a recovery copy and protect its password. Backup archives are encrypted, which does not mean the active browser workspace is encrypted as a whole. The planned Agency license covers five independently activated browsers/devices, each with its own workspace. It does not provide shared records or synchronization.</p><p>Read the <a href="/privacy/">privacy overview</a> and <a href="/license/">license information</a> for the current boundaries. The public demo lets you explore the process before purchase availability is enabled.</p>',
+          '<p>Margvant keeps project records locally in the browser with a 50 MiB workspace safety limit. Clearing browser data or losing access to the browser can remove local records; browser storage is not a cloud backup.</p><p>Export a recovery copy and protect its password. Backup archives are encrypted, which does not mean the active browser workspace is encrypted as a whole. The planned Agency license covers five independently activated browsers/devices, each with its own workspace. It does not provide shared records or synchronization.</p><p>Read the <a href="/privacy/">privacy overview</a> and <a href="/license/">license information</a> for the current boundaries. The public demo lets you explore the process before purchase availability is enabled.</p>',
       },
     ],
   },
@@ -192,7 +192,7 @@ const guides = [
 const organization = {
   '@type': 'Organization',
   '@id': origin + '/#organization',
-  name: 'ScopeLedger',
+  name: 'Margvant',
   url: origin + '/',
   logo: origin + '/brand/scopeledger-mark-256.svg',
 };
@@ -222,17 +222,17 @@ function head(title, description, path, graph) {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="theme-color" content="#f5f5f2"><meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="${origin}${path}"><link rel="icon" type="image/svg+xml" href="/brand/scopeledger-favicon.svg"><link rel="stylesheet" href="/guides/guides.css"><script src="/guides/guides.js"></script>
-<meta property="og:type" content="${path === '/guides/' ? 'website' : 'article'}"><meta property="og:site_name" content="ScopeLedger"><meta property="og:locale" content="en_US"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${origin}${path}"><meta property="og:image" content="${origin}/brand/scopeledger-social-v1.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="ScopeLedger: scope changes, made clear">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${origin}/brand/scopeledger-social-v1.png"><meta name="twitter:image:alt" content="ScopeLedger: scope changes, made clear">
+<meta property="og:type" content="${path === '/guides/' ? 'website' : 'article'}"><meta property="og:site_name" content="Margvant"><meta property="og:locale" content="en_US"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${origin}${path}"><meta property="og:image" content="${origin}/brand/scopeledger-social-v1.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Margvant: scope changes, made clear">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${origin}/brand/scopeledger-social-v1.png"><meta name="twitter:image:alt" content="Margvant: scope changes, made clear">
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': [organization, ...graph] }).replaceAll('<', '\\u003c')}</script></head>`;
 }
 
 function header() {
-  return `<body class="sl-guide"><a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="ScopeLedger home"><img class="logo-light" src="/brand/scopeledger-logo-light.svg" width="249" height="40" alt="ScopeLedger"><img class="logo-dark" src="/brand/scopeledger-logo-dark.svg" width="249" height="40" alt="ScopeLedger"></a><nav class="header-nav" aria-label="Main navigation"><a class="home-link" href="/">Product</a><a class="guides-link" href="/guides/">Guides</a><a class="button" href="/workspace/">Try the free demo</a></nav></div></header>`;
+  return `<body class="sl-guide"><a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="Margvant home"><img class="logo-light" src="/brand/scopeledger-logo-light.svg" width="202" height="40" alt="Margvant"><img class="logo-dark" src="/brand/scopeledger-logo-dark.svg" width="202" height="40" alt="Margvant"></a><nav class="header-nav" aria-label="Main navigation"><a class="home-link" href="/">Product</a><a class="guides-link" href="/guides/">Guides</a><a class="button" href="/workspace/">Try the free demo</a></nav></div></header>`;
 }
 
 function footer() {
-  return `<footer class="site-footer"><div class="container footer-inner"><span>© 2026 ScopeLedger. Clear scope. Considered decisions.</span><nav class="footer-links" aria-label="Footer navigation"><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/license/">License information</a><a href="mailto:support@scopeledger.site">Contact support</a></nav><label class="appearance" for="appearance">Appearance <select id="appearance" data-appearance><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></div></footer></body></html>`;
+  return `<footer class="site-footer"><div class="container footer-inner"><span>© 2026 Margvant. Clear scope. Considered decisions.</span><nav class="footer-links" aria-label="Footer navigation"><a href="/guides/">Guides</a><a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/license/">License information</a><a href="mailto:support@scopeledger.site">Contact support</a></nav><label class="appearance" for="appearance">Appearance <select id="appearance" data-appearance><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label></div></footer></body></html>`;
 }
 
 function crumbs(title) {
@@ -273,14 +273,14 @@ function guideHtml(guide) {
       [guide.title.split(' | ')[0], path],
     ]),
   ])}${header()}
-<main id="main-content" class="container">${crumbs(guide.category)}<article><header class="article-header"><p class="eyebrow">${escape(guide.category)}</p><h1>${escape(guide.heading)}</h1><p class="intro">${escape(guide.intro)}</p><div class="byline"><span>By ScopeLedger</span><span>Published &amp; reviewed <time datetime="${reviewed}">11 October 2026</time></span></div></header>
+<main id="main-content" class="container">${crumbs(guide.category)}<article><header class="article-header"><p class="eyebrow">${escape(guide.category)}</p><h1>${escape(guide.heading)}</h1><p class="intro">${escape(guide.intro)}</p><div class="byline"><span>By Margvant</span><span>Published &amp; reviewed <time datetime="${reviewed}">11 October 2026</time></span></div></header>
 <div class="article-layout"><div class="article-body">${guide.sections.map(({ id, title, content }) => `<section id="${id}" aria-labelledby="${id}-heading"><h2 id="${id}-heading">${escape(title)}</h2>${content}</section>`).join('\n')}
-<section class="article-end" aria-labelledby="try-heading"><h2 id="try-heading">Try the workflow with the sample project.</h2><p>Compare an agreed baseline with a new request, review the costs, choose a response and inspect the client document preview.</p><div class="actions"><a class="button button-primary" href="/workspace/?project=sample-harbor">Open the free workspace demo</a><a class="button" href="/about/">How ScopeLedger works</a></div>${availability()}</section>
+<section class="article-end" aria-labelledby="try-heading"><h2 id="try-heading">Try the workflow with the sample project.</h2><p>Compare an agreed baseline with a new request, review the costs, choose a response and inspect the client document preview.</p><div class="actions"><a class="button button-primary" href="/workspace/?project=sample-harbor">Open the free workspace demo</a><a class="button" href="/about/">How Margvant works</a></div>${availability()}</section>
 <section class="article-end" aria-labelledby="related-heading"><h2 id="related-heading">Related guides</h2><ul>${related}</ul></section></div><aside class="toc" aria-label="On this page"><p>On this page</p><ol>${guide.sections.map(({ id, title }) => `<li><a href="#${id}">${escape(title)}</a></li>`).join('')}</ol></aside></div></article></main>${footer()}`;
 }
 
 function hubHtml() {
-  const title = 'Scope Change Guides & Agency Templates | ScopeLedger';
+  const title = 'Scope Change Guides & Agency Templates | Margvant';
   const description =
     'Practical guides for fixed-fee agencies: build a project baseline, handle scope creep, price additional work and prepare a clear change order.';
   const graph = {
@@ -307,7 +307,7 @@ function hubHtml() {
       ['Home', '/'],
       ['Guides', '/guides/'],
     ]),
-  ])}${header()}<main id="main-content" class="container">${crumbs()}<header class="hub-intro"><p class="eyebrow">Practical guides</p><h1>A clearer process for the next “can you just…”</h1><p class="intro">Useful starting points for fixed-fee agencies, freelancers and design studios. Build the baseline, understand the change and give your client a specific next step.</p></header><div class="hub-grid">${guides.map((guide) => `<a class="guide-card" href="/guides/${guide.slug}/"><span class="guide-category">${escape(guide.category)}</span><h2>${escape(guide.title.split(' | ')[0])}</h2><p>${escape(guide.description)}</p><span class="card-link">Read the guide →</span></a>`).join('')}</div><section class="hub-availability" aria-labelledby="hub-demo"><h2 id="hub-demo">Explore the process in the free workspace.</h2><p>ScopeLedger puts the agreed scope, the change, your costs and the proposed fee into one guided workflow. These guides explain the decisions behind that process.</p><div class="actions"><a class="button button-primary" href="/workspace/">Try the free demo</a><a class="button" href="/about/">About ScopeLedger</a></div>${availability()}</section></main>${footer()}`;
+  ])}${header()}<main id="main-content" class="container">${crumbs()}<header class="hub-intro"><p class="eyebrow">Practical guides</p><h1>A clearer process for the next “can you just…”</h1><p class="intro">Useful starting points for fixed-fee agencies, freelancers and design studios. Build the baseline, understand the change and give your client a specific next step.</p></header><div class="hub-grid">${guides.map((guide) => `<a class="guide-card" href="/guides/${guide.slug}/"><span class="guide-category">${escape(guide.category)}</span><h2>${escape(guide.title.split(' | ')[0])}</h2><p>${escape(guide.description)}</p><span class="card-link">Read the guide →</span></a>`).join('')}</div><section class="hub-availability" aria-labelledby="hub-demo"><h2 id="hub-demo">Explore the process in the free workspace.</h2><p>Margvant puts the agreed scope, the change, your costs and the proposed fee into one guided workflow. These guides explain the decisions behind that process.</p><div class="actions"><a class="button button-primary" href="/workspace/">Try the free demo</a><a class="button" href="/about/">About Margvant</a></div>${availability()}</section></main>${footer()}`;
 }
 
 async function generate() {
@@ -336,7 +336,7 @@ async function generate() {
       resolve(root, `public/guides/fonts/${family}-LICENSE.txt`),
     );
   }
-  console.log(`Generated ${guides.length} ScopeLedger guides and their index.`);
+  console.log(`Generated ${guides.length} Margvant guides and their index.`);
 }
 
 await generate();

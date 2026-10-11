@@ -1,4 +1,4 @@
-# ScopeLedger premium application proposal
+# Margvant premium application proposal
 
 Prepared 5 October 2026. This is a proposal based on the three original build briefs, the current application source, the feature choices and the recorded acceptance evidence. The current brief/invoice refinement is authorized implementation work; the additional features below are recommendations for a subsequent decision.
 

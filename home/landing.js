@@ -950,7 +950,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
         url = URL.createObjectURL(blob);
         const anchor = document.createElement('a');
         anchor.href = url;
-        anchor.download = 'ScopeLedger-sample-brief.pdf';
+        anchor.download = 'Margvant-sample-brief.pdf';
         document.body.appendChild(anchor);
         try {
           anchor.click();
@@ -1236,8 +1236,8 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       const need = Math.ceil(PRICE / per);
       $('#payTxt').innerHTML =
         need <= 1
-          ? `Catching <b>just one</b> ${hrs}-hour request (${fmt$(per)}) covers ScopeLedger <b>${(per / PRICE).toFixed(1)}× over</b>. Everything after that is profit you keep.`
-          : `Catching <b>${need} requests</b> covers ScopeLedger. At your pace, you’ll catch <b>${Math.round(count * cat)}</b> this year.`;
+          ? `Catching <b>just one</b> ${hrs}-hour request (${fmt$(per)}) covers Margvant <b>${(per / PRICE).toFixed(1)}× over</b>. Everything after that is profit you keep.`
+          : `Catching <b>${need} requests</b> covers Margvant. At your pace, you’ll catch <b>${Math.round(count * cat)}</b> this year.`;
     }
     const presets = $$('.roi-presets button');
     const syncPreset = () => {
@@ -1317,7 +1317,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       if (navigator.share && matchMedia('(pointer:coarse)').matches) {
         try {
           await navigator.share({
-            title: 'My ScopeLedger numbers',
+            title: 'My Margvant numbers',
             text: `I’m giving away ${$('#vLeak').textContent} a year in unbilled “quick tweaks”.`,
             url,
           });

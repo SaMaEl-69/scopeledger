@@ -170,13 +170,13 @@ export function CalendarView({
   const download = () =>
     run(() => {
       const blob = new Blob(
-          [exportCalendarIcs(visible, { name: 'ScopeLedger operational calendar' })],
+          [exportCalendarIcs(visible, { name: 'Margvant operational calendar' })],
           { type: 'text/calendar;charset=utf-8' },
         ),
         url = URL.createObjectURL(blob),
         anchor = document.createElement('a');
       anchor.href = url;
-      anchor.download = 'scopeledger-calendar.ics';
+      anchor.download = 'Margvant-calendar.ics';
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }, 'Calendar file exported. It does not create automatic synchronization.');

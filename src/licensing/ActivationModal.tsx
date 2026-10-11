@@ -47,7 +47,7 @@ export function ActivationModal({
   };
   return (
     <Modal
-      title="Activate ScopeLedger"
+      title="Activate Margvant"
       onClose={onClose}
       dirty={!status.active && (!!key || label !== 'This browser' || plan !== initialPlan)}
     >

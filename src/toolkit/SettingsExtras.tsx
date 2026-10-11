@@ -193,7 +193,7 @@ export function AgencyBranding({
         )}
       </div>
       <p className="field-hint">
-        Tax is calculated from the percentage you supply. ScopeLedger does not determine tax
+        Tax is calculated from the percentage you supply. Margvant does not determine tax
         treatment or claim invoice compliance.
       </p>
     </section>

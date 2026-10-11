@@ -30,7 +30,7 @@ const liveEnv = (dbPath: string): NodeJS.ProcessEnv => ({
 beforeEach(async () => {
   directory = await mkdtemp(join(tmpdir(), 'scopeledger-proxy-'));
   await mkdir(join(directory, 'dist'));
-  await writeFile(join(directory, 'dist/index.html'), '<title>ScopeLedger proxy test</title>');
+  await writeFile(join(directory, 'dist/index.html'), '<title>Margvant proxy test</title>');
   config = configuration(liveEnv(join(directory, 'licenses.sqlite')));
   service = new LicenseService(config, {
     clock: () => 1000,

@@ -138,7 +138,7 @@ test('activation and release refresh another tab from the server without alterin
   await saved(other);
   // Both tabs share cookies, but no license value or key is sent through the channel.
   await other.getByRole('button', { name: 'View activation options' }).click();
-  const activation = other.getByRole('dialog', { name: 'Activate ScopeLedger' });
+  const activation = other.getByRole('dialog', { name: 'Activate Margvant' });
   await activation.getByLabel('License key', { exact: true }).fill(localApp.keys.individual);
   await activation.getByRole('button', { name: 'Activate this browser', exact: true }).click();
   await expect(page.locator('.license-settings > .badge')).toHaveText('individual activated');

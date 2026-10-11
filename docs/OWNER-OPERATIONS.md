@@ -1,10 +1,10 @@
-# ScopeLedger owner guide
+# Margvant owner guide
 
 The application is usable locally. Checkout remains disabled until real seller, product and production setup is verified. Local test keys are for owner testing and do not represent purchases. Lifetime support is `olim855597@gmail.com`; no response-time guarantee is promised.
 
 ## Open the application
 
-Use Node 24 LTS and an installed supported Chrome/Chromium. In the ScopeLedger folder, run:
+Use Node 24 LTS and an installed supported Chrome/Chromium. In the existing project folder, run:
 
 ```sh
 npm ci

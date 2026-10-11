@@ -9,7 +9,7 @@ if (server) await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve
 const origin = publicOrigin ?? `http://127.0.0.1:${server.address().port}`;
 const externalPage = createServer((request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
-  response.end(`<img alt="ScopeLedger preview" src="${origin}/brand/scopeledger-social-v1.png">`);
+  response.end(`<img alt="Margvant preview" src="${origin}/brand/scopeledger-social-v1.png">`);
 });
 await new Promise((resolve) => externalPage.listen(0, '127.0.0.1', resolve));
 const bots = [
@@ -32,7 +32,7 @@ try {
     assert.equal(new URL(response.url).pathname, '/home/');
     const html = await response.text();
     assert.match(html, /property="og:image"/);
-    assert.match(html, /ScopeLedger/);
+    assert.match(html, /Margvant/);
     assert.equal(response.headers.get('cross-origin-resource-policy'), 'same-origin');
     checks++;
   }
@@ -79,7 +79,7 @@ try {
       const graph = JSON.parse(
         await page.locator('script[type="application/ld+json"]').textContent(),
       );
-      assert.equal(graph['@graph'][2].name, 'ScopeLedger');
+      assert.equal(graph['@graph'][2].name, 'Margvant');
       await page.goto(origin + '/workspace/');
       await page.locator('.save-indicator').waitFor();
       assert.equal(

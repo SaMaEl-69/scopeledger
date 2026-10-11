@@ -381,7 +381,7 @@ export function exportCalendarIcs(
     'VERSION:2.0',
     'PRODID:-//ScopeLedger//Local operational calendar//EN',
     'CALSCALE:GREGORIAN',
-    `X-WR-CALNAME:${escapeIcs(options.name ?? 'ScopeLedger reminders')}`,
+    `X-WR-CALNAME:${escapeIcs(options.name ?? 'Margvant reminders')}`,
   ];
   for (const event of events.filter((event) => !event.deletedAt)) {
     lines.push(

@@ -220,14 +220,14 @@ function BrandLogo() {
       <img
         className="brand-image-light"
         src="/brand/scopeledger-logo-light.svg?v=6"
-        width="249"
+        width="202"
         height="40"
         alt=""
       />
       <img
         className="brand-image-dark"
         src="/brand/scopeledger-logo-dark.svg?v=6"
-        width="249"
+        width="202"
         height="40"
         alt=""
       />
@@ -986,7 +986,7 @@ export default function App() {
   if (store.recovery)
     return (
       <main className="recovery-screen">
-        <div className="brand" role="img" aria-label="ScopeLedger">
+        <div className="brand" role="img" aria-label="Margvant">
           <BrandLogo />
         </div>
         <div className="card">
@@ -1317,7 +1317,7 @@ export default function App() {
       >
         <button
           className="brand"
-          aria-label="ScopeLedger overview"
+          aria-label="Margvant overview"
           onClick={() => setView('dashboard')}
         >
           <BrandLogo />
@@ -3372,7 +3372,7 @@ export default function App() {
           )}
           <footer className="page-footer">
             <span>
-              ScopeLedger <span>·</span> A considered change. A healthier project.
+              Margvant <span>·</span> A considered change. A healthier project.
             </span>
             <span>
               Local workspace <span>·</span> Application

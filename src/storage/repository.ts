@@ -1309,7 +1309,7 @@ export class Repository {
           blocked = true;
           reject(
             new StorageUnavailableError(
-              'Another tab is blocking the storage upgrade. Close other ScopeLedger tabs and retry.',
+              'Another tab is blocking the storage upgrade. Close other Margvant tabs and retry.',
             ),
           );
         };

@@ -50,7 +50,7 @@ test('public brief invoice and credit previews preserve content without internal
         }),
       ).toBeVisible();
       await expect(preview.locator('body')).toContainText(sample.reference);
-      const brand = preview.getByRole('img', { name: 'ScopeLedger', exact: true });
+      const brand = preview.getByRole('img', { name: 'Margvant', exact: true });
       await expect(brand).toBeVisible();
       expect(
         await brand.evaluate((element: HTMLImageElement) => ({

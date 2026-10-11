@@ -28,8 +28,8 @@ describe('actual Vite development and preview private-file boundary', () => {
       for (const root of [directory, join(directory, 'dist')]) {
         await mkdir(join(root, 'home'));
         await mkdir(join(root, 'workspace'));
-        await writeFile(join(root, 'home/index.html'), '<title>ScopeLedger public home</title>');
-        await writeFile(join(root, 'workspace/index.html'), '<title>ScopeLedger workspace</title>');
+        await writeFile(join(root, 'home/index.html'), '<title>Margvant public home</title>');
+        await writeFile(join(root, 'workspace/index.html'), '<title>Margvant workspace</title>');
       }
       const ownerKeyPath = join(directory, '.local-private/test-keys.json');
       const dbPath = join(directory, 'store/licenses.sqlite');
@@ -45,11 +45,11 @@ describe('actual Vite development and preview private-file boundary', () => {
           await writeFile(join(folder, name), 'synthetic private backup');
       await writeFile(dbPath, 'synthetic private licensing storage');
       await writeFile(dbPath + '-wal', 'synthetic private journal');
-      await writeFile(join(directory, 'index.html'), '<title>ScopeLedger test app</title>');
+      await writeFile(join(directory, 'index.html'), '<title>Margvant test app</title>');
       await writeFile(join(directory, 'main.js'), 'export const safe = true;');
       await writeFile(
         join(directory, 'dist/index.html'),
-        '<title>ScopeLedger built test app</title>',
+        '<title>Margvant built test app</title>',
       );
       await writeFile(join(directory, 'dist/assets/app.js'), 'export const safe = true;');
       for (const root of [directory, join(directory, 'public'), join(directory, 'dist')]) {
@@ -101,7 +101,7 @@ describe('actual Vite development and preview private-file boundary', () => {
       }
       const page = await fetch(origin + '/app');
       expect(page.status).toBe(200);
-      expect(await page.text()).toContain('ScopeLedger');
+      expect(await page.text()).toContain('Margvant');
       const module = await fetch(origin + (mode === 'development' ? '/main.js' : '/assets/app.js'));
       expect(module.status).toBe(200);
       expect(await module.text()).toContain('export const safe = true');

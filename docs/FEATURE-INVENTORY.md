@@ -1,8 +1,8 @@
-# ScopeLedger completed feature inventory
+# Margvant completed feature inventory
 
 The connected site has two canonical entries: `/home/` is the supplied marketing page adapted from `Downloads/index (1).html`, and `/workspace/` is the established React application. `/` opens Home; `/app` and its legacy subpaths redirect into the workspace while preserving query values. Both pages share one origin, so existing browser projects and activation remain available. The requested public URLs are `https://scopeledger.site/home/` and `https://scopeledger.site/workspace/`; hosting has not been set up or deployed. There is no customer registration or cloud project database.
 
-Home and the workspace share the charcoal/mint visual palette, System/Light/Dark appearance preferences and consistent typography. The shared original ScopeLedger mark is documented in [brand identity](BRAND-IDENTITY.md). The current connected-site checks and remaining limits belong to [site verification](SITE-VERIFICATION.md); the earlier application acceptance records remain historical.
+Home and the workspace share the charcoal/mint visual palette, System/Light/Dark appearance preferences and consistent typography. The shared original Margvant mark is documented in [brand identity](BRAND-IDENTITY.md). The current connected-site checks and remaining limits belong to [site verification](SITE-VERIFICATION.md); the earlier application acceptance records remain historical.
 
 The workspace navigation now uses **Overview**, **Change requests**, and **Templates** for the pages previously named Dashboard, Change workspace, and Agency playbook/Playbook. Projects, Documents, Calendar, Clients, and Settings & backup retain their names. The [workspace usability guide](WORKSPACE-USABILITY.md) documents the everyday actions, next-step guidance, document preparation and keyboard shortcuts. The preceding usability acceptance remains historical; the seven-step update has its own verification record below.
 
