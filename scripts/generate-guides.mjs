@@ -228,7 +228,7 @@ function head(title, description, path, graph) {
 }
 
 function header() {
-  return `<body class="sl-guide"><a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="Margvant home"><img class="logo-light" src="/brand/scopeledger-logo-light.svg?v=7" width="202" height="40" alt="Margvant"><img class="logo-dark" src="/brand/scopeledger-logo-dark.svg?v=7" width="202" height="40" alt="Margvant"></a><nav class="header-nav" aria-label="Main navigation"><a class="home-link" href="/">Product</a><a class="guides-link" href="/guides/">Guides</a><a class="button" href="/workspace/">Try the free demo</a></nav></div></header>`;
+  return `<body class="sl-guide"><a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="container header-inner"><a class="brand" href="/home/" aria-label="Margvant home"><img class="logo-light" src="/brand/scopeledger-logo-light.svg?v=7" width="202" height="40" alt="Margvant"><img class="logo-dark" src="/brand/scopeledger-logo-dark.svg?v=7" width="202" height="40" alt="Margvant"></a><nav class="header-nav" aria-label="Main navigation"><a class="home-link" href="/home/">Product</a><a class="guides-link" href="/guides/">Guides</a><a class="button" href="/workspace/">Try the free demo</a></nav></div></header>`;
 }
 
 function footer() {
@@ -236,7 +236,7 @@ function footer() {
 }
 
 function crumbs(title) {
-  return `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li>${title ? '<a href="/guides/">Guides</a>' : '<span aria-current="page">Guides</span>'}</li>${title ? `<li aria-current="page">${escape(title)}</li>` : ''}</ol></nav>`;
+  return `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/home/">Home</a></li><li>${title ? '<a href="/guides/">Guides</a>' : '<span aria-current="page">Guides</span>'}</li>${title ? `<li aria-current="page">${escape(title)}</li>` : ''}</ol></nav>`;
 }
 
 function availability() {

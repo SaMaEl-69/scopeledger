@@ -155,9 +155,9 @@ http {
     platform: process.platform,
     note: 'Isolated trusted test certificate and synthetic seller configuration. This is not a public-host or real-purchase check.',
   };
-  const output = resolve(process.argv[2] ?? 'output/security/nginx-results.json');
-  await mkdir(dirname(output), { recursive: true });
-  await writeFile(output, JSON.stringify(result, null, 2) + '\n');
+  const outputPath = resolve(process.argv[2] ?? 'output/security/nginx-results.json');
+  await mkdir(dirname(outputPath), { recursive: true });
+  await writeFile(outputPath, JSON.stringify(result, null, 2) + '\n');
   console.log(
     JSON.stringify({
       status: result.status,

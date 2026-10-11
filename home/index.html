@@ -4032,7 +4032,7 @@
         grid-template-columns: 1.6fr repeat(3, 1fr);
         gap: 40px;
       }
-      .foot h6 {
+      .foot h3 {
         font-size: 12.5px;
         color: var(--text2);
         margin: 0 0 14px;
@@ -4794,9 +4794,8 @@
         *,
         *::before,
         *::after {
-          animation-duration: 0.001ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.001ms !important;
+          animation: none !important;
+          transition: none !important;
           scroll-behavior: auto !important;
         }
         .js [data-reveal] {
@@ -5882,12 +5881,7 @@
         </nav>
         <div class="nav-cta">
           <a href="/workspace/" class="signin">Workspace</a>
-          <button
-            class="cmdk-btn"
-            id="cmdkBtn"
-            aria-label="Open command menu"
-            aria-keyshortcuts="Meta+K Control+K"
-          >
+          <button class="cmdk-btn" id="cmdkBtn" aria-keyshortcuts="Meta+K Control+K">
             <svg
               width="15"
               height="15"
@@ -7176,20 +7170,20 @@
             </p>
           </div>
           <div>
-            <h6>Product</h6>
+            <h3>Product</h3>
             <a href="/workspace/">Open workspace</a><a href="#how">How it works</a
             ><a href="#playbook">Playbook</a><a href="#change-orders">Change orders</a
             ><a href="#roi">ROI calculator</a><a href="#compare">Compare</a>
           </div>
           <div>
-            <h6>Help</h6>
+            <h3>Help</h3>
             <a href="#faq">FAQ</a><a href="/about/">About Margvant</a
             ><a href="/guides/">Guides &amp; templates</a
             ><a href="/workspace/?view=support">Help &amp; support</a
             ><a href="#pricing">License options</a>
           </div>
           <div>
-            <h6>Service information</h6>
+            <h3>Service information</h3>
             <a href="/privacy/">Privacy overview</a><a href="/license/">License information</a
             ><a href="/privacy/#data-flow">Data flow overview</a>
           </div>

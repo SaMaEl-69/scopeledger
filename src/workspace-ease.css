@@ -198,7 +198,7 @@
     display: none;
   }
   .app-shell .topbar .breadcrumb {
-    min-width: 0;
+    min-width: 46px;
     flex: 1;
   }
   .app-shell .topbar .breadcrumb strong {
