@@ -2262,10 +2262,16 @@ export default function App() {
                                 patch({ route: event.target.value as ChangeTerms['route'] })
                               }
                             >
-                              <option value="Quote">Charge for the additional work</option>
-                              <option value="Absorb">No additional charge</option>
-                              <option value="Exchange">Replace some existing work</option>
-                              <option value="Defer">Keep this request for later</option>
+                              <option value="Quote">Quote — Charge for the additional work</option>
+                              <option value="Absorb">
+                                Absorb — Complete without an additional charge
+                              </option>
+                              <option value="Exchange">
+                                Exchange — Replace some existing work
+                              </option>
+                              <option value="Defer">
+                                Defer — Schedule the request for later and finish the previous work
+                              </option>
                             </select>
                             {change.route === 'Exchange' && (
                               <p className="field-hint">

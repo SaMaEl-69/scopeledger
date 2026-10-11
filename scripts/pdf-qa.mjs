@@ -170,7 +170,7 @@ try {
         deliveryImplications: 'Schedule is confirmed when approved content is received.',
         approvalText:
           'Confirm this scope, fee and dependencies in writing before additional work starts. The existing agreement remains in force.',
-        footer: 'Sample document for design review. No payment is requested.',
+        footer: 'Sample document for design review. No payment is requested. scopeledger.site',
       }),
     ],
     [
