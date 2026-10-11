@@ -136,6 +136,7 @@ try {
   report.pdf = {
     status: pdfResponse.status,
     contentType: pdfResponse.headers.get('content-type'),
+    contentDisposition: pdfResponse.headers.get('content-disposition'),
     durationMs: Math.round(performance.now() - pdfBegan),
     bytes: bytes.length,
     signature: bytes.subarray(0, 5).toString(),
@@ -158,6 +159,7 @@ try {
   assert.equal(JSON.parse(report.readiness.body).purchasesEnabled, false);
   assert.equal(report.pdf.status, 200, 'Protected endpoint must produce a real PDF.');
   assert.equal(report.pdf.contentType, 'application/pdf');
+  assert.equal(report.pdf.contentDisposition, 'attachment; filename="Margvant-invoice.pdf"');
   assert.equal(report.pdf.signature, '%PDF-');
   assert.ok(report.pdf.bytes > 1000, 'Real PDF must contain document data.');
   report.passed = true;
