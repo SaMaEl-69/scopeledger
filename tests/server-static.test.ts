@@ -165,10 +165,7 @@ describe('connected public home and project workspace', () => {
     await mkdir(join(directory, 'assets'));
     await mkdir(join(directory, 'samples'));
     await writeFile(join(directory, 'home/index.html'), '<title>Margvant public home</title>');
-    await writeFile(
-      join(directory, 'workspace/index.html'),
-      '<title>Margvant workspace</title>',
-    );
+    await writeFile(join(directory, 'workspace/index.html'), '<title>Margvant workspace</title>');
     await writeFile(join(directory, 'index.html'), '<title>Legacy compatibility</title>');
     await writeFile(join(directory, 'assets/app.js'), 'export const workspace = true;');
     await writeFile(join(directory, 'samples/brief.pdf'), '%PDF-1.7 synthetic public sample');
@@ -308,10 +305,7 @@ describe('production public file allowlist', () => {
     ])
       await writeFile(join(directory, name), privateContent);
     await writeFile(join(directory, 'home/index.html'), '<title>Margvant home</title>');
-    await writeFile(
-      join(directory, 'workspace/index.html'),
-      '<title>Margvant workspace</title>',
-    );
+    await writeFile(join(directory, 'workspace/index.html'), '<title>Margvant workspace</title>');
     await writeFile(join(directory, 'assets/app.js'), 'export const safe = true;');
     await writeFile(join(directory, 'brand/mark.svg'), '<svg xmlns="http://www.w3.org/2000/svg"/>');
     await writeFile(join(directory, 'samples/brief.pdf'), '%PDF-1.7 public example');

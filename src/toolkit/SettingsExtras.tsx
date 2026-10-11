@@ -193,8 +193,8 @@ export function AgencyBranding({
         )}
       </div>
       <p className="field-hint">
-        Tax is calculated from the percentage you supply. Margvant does not determine tax
-        treatment or claim invoice compliance.
+        Tax is calculated from the percentage you supply. Margvant does not determine tax treatment
+        or claim invoice compliance.
       </p>
     </section>
   );

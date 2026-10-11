@@ -47,10 +47,7 @@ describe('actual Vite development and preview private-file boundary', () => {
       await writeFile(dbPath + '-wal', 'synthetic private journal');
       await writeFile(join(directory, 'index.html'), '<title>Margvant test app</title>');
       await writeFile(join(directory, 'main.js'), 'export const safe = true;');
-      await writeFile(
-        join(directory, 'dist/index.html'),
-        '<title>Margvant built test app</title>',
-      );
+      await writeFile(join(directory, 'dist/index.html'), '<title>Margvant built test app</title>');
       await writeFile(join(directory, 'dist/assets/app.js'), 'export const safe = true;');
       for (const root of [directory, join(directory, 'public'), join(directory, 'dist')]) {
         await symlink(ownerKeyPath, join(root, 'key-alias.json'));
