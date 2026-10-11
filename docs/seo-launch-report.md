@@ -1,4 +1,6 @@
-# ScopeLedger SEO implementation and handover
+# Historical SEO implementation and handover
+
+> Historical snapshot from before the Margvant rebrand. The ScopeLedger name and search-engine verdicts below describe the evidence collected then; they are not the current brand or submission status. Margvant is now deployed at the same domain. Current evidence is in the task’s local `output/rebrand-live/REPORT.md`; final CI status is available on [PR #2](https://github.com/SaMaEl-69/scopeledger/pull/2).
 
 Reviewed 11 October 2026. Production: https://scopeledger.site/. This report distinguishes deployed changes from search-engine processing, which cannot be controlled by the site.
 
