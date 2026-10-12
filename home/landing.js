@@ -917,8 +917,10 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       $('.moves'),
     );
     document.addEventListener('keydown', (e) => {
+      // A focused decision remains usable before the visibility observer's next callback.
+      const focusedDecision = e.target.closest?.('.moves');
       if (
-        !inView ||
+        (!inView && !focusedDecision) ||
         document.querySelector('dialog[open]') ||
         !$('#cmdk').hidden ||
         document.documentElement.classList.contains('menu-open') ||
