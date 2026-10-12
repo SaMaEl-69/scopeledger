@@ -4,6 +4,8 @@ import { publicDocuments, publicAssetPath } from '../shared/public-assets.mjs';
 import { siteDocumentPath, siteRedirect } from '../server/site-routes.mjs';
 
 const origin = 'https://scopeledger.site';
+const socialImage = origin + '/brand/margvant-facebook-1200x630.png';
+const twitterImage = origin + '/brand/margvant-x-1200x600.png';
 const canonicalPaths = publicDocuments.map((name) => '/' + name.replace(/index\.html$/, ''));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${canonicalPaths.map((path) => `  <url><loc>${origin}${path}</loc><lastmod>2026-10-11</lastmod></url>`).join('\n')}\n</urlset>\n`;
 // lastmod records this content revision, never the time of an unrelated build.
@@ -57,9 +59,17 @@ for (const [index, file] of publicDocuments.entries()) {
   assert.equal(attr(metadata(html, 'og:url') ?? '', 'content'), origin + path, `${path}: og:url`);
   assert.equal(
     attr(metadata(html, 'og:image') ?? '', 'content'),
-    origin + '/brand/scopeledger-social-v1.png?v=2',
+    socialImage,
     `${path}: social image`,
   );
+  assert.equal(
+    attr(metadata(html, 'twitter:image') ?? '', 'content'),
+    twitterImage,
+    `${path}: X image`,
+  );
+  assert.equal(attr(metadata(html, 'og:image:type') ?? '', 'content'), 'image/png');
+  assert.equal(attr(metadata(html, 'og:image:width') ?? '', 'content'), '1200');
+  assert.equal(attr(metadata(html, 'og:image:height') ?? '', 'content'), '630');
   assert(
     !/aggregateRating|"offers"\s*:|"review"\s*:|"@type"\s*:\s*"FAQPage"/.test(
       JSON.stringify(data.schema),
@@ -115,8 +125,21 @@ if (process.argv.includes('--live')) {
         origin + page.path,
         `${page.path}: live canonical`,
       );
+      assert.equal(attr(metadata(html, 'og:image') ?? '', 'content'), socialImage);
+      assert.equal(attr(metadata(html, 'twitter:image') ?? '', 'content'), twitterImage);
       page.live.push({ agent, status: response.status, bytes: Buffer.byteLength(html) });
     }
+  }
+  for (const image of [socialImage, twitterImage]) {
+    const response = await fetch(image, { redirect: 'manual' });
+    assert.equal(response.status, 200, `${image}: image status`);
+    assert.equal(response.headers.get('content-type'), 'image/png');
+    assert.equal(response.headers.get('cross-origin-resource-policy'), 'cross-origin');
+    assert.deepEqual(
+      Buffer.from(await response.arrayBuffer()),
+      await readFile('public' + new URL(image).pathname),
+      `${image}: image differs from published source`,
+    );
   }
   const remoteSitemap = await fetch(origin + '/sitemap.xml');
   assert.equal(remoteSitemap.status, 200);

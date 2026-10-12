@@ -528,9 +528,22 @@ import { createAppearanceController } from '../shared/appearance.mjs';
         title: 'Extra hero concept (round 4)',
         h: 10,
         m: 'swap',
-        res: 'Swapped for the Careers template',
+        res: 'Exchanged for the Careers template',
         v: '0h net',
         saved: 1500,
+      },
+      {
+        i: 'JL',
+        c: '#f5c26b',
+        who: 'Jon Lee',
+        src: 'Client request',
+        txt: 'Could we include a custom cookie banner before launch, without changing the fee?',
+        title: 'Custom cookie banner',
+        h: 4,
+        m: 'absorb',
+        res: 'Included without an additional charge',
+        v: '−$600',
+        saved: 0,
       },
       {
         i: 'PS',
@@ -546,7 +559,12 @@ import { createAppearanceController } from '../shared/appearance.mjs';
         saved: 2700,
       },
     ];
-    const col = { bill: 'var(--bill)', swap: 'var(--swap)', defer: 'var(--defer)' };
+    const col = {
+      bill: 'var(--bill)',
+      absorb: 'var(--muted)',
+      swap: 'var(--swap)',
+      defer: 'var(--defer)',
+    };
     const msg = $('#hvMsg'),
       txt = $('#hvTxt'),
       body = $('#hvBody'),
@@ -716,7 +734,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
     const tq = $('#tq'),
       reqBox = $('#req'),
       stage = $('#stage');
-    const label = { swap: 'Swapped', bill: 'Billed', defer: 'Deferred' };
+    const label = { bill: 'Quoted', absorb: 'Absorbed', swap: 'Exchanged', defer: 'Deferred' };
     const C = 2 * Math.PI * 42;
 
     function bestSwap(h) {
@@ -754,37 +772,47 @@ import { createAppearanceController } from '../shared/appearance.mjs';
         void reqBox.offsetWidth;
         reqBox.classList.add('enter');
       }
-      $$('.move').forEach((m) => m.classList.toggle('on', state.dec[r.id] === m.dataset.move));
+      $$('.move').forEach((m) => {
+        const selected = state.dec[r.id] === m.dataset.move;
+        m.classList.toggle('on', selected);
+        m.setAttribute('aria-pressed', String(selected));
+      });
     }
     function nextBtn() {
       const nxt = reqs.find((x) => !state.dec[x.id] && x.id !== state.sel);
       return nxt
         ? `<button class="btn btn-ghost btn-sm next-btn" data-next="${nxt.id}">Next request <svg class="arr" width="14" height="14"><use href="#i-arrow"/></svg></button>`
-        : `<span class="chip bill next-btn" style="margin-top:14px">All requests triaged — margin protected</span>`;
+        : `<span class="chip bill next-btn" style="margin-top:14px">All requests reviewed</span>`;
     }
     function renderStage() {
       const r = reqs.find((x) => x.id === state.sel),
         d = state.dec[r.id];
       let html;
       if (!d) {
-        html = `<div class="stage-empty"><div><div class="keys"><kbd>S</kbd><kbd>B</kbd><kbd>D</kbd></div>Choose a move to see what happens to your margin.<div style="font-size:12.5px;color:var(--dim);margin-top:6px">Saying “sure, no problem” costs you <span style="color:var(--leak)">${fmt$(r.h * RATE)}</span>.</div></div></div>`;
+        html = `<div class="stage-empty"><div><div class="keys"><kbd>Q</kbd><kbd>A</kbd><kbd>E</kbd><kbd>D</kbd></div>Choose a move to see what happens to your margin.<div style="font-size:12.5px;color:var(--dim);margin-top:6px">Saying “sure, no problem” costs you <span style="color:var(--leak)">${fmt$(r.h * RATE)}</span>.</div></div></div>`;
       } else if (d === 'bill') {
-        html = `<div class="stage-h"><span class="chip bill">Billed</span><h4>Priced and ready to send</h4><span class="sub">Illustrative fee and brief</span></div>
+        html = `<div class="stage-h"><span class="chip bill">Quoted</span><h4>Priced and ready for review</h4><span class="sub">Illustrative fee and brief</span></div>
         <div class="price-tag"><span class="big" id="bigPrice">$0</span><span class="calc">${r.h}h × $${RATE}/h · Net 14</span></div>
         <div class="co-line"><span class="doc"></span><span>Change order <b style="color:var(--text)">CO-0${13 + r.id}</b> · “${r.co}”</span><a href="#change-orders">Preview PDF <svg width="13" height="13"><use href="#i-arrow"/></svg></a></div>
+        ${nextBtn()}`;
+      } else if (d === 'absorb') {
+        html = `<div class="stage-h"><span class="chip absorb">Absorbed</span><h4>Complete without an additional charge</h4><span class="sub">Cost stays in this project</span></div>
+        <div class="price-tag"><span class="big">$0</span><span class="calc">Additional client fee</span></div>
+        <div class="p2-total"><span>Additional delivery cost · ${r.h}h × $${RATE}/h</span><b id="absorbedCost">${fmt$(r.h * RATE)}</b></div>
+        <p class="move-d">The additional work reduces the planned margin. Record this choice before agreeing to it.</p>
         ${nextBtn()}`;
       } else if (d === 'swap') {
         const sw = state.swapFor[r.id];
         const out = deliverables.find((x) => x.n === sw);
         const net = r.h - out.h;
-        html = `<div class="stage-h"><span class="chip swap">Swapped</span><h4>Trade it for something already in scope</h4><span class="sub">Pick a deliverable</span></div>
+        html = `<div class="stage-h"><span class="chip swap">Exchanged</span><h4>Replace some existing work</h4><span class="sub">Pick a deliverable</span></div>
         <div class="swap-list">${deliverables.map((x) => `<button class="swap-opt ${x.n === sw ? 'sel' : ''}" data-swap="${x.n}"><span class="n">${x.n}</span><span class="h">${x.h}h</span></button>`).join('')}</div>
         <div class="swap-eq"><span class="pill in">+${r.h}h in</span><span>−</span><span class="pill out">${out.h}h out</span><span>=</span><span class="pill ${net <= 0 ? 'net' : 'in'}">${net > 0 ? '+' + net + 'h over' : net === 0 ? '0h net · scope-neutral' : Math.abs(net) + 'h under'}</span></div>
         ${nextBtn()}`;
       } else {
         const items = reqs.filter((x) => state.dec[x.id] === 'defer');
         const sum = items.reduce((s, x) => s + x.h * RATE, 0);
-        html = `<div class="stage-h"><span class="chip defer">Deferred</span><h4>Kept for future work</h4><span class="sub">Launch date protected</span></div>
+        html = `<div class="stage-h"><span class="chip defer">Deferred</span><h4>Schedule later; finish the previous work</h4><span class="sub">Current scope stays in place</span></div>
         <div class="phase2">${items.map((x) => `<div class="p2-row"><span>${x.co}</span><span class="h">${x.h}h · ${fmt$(x.h * RATE)}</span></div>`).join('')}</div>
         <div class="p2-total"><span>Phase 2 pipeline value</span><b id="p2Sum">$0</b></div>
         ${nextBtn()}`;
@@ -804,13 +832,17 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       let risk = 0,
         swapH = 0,
         bill = 0,
+        absorbed = 0,
         defer = 0;
       reqs.forEach((r) => {
         const d = state.dec[r.id],
           v = r.h * RATE;
         if (!d) risk += v;
         else if (d === 'bill') bill += v;
-        else if (d === 'defer') defer += v;
+        else if (d === 'absorb') {
+          absorbed += v;
+          risk += v;
+        } else if (d === 'defer') defer += v;
         else if (d === 'swap') {
           const o = deliverables.find((x) => x.n === state.swapFor[r.id]);
           const net = Math.max(0, r.h - o.h);
@@ -833,10 +865,13 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       const note = $('#ringNote');
       note.textContent = pend
         ? `${pend} decision${pend > 1 ? 's' : ''} pending`
-        : 'Fully protected ✓';
-      note.style.color = pend ? 'var(--leak)' : 'var(--brand)';
+        : risk > 0
+          ? 'All decisions recorded · unbilled cost remains'
+          : 'Fully protected ✓';
+      note.style.color = pend || risk > 0 ? 'var(--leak)' : 'var(--brand)';
       $('#tSwap').textContent = swapH + 'h';
       tween($('#tBill'), bill, { dur: 800 });
+      tween($('#tAbsorb'), absorbed, { dur: 800 });
       tween($('#tDefer'), defer, { dur: 800 });
     }
     function select(id, animate = true) {
@@ -879,7 +914,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
 
     let inView = false;
     new IntersectionObserver(([e]) => (inView = e.isIntersecting), { threshold: 0.3 }).observe(
-      $('.triage'),
+      $('.moves'),
     );
     document.addEventListener('keydown', (e) => {
       if (
@@ -895,7 +930,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       )
         return;
       const k = e.key.toLowerCase();
-      const map = { s: 'swap', b: 'bill', d: 'defer' };
+      const map = { q: 'bill', a: 'absorb', e: 'swap', d: 'defer' };
       if (map[k]) {
         decide(map[k]);
         const btn = $(`.move[data-move=${map[k]}]`);
@@ -1058,11 +1093,11 @@ import { createAppearanceController } from '../shared/appearance.mjs';
         what: 'Mid-build, the client asks for an extra “Partners” landing page. It’s roughly the same effort as the Careers template they haven’t mentioned in weeks.',
         steps: [
           'Find an in-scope deliverable of similar size.',
-          'Offer the swap first — it keeps budget and timeline intact.',
+          'Offer the exchange first — it keeps budget and timeline intact.',
           'If they want both, fall back to a priced change order.',
         ],
         subj: 'Adding a Partners page — easy option inside the budget',
-        body: `Hi {client},\n\nLove the idea of a {page} page. The simplest way to fit it in without touching budget or timeline is a swap: we build {page} instead of the {swap} (similar effort, ~{hours} hours).\n\nIf you’d rather keep both, no problem — I’ll send a change order for {price}.\n\nWhich would you prefer?\n\nBest,\n{you}`,
+        body: `Hi {client},\n\nLove the idea of a {page} page. The simplest way to fit it in without touching budget or timeline is an exchange: we build {page} instead of the {swap} (similar effort, ~{hours} hours).\n\nIf you’d rather keep both, no problem — I’ll send a change order for {price}.\n\nWhich would you prefer?\n\nBest,\n{you}`,
         vars: {
           client: 'Dana',
           page: 'Partners',
@@ -1108,7 +1143,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       ).join('') + `<div class="pb-more">+ 19 more scenarios in the full playbook</div>`,
     );
     const riskChip = { Severe: 'leak', High: 'leak', Medium: 'defer' };
-    const moveLbl = { swap: 'Swap', bill: 'Bill', defer: 'Defer' };
+    const moveLbl = { swap: 'Exchange', bill: 'Quote', defer: 'Defer' };
     const fill = (str, v, hl) =>
       str.replace(/\{(\w+)\}/g, (_, k) =>
         hl ? `<span class="v">${v[k] ?? k}</span>` : (v[k] ?? k),
@@ -1420,7 +1455,7 @@ import { createAppearanceController } from '../shared/appearance.mjs';
       [
         'Jump to',
         'Try the triage demo',
-        'swap bill defer interactive requests',
+        'quote absorb exchange defer interactive requests',
         'play',
         () => {
           const t = $('.triage');

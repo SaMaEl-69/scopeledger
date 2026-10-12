@@ -20,18 +20,18 @@
     <meta property="og:locale" content="en_US" />
     <meta
       property="og:image"
-      content="https://scopeledger.site/brand/scopeledger-social-v1.png?v=2"
+      content="https://scopeledger.site/brand/margvant-facebook-1200x630.png"
     />
     <meta
       property="og:image:secure_url"
-      content="https://scopeledger.site/brand/scopeledger-social-v1.png?v=2"
+      content="https://scopeledger.site/brand/margvant-facebook-1200x630.png"
     />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Margvant — Scope changes, made clear. Review the work, agree the fee and put the next step in writing."
+      content="Margvant wordmark and a client request beside Quote, Absorb, Exchange and Defer options."
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Margvant — Scope changes, made clear" />
@@ -39,13 +39,10 @@
       name="twitter:description"
       content="Review the work. Agree the fee. Put the next step in writing. Try the free workspace demo."
     />
-    <meta
-      name="twitter:image"
-      content="https://scopeledger.site/brand/scopeledger-social-v1.png?v=2"
-    />
+    <meta name="twitter:image" content="https://scopeledger.site/brand/margvant-x-1200x600.png" />
     <meta
       name="twitter:image:alt"
-      content="Margvant — Scope changes, made clear. A minimal change brief beside the Margvant wordmark."
+      content="Margvant wordmark and a client request beside Quote, Absorb, Exchange and Defer options."
     />
     <link
       rel="alternate"
@@ -1267,7 +1264,7 @@
       }
       .hv-moves {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 8px;
         margin-top: 16px;
       }
@@ -1293,6 +1290,9 @@
       }
       .hv-move[data-m='bill'] {
         --c: var(--bill);
+      }
+      .hv-move[data-m='absorb'] {
+        --c: var(--muted);
       }
       .hv-move[data-m='defer'] {
         --c: var(--defer);
@@ -1794,6 +1794,9 @@
       .chip.bill {
         --c: var(--bill);
       }
+      .chip.absorb {
+        --c: var(--muted);
+      }
       .chip.defer {
         --c: var(--defer);
       }
@@ -2203,7 +2206,7 @@
       }
       .moves {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
         margin-top: 12px;
       }
@@ -2224,6 +2227,9 @@
       }
       .move[data-move='bill'] {
         --c: var(--bill);
+      }
+      .move[data-move='absorb'] {
+        --c: var(--muted);
       }
       .move[data-move='defer'] {
         --c: var(--defer);
@@ -2589,14 +2595,20 @@
         }
       }
       @media (max-width: 700px) {
+        .hv-moves {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
         .triage {
           grid-template-columns: 1fr;
         }
         .swap-list {
           grid-template-columns: 1fr;
         }
+        .move {
+          padding: 12px;
+        }
         .move-d {
-          display: none;
+          font-size: 11.5px;
         }
       }
 
@@ -4050,6 +4062,19 @@
         display: inline-flex;
         padding: 0;
         color: var(--text);
+      }
+      .social-downloads {
+        margin-top: 8px;
+      }
+      .social-downloads summary {
+        min-height: 44px;
+        padding: 12px 0;
+        cursor: pointer;
+        color: var(--text2);
+      }
+      .social-downloads summary:focus-visible {
+        outline: 2px solid var(--brand);
+        outline-offset: 3px;
       }
       .foot-b {
         display: flex;
@@ -5593,6 +5618,7 @@
       }
     </style>
     <link rel="stylesheet" href="/home/site.css" />
+    <link rel="stylesheet" href="./carousel.css" />
     <link rel="stylesheet" href="/shared/brand.css" />
   </head>
   <body>
@@ -6066,14 +6092,18 @@
                 </div>
               </div>
               <div class="hv-moves">
-                <div class="hv-move" data-m="swap">
-                  <svg width="14" height="14"><use href="#i-swap" /></svg>Swap
-                </div>
                 <div class="hv-move" data-m="bill">
-                  <svg width="14" height="14"><use href="#i-bill" /></svg>Bill
+                  <svg width="14" height="14" aria-hidden="true"><use href="#i-doc" /></svg>Quote
+                </div>
+                <div class="hv-move" data-m="absorb">
+                  <svg width="14" height="14" aria-hidden="true"><use href="#i-bill" /></svg>Absorb
+                </div>
+                <div class="hv-move" data-m="swap">
+                  <svg width="14" height="14" aria-hidden="true"><use href="#i-swap" /></svg
+                  >Exchange
                 </div>
                 <div class="hv-move" data-m="defer">
-                  <svg width="14" height="14"><use href="#i-defer" /></svg>Defer
+                  <svg width="14" height="14" aria-hidden="true"><use href="#i-defer" /></svg>Defer
                 </div>
               </div>
               <div class="hv-res" id="hvRes">
@@ -6088,12 +6118,298 @@
         </div>
       </section>
 
-      <section class="audience-band" aria-label="Built for fixed-fee client work">
+      <section class="audience-carousel" id="audienceCarousel" aria-labelledby="audienceTitle">
         <div class="wrap">
-          <p>Built for fixed-fee client work.</p>
-          <div>
-            <span>Independent designers</span><span>Webflow studios</span
-            ><span>Branding agencies</span><span>Development partners</span>
+          <div class="carousel-heading">
+            <span class="carousel-line" aria-hidden="true"></span>
+            <h2 id="audienceTitle">Built for fixed-fee client work.</h2>
+            <span class="carousel-line" aria-hidden="true"></span>
+          </div>
+          <div class="carousel-caption">
+            <p>Illustrative requests. Four ways to make a considered decision.</p>
+            <button
+              type="button"
+              id="carouselToggle"
+              aria-controls="carouselRows"
+              aria-pressed="false"
+              hidden
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path class="pause-glyph" d="M7 5h3v14H7zm7 0h3v14h-3z" />
+                <path class="play-glyph" d="m8 5 11 7-11 7z" />
+              </svg>
+              <span>Pause carousel</span>
+            </button>
+          </div>
+        </div>
+        <div id="carouselRows">
+          <div
+            class="mq-row"
+            tabindex="0"
+            role="region"
+            aria-label="Illustrative agency requests; scroll to explore"
+          >
+            <div class="mq-track">
+              <ul class="mq-set">
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Webflow studios</b><span>A journal collection</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Branding agencies</b><span>Another design direction</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Development partners</b><span>A new integration</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Independent designers</b><span>An extra landing page</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Digital studios</b><span>A pricing toggle</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Content teams</b><span>More page templates</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Product designers</b><span>Additional screens</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Creative teams</b><span>More asset variants</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Freelancers</b><span>An out-of-scope request</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-mark" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="36"
+                      height="36"
+                      alt="" /></span
+                  ><span class="scenario-copy"
+                    ><b>Fixed-fee agencies</b><span>A revised client brief</span></span
+                  ><span class="scenario-tag">Scope</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="mq-row"
+            tabindex="0"
+            role="region"
+            aria-label="Illustrative response options; scroll to explore"
+          >
+            <div class="mq-track">
+              <ul class="mq-set">
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-doc" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Quote</b><span>Charge for additional work</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-check" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Absorb</b><span>Complete without an extra charge</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-swap" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Exchange</b><span>Replace some existing work</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-defer" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Defer</b><span>Finish previous work first</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-doc" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Quote</b><span>Consider the fee before agreeing</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-check" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Absorb</b><span>Make the cost a conscious choice</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-swap" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Exchange</b><span>Agree which deliverable changes</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-defer" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Defer</b><span>Plan the request for later</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-clock" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Consider the hours</b><span>See the estimate before answering</span></span
+                  >
+                </li>
+                <li class="agency-scenario">
+                  <span class="scenario-option" aria-hidden="true"
+                    ><svg width="20" height="20"><use href="#i-doc" /></svg></span
+                  ><span class="scenario-copy"
+                    ><b>Keep a clear brief</b><span>Scope, fee and terms together</span></span
+                  >
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -6223,10 +6539,10 @@
             </div>
             <div class="step">
               <span class="n">02 — Decide</span>
-              <h3>Swap, Bill or Defer</h3>
+              <h3>Quote, Absorb, Exchange or Defer</h3>
               <p>
-                Review the costs, choose a fee, exchange agreed work or defer the request. You make
-                the decision and record the client’s response.
+                Review the costs. Quote an additional fee, absorb the cost, exchange agreed work or
+                defer the request. You make the decision and record the client’s response.
               </p>
             </div>
             <div class="step">
@@ -6244,7 +6560,9 @@
               <h3>Try it yourself</h3>
               <p>
                 Four illustrative requests. Pick a move and explore the assumed financial
-                effect.<span class="kbd-hint"> Keys: <kbd>S</kbd> <kbd>B</kbd> <kbd>D</kbd></span>
+                effect.<span class="kbd-hint">
+                  Keys: <kbd>Q</kbd> <kbd>A</kbd> <kbd>E</kbd> <kbd>D</kbd></span
+                >
               </p>
             </div>
           </div>
@@ -6259,29 +6577,43 @@
             <div class="card tmain">
               <div class="req" id="req"></div>
               <div class="moves" role="group" aria-label="Decision">
-                <button class="move" data-move="swap">
+                <button class="move" data-move="bill" aria-pressed="false" aria-keyshortcuts="Q">
                   <span class="move-top"
                     ><span class="move-ic"
-                      ><svg width="15" height="15"><use href="#i-swap" /></svg></span
-                    ><kbd>S</kbd></span
-                  ><span class="move-n">Swap</span
-                  ><span class="move-d">Trade for an in-scope item of equal size.</span>
+                      ><svg width="15" height="15" aria-hidden="true">
+                        <use href="#i-doc" /></svg></span
+                    ><kbd>Q</kbd></span
+                  ><span class="move-n">Quote</span
+                  ><span class="move-d">Charge for the additional work.</span>
                 </button>
-                <button class="move" data-move="bill">
+                <button class="move" data-move="absorb" aria-pressed="false" aria-keyshortcuts="A">
                   <span class="move-top"
                     ><span class="move-ic"
-                      ><svg width="15" height="15"><use href="#i-bill" /></svg></span
-                    ><kbd>B</kbd></span
-                  ><span class="move-n">Bill</span
-                  ><span class="move-d">Instant price + drafted change order.</span>
+                      ><svg width="15" height="15" aria-hidden="true">
+                        <use href="#i-bill" /></svg></span
+                    ><kbd>A</kbd></span
+                  ><span class="move-n">Absorb</span
+                  ><span class="move-d">Complete without an additional charge.</span>
                 </button>
-                <button class="move" data-move="defer">
+                <button class="move" data-move="swap" aria-pressed="false" aria-keyshortcuts="E">
                   <span class="move-top"
                     ><span class="move-ic"
-                      ><svg width="15" height="15"><use href="#i-defer" /></svg></span
+                      ><svg width="15" height="15" aria-hidden="true">
+                        <use href="#i-swap" /></svg></span
+                    ><kbd>E</kbd></span
+                  ><span class="move-n">Exchange</span
+                  ><span class="move-d">Replace some existing work.</span>
+                </button>
+                <button class="move" data-move="defer" aria-pressed="false" aria-keyshortcuts="D">
+                  <span class="move-top"
+                    ><span class="move-ic"
+                      ><svg width="15" height="15" aria-hidden="true">
+                        <use href="#i-defer" /></svg></span
                     ><kbd>D</kbd></span
                   ><span class="move-n">Defer</span
-                  ><span class="move-d">Keep it for future work.</span>
+                  ><span class="move-d"
+                    >Schedule the request for later and finish the previous work.</span
+                  >
                 </button>
               </div>
               <div class="stage" id="stage" aria-live="polite"></div>
@@ -6308,15 +6640,21 @@
                     >
                   </div>
                 </div>
-                <div class="risk-box" id="riskBox">Margin at risk: <b id="atRisk">$5,700</b></div>
+                <div class="risk-box" id="riskBox">
+                  Unbilled cost exposure: <b id="atRisk">$5,700</b>
+                </div>
                 <div class="tally">
                   <div class="tally-row">
-                    <span><i class="dot" style="background: var(--swap)"></i>Swapped</span
+                    <span><i class="dot" style="background: var(--swap)"></i>Exchanged</span
                     ><b id="tSwap">0h</b>
                   </div>
                   <div class="tally-row">
-                    <span><i class="dot" style="background: var(--bill)"></i>Billed</span
+                    <span><i class="dot" style="background: var(--bill)"></i>Quoted</span
                     ><b id="tBill">$0</b>
+                  </div>
+                  <div class="tally-row">
+                    <span><i class="dot" style="background: var(--muted)"></i>Absorbed cost</span
+                    ><b id="tAbsorb">$0</b>
                   </div>
                   <div class="tally-row">
                     <span><i class="dot" style="background: var(--defer)"></i>Phase 2 pipeline</span
@@ -6505,7 +6843,7 @@
                   ><output id="oCatch">50%</output>
                 </div>
                 <input type="range" id="rCatch" min="10" max="100" step="5" value="50" />
-                <div class="hint">Swapped, billed or deferred instead of absorbed.</div>
+                <div class="hint">Exchanged, quoted or deferred instead of absorbed.</div>
               </div>
             </div>
             <div class="card roi-out" aria-live="polite">
@@ -6662,7 +7000,7 @@
                   />
                 </span>
               </div>
-              <div class="f-role">Clear scope. Considered decisions.</div>
+              <p class="founder-attribution">Sam Ortega (alias) · Maker of Margvant</p>
               <ul class="f-facts">
                 <li><span>Baseline</span>Know the starting point</li>
                 <li><span>Change</span>Choose a fair fee</li>
@@ -6670,19 +7008,17 @@
               </ul>
             </div>
             <div class="letter-body">
-              <span class="label">Why this exists</span>
-              <p class="letter-quote">Good client relationships deserve clear scope.</p>
-              <p>
-                A small request should not force an awkward conversation. Bring the original
-                agreement, the new work and the proposed fee into the same place, so everyone knows
-                the next step.
-              </p>
-              <p>
-                Margvant gives that decision a practical home: a project baseline, a considered fee
-                and a clear document you can review before exporting. You stay in control of what
-                you agree to and what your client receives.
-              </p>
+              <span class="label">A note from the maker</span>
+              <h2 class="sr-only">Meet the maker</h2>
+              <blockquote class="letter-quote">
+                Margvant helps you see the cost of a request before you agree to it. The goal is a
+                clear decision and a clear page for your client.
+              </blockquote>
               <div class="letter-sign">
+                <div class="alias-signature">
+                  <span class="sig-script">Sam Ortega</span>
+                  <span>Typographic alias signature</span>
+                </div>
                 <a href="/workspace/" class="link"
                   >Try the complete workflow
                   <svg class="arr" width="14" height="14" aria-hidden="true">
@@ -7186,6 +7522,14 @@
             <h3>Service information</h3>
             <a href="/privacy/">Privacy overview</a><a href="/license/">License information</a
             ><a href="/privacy/#data-flow">Data flow overview</a>
+            <details class="social-downloads">
+              <summary>Download social cards</summary>
+              <a href="/brand/margvant-facebook-1200x630.png" download>Facebook · PNG</a>
+              <a href="/brand/margvant-x-1200x600.png" download>X · PNG</a>
+              <a href="/brand/margvant-linkedin-1200x627.png" download>LinkedIn · PNG</a>
+              <a href="/brand/margvant-discord-1200x630.png" download>Discord · PNG</a>
+              <a href="/brand/margvant-whatsapp-1200x630.jpg" download>WhatsApp · JPEG</a>
+            </details>
           </div>
         </div>
         <div class="foot-b">
@@ -7326,5 +7670,6 @@
 
     <script type="module" src="/home/landing.js"></script>
     <script type="module" src="/home/site.js"></script>
+    <script type="module" src="./carousel.js"></script>
   </body>
 </html>

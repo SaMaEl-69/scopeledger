@@ -1,7 +1,40 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
 import { chromium, firefox, webkit } from 'playwright';
 import { createScopeLedgerServer } from './serve.mjs';
+import { publicSocialImages } from '../shared/public-assets.mjs';
+
+const socialImage = 'https://scopeledger.site/brand/margvant-facebook-1200x630.png';
+const twitterImage = 'https://scopeledger.site/brand/margvant-x-1200x600.png';
+const cardPaths = ['brand/scopeledger-social-v1.png', ...publicSocialImages];
+const metadata = (html, key) => {
+  const tag = [...html.matchAll(/<meta\b[^>]*>/gi)].find(
+    ([value]) => value.includes(`property="${key}"`) || value.includes(`name="${key}"`),
+  )?.[0];
+  return tag?.match(/\bcontent="([^"]*)"/)?.[1];
+};
+const imageDimensions = (bytes, path) => {
+  if (path.endsWith('.png')) {
+    assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+    return [bytes.readUInt32BE(16), bytes.readUInt32BE(20)];
+  }
+  assert.equal(bytes.readUInt16BE(0), 0xffd8);
+  for (let offset = 2; offset + 8 < bytes.length;) {
+    assert.equal(bytes[offset], 0xff);
+    const marker = bytes[offset + 1];
+    if (
+      [0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf].includes(
+        marker,
+      )
+    )
+      return [bytes.readUInt16BE(offset + 7), bytes.readUInt16BE(offset + 5)];
+    const length = bytes.readUInt16BE(offset + 2);
+    assert(length >= 2);
+    offset += 2 + length;
+  }
+  throw new Error(`JPEG frame dimensions missing: ${path}`);
+};
 
 const publicOrigin = process.env.SCOPELEDGER_SHARING_QA_ORIGIN;
 const server = publicOrigin ? null : createScopeLedgerServer();
@@ -9,7 +42,9 @@ if (server) await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve
 const origin = publicOrigin ?? `http://127.0.0.1:${server.address().port}`;
 const externalPage = createServer((request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
-  response.end(`<img alt="Margvant preview" src="${origin}/brand/scopeledger-social-v1.png?v=2">`);
+  response.end(
+    cardPaths.map((path) => `<img alt="Margvant preview" src="${origin}/${path}">`).join(''),
+  );
 });
 await new Promise((resolve) => externalPage.listen(0, '127.0.0.1', resolve));
 const bots = [
@@ -33,6 +68,8 @@ try {
     const html = await response.text();
     assert.match(html, /property="og:image"/);
     assert.match(html, /Margvant/);
+    assert.equal(metadata(html, 'og:image'), socialImage);
+    assert.equal(metadata(html, 'twitter:image'), twitterImage);
     assert.equal(response.headers.get('cross-origin-resource-policy'), 'same-origin');
     checks++;
   }
@@ -44,6 +81,20 @@ try {
   assert.equal(png.readUInt32BE(16), 1200);
   assert.equal(png.readUInt32BE(20), 630);
   checks++;
+  for (const path of publicSocialImages) {
+    const response = await fetch(`${origin}/${path}`, { redirect: 'manual' });
+    assert.equal(response.status, 200, path);
+    assert.equal(
+      response.headers.get('content-type'),
+      path.endsWith('.jpg') ? 'image/jpeg' : 'image/png',
+    );
+    assert.equal(response.headers.get('cross-origin-resource-policy'), 'cross-origin');
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert.deepEqual(bytes, await readFile('public/' + path), `${path}: original asset bytes`);
+    const height = path.includes('-1200x600.') ? 600 : path.includes('-1200x627.') ? 627 : 630;
+    assert.deepEqual(imageDimensions(bytes, path), [1200, height]);
+    checks++;
+  }
   for (const path of ['/llms.txt', '/product-guide.txt', '/robots.txt']) {
     const response = await fetch(origin + path);
     assert.equal(response.status, 200);
@@ -51,7 +102,12 @@ try {
     assert.equal(response.headers.get('cross-origin-resource-policy'), 'same-origin');
     checks++;
   }
-  for (const path of ['/private-notes.txt', '/.env', '/server/backend.mjs']) {
+  for (const path of [
+    '/private-notes.txt',
+    '/.env',
+    '/server/backend.mjs',
+    '/brand/private-photo.jpg',
+  ]) {
     assert.equal((await fetch(origin + path)).status, 404);
     checks++;
   }
@@ -70,11 +126,11 @@ try {
       await page.waitForFunction(() => document.documentElement.dataset.theme);
       assert.equal(
         await page.locator('meta[property="og:image"]').getAttribute('content'),
-        'https://scopeledger.site/brand/scopeledger-social-v1.png?v=2',
+        socialImage,
       );
       assert.equal(
         await page.locator('meta[name="twitter:image"]').getAttribute('content'),
-        'https://scopeledger.site/brand/scopeledger-social-v1.png?v=2',
+        twitterImage,
       );
       const graph = JSON.parse(
         await page.locator('script[type="application/ld+json"]').textContent(),
@@ -89,7 +145,16 @@ try {
       assert.deepEqual(errors, []);
       // A second HTTP origin behaves like an external social site embedding the card.
       await page.goto(`http://127.0.0.1:${externalPage.address().port}/`);
-      await page.waitForFunction(() => document.querySelector('img').naturalWidth === 1200);
+      await page.waitForFunction(() => {
+        const images = [...document.querySelectorAll('img')];
+        return images.length === 6 && images.every((image) => image.naturalWidth === 1200);
+      });
+      assert.deepEqual(
+        await page
+          .locator('img')
+          .evaluateAll((images) => images.map((image) => image.naturalHeight)),
+        [630, 630, 600, 627, 630, 630],
+      );
       checks++;
       console.log(
         `${name}: metadata, structured data, workspace privacy and external card rendering passed`,
