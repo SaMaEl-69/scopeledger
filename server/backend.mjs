@@ -386,7 +386,7 @@ export function createBackend({
         await authorize();
         res.writeHead(200, {
           'Content-Type': 'application/pdf',
-          'Content-Disposition': `attachment; filename="scopeledger-${snapshot.kind}.pdf"`,
+          'Content-Disposition': `attachment; filename="Margvant-${snapshot.kind}.pdf"`,
           'Cache-Control': 'no-store',
           'X-Content-Type-Options': 'nosniff',
         });

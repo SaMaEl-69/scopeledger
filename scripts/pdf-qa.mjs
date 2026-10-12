@@ -89,7 +89,7 @@ try {
   base.client.address = 'Sample client - billing details on file';
   // Preserve a separate studio identity for the difficult regression fixtures.
   base.agency.logoDataUrl = '';
-  // The public demonstrations use the approved ScopeLedger identity. Rasterize
+  // The public demonstrations use the approved Margvant identity. Rasterize
   // the vector on transparency through the existing bounded PNG upload path.
   const logoBrowser = await chromium.launch({ executablePath: await chromePath(), headless: true });
   let demonstrationLogo;
@@ -99,7 +99,7 @@ try {
       deviceScaleFactor: 3,
     });
     await page.setContent(
-      `<style>html,body{margin:0;background:transparent}img{display:block;width:248.51px;height:40px}</style><img src="${scopeLedgerDocumentLogo}" alt="ScopeLedger">`,
+      `<style>html,body{margin:0;background:transparent}img{display:block;width:201.504px;height:40px}</style><img src="${scopeLedgerDocumentLogo}" alt="Margvant">`,
       { waitUntil: 'load' },
     );
     demonstrationLogo = await page.locator('img').screenshot({ omitBackground: true });
@@ -109,8 +109,8 @@ try {
   await writeFile(resolve(output, 'scopeledger-demo-logo.png'), demonstrationLogo);
   const demonstrationAgency = {
     ...base.agency,
-    name: 'ScopeLedger',
-    legalName: 'ScopeLedger - sample issuer',
+    name: 'Margvant',
+    legalName: 'Margvant - sample issuer',
     address: 'Demonstration billing details',
     email: 'demo@example.test',
     website: 'scopeledger.site',
@@ -170,7 +170,7 @@ try {
         deliveryImplications: 'Schedule is confirmed when approved content is received.',
         approvalText:
           'Confirm this scope, fee and dependencies in writing before additional work starts. The existing agreement remains in force.',
-        footer: 'Sample document for design review. No payment is requested.',
+        footer: 'Sample document for design review. No payment is requested. scopeledger.site',
       }),
     ],
     [

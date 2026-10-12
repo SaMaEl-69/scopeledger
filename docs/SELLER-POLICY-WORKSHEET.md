@@ -1,6 +1,6 @@
 # Seller information and policy worksheet — unpublished
 
-This is a concrete preparation checklist for ScopeLedger's paid launch. It contains current product facts; the owner fields and business commitments remain undecided. Do not present this file as approved terms or a completed privacy policy.
+This is a concrete preparation checklist for Margvant's paid launch. It contains current product facts; the owner fields and business commitments remain undecided. Do not present this file as approved terms or a completed privacy policy.
 
 | Owner input         | Required before publication                                                                                                                         |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |

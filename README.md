@@ -1,6 +1,8 @@
-# ScopeLedger application
+# Margvant application
 
 A connected homepage and local-first commercial workspace for fixed-fee web agencies. The homepage at `/home/` adapts the supplied `/Users/samaelsmacbook/Downloads/index (1).html`; that original file remains preserved as the reference. The operational application is at `/workspace/`, with scope decisions, dashboard, calendar, agency toolkit, preserved client documents, manual invoice payments and protected licensing/PDF services. `/` opens Home; legacy `/app` links redirect to the canonical workspace and retain query strings.
+
+The product is branded **Margvant**. The existing `scopeledger.site` domain, asset paths, package and deployment identifiers, `SCOPELEDGER_*` environment settings, and stored-data keys remain unchanged for compatibility. Dated audit and acceptance reports preserve the brand name used when their evidence was collected.
 
 ## Run locally
 
@@ -40,7 +42,7 @@ Read [server configuration](docs/SERVER-CONFIGURATION.md) and [server operations
 - Reusable clients, agency identity/logo/defaults, custom scenarios, assumptions, editable message templates, search, archive and explicit project duplication.
 - Client-response composer, saved alternative comparisons that preserve the active draft, and differences between preserved revisions.
 - A visible Prepare invoice entry, counted document history, full-size brief/invoice/credit previews, linked readiness checks, immutable issued snapshots, manual payments/void history, and protected actual PDF downloads when activated. Proposed negative fees include a credit explanation; issued invoices/credits require dated approval and consistent tax/totals.
-- Document options can hide logos, contact details, supporting scope sections, delivery timing, custom footers and signatures without deleting saved agreement content. Customer PDFs carry the agency's identity without a ScopeLedger credit; public samples retain demonstration branding and demo previews retain their watermark.
+- Document options can hide logos, contact details, supporting scope sections, delivery timing, custom footers and signatures without deleting saved agreement content. Customer PDFs carry the agency's identity without a Margvant credit; public samples retain demonstration branding and demo previews retain their watermark.
 - Atomic IndexedDB saving, cross-tab conflict protection, recovery records, migrations and password-protected backups and an explicit plain JSON option.
 - Optional view/dialog failures retain the application shell, navigation and core draft. Recovery offers workspace export and deliberate reload, explains temporary-form limits, and never automatically reloads or pretends a rejected lazy download can retry.
 - In-app activation, current-device release, honest failure/retry guidance, and Lifetime support at `olim855597@gmail.com`.

@@ -219,15 +219,15 @@ function BrandLogo() {
     <span className="brand-lockup" aria-hidden="true">
       <img
         className="brand-image-light"
-        src="/brand/scopeledger-logo-light.svg?v=6"
-        width="249"
+        src="/brand/scopeledger-logo-light.svg?v=7"
+        width="202"
         height="40"
         alt=""
       />
       <img
         className="brand-image-dark"
-        src="/brand/scopeledger-logo-dark.svg?v=6"
-        width="249"
+        src="/brand/scopeledger-logo-dark.svg?v=7"
+        width="202"
         height="40"
         alt=""
       />
@@ -986,7 +986,7 @@ export default function App() {
   if (store.recovery)
     return (
       <main className="recovery-screen">
-        <div className="brand" role="img" aria-label="ScopeLedger">
+        <div className="brand" role="img" aria-label="Margvant">
           <BrandLogo />
         </div>
         <div className="card">
@@ -1317,7 +1317,7 @@ export default function App() {
       >
         <button
           className="brand"
-          aria-label="ScopeLedger overview"
+          aria-label="Margvant overview"
           onClick={() => setView('dashboard')}
         >
           <BrandLogo />
@@ -2262,10 +2262,16 @@ export default function App() {
                                 patch({ route: event.target.value as ChangeTerms['route'] })
                               }
                             >
-                              <option value="Quote">Charge for the additional work</option>
-                              <option value="Absorb">No additional charge</option>
-                              <option value="Exchange">Replace some existing work</option>
-                              <option value="Defer">Keep this request for later</option>
+                              <option value="Quote">Quote — Charge for the additional work</option>
+                              <option value="Absorb">
+                                Absorb — Complete without an additional charge
+                              </option>
+                              <option value="Exchange">
+                                Exchange — Replace some existing work
+                              </option>
+                              <option value="Defer">
+                                Defer — Schedule the request for later and finish the previous work
+                              </option>
                             </select>
                             {change.route === 'Exchange' && (
                               <p className="field-hint">
@@ -3372,7 +3378,7 @@ export default function App() {
           )}
           <footer className="page-footer">
             <span>
-              ScopeLedger <span>·</span> A considered change. A healthier project.
+              Margvant <span>·</span> A considered change. A healthier project.
             </span>
             <span>
               Local workspace <span>·</span> Application

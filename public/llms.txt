@@ -1,8 +1,8 @@
-# ScopeLedger
+# Margvant
 
 > Clear scope. Considered decisions. A browser workspace for fixed-fee agencies, freelancers and design studios to review additional work, choose a fee and prepare professional client documents.
 
-ScopeLedger puts the original agreement, a change request, its cost and the proposed fee in one workflow. Project records stay in the user's browser. The public release currently offers a free demo; checkout, license activation and protected customer PDF exports are not yet enabled.
+Margvant puts the original agreement, a change request, its cost and the proposed fee in one workflow. Project records stay in the user's browser. The public release currently offers a free demo; checkout, license activation and protected customer PDF exports are not yet enabled.
 
 ## Product information
 

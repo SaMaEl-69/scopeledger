@@ -394,7 +394,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   server.listen(port, '127.0.0.1', () => {
     const address = server.address();
     console.log(
-      `ScopeLedger home: http://127.0.0.1:${typeof address === 'object' && address ? address.port : port}/home/`,
+      `Margvant home: http://127.0.0.1:${typeof address === 'object' && address ? address.port : port}/home/`,
     );
   });
 }

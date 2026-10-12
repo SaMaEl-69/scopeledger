@@ -30,9 +30,9 @@ describe('configured licensing storage remains private under static-path mistake
       await mkdir(join(root, 'assets'), { recursive: true });
       await mkdir(join(root, 'workspace'));
       await mkdir(join(root, 'home'));
-      await writeFile(join(root, 'index.html'), '<title>ScopeLedger application</title>');
-      await writeFile(join(root, 'workspace/index.html'), '<title>ScopeLedger application</title>');
-      await writeFile(join(root, 'home/index.html'), '<title>ScopeLedger home</title>');
+      await writeFile(join(root, 'index.html'), '<title>Margvant application</title>');
+      await writeFile(join(root, 'workspace/index.html'), '<title>Margvant application</title>');
+      await writeFile(join(root, 'home/index.html'), '<title>Margvant home</title>');
       await writeFile(join(root, 'assets/app.js'), 'export const app = true;');
       await mkdir(join(root, '.local-private'));
       await writeFile(join(root, '.local-private/test-keys.json'), privateContent);
@@ -109,14 +109,14 @@ describe('connected public home and project workspace', () => {
     ])
       await mkdir(join(directory, folder), { recursive: true });
     for (const [name, content] of [
-      ['home/index.html', '<title>ScopeLedger home</title>'],
+      ['home/index.html', '<title>Margvant home</title>'],
       ['workspace/index.html', '<title>Workspace app</title>'],
-      ['guides/index.html', '<title>ScopeLedger guides</title>'],
+      ['guides/index.html', '<title>Margvant guides</title>'],
       ['guides/handle-scope-creep/index.html', '<title>Handle scope creep</title>'],
       ['privacy/index.html', '<title>Privacy overview</title>'],
       ['guides/unpublished/index.html', '<title>Accidental private draft</title>'],
       ['samples/brief.pdf', '%PDF-1.7 demonstration'],
-      ['llms.txt', '# ScopeLedger product facts'],
+      ['llms.txt', '# Margvant product facts'],
       ['product-guide.txt', '# Product guide'],
     ])
       await writeFile(join(directory, name), content);
@@ -164,11 +164,8 @@ describe('connected public home and project workspace', () => {
     await mkdir(join(directory, 'workspace'));
     await mkdir(join(directory, 'assets'));
     await mkdir(join(directory, 'samples'));
-    await writeFile(join(directory, 'home/index.html'), '<title>ScopeLedger public home</title>');
-    await writeFile(
-      join(directory, 'workspace/index.html'),
-      '<title>ScopeLedger workspace</title>',
-    );
+    await writeFile(join(directory, 'home/index.html'), '<title>Margvant public home</title>');
+    await writeFile(join(directory, 'workspace/index.html'), '<title>Margvant workspace</title>');
     await writeFile(join(directory, 'index.html'), '<title>Legacy compatibility</title>');
     await writeFile(join(directory, 'assets/app.js'), 'export const workspace = true;');
     await writeFile(join(directory, 'samples/brief.pdf'), '%PDF-1.7 synthetic public sample');
@@ -307,11 +304,8 @@ describe('production public file allowlist', () => {
       'samples/private.txt',
     ])
       await writeFile(join(directory, name), privateContent);
-    await writeFile(join(directory, 'home/index.html'), '<title>ScopeLedger home</title>');
-    await writeFile(
-      join(directory, 'workspace/index.html'),
-      '<title>ScopeLedger workspace</title>',
-    );
+    await writeFile(join(directory, 'home/index.html'), '<title>Margvant home</title>');
+    await writeFile(join(directory, 'workspace/index.html'), '<title>Margvant workspace</title>');
     await writeFile(join(directory, 'assets/app.js'), 'export const safe = true;');
     await writeFile(join(directory, 'brand/mark.svg'), '<svg xmlns="http://www.w3.org/2000/svg"/>');
     await writeFile(join(directory, 'samples/brief.pdf'), '%PDF-1.7 public example');

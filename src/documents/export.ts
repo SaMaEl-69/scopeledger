@@ -53,7 +53,7 @@ export async function exportPdf(document: ClientDocument): Promise<void> {
     try {
       const link = window.document.createElement('a');
       link.href = url;
-      link.download = `${snapshot.reference.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 100) || 'scopeledger-document'}.pdf`;
+      link.download = `${snapshot.reference.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 100) || 'Margvant-document'}.pdf`;
       link.click();
     } finally {
       setTimeout(() => URL.revokeObjectURL(url), 1000);

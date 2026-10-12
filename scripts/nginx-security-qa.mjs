@@ -1,7 +1,7 @@
 import { spawn, execFileSync } from 'node:child_process';
-import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { createServer } from 'node:net';
 import { randomBytes } from 'node:crypto';
 import { configuration, LicenseService } from '../server/licensing.mjs';
@@ -104,21 +104,28 @@ try {
   const path = join(temporary, 'nginx.conf');
   await writeFile(
     path,
-    'daemon off;\nworker_processes 1;\npid ' +
-      temporary +
-      '/nginx.pid;\nerror_log ' +
-      temporary +
-      '/nginx-error.log warn;\nevents { worker_connections 256; }\nhttp { client_body_temp_path ' +
-      temporary +
-      '/body; proxy_temp_path ' +
-      temporary +
-      '/proxy; ' +
-      template +
-      ' }',
+    `daemon off;
+worker_processes 1;
+pid ${temporary}/nginx.pid;
+lock_file ${temporary}/nginx.lock;
+error_log ${temporary}/nginx-error.log warn;
+events { worker_connections 256; }
+http {
+  access_log off;
+  client_body_temp_path ${temporary}/body;
+  proxy_temp_path ${temporary}/proxy;
+  fastcgi_temp_path ${temporary}/fastcgi;
+  uwsgi_temp_path ${temporary}/uwsgi;
+  scgi_temp_path ${temporary}/scgi;
+  ${template}
+}`,
   );
   const binary = process.env.SCOPELEDGER_NGINX_PATH ?? 'nginx';
-  execFileSync(binary, ['-t', '-c', path, '-p', temporary], { stdio: 'ignore' });
-  nginx = spawn(binary, ['-c', path, '-p', temporary], { stdio: 'ignore' });
+  // Package defaults can point at root-owned paths even with an isolated prefix.
+  // Keep startup diagnostics visible and avoid opening the compiled default log.
+  const nginxArgs = ['-e', 'stderr', '-c', path, '-p', temporary];
+  execFileSync(binary, ['-t', ...nginxArgs], { stdio: ['ignore', 'inherit', 'inherit'] });
+  nginx = spawn(binary, nginxArgs, { stdio: ['ignore', 'inherit', 'inherit'] });
   await new Promise((resolve, reject) => {
     const timer = setTimeout(resolve, 500);
     nginx.once('error', (error) => {
@@ -148,10 +155,9 @@ try {
     platform: process.platform,
     note: 'Isolated trusted test certificate and synthetic seller configuration. This is not a public-host or real-purchase check.',
   };
-  await writeFile(
-    resolve(process.argv[2] ?? 'output/security/nginx-results.json'),
-    JSON.stringify(result, null, 2) + '\n',
-  );
+  const outputPath = resolve(process.argv[2] ?? 'output/security/nginx-results.json');
+  await mkdir(dirname(outputPath), { recursive: true });
+  await writeFile(outputPath, JSON.stringify(result, null, 2) + '\n');
   console.log(
     JSON.stringify({
       status: result.status,

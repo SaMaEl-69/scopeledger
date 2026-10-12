@@ -59,10 +59,10 @@ for name in ("change-brief", "invoice", "long-brief", "invoice-logo", "explicit-
             assert len(pdf.pages) == 1, f"{name}: the ordinary sample should fit on one page."
             assert "Sample document for design review. No payment is requested." in all_text
             assert "d1513e04-9cb2-455b-a080-2515a9d9852e" not in all_text, "Internal source IDs must stay out of client copy."
-            assert "ScopeLedger - sample issuer" in all_text and "scopeledger.site" in all_text
-            assert "Aster Studio" not in all_text, "Public demonstrations should use ScopeLedger's identity."
+            assert "Margvant - sample issuer" in all_text and "scopeledger.site" in all_text
+            assert "Aster Studio" not in all_text, "Public demonstrations should use Margvant's identity."
             with Image.open(output / "scopeledger-demo-logo.png") as demonstration_logo:
-                assert any(image.image.size == demonstration_logo.size for image in images), f"{name}: missing ScopeLedger header logo"
+                assert any(image.image.size == demonstration_logo.size for image in images), f"{name}: missing Margvant header logo"
         if name == "change-brief":
             assert "USD 800.00" in all_text and "proposed additional fee" in all_text.casefold()
             for heading in ("Scope of request", "Deliverables", "Exclusions", "Dependencies", "Assumptions", "Delivery implications", "Approval requirements"):

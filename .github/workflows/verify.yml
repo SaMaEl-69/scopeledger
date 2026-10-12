@@ -34,18 +34,61 @@ jobs:
       - name: Select sandboxed browser runtime
         run: |
           node --input-type=module -e "import { chromium } from 'playwright'; const p=chromium.executablePath(); console.log('PLAYWRIGHT_CHROME_PATH='+p); console.log('SCOPELEDGER_CHROME_PATH='+p)" >> "$GITHUB_ENV"
+      - name: Diagnose renderer before CI sandbox setup
+        run: node scripts/renderer-runtime-qa.mjs --report-only --output=output/ci-pdf-readiness/runtime-linux-before.json
+      - name: Allow the selected Chromium executable to use its sandbox
+        run: node scripts/ci-chrome-sandbox.mjs
+      - name: Verify real readiness and sandboxed PDF generation
+        run: node scripts/renderer-runtime-qa.mjs --output=output/ci-pdf-readiness/runtime-linux-after.json
       - run: npm run test:local-browser
       - name: Verify social previews and public crawler access
+        if: ${{ !cancelled() }}
         run: node scripts/sharing-qa.mjs
       - name: Verify HTTPS reverse proxy and security gates
+        if: ${{ !cancelled() }}
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y nginx openssl
+          nginx -V
           node scripts/nginx-security-qa.mjs output/security/nginx-results.json
-      - run: npm run test:site
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: ${{ !cancelled() }}
+        with:
+          name: renderer-runtime-evidence
+          path: output/ci-pdf-readiness/
+          retention-days: 7
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
           name: verification-failures
+          path: test-results/
+          retention-days: 7
+  site:
+    needs: verify
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - name: Select sandboxed browser runtime
+        run: |
+          node --input-type=module -e "import { chromium } from 'playwright'; const p=chromium.executablePath(); console.log('PLAYWRIGHT_CHROME_PATH='+p); console.log('SCOPELEDGER_CHROME_PATH='+p)" >> "$GITHUB_ENV"
+      - name: Allow the selected Chromium executable to use its sandbox
+        run: node scripts/ci-chrome-sandbox.mjs
+      - run: npm run test:site
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: failure()
+        with:
+          name: site-verification-failures
           path: test-results/
           retention-days: 7

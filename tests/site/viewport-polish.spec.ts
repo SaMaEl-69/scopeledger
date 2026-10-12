@@ -25,16 +25,13 @@ test('Home sections, brand identity and download controls stay balanced across b
       await page.setViewportSize({ width, height: 988 });
       for (const section of await page.locator('main > section').all()) {
         await section.scrollIntoViewIfNeeded();
-        await page.evaluate(
-          () =>
-            new Promise<void>((done) =>
-              requestAnimationFrame(() => requestAnimationFrame(() => done())),
-            ),
-        );
-        expect(
-          await page.evaluate(() => document.documentElement.scrollWidth),
-          `${theme}/${width}`,
-        ).toBeLessThanOrEqual(width);
+        const scrollWidth = await page.evaluate(async () => {
+          await new Promise<void>((done) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => done())),
+          );
+          return document.documentElement.scrollWidth;
+        });
+        expect(scrollWidth, `${theme}/${width}`).toBeLessThanOrEqual(width);
       }
       const identity = page.locator('.letter-identity .brand-lockup');
       await expect(identity).toBeVisible();

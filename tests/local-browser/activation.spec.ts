@@ -6,7 +6,7 @@ async function activate(page: Page, key: string, plan = 'individual') {
   await page.goto('/app');
   await expect(page.locator('.save-indicator')).toHaveText('Saved on this device');
   await page.getByRole('button', { name: 'View activation options' }).click();
-  const d = page.getByRole('dialog', { name: 'Activate ScopeLedger' });
+  const d = page.getByRole('dialog', { name: 'Activate Margvant' });
   await expect(d).toContainText('LOCAL DEVELOPMENT TEST MODE');
   await d.getByLabel('Purchased plan').selectOption(plan);
   await d.getByLabel('License key', { exact: true }).fill(key);
@@ -83,14 +83,14 @@ test('a generated Individual key authorizes extra projects and one genuine guard
     }
     await expect(page.locator('.project-card')).toHaveCount(3);
     await page.getByRole('button', { name: 'View activation options' }).click();
-    const activation = page.getByRole('dialog', { name: 'Activate ScopeLedger' });
+    const activation = page.getByRole('dialog', { name: 'Activate Margvant' });
     await activation.getByRole('checkbox', { name: /Release this browser/ }).check();
     await activation.getByRole('button', { name: 'Release current device' }).click();
     await expect(activation.getByRole('button', { name: 'Activate this browser' })).toBeVisible();
     await activation.getByRole('button', { name: 'Continue with demo' }).click();
     await expect(page.locator('.project-card')).toHaveCount(3);
     await page.getByRole('button', { name: 'New project', exact: true }).click();
-    await expect(page.getByRole('dialog', { name: 'Activate ScopeLedger' })).toBeVisible();
+    await expect(page.getByRole('dialog', { name: 'Activate Margvant' })).toBeVisible();
   } finally {
     await release(context, origin);
   }

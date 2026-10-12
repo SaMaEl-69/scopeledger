@@ -117,7 +117,7 @@ test('new identity, actual PDF sample, evidence and aligned document controls re
     await page.goto('/home/');
     await expect(page.locator('#nav .logo img:visible')).toHaveAttribute(
       'src',
-      `/brand/scopeledger-logo-${mode}.svg?v=6`,
+      `/brand/scopeledger-logo-${mode}.svg?v=7`,
     );
     await expect(page.locator('#proof .evidence-card')).toHaveCount(6);
     await expect(page.locator('body')).not.toContainText('Verified reviews');
@@ -125,7 +125,7 @@ test('new identity, actual PDF sample, evidence and aligned document controls re
     await expect(page.locator('body')).not.toContainText('1,200+ studios');
     await expect(page.locator('#paper img')).toHaveAttribute(
       'src',
-      '/samples/change-brief.png?v=5',
+      '/samples/change-brief.png?v=6',
     );
     for (const width of [
       320, 360, 390, 469, 471, 520, 600, 699, 701, 759, 761, 768, 899, 901, 1024, 1280, 1434, 1920,
@@ -173,7 +173,7 @@ test('new identity, actual PDF sample, evidence and aligned document controls re
     await expect(page.getByRole('heading', { name: 'Documents', exact: true })).toBeVisible();
     await expect(page.locator('.sidebar .brand img:visible')).toHaveAttribute(
       'src',
-      `/brand/scopeledger-logo-${mode}.svg?v=6`,
+      `/brand/scopeledger-logo-${mode}.svg?v=7`,
     );
     for (const width of [320, 390, 470, 471, 600, 768, 900, 1024, 1434, 2560]) {
       await page.setViewportSize({ width, height: 988 });

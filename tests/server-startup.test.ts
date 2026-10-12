@@ -16,7 +16,7 @@ function launch(env: Record<string, string>) {
   });
   expect(result.status).not.toBe(0);
   expect(result.error).toBeUndefined();
-  expect(result.stdout).not.toContain('ScopeLedger home');
+  expect(result.stdout).not.toContain('Margvant home');
   return result.stderr;
 }
 describe('production entry-point fail-closed gates', () => {

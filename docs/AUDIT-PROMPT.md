@@ -1,6 +1,6 @@
-# ScopeLedger audit and polish prompt
+# Margvant audit and polish prompt
 
-Audit ScopeLedger end to end against all three original build briefs and the current implementation. Find and fix defects, unfinished flows, contradictory states, fragile edge cases and visual inconsistencies. Continue through implementation and verification; do not stop at a list of recommendations.
+Audit Margvant end to end against all three original build briefs and the current implementation. Find and fix defects, unfinished flows, contradictory states, fragile edge cases and visual inconsistencies. Continue through implementation and verification; do not stop at a list of recommendations.
 
 Review financial calculations and rounding, decision revisions and approval, reconciliation, Dashboard totals, Calendar dates and timezones, clients, projects, comparisons, documents, manual payments, backup and restore, migrations, storage failures, licensing, device limits, authorization, private-file boundaries and PDF confidentiality. Preserve valid user data, historical records and existing product capabilities. Keep the owner's landing page intact.
 

@@ -355,9 +355,7 @@ test('recent projects use actual chronology for preserved timestamps without gra
   expect(after.changes).toEqual(workspace.changes);
   await navigate(page, 'Projects');
   await page.getByRole('button', { name: 'New project', exact: true }).click();
-  await expect(
-    page.getByRole('dialog', { name: 'Activate ScopeLedger', exact: true }),
-  ).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'Activate Margvant', exact: true })).toBeVisible();
   await expect(
     page.getByRole('dialog', { name: 'Create a project', exact: true }),
   ).not.toBeVisible();

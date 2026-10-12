@@ -57,7 +57,7 @@ for (const [index, file] of publicDocuments.entries()) {
   assert.equal(attr(metadata(html, 'og:url') ?? '', 'content'), origin + path, `${path}: og:url`);
   assert.equal(
     attr(metadata(html, 'og:image') ?? '', 'content'),
-    origin + '/brand/scopeledger-social-v1.png',
+    origin + '/brand/scopeledger-social-v1.png?v=2',
     `${path}: social image`,
   );
   assert(
@@ -91,7 +91,7 @@ for (const [index, file] of publicDocuments.entries()) {
 
 if (process.argv.includes('--live')) {
   const agents = {
-    browser: 'Mozilla/5.0 (compatible; ScopeLedgerSEOCheck/1.0)',
+    browser: 'Mozilla/5.0 (compatible; MargvantSEOCheck/1.0)',
     googlebot: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
     bingbot: 'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)',
   };
