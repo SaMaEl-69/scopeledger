@@ -114,6 +114,10 @@
 .audience-carousel .ag-team {
   flex: none;
 }
+/* Keep the original vector colors without filtering each portrait. */
+.audience-carousel .ag .av {
+  filter: none;
+}
 .audience-carousel .ag-meta {
   height: 16px;
 }
