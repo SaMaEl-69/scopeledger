@@ -60,16 +60,3 @@
   --bill: var(--identityInk);
   --defer: var(--identityInk);
 }
-
-#audienceCarousel .ag {
-  --c: var(--identityInk);
-}
-
-#audienceCarousel .ag-logo,
-#audienceCarousel .ag:hover .ag-logo,
-#audienceCarousel .studio-logo,
-#audienceCarousel .scenario-mark,
-#audienceCarousel .scenario-option {
-  color: var(--identityInk);
-  background: var(--brandTint);
-}

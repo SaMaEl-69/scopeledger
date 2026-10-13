@@ -160,6 +160,24 @@ import { createAppearanceController } from '../shared/appearance.mjs';
     };
     api.teammate = (seed) =>
       LN[hash(seed) % LN.length] + ' ' + String.fromCharCode(65 + (hash(seed + 'x') % 26));
+    const carouselFaces = new Map();
+    api.carousel = (name) => {
+      // Share unchanged vector shapes across the original and loop-copy lanes.
+      if (!carouselFaces.has(name)) {
+        const id = `carousel-face-${carouselFaces.size}`;
+        const shapes = face(name)
+          .replace(/^<svg[^>]*>/, '')
+          .replace(/<\/svg>$/, '');
+        document
+          .getElementById('avSheen')
+          .parentElement.insertAdjacentHTML(
+            'beforeend',
+            `<symbol id="${id}" viewBox="0 0 64 64">${shapes}</symbol>`,
+          );
+        carouselFaces.set(name, id);
+      }
+      return `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#${carouselFaces.get(name)}" width="64" height="64"/></svg>`;
+    };
     return api;
   })();
   /* one shared sheen gradient for every avatar */
@@ -169,7 +187,9 @@ import { createAppearanceController } from '../shared/appearance.mjs';
   );
   const fillAvatars = (root = document) =>
     $$('[data-av]', root).forEach((el) => {
-      el.innerHTML = avatar(el.dataset.av, { logo: el.dataset.logo });
+      el.innerHTML = el.closest('#audienceCarousel')
+        ? avatar.carousel(el.dataset.av)
+        : avatar(el.dataset.av, { logo: el.dataset.logo });
       el.classList.add('has-av');
       el.setAttribute('title', el.dataset.av);
     });

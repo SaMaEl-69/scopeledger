@@ -79,8 +79,8 @@
   padding: 12px 0 20px;
   margin-bottom: -12px;
   scrollbar-width: thin;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
 }
 .mq-track {
   display: flex;
@@ -100,23 +100,12 @@
   margin: 0;
   list-style: none;
 }
-/* Preserve the original marks, wordmark families and avatar groups in one brand palette. */
+/* Preserve the original marks, wordmark families, colors and avatar groups. */
 .audience-carousel .ag {
-  --c: var(--brand);
   max-width: none;
-}
-.audience-carousel .ag-logo {
-  color: var(--brand);
-}
-.audience-carousel .ag:hover .ag-logo {
-  color: var(--brand);
 }
 .audience-carousel .ag-team {
   flex: none;
-}
-/* Keep the original vector colors without filtering each portrait. */
-.audience-carousel .ag .av {
-  filter: none;
 }
 .audience-carousel .ag-meta {
   height: 16px;
@@ -181,7 +170,7 @@
     animation-play-state: paused;
   }
   .audience-carousel .mq-row:hover .ag:not(:hover) {
-    opacity: 0.55;
+    opacity: 0.42;
   }
 }
 @media (max-width: 600px) {
