@@ -88,6 +88,15 @@ jobs:
       - run: npm run test:site
         env:
           DEBUG: pw:browser
+      - name: Observe native browser kernel faults (report only)
+        if: ${{ !cancelled() }}
+        run: node scripts/ci-browser-kernel-report.mjs
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: ${{ !cancelled() }}
+        with:
+          name: native-browser-kernel-evidence
+          path: output/ci-browser-kernel/
+          retention-days: 7
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:

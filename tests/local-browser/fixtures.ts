@@ -1,4 +1,4 @@
-import { test as base, expect, type Request } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
 import { randomBytes } from 'node:crypto';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -15,105 +15,52 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
   page: async ({ page, baseURL }, use, testInfo) => {
     const started = performance.now();
     const origin = baseURL ? new URL(baseURL).origin : undefined;
-    const events: Record<string, unknown>[] = [];
-    const pending = new Map<Request, Record<string, unknown>>();
-    const requestIds = new WeakMap<Request, number>();
-    let nextRequestId = 1;
-    let droppedEvents = 0;
     const atMs = () => Math.round(performance.now() - started);
-    const pathname = (value: string) => {
-      try {
-        const url = new URL(value);
-        if (url.protocol !== 'http:' && url.protocol !== 'https:') return '[non-http-url]';
-        if (url.origin !== origin) return '[external-http-url]';
-        return url.pathname.replace(/LOCAL-BROWSER-[a-f0-9]{48}/gi, '[redacted]');
-      } catch {
-        return '[invalid-url]';
-      }
-    };
-    const workspaceView = (value: string) => {
-      try {
-        const url = new URL(value);
-        if (url.origin !== origin) return null;
-        const view = url.searchParams.get('view');
-        return view !== null &&
-          [
-            'dashboard',
-            'projects',
-            'workspace',
-            'documents',
-            'calendar',
-            'clients',
-            'playbook',
-            'settings',
-            'support',
-          ].includes(view)
-          ? view
-          : null;
-      } catch {
-        return null;
-      }
-    };
-    const record = (event: Record<string, unknown>) => {
-      events.push({ atMs: atMs(), ...event });
-      if (events.length > 500) {
-        events.shift();
-        droppedEvents += 1;
-      }
-    };
-    const requestDetails = (request: Request) => ({
-      id: requestIds.get(request),
-      pathname: pathname(request.url()),
-      resourceType: request.resourceType(),
-      method: request.method(),
-      navigationRequest: request.isNavigationRequest(),
-    });
-    const onRequest = (request: Request) => {
-      requestIds.set(request, nextRequestId++);
-      const details = { ...requestDetails(request), startedAtMs: atMs() };
-      pending.set(request, details);
-      record({ event: 'request', ...details });
-    };
-    const onResponse = (response: import('@playwright/test').Response) => {
-      const request = response.request();
-      const details = pending.get(request);
-      if (details) details.status = response.status();
-      record({ event: 'response', ...requestDetails(request), status: response.status() });
-    };
-    const onRequestFinished = (request: Request) => {
-      record({ event: 'requestfinished', ...requestDetails(request) });
-      pending.delete(request);
-    };
-    const onRequestFailed = (request: Request) => {
-      record({ event: 'requestfailed', ...requestDetails(request) });
-      pending.delete(request);
-    };
-    const onDOMContentLoaded = () => record({ event: 'domcontentloaded' });
-    const onLoad = () => record({ event: 'load' });
-    const onPageError = () => record({ event: 'pageerror' });
-    const onCrash = () => record({ event: 'crash' });
-    const onFrameNavigated = (frame: import('@playwright/test').Frame) =>
-      record({
-        event: 'framenavigated',
-        frame: frame === page.mainFrame() ? 'main' : 'child',
-        pathname: pathname(frame.url()),
-        ...(frame === page.mainFrame() ? { urlView: workspaceView(frame.url()) } : {}),
-      });
-    const onFrameAttached = () => record({ event: 'frameattached' });
-    const onFrameDetached = () => record({ event: 'framedetached' });
-    page.on('request', onRequest);
-    page.on('response', onResponse);
-    page.on('requestfinished', onRequestFinished);
-    page.on('requestfailed', onRequestFailed);
-    page.on('domcontentloaded', onDOMContentLoaded);
-    page.on('load', onLoad);
-    page.on('pageerror', onPageError);
-    page.on('crash', onCrash);
-    page.on('framenavigated', onFrameNavigated);
-    page.on('frameattached', onFrameAttached);
-    page.on('framedetached', onFrameDetached);
-    await page.addInitScript(() => {
+    // Observe native document events without pre-navigation Node Page subscriptions.
+    await page.addInitScript((allowedOrigin: string | undefined) => {
       if (window !== window.top) return;
+      const pathname = (value: string) => {
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol !== 'http:' && url.protocol !== 'https:') return '[non-http-url]';
+          if (url.origin !== allowedOrigin) return '[external-http-url]';
+          return url.pathname.replace(/LOCAL-BROWSER-[a-f0-9]{48}/gi, '[redacted]');
+        } catch {
+          return '[invalid-url]';
+        }
+      };
+      const errorName = (error: unknown) => {
+        const knownNames = new Set([
+          'Error',
+          'TypeError',
+          'ReferenceError',
+          'SyntaxError',
+          'RangeError',
+          'URIError',
+          'EvalError',
+          'AggregateError',
+          'AbortError',
+          'NotAllowedError',
+          'NetworkError',
+          'TimeoutError',
+          'NotFoundError',
+          'SecurityError',
+          'InvalidStateError',
+          'DataError',
+          'OperationError',
+          'NotSupportedError',
+          'QuotaExceededError',
+          'InvalidAccessError',
+          'UnknownError',
+        ]);
+        try {
+          const name =
+            error !== null && typeof error === 'object' && 'name' in error ? error.name : null;
+          return typeof name === 'string' && knownNames.has(name) ? name : '[unknown-error-name]';
+        } catch {
+          return '[unknown-error-name]';
+        }
+      };
       const sidebarViews = [
         'dashboard',
         'projects',
@@ -127,12 +74,18 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
       const native = {
         events: [] as Record<string, unknown>[],
         droppedEvents: 0,
+        resourceTimingBufferFullEvents: 0,
+        timeOrigin: performance.timeOrigin,
       };
       const host = window as typeof window & {
         __margvantNativeNavigation?: typeof native;
       };
       host.__margvantNativeNavigation = native;
-      const record = (event: string, navIndex: number | null = null) => {
+      const record = (
+        event: string,
+        navIndex: number | null = null,
+        details: Record<string, unknown> = {},
+      ) => {
         const buttons = [...document.querySelectorAll('.sidebar nav button.nav-item')];
         const activeIndex = buttons.findIndex(
           (button) => button.getAttribute('aria-current') === 'page',
@@ -143,6 +96,7 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
         native.events.push({
           atMs: Math.round(performance.now()),
           event,
+          pathname: pathname(window.location.href),
           navIndex,
           targetView: navIndex === null ? null : sidebarViews[navIndex],
           activeIndex: activeIndex < 0 || activeIndex >= sidebarViews.length ? null : activeIndex,
@@ -159,6 +113,7 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
               }
             : null,
           readyState: document.readyState,
+          ...details,
         });
         if (native.events.length > 200) {
           native.events.shift();
@@ -197,55 +152,155 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
         },
         { capture: true, passive: true },
       );
-    });
+      window.addEventListener(
+        'error',
+        (event: Event) => {
+          if (event instanceof ErrorEvent) {
+            record('error', null, {
+              errorName: errorName(event.error),
+              filenamePathname: event.filename ? pathname(event.filename) : null,
+            });
+            return;
+          }
+          const target = event.target;
+          const url =
+            target instanceof HTMLScriptElement
+              ? target.src
+              : target instanceof HTMLImageElement
+                ? target.currentSrc || target.src
+                : target instanceof HTMLLinkElement
+                  ? target.href
+                  : null;
+          record('resourceerror', null, {
+            resourceElement: target instanceof Element ? target.tagName : null,
+            resourcePathname: url ? pathname(url) : null,
+          });
+        },
+        { capture: true, passive: true },
+      );
+      window.addEventListener(
+        'unhandledrejection',
+        (event) => record('unhandledrejection', null, { errorName: errorName(event.reason) }),
+        { passive: true },
+      );
+      performance.addEventListener(
+        'resourcetimingbufferfull',
+        () => {
+          native.resourceTimingBufferFullEvents += 1;
+          record('resourcetimingbufferfull');
+        },
+        { passive: true },
+      );
+    }, origin);
     try {
       await use(page);
     } finally {
-      page.off('request', onRequest);
-      page.off('response', onResponse);
-      page.off('requestfinished', onRequestFinished);
-      page.off('requestfailed', onRequestFailed);
-      page.off('domcontentloaded', onDOMContentLoaded);
-      page.off('load', onLoad);
-      page.off('pageerror', onPageError);
-      page.off('crash', onCrash);
-      page.off('framenavigated', onFrameNavigated);
-      page.off('frameattached', onFrameAttached);
-      page.off('framedetached', onFrameDetached);
       if (testInfo.status !== testInfo.expectedStatus) {
         const observation: Record<string, unknown> = {
           status: testInfo.status,
           expectedStatus: testInfo.expectedStatus,
           elapsedMs: atMs(),
-          droppedEvents,
-          events,
-          pendingRequests: [...pending.values()],
+          observer: 'native-browser-init-script',
+          pendingRequests: {
+            status: 'UNVERIFIED',
+            reason: 'native-timing-entries-do-not-observe-request-lifecycle-or-pending-requests',
+          },
           document: { status: 'UNVERIFIED', reason: 'not-captured' },
         };
         const outputPath = testInfo.outputPath('navigation-observation.json');
         try {
-          // Save network evidence first, even if inspecting a failed browser is unavailable.
+          // Save the failure artifact even if the real browser cannot provide a snapshot.
           await writeFile(outputPath, JSON.stringify(observation, null, 2));
           if (page.isClosed()) {
             observation.document = { status: 'UNVERIFIED', reason: 'page-closed' };
           } else {
             try {
-              observation.document = await page.evaluate(() => ({
-                readyState: document.readyState,
-                fontsStatus: document.fonts.status,
-                iframeCount: document.querySelectorAll('iframe').length,
-                nativeNavigation: (
-                  window as typeof window & {
-                    __margvantNativeNavigation?: {
-                      events: Record<string, unknown>[];
-                      droppedEvents: number;
-                    };
+              observation.document = await page.evaluate((allowedOrigin) => {
+                const pathname = (value: string) => {
+                  try {
+                    const url = new URL(value, window.location.href);
+                    if (url.protocol !== 'http:' && url.protocol !== 'https:')
+                      return '[non-http-url]';
+                    if (url.origin !== allowedOrigin) return '[external-http-url]';
+                    return url.pathname.replace(/LOCAL-BROWSER-[a-f0-9]{48}/gi, '[redacted]');
+                  } catch {
+                    return '[invalid-url]';
                   }
-                ).__margvantNativeNavigation ?? {
-                  status: 'UNVERIFIED',
-                  reason: 'native-observer-unavailable',
-                },
-              }));
+                };
+                const timing = (entry: PerformanceResourceTiming) => {
+                  const status = (entry as PerformanceResourceTiming & { responseStatus?: number })
+                    .responseStatus;
+                  return {
+                    pathname: pathname(entry.name),
+                    entryType: entry.entryType,
+                    initiatorType: entry.initiatorType,
+                    startTime: entry.startTime,
+                    duration: entry.duration,
+                    fetchStart: entry.fetchStart,
+                    requestStart: entry.requestStart,
+                    responseStart: entry.responseStart,
+                    responseEnd: entry.responseEnd,
+                    redirectStart: entry.redirectStart,
+                    redirectEnd: entry.redirectEnd,
+                    domainLookupStart: entry.domainLookupStart,
+                    domainLookupEnd: entry.domainLookupEnd,
+                    connectStart: entry.connectStart,
+                    connectEnd: entry.connectEnd,
+                    secureConnectionStart: entry.secureConnectionStart,
+                    transferSize: entry.transferSize,
+                    encodedBodySize: entry.encodedBodySize,
+                    decodedBodySize: entry.decodedBodySize,
+                    responseStatus: typeof status === 'number' && status > 0 ? status : null,
+                    responseStatusObservation:
+                      typeof status === 'number' && status > 0 ? 'OBSERVED' : 'UNVERIFIED',
+                  };
+                };
+                const navigation = (
+                  performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
+                ).map((entry) => ({
+                  ...timing(entry),
+                  type: entry.type,
+                  redirectCount: entry.redirectCount,
+                  domInteractive: entry.domInteractive,
+                  domContentLoadedEventStart: entry.domContentLoadedEventStart,
+                  domContentLoadedEventEnd: entry.domContentLoadedEventEnd,
+                  domComplete: entry.domComplete,
+                  loadEventStart: entry.loadEventStart,
+                  loadEventEnd: entry.loadEventEnd,
+                  unloadEventStart: entry.unloadEventStart,
+                  unloadEventEnd: entry.unloadEventEnd,
+                }));
+                return {
+                  readyState: document.readyState,
+                  fontsStatus: document.fonts.status,
+                  iframeCount: document.querySelectorAll('iframe').length,
+                  performanceTiming: {
+                    timeOrigin: performance.timeOrigin,
+                    snapshotAtMs: performance.now(),
+                    scope: 'current-top-document',
+                    resourceBufferMayBePartial: true,
+                    limitations:
+                      'Browser-managed timing entries may omit failed, pending, evicted or earlier-document requests; zero timings do not prove completion.',
+                    navigation,
+                    resources: (
+                      performance.getEntriesByType('resource') as PerformanceResourceTiming[]
+                    ).map(timing),
+                  },
+                  nativeNavigation: (
+                    window as typeof window & {
+                      __margvantNativeNavigation?: {
+                        events: Record<string, unknown>[];
+                        droppedEvents: number;
+                        resourceTimingBufferFullEvents: number;
+                        timeOrigin: number;
+                      };
+                    }
+                  ).__margvantNativeNavigation ?? {
+                    status: 'UNVERIFIED',
+                    reason: 'native-observer-unavailable',
+                  },
+                };
+              }, origin);
             } catch {
               observation.document = { status: 'UNVERIFIED', reason: 'inspection-unavailable' };
             }
