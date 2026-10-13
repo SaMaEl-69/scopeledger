@@ -138,6 +138,8 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
           (button) => button.getAttribute('aria-current') === 'page',
         );
         const requestedView = new URL(window.location.href).searchParams.get('view');
+        const sidebar = document.querySelector<HTMLElement>('.sidebar');
+        const targetRect = navIndex === null ? null : buttons[navIndex]?.getBoundingClientRect();
         native.events.push({
           atMs: Math.round(performance.now()),
           event,
@@ -147,6 +149,15 @@ export const test = base.extend<{}, { localApp: LocalApp }>({
           activeView: sidebarViews[activeIndex] ?? null,
           urlView: requestedView !== null && views.includes(requestedView) ? requestedView : null,
           viewport: { width: innerWidth, height: innerHeight },
+          sidebarScrollTop: sidebar?.scrollTop ?? null,
+          targetRect: targetRect
+            ? {
+                x: targetRect.x,
+                y: targetRect.y,
+                width: targetRect.width,
+                height: targetRect.height,
+              }
+            : null,
           readyState: document.readyState,
         });
         if (native.events.length > 200) {

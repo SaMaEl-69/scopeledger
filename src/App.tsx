@@ -1366,6 +1366,11 @@ export default function App() {
               {key === 'clients' && <div className="nav-label nav-tools-label">PEOPLE & TOOLS</div>}
               <button
                 className={`nav-item ${view === key ? 'active' : ''}`}
+                onPointerDown={(event) => {
+                  // Keep pointer focus from scrolling the sidebar between down and up.
+                  if (event.button === 0 && event.pointerType === 'mouse')
+                    event.currentTarget.focus({ preventScroll: true });
+                }}
                 onClick={() => setView(key)}
                 aria-current={view === key ? 'page' : undefined}
               >
