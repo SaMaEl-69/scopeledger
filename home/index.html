@@ -5620,6 +5620,7 @@
     <link rel="stylesheet" href="/home/site.css" />
     <link rel="stylesheet" href="./carousel.css" />
     <link rel="stylesheet" href="./scenarios.css" />
+    <link rel="stylesheet" href="./reviews.css" />
     <link rel="stylesheet" href="./identity.css" />
     <link rel="stylesheet" href="/shared/brand.css" />
   </head>
@@ -8557,6 +8558,56 @@
         </div>
       </section>
 
+      <!-- ============================== REVIEWS ============================== -->
+      <section class="sec feedback-section" id="reviews" aria-labelledby="reviewsHeading">
+        <div class="wrap">
+          <div class="feedback-card card" data-reveal>
+            <div class="feedback-intro">
+              <span class="label">Honest feedback, shared with permission</span>
+              <h2 id="reviewsHeading">Your experience belongs here.</h2>
+              <p class="lead">
+                There are no published customer reviews yet. If you have tried Margvant, tell us
+                what worked and what could be better. We will ask before quoting or publishing
+                anything you send.
+              </p>
+              <p class="feedback-note">
+                Your message is not posted automatically. The form prepares an email draft to
+                Margvant support; review it and send it from your email app.
+              </p>
+            </div>
+            <form class="feedback-form" id="reviewSubmissionForm">
+              <label for="reviewerName">Your name <span>(optional)</span></label>
+              <input
+                id="reviewerName"
+                name="name"
+                type="text"
+                autocomplete="name"
+                maxlength="80"
+                placeholder="How should we address you?"
+              />
+              <label for="reviewText">Your review or feedback</label>
+              <textarea
+                id="reviewText"
+                name="feedback"
+                rows="5"
+                maxlength="1500"
+                required
+                placeholder="What did you try? What helped, and what would you improve?"
+              ></textarea>
+              <div class="feedback-actions">
+                <button class="btn btn-primary" id="reviewSubmit" type="submit">
+                  Write a review
+                </button>
+                <a class="btn btn-primary" id="reviewEmailDraft" hidden>Open email draft</a>
+              </div>
+              <p class="feedback-status" id="reviewFormStatus" role="status" aria-live="polite">
+                Nothing is published unless you choose to share it with us.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
       <!-- ============================== PURPOSE ============================== -->
       <section class="sec tight" id="founder">
         <div class="wrap">
@@ -9252,5 +9303,6 @@
     <script type="module" src="/home/site.js"></script>
     <script type="module" src="./carousel.js"></script>
     <script type="module" src="./scenarios.js"></script>
+    <script type="module" src="./reviews.js"></script>
   </body>
 </html>
