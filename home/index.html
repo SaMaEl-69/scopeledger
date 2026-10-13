@@ -8335,6 +8335,26 @@
             </p>
           </div>
           <div class="conversation-carousel">
+            <button
+              type="button"
+              class="conversation-toggle"
+              id="conversationToggle"
+              aria-controls="conversationLoop"
+              aria-pressed="false"
+              hidden
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path class="pause-glyph" d="M7 5h3v14H7zm7 0h3v14h-3z" />
+                <path class="play-glyph" d="m8 5 11 7-11 7z" />
+              </svg>
+              <span>Pause carousel</span>
+            </button>
             <ul
               class="conversation-track"
               id="conversationTrack"
@@ -8602,50 +8622,52 @@
                   <p><b>Replace some existing work</b><span>Illustrative example 06</span></p>
                 </div>
               </li>
+              <li class="conversation-card" aria-labelledby="conversationDeferMore">
+                <p class="conversation-kicker">
+                  <span>Client request</span>
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9H3v6h6V9H6Zm12 0h-3v6h6V9h-3ZM3 9c0-3 2-5 5-5m7 5c0-3 2-5 5-5" />
+                  </svg>
+                </p>
+                <blockquote class="conversation-request">
+                  <p>“Could we save the extra animation for a follow-up phase?”</p>
+                </blockquote>
+                <div class="conversation-response">
+                  <h3 id="conversationDeferMore">Defer</h3>
+                  <p>
+                    “Let’s finish the agreed work first. I’ll list this separately so we can
+                    estimate and schedule it for the next phase.”
+                  </p>
+                </div>
+                <div class="conversation-identity">
+                  <span class="conversation-brand" aria-hidden="true">
+                    <img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                    />
+                    <img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                    />
+                  </span>
+                  <p><b>Schedule the request for later</b><span>Illustrative example 07</span></p>
+                </div>
+              </li>
             </ul>
-            <div class="conversation-navigation" hidden>
-              <button
-                type="button"
-                data-scenario-previous
-                aria-label="Previous scenario"
-                aria-controls="conversationTrack"
-                aria-disabled="true"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                  aria-hidden="true"
-                >
-                  <path d="m14 6-6 6 6 6M8 12h12" />
-                </svg>
-              </button>
-              <span class="conversation-count" aria-live="polite" aria-atomic="true"
-                >Scenarios 1–3 of 6</span
-              >
-              <button
-                type="button"
-                data-scenario-next
-                aria-label="Next scenario"
-                aria-controls="conversationTrack"
-                aria-disabled="false"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                  aria-hidden="true"
-                >
-                  <path d="m10 6 6 6-6 6M4 12h12" />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
       </section>

@@ -119,30 +119,49 @@ test('illustrative carousel pauses and resumes from the keyboard', async ({ page
   await expect(carousel).not.toContainText(/verified|review|1,200|studios using/i);
 });
 
-test('pointer hover pauses the studio lane without fading other examples', async ({ page }) => {
+test('pointer hover pauses and spotlights either studio lane without a click', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/home/');
   const carousel = page.locator('#audienceCarousel');
   await carousel.scrollIntoViewIfNeeded();
-  const row = carousel.locator('.mq-row').first();
-  const track = row.locator('.mq-track');
-  const card = carousel.locator('.mq-set:not(.mq-clone) > li').first();
-  await expect(track).toHaveCSS('animation-name', 'scenario-marquee');
-  const bounds = await card.boundingBox();
-  expect(bounds).not.toBeNull();
-  await page.mouse.move(bounds!.x + bounds!.width / 2, bounds!.y + bounds!.height / 2);
-  await expect(row).toHaveAttribute('data-hovered', 'true');
-  await expect(track).toHaveCSS('animation-play-state', 'paused');
-  await expect(card).toHaveCSS('opacity', '1');
-  await expect(carousel.locator('.mq-set:not(.mq-clone) > li').nth(1)).toHaveCSS('opacity', '1');
-  const positions = await transformFrames(track);
-  expect(positions[0]).toBe(positions[1]);
-  await page.mouse.move(4, 4);
-  await expect(row).not.toHaveAttribute('data-hovered', 'true');
-  await expect(track).toHaveCSS('animation-play-state', 'running');
-  const resumed = await transformFrames(track);
-  expect(resumed[0]).not.toBe(resumed[1]);
+  for (const index of [0, 1]) {
+    const row = carousel.locator('.mq-row').nth(index);
+    await row.scrollIntoViewIfNeeded();
+    const track = row.locator('.mq-track');
+    const cards = row.locator('.mq-set > li');
+    await expect(track).toHaveCSS('animation-name', 'scenario-marquee');
+    const rowBounds = await row.boundingBox();
+    expect(rowBounds).not.toBeNull();
+    await page.mouse.move(
+      rowBounds!.x + rowBounds!.width / 2,
+      rowBounds!.y + rowBounds!.height / 2,
+    );
+    await expect(row).toHaveAttribute('data-hovered', 'true');
+    const cardIndex = await cards.evaluateAll((elements) => {
+      const rowBounds = elements[0].closest('.mq-row')!.getBoundingClientRect();
+      return elements.findIndex((element) => {
+        const bounds = element.getBoundingClientRect();
+        const center = bounds.left + bounds.width / 2;
+        return center >= rowBounds.left && center <= rowBounds.right;
+      });
+    });
+    expect(cardIndex).toBeGreaterThanOrEqual(0);
+    const card = cards.nth(cardIndex);
+    const bounds = await card.boundingBox();
+    expect(bounds).not.toBeNull();
+    await page.mouse.move(bounds!.x + bounds!.width / 2, bounds!.y + bounds!.height / 2);
+    await expect(row).toHaveAttribute('data-hovered', 'true');
+    await expect(track).toHaveCSS('animation-play-state', 'paused');
+    await expect(card).toHaveCSS('opacity', '1');
+    const positions = await animationTimeFrames(track);
+    expect(positions[0]).toBe(positions[1]);
+    await page.mouse.move(4, 4);
+    await expect(row).not.toHaveAttribute('data-hovered', 'true');
+    await expect(track).toHaveCSS('animation-play-state', 'running');
+    const resumed = await animationTimeFrames(track);
+    expect(resumed[0]).not.toBe(resumed[1]);
+  }
 });
 
 test('reduced motion keeps every illustrative card available without animation or page overflow', async ({

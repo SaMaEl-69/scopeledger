@@ -1,59 +1,66 @@
-import { expect, test, type Locator, type Page } from '@playwright/test';
+import { expect, test, type Locator } from '@playwright/test';
 
-test('desktop carousel advances the three-card view using smooth motion without autoplay', async ({
+async function animationFrames(track: Locator) {
+  return track.evaluate(async (element) => {
+    const animation = element.getAnimations()[0];
+    if (!animation) throw new Error('The conversation carousel is not animated');
+    await animation.ready;
+    const nextPaint = () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      );
+    await nextPaint();
+    const first = animation.currentTime;
+    await nextPaint();
+    return [first, animation.currentTime];
+  });
+}
+
+test('seven illustrative conversations animate continuously without arrows or a counter', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto('/home/');
   const section = page.locator('#conversationScenarios');
   await section.scrollIntoViewIfNeeded();
-  const track = section.locator('.conversation-track');
-  const previous = section.getByRole('button', { name: 'Previous scenario', exact: true });
-  const next = section.getByRole('button', { name: 'Next scenario', exact: true });
-  await expect(track).toHaveCSS('animation-name', 'none');
-  await expect(track).toHaveCSS('transform', 'none');
-  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 1–3 of 6');
-  await next.click();
-  await expect(next).toHaveAttribute('aria-disabled', 'false');
-  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 2–4 of 6');
-  await expect(previous).toHaveAttribute('aria-disabled', 'false');
-  const position = await track.evaluate((element) => ({
-    left: element.scrollLeft,
-    end: element.scrollWidth - element.clientWidth,
-  }));
-  expect(position.left).toBeGreaterThan(0);
-  expect(position.left).toBeLessThan(position.end);
-  await previous.click();
-  await expect(previous).toHaveAttribute('aria-disabled', 'true');
-  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 1–3 of 6');
+  const viewport = section.locator('.conversation-viewport');
+  const loop = section.locator('.conversation-loop');
+  const toggle = section.locator('#conversationToggle');
+  await expect(section).toHaveAttribute('data-in-view', 'true');
+  await expect(loop).toHaveCSS('animation-name', 'conversation-marquee');
+  await expect(
+    section.locator('.conversation-track:not(.conversation-track-copy) .conversation-card'),
+  ).toHaveCount(7);
+  await expect(section.locator('.conversation-track-copy .conversation-card')).toHaveCount(7);
+  await expect(section.locator('.conversation-track-copy')).toHaveAttribute('aria-hidden', 'true');
+  await expect(section.locator('.conversation-navigation, .conversation-count')).toHaveCount(0);
+  await expect(toggle).toHaveText('Pause carousel');
+  const times = await animationFrames(loop);
+  expect(times[0]).not.toBeNull();
+  expect(times[1]).toBeGreaterThan(times[0] as number);
+
+  const bounds = await viewport.boundingBox();
+  expect(bounds).not.toBeNull();
+  await page.mouse.move(bounds!.x + bounds!.width / 2, bounds!.y + bounds!.height / 2);
+  await expect(loop).toHaveCSS('animation-play-state', 'paused');
+  await page.mouse.move(4, 4);
+  await toggle.click();
+  await expect(toggle).toHaveText('Resume carousel');
+  await expect(loop).toHaveCSS('animation-play-state', 'paused');
+  await toggle.click();
+  await expect(toggle).toHaveText('Pause carousel');
+  await expect(loop).toHaveCSS('animation-play-state', 'running');
+
+  const track = section.locator('#conversationTrack');
+  await track.focus();
+  await expect(loop).toHaveCSS('animation-name', 'none');
+  await expect(section.locator('.conversation-track-copy')).toBeHidden();
+  await page.keyboard.press('ArrowRight');
+  await expect.poll(() => viewport.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
 });
 
-async function nativeKeyboardScroll(track: Locator, page: Page) {
-  await track.evaluate(
-    () =>
-      new Promise<void>((resolve) =>
-        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-      ),
-  );
-  const observation = await track.evaluateHandle((element) => ({
-    scrolled: new Promise<number>((resolve) =>
-      element.addEventListener(
-        'scroll',
-        () => requestAnimationFrame(() => requestAnimationFrame(() => resolve(element.scrollLeft))),
-        { once: true },
-      ),
-    ),
-  }));
-  try {
-    await page.keyboard.down('ArrowRight');
-    return await observation.evaluate((wrapper) => wrapper.scrolled);
-  } finally {
-    await page.keyboard.up('ArrowRight');
-    await observation.dispose();
-  }
-}
-
-test('client-conversation carousel labels its examples and keeps all six scenarios reachable', async ({
+test('conversation carousel respects reduced motion and shows all seven examples', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -61,62 +68,60 @@ test('client-conversation carousel labels its examples and keeps all six scenari
   await page.goto('/home/');
   const section = page.locator('#conversationScenarios');
   await section.scrollIntoViewIfNeeded();
-  await expect(section.locator('.conversation-track')).toHaveCSS('animation-name', 'none');
-  await expect(section.locator('.conversation-track')).toHaveCSS('transform', 'none');
+  const track = section.locator('#conversationTrack');
+  const viewport = section.locator('.conversation-viewport');
+  const toggle = section.locator('#conversationToggle');
+  await expect(section.locator('.conversation-loop')).toHaveCSS('animation-name', 'none');
+  await expect(toggle).toBeDisabled();
+  await expect(toggle).toHaveText('Motion off · all examples shown');
   await expect(
     section.getByText('Illustrative scenarios — not customer reviews', { exact: true }),
   ).toBeVisible();
-  await expect(section.locator('.conversation-card')).toHaveCount(6);
-  await expect(section.locator('h3')).toHaveText([
+  await expect(track.locator('.conversation-card')).toHaveCount(7);
+  await expect(section.locator('.conversation-track-copy')).toBeHidden();
+  await expect(track.locator('h3')).toHaveText([
     'Quote',
     'Absorb',
     'Exchange',
     'Defer',
     'Quote',
     'Exchange',
+    'Defer',
   ]);
   await expect(section).not.toContainText(
-    /verified|rated|stars|recovered|pushback|Sam Ortega|Alex Rivera|Maya Okafor|Tom Brandt|1,200/i,
+    /verified|rated|stars|4\.9|recovered|pushback|Sam Ortega|Alex Rivera|Maya Okafor|Tom Brandt|1,200/i,
   );
-  await expect(section.locator('.conversation-count')).toHaveText('Scenario 1 of 6');
-  const previous = section.getByRole('button', { name: 'Previous scenario', exact: true });
-  const next = section.getByRole('button', { name: 'Next scenario', exact: true });
-  await expect(previous).toHaveAttribute('aria-disabled', 'true');
-  for (const position of [2, 3, 4, 5, 6] as const) {
-    await next.click();
-    await expect(section.locator('.conversation-count')).toHaveText(`Scenario ${position} of 6`);
-    const bounds = await section
-      .locator('.conversation-card')
-      .nth(position - 1)
-      .evaluate((card) => {
-        const outer = card.parentElement!.getBoundingClientRect();
-        const inner = card.getBoundingClientRect();
+  await expect(section.locator('.conversation-navigation, .conversation-count')).toHaveCount(0);
+
+  const layout = await section.evaluate((element) => {
+    const viewportRect = element.querySelector('.conversation-viewport')!.getBoundingClientRect();
+    const cards = [...element.querySelectorAll('#conversationTrack .conversation-card')];
+    return {
+      pageWidth: document.documentElement.scrollWidth,
+      viewportWidth: innerWidth,
+      cards: cards.map((card) => {
+        const rect = card.getBoundingClientRect();
         return {
-          left: inner.left,
-          right: inner.right,
-          outerLeft: outer.left,
-          outerRight: outer.right,
+          width: card.clientWidth,
+          scroll: card.scrollWidth,
+          topClearance: rect.top - viewportRect.top,
+          bottomClearance: viewportRect.bottom - rect.bottom,
         };
-      });
-    expect(bounds.left).toBeGreaterThanOrEqual(bounds.outerLeft);
-    expect(bounds.right).toBeLessThanOrEqual(bounds.outerRight);
+      }),
+    };
+  });
+  expect(layout.pageWidth).toBeLessThanOrEqual(layout.viewportWidth);
+  for (const card of layout.cards) {
+    expect(card.scroll).toBeLessThanOrEqual(card.width);
+    expect(card.topClearance).toBeGreaterThanOrEqual(15);
+    expect(card.bottomClearance).toBeGreaterThanOrEqual(15);
   }
-  await expect(next).toHaveAttribute('aria-disabled', 'true');
-  await previous.focus();
-  await page.keyboard.press('Enter');
-  await expect(section.locator('.conversation-count')).toHaveText('Scenario 5 of 6');
-  await previous.click();
-  await expect(section.locator('.conversation-count')).toHaveText('Scenario 4 of 6');
-  await previous.click();
-  await previous.click();
-  await previous.click();
-  await expect(section.locator('.conversation-count')).toHaveText('Scenario 1 of 6');
-  const track = section.locator('.conversation-track');
-  await track.focus();
-  expect(await nativeKeyboardScroll(track, page)).toBeGreaterThan(0);
 });
 
-test('client-conversation cards fit both themes at mobile and desktop widths', async ({ page }) => {
+test('conversation cards fit light and dark themes at mobile, tablet and desktop widths', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/home/');
   const section = page.locator('#conversationScenarios');
   for (const theme of ['light', 'dark']) {
@@ -130,38 +135,35 @@ test('client-conversation cards fit both themes at mobile and desktop widths', a
         await new Promise<void>((resolve) =>
           requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
         );
+        const viewport = element.querySelector('.conversation-viewport')!.getBoundingClientRect();
         return {
-          pageWidth: innerWidth,
-          pageScroll: document.documentElement.scrollWidth,
+          pageWidth: document.documentElement.scrollWidth,
+          viewportWidth: innerWidth,
           left: element.getBoundingClientRect().left,
           right: element.getBoundingClientRect().right,
+          cards: [...element.querySelectorAll('#conversationTrack .conversation-card')].map(
+            (card) => {
+              const rect = card.getBoundingClientRect();
+              return {
+                width: card.clientWidth,
+                scroll: card.scrollWidth,
+                top: rect.top - viewport.top,
+                bottom: viewport.bottom - rect.bottom,
+              };
+            },
+          ),
         };
       });
-      expect(layout.pageScroll).toBeLessThanOrEqual(layout.pageWidth);
+      expect(layout.pageWidth).toBeLessThanOrEqual(layout.viewportWidth);
       expect(layout.left).toBeGreaterThanOrEqual(0);
       expect(layout.right).toBeLessThanOrEqual(width);
-      for (const card of await section.locator('.conversation-card').all()) {
-        const bounds = await card.evaluate((element) => ({
-          width: element.clientWidth,
-          scroll: element.scrollWidth,
-          topClearance:
-            element.getBoundingClientRect().top -
-            element.parentElement!.getBoundingClientRect().top,
-          bottomClearance:
-            element.parentElement!.getBoundingClientRect().bottom -
-            element.getBoundingClientRect().bottom,
-        }));
-        expect(bounds.scroll).toBeLessThanOrEqual(bounds.width);
-        expect(bounds.topClearance).toBeGreaterThanOrEqual(25);
-        expect(bounds.bottomClearance).toBeGreaterThanOrEqual(43);
+      expect(layout.cards).toHaveLength(7);
+      for (const card of layout.cards) {
+        expect(card.scroll).toBeLessThanOrEqual(card.width);
+        expect(card.top).toBeGreaterThanOrEqual(15);
+        expect(card.bottom).toBeGreaterThanOrEqual(15);
       }
-      for (const control of await section.getByRole('button').all()) {
-        await expect(control).toBeVisible();
-        const size = await control.boundingBox();
-        expect(size!.width).toBeGreaterThanOrEqual(44);
-        expect(size!.height).toBeGreaterThanOrEqual(44);
-      }
-      await expect(section.locator('.conversation-brand img')).toHaveCount(12);
+      await expect(section.locator('.conversation-brand img')).toHaveCount(28);
       await expect(
         section.locator('.conversation-brand .brand-image-light').first(),
       ).toHaveAttribute('src', '/brand/scopeledger-mark.svg?v=7');

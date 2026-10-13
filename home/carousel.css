@@ -137,6 +137,9 @@
   animation: none;
   transform: none;
 }
+.carousel-ready .mq-row:hover .mq-track {
+  animation-play-state: paused;
+}
 .mq-row:focus .mq-clone {
   display: none;
 }
