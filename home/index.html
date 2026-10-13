@@ -5619,6 +5619,8 @@
     </style>
     <link rel="stylesheet" href="/home/site.css" />
     <link rel="stylesheet" href="./carousel.css" />
+    <link rel="stylesheet" href="./scenarios.css" />
+    <link rel="stylesheet" href="./identity.css" />
     <link rel="stylesheet" href="/shared/brand.css" />
   </head>
   <body>
@@ -6118,15 +6120,22 @@
         </div>
       </section>
 
-      <section class="audience-carousel" id="audienceCarousel" aria-labelledby="audienceTitle">
+      <section
+        class="audience-carousel"
+        id="audienceCarousel"
+        aria-labelledby="audienceTitle"
+        aria-describedby="audienceDisclosure"
+      >
         <div class="wrap">
           <div class="carousel-heading">
             <span class="carousel-line" aria-hidden="true"></span>
-            <h2 id="audienceTitle">Built for fixed-fee client work.</h2>
+            <h2 id="audienceTitle">Illustrative studio examples</h2>
             <span class="carousel-line" aria-hidden="true"></span>
           </div>
           <div class="carousel-caption">
-            <p>Illustrative requests. Four ways to make a considered decision.</p>
+            <p id="audienceDisclosure">
+              Names, locations and team sizes are illustrative, not customer endorsements.
+            </p>
             <button
               type="button"
               id="carouselToggle"
@@ -6153,179 +6162,774 @@
             class="mq-row"
             tabindex="0"
             role="region"
-            aria-label="Illustrative agency requests; scroll to explore"
+            aria-label="Illustrative studio examples, row 1; scroll to explore"
           >
             <div class="mq-track">
               <ul class="mq-set">
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Webflow studios</b><span>A journal collection</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Halcyon Studio, illustrative studio example. Lisbon · 6 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Halcyon Studio</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Lisbon · 6 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Alex Rivera"></span
+                    ><span class="av" data-av="Noor F"></span><span class="av more">+4</span></span
+                  >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Branding agencies</b><span>Another design direction</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Marlow &amp; Finch, illustrative studio example. Manchester · 11 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M4 20 12 4l8 16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M8.5 14h7"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Marlow &amp; Finch</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Manchester · 11 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Tom Brandt"></span
+                    ><span class="av" data-av="Noor P"></span><span class="av more">+9</span></span
+                  >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Development partners</b><span>A new integration</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Okafor Studio, illustrative studio example. Toronto · Solo studio"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <circle cx="12" cy="12" r="3.2" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Okafor Studio</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Toronto · Solo studio</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Maya Okafor"></span
+                  ></span>
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Independent designers</b><span>An extra landing page</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Brightline, illustrative studio example. Austin · 8 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M3 14c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M3 8.5c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        opacity=".45"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Brightline</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Austin · 8 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Jordan Hale"></span
+                    ><span class="av" data-av="Sasha T"></span><span class="av more">+6</span></span
+                  >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Digital studios</b><span>A pricing toggle</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Oakmont Digital, illustrative studio example. Denver · 12 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5A8.5 8.5 0 1 0 20.5 12H12z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Oakmont Digital</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Denver · 12 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Nina Patel"></span
+                    ><span class="av" data-av="Avery W"></span
+                    ><span class="av more">+10</span></span
+                  >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Content teams</b><span>More page templates</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Pixelfolk, illustrative studio example. Berlin · 5 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle cx="7.5" cy="7.5" r="3" fill="currentColor" />
+                      <circle cx="16.5" cy="7.5" r="3" fill="currentColor" opacity=".45" />
+                      <circle cx="7.5" cy="16.5" r="3" fill="currentColor" opacity=".45" />
+                      <circle cx="16.5" cy="16.5" r="3" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name mono">Pixelfolk</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Berlin · 5 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Lena Vogt"></span
+                    ><span class="av" data-av="Robin V"></span><span class="av more">+3</span></span
+                  >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Product designers</b><span>Additional screens</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="studio tala, illustrative studio example. Manila · 4 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M5 19C5 10.5 10.5 5 19 5c0 8.5-5.5 14-14 14z"
+                        fill="currentColor"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">studio tala</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Manila · 4 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Tala Reyes"></span
+                    ><span class="av" data-av="Riley B"></span><span class="av more">+2</span></span
+                  >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Creative teams</b><span>More asset variants</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Fieldwork, illustrative studio example. Portland · 7 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect x="4" y="5" width="16" height="3.2" rx="1.6" fill="currentColor" />
+                      <rect x="4" y="10.4" width="10" height="3.2" rx="1.6" fill="currentColor" />
+                      <rect
+                        x="4"
+                        y="15.8"
+                        width="16"
+                        height="3.2"
+                        rx="1.6"
+                        fill="currentColor"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Fieldwork</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Portland · 7 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Evan Whitfield"></span
+                    ><span class="av" data-av="Casey M"></span><span class="av more">+5</span></span
+                  >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Freelancers</b><span>An out-of-scope request</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Kindred &amp; Co, illustrative studio example. Melbourne · 9 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle cx="9" cy="12" r="5.5" fill="currentColor" opacity=".5" />
+                      <circle cx="15" cy="12" r="5.5" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Kindred &amp; Co</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Melbourne · 9 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Olivia Chen"></span
+                    ><span class="av" data-av="Casey E"></span><span class="av more">+7</span></span
+                  >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-mark" aria-hidden="true"
-                    ><img
-                      class="brand-image-light"
-                      src="/brand/scopeledger-mark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /><img
-                      class="brand-image-dark"
-                      src="/brand/scopeledger-mark-dark.svg?v=7"
-                      width="36"
-                      height="36"
-                      alt="" /></span
-                  ><span class="scenario-copy"
-                    ><b>Fixed-fee agencies</b><span>A revised client brief</span></span
-                  ><span class="scenario-tag">Scope</span>
+                <li
+                  class="ag"
+                  aria-label="Summit Lane, illustrative studio example. Vancouver · 6 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5 20.5 19h-17z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Summit Lane</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Vancouver · 6 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Noah Fraser"></span
+                    ><span class="av" data-av="Avery Q"></span><span class="av more">+4</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Paper Crane, illustrative studio example. Kyoto · 3 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M12 2.5 21.5 12 12 21.5 2.5 12z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                      />
+                      <path d="M12 7.5 16.5 12 12 16.5 7.5 12z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Paper Crane</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Kyoto · 3 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Yui Tanaka"></span
+                    ><span class="av" data-av="Avery I"></span><span class="av more">+1</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Common Room, illustrative studio example. London · 14 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect x="3.5" y="3.5" width="11" height="11" rx="2.5" fill="currentColor" />
+                      <rect
+                        x="9.5"
+                        y="9.5"
+                        width="11"
+                        height="11"
+                        rx="2.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Common Room</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>London · 14 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Hannah Price"></span
+                    ><span class="av" data-av="Sasha V"></span
+                    ><span class="av more">+12</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Foxglove, illustrative studio example. Dublin · 5 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M5 19C5 10.5 10.5 5 19 5c0 8.5-5.5 14-14 14z"
+                        fill="currentColor"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Foxglove</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Dublin · 5 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Aoife Byrne"></span
+                    ><span class="av" data-av="Sasha B"></span><span class="av more">+3</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Loop &amp; Line, illustrative studio example. Amsterdam · 8 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M4 20V11a7 7 0 0 1 7-7h9"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M9 20v-5a2 2 0 0 1 2-2h9"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        opacity=".5"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Loop &amp; Line</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Amsterdam · 8 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Daan de Vries"></span
+                    ><span class="av" data-av="Leo X"></span><span class="av more">+6</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Mono Atelier, illustrative studio example. Paris · 4 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect
+                        x="3.5"
+                        y="3.5"
+                        width="17"
+                        height="17"
+                        rx="5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                      />
+                      <path
+                        d="M8 16 16 8"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Mono Atelier</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Paris · 4 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Camille Laurent"></span
+                    ><span class="av" data-av="Elliot W"></span
+                    ><span class="av more">+2</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Wildframe, illustrative studio example. Cape Town · 10 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M12 3 19.8 7.5v9L12 21l-7.8-4.5v-9z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Wildframe</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Cape Town · 10 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Thabo Nkosi"></span
+                    ><span class="av" data-av="Rowan A"></span><span class="av more">+8</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Saltwater, illustrative studio example. Sydney · 6 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M3 14c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M3 8.5c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        opacity=".45"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Saltwater</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Sydney · 6 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Mia Thompson"></span
+                    ><span class="av" data-av="Iris A"></span><span class="av more">+4</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Quiet Type, illustrative studio example. Stockholm · 3 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect x="4" y="5" width="16" height="3.2" rx="1.6" fill="currentColor" />
+                      <rect x="4" y="10.4" width="10" height="3.2" rx="1.6" fill="currentColor" />
+                      <rect
+                        x="4"
+                        y="15.8"
+                        width="16"
+                        height="3.2"
+                        rx="1.6"
+                        fill="currentColor"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name mono">Quiet Type</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Stockholm · 3 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Elsa Lindqvist"></span
+                    ><span class="av" data-av="Leo T"></span><span class="av more">+1</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Ember Works, illustrative studio example. Chicago · 13 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5 20.5 19h-17z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Ember Works</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Chicago · 13 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Marco Russo"></span
+                    ><span class="av" data-av="Ana S"></span><span class="av more">+11</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Tandem, illustrative studio example. Barcelona · 7 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle cx="9" cy="12" r="5.5" fill="currentColor" opacity=".5" />
+                      <circle cx="15" cy="12" r="5.5" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Tandem</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Barcelona · 7 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Lucía Ortiz"></span
+                    ><span class="av" data-av="Elliot U"></span
+                    ><span class="av more">+5</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Blocktype, illustrative studio example. Warsaw · 9 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect x="3.5" y="3.5" width="11" height="11" rx="2.5" fill="currentColor" />
+                      <rect
+                        x="9.5"
+                        y="9.5"
+                        width="11"
+                        height="11"
+                        rx="2.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name mono">Blocktype</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Warsaw · 9 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Piotr Nowak"></span
+                    ><span class="av" data-av="Casey Q"></span><span class="av more">+7</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Greenhouse, illustrative studio example. Auckland · 5 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M5 19C5 10.5 10.5 5 19 5c0 8.5-5.5 14-14 14z"
+                        fill="currentColor"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Greenhouse</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Auckland · 5 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Aroha Ngata"></span
+                    ><span class="av" data-av="Morgan Q"></span
+                    ><span class="av more">+3</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Lumen Lab, illustrative studio example. Singapore · 11 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <circle cx="12" cy="12" r="3.2" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Lumen Lab</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Singapore · 11 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Wei Lin Tan"></span
+                    ><span class="av" data-av="Quinn V"></span><span class="av more">+9</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Arcade, illustrative studio example. Brooklyn · 8 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M8 4h4l-4 16H4zM16 4h4l-4 16h-4z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Arcade</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Brooklyn · 8 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Chris Morales"></span
+                    ><span class="av" data-av="Riley N"></span><span class="av more">+6</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Seven Hills, illustrative studio example. Rome · 6 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M4 20 12 4l8 16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M8.5 14h7"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Seven Hills</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Rome · 6 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Giulia Conti"></span
+                    ><span class="av" data-av="Elliot O"></span
+                    ><span class="av more">+4</span></span
+                  >
+                </li>
+                <li class="ag" aria-label="Hightide, illustrative studio example. Miami · 7 people">
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M3 14c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M3 8.5c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        opacity=".45"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Hightide</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Miami · 7 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Sofia Alvarez"></span
+                    ><span class="av" data-av="Robin R"></span><span class="av more">+5</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Parallel, illustrative studio example. Copenhagen · 12 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M8 4h4l-4 16H4zM16 4h4l-4 16h-4z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Parallel</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Copenhagen · 12 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Mads Jensen"></span
+                    ><span class="av" data-av="Casey U"></span
+                    ><span class="av more">+10</span></span
+                  >
                 </li>
               </ul>
             </div>
@@ -6334,78 +6938,733 @@
             class="mq-row"
             tabindex="0"
             role="region"
-            aria-label="Illustrative response options; scroll to explore"
+            aria-label="Illustrative studio examples, row 2; scroll to explore"
           >
             <div class="mq-track">
               <ul class="mq-set">
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-doc" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Quote</b><span>Charge for additional work</span></span
+                <li
+                  class="ag"
+                  aria-label="Riverstone, illustrative studio example. Nashville · 4 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5A8.5 8.5 0 1 0 20.5 12H12z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Riverstone</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Nashville · 4 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Caleb Brooks"></span
+                    ><span class="av" data-av="Ana W"></span><span class="av more">+2</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-check" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Absorb</b><span>Complete without an extra charge</span></span
+                <li
+                  class="ag"
+                  aria-label="Neon Cactus, illustrative studio example. Phoenix · 5 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5 20.5 19h-17z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Neon Cactus</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Phoenix · 5 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Ivy Castillo"></span
+                    ><span class="av" data-av="Avery Q"></span><span class="av more">+3</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-swap" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Exchange</b><span>Replace some existing work</span></span
+                <li
+                  class="ag"
+                  aria-label="Softserve, illustrative studio example. Los Angeles · 9 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Softserve</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Los Angeles · 9 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Kira Park"></span
+                    ><span class="av" data-av="Avery A"></span><span class="av more">+7</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-defer" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Defer</b><span>Finish previous work first</span></span
+                <li
+                  class="ag"
+                  aria-label="Folio &amp; Form, illustrative studio example. Edinburgh · 3 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect
+                        x="3.5"
+                        y="3.5"
+                        width="17"
+                        height="17"
+                        rx="5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                      />
+                      <path
+                        d="M8 16 16 8"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Folio &amp; Form</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Edinburgh · 3 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Isla Campbell"></span
+                    ><span class="av" data-av="Rowan U"></span><span class="av more">+1</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-doc" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Quote</b><span>Consider the fee before agreeing</span></span
+                <li
+                  class="ag"
+                  aria-label="Atlas Kind, illustrative studio example. Nairobi · 8 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M12 3 19.8 7.5v9L12 21l-7.8-4.5v-9z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Atlas Kind</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Nairobi · 8 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Wanjiru Kamau"></span
+                    ><span class="av" data-av="Rowan I"></span><span class="av more">+6</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-check" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Absorb</b><span>Make the cost a conscious choice</span></span
+                <li
+                  class="ag"
+                  aria-label="Coastal Grid, illustrative studio example. San Diego · 6 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle cx="7.5" cy="7.5" r="3" fill="currentColor" />
+                      <circle cx="16.5" cy="7.5" r="3" fill="currentColor" opacity=".45" />
+                      <circle cx="7.5" cy="16.5" r="3" fill="currentColor" opacity=".45" />
+                      <circle cx="16.5" cy="16.5" r="3" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name mono">Coastal Grid</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>San Diego · 6 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Ben Carter"></span
+                    ><span class="av" data-av="Morgan W"></span
+                    ><span class="av more">+4</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-swap" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Exchange</b><span>Agree which deliverable changes</span></span
+                <li
+                  class="ag"
+                  aria-label="Slow Studio, illustrative studio example. Oslo · 2 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <circle cx="12" cy="12" r="3.2" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Slow Studio</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Oslo · 2 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Ingrid Berg"></span
+                    ><span class="av" data-av="Ana Q"></span
+                  ></span>
+                </li>
+                <li class="ag" aria-label="Hexa, illustrative studio example. Tel Aviv · 10 people">
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M12 3 19.8 7.5v9L12 21l-7.8-4.5v-9z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Hexa</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Tel Aviv · 10 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Noa Levi"></span
+                    ><span class="av" data-av="Riley P"></span><span class="av more">+8</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-defer" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Defer</b><span>Plan the request for later</span></span
+                <li
+                  class="ag"
+                  aria-label="Bramble, illustrative studio example. Bristol · 5 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M5 19C5 10.5 10.5 5 19 5c0 8.5-5.5 14-14 14z"
+                        fill="currentColor"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Bramble</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Bristol · 5 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Georgia Hart"></span
+                    ><span class="av" data-av="Kai C"></span><span class="av more">+3</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-clock" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Consider the hours</b><span>See the estimate before answering</span></span
+                <li
+                  class="ag"
+                  aria-label="Kiln, illustrative studio example. Mexico City · 7 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5A8.5 8.5 0 1 0 20.5 12H12z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Kiln</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Mexico City · 7 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Diego Ramírez"></span
+                    ><span class="av" data-av="Jamie F"></span><span class="av more">+5</span></span
                   >
                 </li>
-                <li class="agency-scenario">
-                  <span class="scenario-option" aria-hidden="true"
-                    ><svg width="20" height="20"><use href="#i-doc" /></svg></span
-                  ><span class="scenario-copy"
-                    ><b>Keep a clear brief</b><span>Scope, fee and terms together</span></span
+                <li
+                  class="ag"
+                  aria-label="Orbit &amp; Oak, illustrative studio example. Seattle · 9 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <circle cx="12" cy="12" r="3.2" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Orbit &amp; Oak</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Seattle · 9 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Rachel Kim"></span
+                    ><span class="av" data-av="Iris W"></span><span class="av more">+7</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Whitespace, illustrative studio example. Zurich · 4 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect
+                        x="3.5"
+                        y="3.5"
+                        width="17"
+                        height="17"
+                        rx="5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                      />
+                      <path
+                        d="M8 16 16 8"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Whitespace</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Zurich · 4 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Luca Meier"></span
+                    ><span class="av" data-av="Morgan C"></span
+                    ><span class="av more">+2</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Cobalt Row, illustrative studio example. Boston · 11 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect x="3.5" y="3.5" width="11" height="11" rx="2.5" fill="currentColor" />
+                      <rect
+                        x="9.5"
+                        y="9.5"
+                        width="11"
+                        height="11"
+                        rx="2.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Cobalt Row</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Boston · 11 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Ethan Wright"></span
+                    ><span class="av" data-av="Elliot M"></span
+                    ><span class="av more">+9</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Driftwood, illustrative studio example. Brighton · 3 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M3 14c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M3 8.5c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        opacity=".45"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Driftwood</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Brighton · 3 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Poppy Evans"></span
+                    ><span class="av" data-av="Robin T"></span><span class="av more">+1</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Studio Margo, illustrative studio example. Montréal · 6 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle cx="9" cy="12" r="5.5" fill="currentColor" opacity=".5" />
+                      <circle cx="15" cy="12" r="5.5" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Studio Margo</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Montréal · 6 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Margaux Roy"></span
+                    ><span class="av" data-av="Quinn N"></span><span class="av more">+4</span></span
+                  >
+                </li>
+                <li class="ag" aria-label="Ferro, illustrative studio example. Milan · 8 people">
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M8 4h4l-4 16H4zM16 4h4l-4 16h-4z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Ferro</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Milan · 8 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Matteo Ferri"></span
+                    ><span class="av" data-av="Leo V"></span><span class="av more">+6</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Plainsight, illustrative studio example. Minneapolis · 5 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M12 2.5 21.5 12 12 21.5 2.5 12z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                      />
+                      <path d="M12 7.5 16.5 12 12 16.5 7.5 12z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Plainsight</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Minneapolis · 5 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Grace Olson"></span
+                    ><span class="av" data-av="Iris M"></span><span class="av more">+3</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Nami Studio, illustrative studio example. Tokyo · 7 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M3 14c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M3 8.5c3-5 6-5 9 0s6 5 9 0"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        opacity=".45"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Nami Studio</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Tokyo · 7 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Haruto Sato"></span
+                    ><span class="av" data-av="Iris A"></span><span class="av more">+5</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Tall Poppy, illustrative studio example. Brisbane · 6 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle cx="9" cy="12" r="5.5" fill="currentColor" opacity=".5" />
+                      <circle cx="15" cy="12" r="5.5" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Tall Poppy</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Brisbane · 6 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Zoe Mitchell"></span
+                    ><span class="av" data-av="Ana E"></span><span class="av more">+4</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Rhythm &amp; Rust, illustrative studio example. New Orleans · 4 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M4 20V11a7 7 0 0 1 7-7h9"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M9 20v-5a2 2 0 0 1 2-2h9"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        opacity=".5"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Rhythm &amp; Rust</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>New Orleans · 4 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Andre Dupree"></span
+                    ><span class="av" data-av="Omar N"></span><span class="av more">+2</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Cedar &amp; Ink, illustrative studio example. Vienna · 5 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path
+                        d="M5 19C5 10.5 10.5 5 19 5c0 8.5-5.5 14-14 14z"
+                        fill="currentColor"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Cedar &amp; Ink</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Vienna · 5 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Felix Huber"></span
+                    ><span class="av" data-av="Casey I"></span><span class="av more">+3</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Openfield, illustrative studio example. Bangalore · 12 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <rect x="4" y="5" width="16" height="3.2" rx="1.6" fill="currentColor" />
+                      <rect x="4" y="10.4" width="10" height="3.2" rx="1.6" fill="currentColor" />
+                      <rect
+                        x="4"
+                        y="15.8"
+                        width="16"
+                        height="3.2"
+                        rx="1.6"
+                        fill="currentColor"
+                      /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Openfield</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Bangalore · 12 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Arjun Rao"></span
+                    ><span class="av" data-av="Jamie R"></span
+                    ><span class="av more">+10</span></span
+                  >
+                </li>
+                <li class="ag" aria-label="Moss, illustrative studio example. Helsinki · 3 people">
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5 20.5 19h-17z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name lower">Moss</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Helsinki · 3 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Aino Virtanen"></span
+                    ><span class="av" data-av="Jamie X"></span><span class="av more">+1</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Kinetic Type, illustrative studio example. São Paulo · 10 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M8 4h4l-4 16H4zM16 4h4l-4 16h-4z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name mono">Kinetic Type</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>São Paulo · 10 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Rafael Souza"></span
+                    ><span class="av" data-av="Avery O"></span><span class="av more">+8</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Little Giant, illustrative studio example. Glasgow · 6 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5 20.5 19h-17z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name caps">Little Giant</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Glasgow · 6 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Eilidh Ross"></span
+                    ><span class="av" data-av="Kai G"></span><span class="av more">+4</span></span
+                  >
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Solstice, illustrative studio example. Reykjavík · 2 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <path d="M12 3.5A8.5 8.5 0 1 0 20.5 12H12z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name serif">Solstice</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Reykjavík · 2 people</span
+                        ><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Sigrún Jónsdóttir"></span
+                    ><span class="av" data-av="Leo L"></span
+                  ></span>
+                </li>
+                <li
+                  class="ag"
+                  aria-label="Goodsense, illustrative studio example. Dhaka · 8 people"
+                >
+                  <span class="ag-logo" aria-hidden="true"
+                    ><svg viewBox="0 0 24 24" width="19" height="19" focusable="false">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" /></svg
+                  ></span>
+                  <span class="ag-txt"
+                    ><span class="ag-name">Goodsense</span
+                    ><span class="ag-meta"
+                      ><i
+                        ><span>Dhaka · 8 people</span><span>Illustrative studio example</span></i
+                      ></span
+                    ></span
+                  >
+                  <span class="ag-team" aria-hidden="true"
+                    ><span class="av" data-av="Nabila Rahman"></span
+                    ><span class="av" data-av="Ana E"></span><span class="av more">+6</span></span
                   >
                 </li>
               </ul>
@@ -6977,6 +8236,261 @@
         </div>
       </section>
 
+      <!-- ======================= CLIENT CONVERSATIONS ======================= -->
+      <section
+        class="sec conversation-scenarios"
+        id="conversationScenarios"
+        aria-labelledby="conversationHeading"
+      >
+        <div class="wrap">
+          <div class="head center" data-reveal>
+            <span class="label">A clear way to answer</span>
+            <h2 id="conversationHeading">
+              Clear decisions.<br /><span class="soft">Clear client conversations.</span>
+            </h2>
+            <p class="lead">Examples of how each response can frame a client conversation.</p>
+            <p class="scenario-disclosure" id="conversationDisclosure">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                aria-hidden="true"
+              >
+                <rect x="4" y="3" width="16" height="18" rx="3" />
+                <path d="M8 8h8M8 12h8M8 16h4" />
+              </svg>
+              <span>Illustrative scenarios — not customer reviews</span>
+            </p>
+          </div>
+          <div class="conversation-carousel">
+            <ul
+              class="conversation-track"
+              id="conversationTrack"
+              tabindex="0"
+              aria-label="Illustrative client conversations"
+              aria-describedby="conversationDisclosure"
+            >
+              <li class="conversation-card" aria-labelledby="conversationQuote">
+                <p class="conversation-kicker">
+                  <span>Client request</span
+                  ><svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9H3v6h6V9H6Zm12 0h-3v6h6V9h-3ZM3 9c0-3 2-5 5-5m7 5c0-3 2-5 5-5" />
+                  </svg>
+                </p>
+                <blockquote class="conversation-request">
+                  <p>“Can we add a journal section to the website?”</p>
+                </blockquote>
+                <div class="conversation-response">
+                  <h3 id="conversationQuote">Quote</h3>
+                  <p>
+                    “I can add that. I’ll send the additional scope, fee and delivery timing for
+                    approval before starting.”
+                  </p>
+                </div>
+                <div class="conversation-identity">
+                  <span class="conversation-brand" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                  /></span>
+                  <p><b>Charge for the additional work</b><span>Illustrative example 01</span></p>
+                </div>
+              </li>
+              <li class="conversation-card" aria-labelledby="conversationAbsorb">
+                <p class="conversation-kicker">
+                  <span>Client request</span
+                  ><svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9H3v6h6V9H6Zm12 0h-3v6h6V9h-3ZM3 9c0-3 2-5 5-5m7 5c0-3 2-5 5-5" />
+                  </svg>
+                </p>
+                <blockquote class="conversation-request">
+                  <p>“Could we make one small adjustment to this page?”</p>
+                </blockquote>
+                <div class="conversation-response">
+                  <h3 id="conversationAbsorb">Absorb</h3>
+                  <p>
+                    “That adjustment is work I can cover. I’ll record it without an additional
+                    charge.”
+                  </p>
+                </div>
+                <div class="conversation-identity">
+                  <span class="conversation-brand" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                  /></span>
+                  <p>
+                    <b>Complete without an additional charge</b><span>Illustrative example 02</span>
+                  </p>
+                </div>
+              </li>
+              <li class="conversation-card" aria-labelledby="conversationExchange">
+                <p class="conversation-kicker">
+                  <span>Client request</span
+                  ><svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9H3v6h6V9H6Zm12 0h-3v6h6V9h-3ZM3 9c0-3 2-5 5-5m7 5c0-3 2-5 5-5" />
+                  </svg>
+                </p>
+                <blockquote class="conversation-request">
+                  <p>“Can we include the new section within the same scope?”</p>
+                </blockquote>
+                <div class="conversation-response">
+                  <h3 id="conversationExchange">Exchange</h3>
+                  <p>
+                    “We can replace the newsletter integration with it. Let’s agree which work comes
+                    out before the new work begins.”
+                  </p>
+                </div>
+                <div class="conversation-identity">
+                  <span class="conversation-brand" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                  /></span>
+                  <p><b>Replace some existing work</b><span>Illustrative example 03</span></p>
+                </div>
+              </li>
+              <li class="conversation-card" aria-labelledby="conversationDefer">
+                <p class="conversation-kicker">
+                  <span>Client request</span
+                  ><svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9H3v6h6V9H6Zm12 0h-3v6h6V9h-3ZM3 9c0-3 2-5 5-5m7 5c0-3 2-5 5-5" />
+                  </svg>
+                </p>
+                <blockquote class="conversation-request">
+                  <p>“Could we also add this before the project is finished?”</p>
+                </blockquote>
+                <div class="conversation-response">
+                  <h3 id="conversationDefer">Defer</h3>
+                  <p>
+                    “Let’s finish the agreed work first. We can scope and schedule this request
+                    separately afterward.”
+                  </p>
+                </div>
+                <div class="conversation-identity">
+                  <span class="conversation-brand" aria-hidden="true"
+                    ><img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt="" /><img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                  /></span>
+                  <p><b>Schedule the request for later</b><span>Illustrative example 04</span></p>
+                </div>
+              </li>
+            </ul>
+            <div class="conversation-navigation" hidden>
+              <button
+                type="button"
+                data-scenario-previous
+                aria-label="Previous scenario"
+                aria-controls="conversationTrack"
+                aria-disabled="true"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  aria-hidden="true"
+                >
+                  <path d="m14 6-6 6 6 6M8 12h12" />
+                </svg>
+              </button>
+              <span class="conversation-count" aria-live="polite" aria-atomic="true"
+                >Scenarios 1–3 of 4</span
+              >
+              <button
+                type="button"
+                data-scenario-next
+                aria-label="Next scenario"
+                aria-controls="conversationTrack"
+                aria-disabled="false"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  aria-hidden="true"
+                >
+                  <path d="m10 6 6 6-6 6M4 12h12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ============================== PURPOSE ============================== -->
       <section class="sec tight" id="founder">
         <div class="wrap">
@@ -7000,7 +8514,7 @@
                   />
                 </span>
               </div>
-              <p class="founder-attribution">Sam Ortega (alias) · Maker of Margvant</p>
+              <p class="founder-attribution">Samael · Maker of Margvant</p>
               <ul class="f-facts">
                 <li><span>Baseline</span>Know the starting point</li>
                 <li><span>Change</span>Choose a fair fee</li>
@@ -7015,9 +8529,9 @@
                 clear decision and a clear page for your client.
               </blockquote>
               <div class="letter-sign">
-                <div class="alias-signature">
-                  <span class="sig-script">Sam Ortega</span>
-                  <span>Typographic alias signature</span>
+                <div class="maker-signature">
+                  <span class="sig-script">Samael</span>
+                  <span>Signature</span>
                 </div>
                 <a href="/workspace/" class="link"
                   >Try the complete workflow
@@ -7671,5 +9185,6 @@
     <script type="module" src="/home/landing.js"></script>
     <script type="module" src="/home/site.js"></script>
     <script type="module" src="./carousel.js"></script>
+    <script type="module" src="./scenarios.js"></script>
   </body>
 </html>

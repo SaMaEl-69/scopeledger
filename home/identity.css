@@ -1,0 +1,75 @@
+/* Match the unchanged Margvant logo assets; keep risk and portrait colors intact. */
+:root {
+  --identityInk: #5ef0a8;
+  --brandTint: color-mix(in srgb, var(--identityInk) 10%, transparent);
+}
+
+:root[data-theme='light'] {
+  --identityInk: #00683d;
+}
+
+.av-badge {
+  color: var(--bg);
+  background: var(--identityInk);
+}
+
+.hv-move[data-m],
+#how .move[data-move] {
+  --c: var(--identityInk);
+}
+
+#how .move-ic {
+  color: var(--identityInk);
+  background: var(--brandTint);
+}
+
+#how .chip:is(.bill, .absorb, .swap, .defer) {
+  --c: var(--identityInk);
+}
+
+#how .co-line .doc {
+  background: var(--brandTint);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--identityInk) 20%, transparent);
+}
+
+#how .co-line .doc::before {
+  background: repeating-linear-gradient(var(--identityInk) 0 2px, transparent 2px 5px);
+}
+
+.hv-res-in {
+  border-color: color-mix(in srgb, var(--identityInk) 22%, transparent);
+  background: var(--brandTint);
+}
+
+.hv-res-in .ck {
+  color: var(--bg);
+  background: var(--identityInk);
+}
+
+#how .swap-opt.sel {
+  border-color: color-mix(in srgb, var(--identityInk) 55%, transparent);
+  background: color-mix(in srgb, var(--identityInk) 7%, transparent);
+}
+
+#how .swap-opt.sel .n {
+  text-decoration-color: var(--identityInk);
+}
+
+#how .tside {
+  --swap: var(--identityInk);
+  --bill: var(--identityInk);
+  --defer: var(--identityInk);
+}
+
+#audienceCarousel .ag {
+  --c: var(--identityInk);
+}
+
+#audienceCarousel .ag-logo,
+#audienceCarousel .ag:hover .ag-logo,
+#audienceCarousel .studio-logo,
+#audienceCarousel .scenario-mark,
+#audienceCarousel .scenario-option {
+  color: var(--identityInk);
+  background: var(--brandTint);
+}

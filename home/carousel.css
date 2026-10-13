@@ -1,4 +1,4 @@
-/* Restore the original two-lane studio-card treatment using illustrative scenarios. */
+/* Restore the original two-lane studio-card treatment as illustrative examples. */
 .audience-carousel {
   padding: 24px 0 12px;
   border-block: 1px solid var(--line);
@@ -96,76 +96,30 @@
   margin: 0;
   list-style: none;
 }
-.agency-scenario {
-  display: flex;
-  align-items: center;
-  flex: none;
-  gap: 12px;
-  width: 318px;
-  min-height: 70px;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  background: var(--card);
-  box-shadow: var(--card-sh);
-  transition:
-    transform 0.5s var(--ease),
-    border-color 0.35s var(--ease),
-    box-shadow 0.5s var(--ease);
+/* Preserve the original marks, wordmark families and avatar groups in one brand palette. */
+.audience-carousel .ag {
+  --c: var(--brand);
+  max-width: none;
 }
-.scenario-mark,
-.scenario-option {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
+.audience-carousel .ag-logo {
   color: var(--brand);
-  background: rgba(var(--fg), 0.025);
 }
-.scenario-mark img {
-  width: 25px;
-  height: 25px;
-}
-.scenario-copy {
-  min-width: 0;
-}
-.scenario-copy b,
-.scenario-copy > span {
-  display: block;
-}
-.scenario-copy b {
-  color: var(--text2);
-  font-size: 13.5px;
-  font-weight: 600;
-  letter-spacing: -0.012em;
-  line-height: 1.3;
-}
-.scenario-copy > span {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 11.5px;
-  line-height: 1.5;
-}
-.scenario-tag {
-  flex: none;
-  margin-left: auto;
-  padding: 5px 8px;
-  border-left: 1px solid var(--line);
+.audience-carousel .ag:hover .ag-logo {
   color: var(--brand);
-  font-family: var(--mono);
-  font-size: 10px;
+}
+.audience-carousel .ag-team {
+  flex: none;
+}
+.audience-carousel .ag-meta {
+  height: 16px;
 }
 .carousel-ready .mq-row {
   overflow-x: hidden;
 }
 .carousel-ready .mq-track {
-  animation: scenario-marquee 98s linear infinite;
+  animation: scenario-marquee var(--carousel-duration) linear infinite;
 }
 .carousel-ready .mq-row:nth-child(2) .mq-track {
-  animation-duration: 106s;
   animation-direction: reverse;
 }
 .audience-carousel[data-paused='true'] .mq-track,
@@ -200,12 +154,12 @@
   line-height: 1.7;
   font-weight: 550;
 }
-.alias-signature {
+.maker-signature {
   display: grid;
   gap: 12px;
   padding-block: 6px;
 }
-.alias-signature > span:last-child {
+.maker-signature > span:last-child {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.5;
@@ -214,13 +168,8 @@
   .mq-row:hover .mq-track {
     animation-play-state: paused;
   }
-  .agency-scenario:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in srgb, var(--brand) 38%, transparent);
-    box-shadow:
-      0 0 0 3px color-mix(in srgb, var(--brand) 8%, transparent),
-      0 20px 40px -20px color-mix(in srgb, var(--brand) 32%, transparent),
-      var(--card-sh);
+  .audience-carousel .mq-row:hover .ag:not(:hover) {
+    opacity: 0.55;
   }
 }
 @media (max-width: 600px) {
@@ -231,28 +180,9 @@
     gap: 8px;
     margin-top: 8px;
   }
-  .agency-scenario {
-    width: 294px;
-    min-height: 66px;
-    gap: 10px;
-    border-radius: 13px;
-  }
-  .scenario-mark,
-  .scenario-option {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
-  }
-  .scenario-mark img {
-    width: 23px;
-    height: 23px;
-  }
-  .scenario-copy b {
-    font-size: 12.5px;
-  }
-  .scenario-tag {
-    font-size: 9px;
-    padding-inline: 6px;
+  .audience-carousel .ag-team {
+    margin-left: 4px;
+    padding-left: 10px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

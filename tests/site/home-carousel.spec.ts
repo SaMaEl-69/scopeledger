@@ -24,7 +24,11 @@ async function nativeKeyboardScroll(row: Locator, page: Page) {
   );
   const observation = await row.evaluateHandle((element) => ({
     scrolled: new Promise<number>((resolve) =>
-      element.addEventListener('scroll', () => resolve(element.scrollLeft), { once: true }),
+      element.addEventListener(
+        'scroll',
+        () => requestAnimationFrame(() => requestAnimationFrame(() => resolve(element.scrollLeft))),
+        { once: true },
+      ),
     ),
   }));
   try {
@@ -45,7 +49,7 @@ test('illustrative carousel pauses and resumes from the keyboard', async ({ page
   await carousel.scrollIntoViewIfNeeded();
   await expect(toggle).toHaveText('Pause carousel');
   await expect(carousel.locator('.mq-clone')).toHaveCount(2);
-  await expect(carousel.locator('.mq-set:not(.mq-clone) > li')).toHaveCount(20);
+  await expect(carousel.locator('.mq-set:not(.mq-clone) > li')).toHaveCount(54);
   const movingPositions = await transformFrames(track);
   expect(movingPositions[0]).not.toBe(movingPositions[1]);
   await toggle.focus();
@@ -69,14 +73,32 @@ test('illustrative carousel pauses and resumes from the keyboard', async ({ page
   expect(await nativeKeyboardScroll(row, page)).toBeGreaterThan(0);
 
   await expect(page.locator('#founder .founder-attribution')).toHaveText(
-    'Sam Ortega (alias) · Maker of Margvant',
+    'Samael · Maker of Margvant',
   );
   await expect(page.locator('#founder blockquote')).toHaveText(
     'Margvant helps you see the cost of a request before you agree to it. The goal is a clear decision and a clear page for your client.',
   );
-  await expect(page.locator('#founder .alias-signature')).toContainText(
-    'Typographic alias signature',
+  await expect(page.locator('#founder .maker-signature .sig-script')).toHaveText('Samael');
+  await expect(page.locator('#founder .maker-signature')).toContainText('Signature');
+  await expect(page.locator('#founder')).not.toContainText(/Sam Ortega|alias/i);
+  await expect(carousel.locator('#audienceTitle')).toHaveText('Illustrative studio examples');
+  await expect(carousel.locator('#audienceDisclosure')).toHaveText(
+    'Names, locations and team sizes are illustrative, not customer endorsements.',
   );
+  await expect(carousel.locator('.mq-set:not(.mq-clone)').first().locator('> li')).toHaveCount(27);
+  await expect(carousel.locator('.mq-set:not(.mq-clone)').last().locator('> li')).toHaveCount(27);
+  await expect(
+    carousel.locator('.mq-set:not(.mq-clone)').first().locator('.ag-name').first(),
+  ).toHaveText('Halcyon Studio');
+  await expect(
+    carousel.locator('.mq-set:not(.mq-clone)').last().locator('.ag-name').last(),
+  ).toHaveText('Goodsense');
+  for (const card of await carousel.locator('.mq-set:not(.mq-clone) > li').all()) {
+    await expect(card).toHaveAttribute('aria-label', /illustrative studio example/);
+    await expect(card.locator('.ag-logo svg')).toHaveCount(1);
+    await expect(card.locator('.ag-team')).toHaveAttribute('aria-hidden', 'true');
+    await expect(card.locator('.ag-team .has-av').first().locator('svg')).toHaveCount(1);
+  }
   await expect(carousel).not.toContainText(/verified|review|1,200|studios using/i);
 });
 
@@ -97,7 +119,7 @@ test('reduced motion keeps every illustrative card available without animation o
   await expect(carousel.locator('.mq-clone').first()).toBeHidden();
   await expect(carousel.locator('.mq-clone').last()).toBeHidden();
   const original = carousel.locator('.mq-set:not(.mq-clone) > li');
-  await expect(original).toHaveCount(20);
+  await expect(original).toHaveCount(54);
   for (const card of await original.all()) await expect(card).toBeVisible();
   await row.focus();
   expect(await nativeKeyboardScroll(row, page)).toBeGreaterThan(0);
