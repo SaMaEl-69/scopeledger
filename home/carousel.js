@@ -18,14 +18,26 @@ if (carousel && toggle) {
     }
   }
   const layout = new ResizeObserver(updateSpeed);
+  // Avoid continuously compositing the long lanes while they are off screen.
+  const visibility = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        entry.target.dataset.inView = String(entry.isIntersecting);
+      }
+    },
+    { rootMargin: '80px 0px' },
+  );
   for (const track of tracks) {
     const set = track.querySelector('.mq-set');
+    const row = track.closest('.mq-row');
     const copy = set.cloneNode(true);
     copy.classList.add('mq-clone');
     copy.setAttribute('aria-hidden', 'true');
     copy.setAttribute('inert', '');
     track.append(copy);
     layout.observe(set);
+    row.dataset.inView = 'false';
+    visibility.observe(row);
   }
   compact.addEventListener('change', updateSpeed);
   updateSpeed();

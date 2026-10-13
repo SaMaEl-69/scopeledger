@@ -73,6 +73,7 @@
 }
 .mq-row {
   position: relative;
+  contain: paint;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   padding: 12px 0 20px;
@@ -86,6 +87,9 @@
   gap: 0;
   width: max-content;
   padding: 0;
+}
+.audience-carousel .mq-track {
+  will-change: auto;
 }
 .mq-set {
   display: flex;
@@ -118,6 +122,10 @@
 }
 .carousel-ready .mq-track {
   animation: scenario-marquee var(--carousel-duration) linear infinite;
+}
+.carousel-ready .mq-row:not([data-in-view='true']) .mq-track {
+  animation-name: none;
+  transform: none;
 }
 .carousel-ready .mq-row:nth-child(2) .mq-track {
   animation-direction: reverse;
