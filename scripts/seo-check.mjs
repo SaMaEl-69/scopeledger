@@ -8,7 +8,10 @@ const socialImage = origin + '/brand/margvant-facebook-1200x630.png';
 const twitterImage = origin + '/brand/margvant-x-1200x600.png';
 const canonicalPaths = publicDocuments.map((name) => '/' + name.replace(/index\.html$/, ''));
 const lastmodByPath = new Map(
-  canonicalPaths.map((path) => [path, path === '/home/' ? '2026-10-13' : '2026-10-11']),
+  canonicalPaths.map((path) => [
+    path,
+    path === '/home/' || path === '/privacy/' ? '2026-10-13' : '2026-10-11',
+  ]),
 );
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${canonicalPaths.map((path) => `  <url><loc>${origin}${path}</loc><lastmod>${lastmodByPath.get(path)}</lastmod></url>`).join('\n')}\n</urlset>\n`;
 // lastmod records this content revision, never the time of an unrelated build.

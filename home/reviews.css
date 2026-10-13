@@ -34,17 +34,6 @@
   font-size: 16px;
   line-height: 1.75;
 }
-.feedback-note {
-  max-width: 52ch;
-  margin: 24px 0 0;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  color: var(--muted);
-  background: color-mix(in srgb, var(--fg) 2%, var(--card));
-  font-size: 13px;
-  line-height: 1.65;
-}
 .feedback-form {
   display: grid;
   gap: 12px;
@@ -59,6 +48,37 @@
 .feedback-form label span {
   color: var(--muted);
   font-weight: 400;
+}
+.feedback-trap {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+.feedback-form .feedback-acceptance {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  margin-top: 12px;
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.65;
+}
+.feedback-acceptance input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--brand);
+}
+.feedback-acceptance a {
+  color: var(--identityInk, var(--brand));
+  text-underline-offset: 3px;
 }
 .feedback-form input,
 .feedback-form textarea {
@@ -103,6 +123,12 @@
   color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
+}
+.feedback-status[data-state='success'] {
+  color: var(--identityInk, var(--brand));
+}
+.feedback-status[data-state='error'] {
+  color: var(--danger, #b42332);
 }
 @media (max-width: 760px) {
   .feedback-section {

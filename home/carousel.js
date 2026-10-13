@@ -37,6 +37,12 @@ if (carousel && toggle) {
     track.append(copy);
     layout.observe(set);
     row.dataset.inView = 'false';
+    row.addEventListener('pointerenter', () => {
+      row.dataset.hovered = 'true';
+    });
+    row.addEventListener('pointerleave', () => {
+      delete row.dataset.hovered;
+    });
     visibility.observe(row);
   }
   compact.addEventListener('change', updateSpeed);

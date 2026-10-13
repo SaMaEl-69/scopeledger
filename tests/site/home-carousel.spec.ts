@@ -78,8 +78,8 @@ test('illustrative carousel pauses and resumes from the keyboard', async ({ page
   await expect(page.locator('#founder blockquote')).toHaveText(
     'Margvant helps you see the cost of a request before you agree to it. The goal is a clear decision and a clear page for your client.',
   );
-  await expect(page.locator('#founder .maker-signature .sig-script')).toHaveText('Samael');
-  await expect(page.locator('#founder .maker-signature')).toContainText('Signature');
+  await expect(page.locator('#founder .maker-signature')).toHaveCount(0);
+  await expect(page.locator('#founder')).not.toContainText('Signature');
   await expect(page.locator('#founder')).not.toContainText(/Sam Ortega|alias/i);
   await expect(carousel.locator('#audienceTitle')).toHaveText('Illustrative studio examples');
   await expect(carousel.locator('#audienceDisclosure')).toHaveText(
@@ -100,6 +100,32 @@ test('illustrative carousel pauses and resumes from the keyboard', async ({ page
     await expect(card.locator('.ag-team .has-av').first().locator('svg')).toHaveCount(1);
   }
   await expect(carousel).not.toContainText(/verified|review|1,200|studios using/i);
+});
+
+test('pointer hover pauses the studio lane without fading other examples', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/home/');
+  const carousel = page.locator('#audienceCarousel');
+  await carousel.scrollIntoViewIfNeeded();
+  const row = carousel.locator('.mq-row').first();
+  const track = row.locator('.mq-track');
+  const card = carousel.locator('.mq-set:not(.mq-clone) > li').first();
+  await expect(track).toHaveCSS('animation-name', 'scenario-marquee');
+  const bounds = await card.boundingBox();
+  expect(bounds).not.toBeNull();
+  await page.mouse.move(bounds!.x + bounds!.width / 2, bounds!.y + bounds!.height / 2);
+  await expect(row).toHaveAttribute('data-hovered', 'true');
+  await expect(track).toHaveCSS('animation-play-state', 'paused');
+  await expect(card).toHaveCSS('opacity', '1');
+  await expect(carousel.locator('.mq-set:not(.mq-clone) > li').nth(1)).toHaveCSS('opacity', '1');
+  const positions = await transformFrames(track);
+  expect(positions[0]).toBe(positions[1]);
+  await page.mouse.move(4, 4);
+  await expect(row).not.toHaveAttribute('data-hovered', 'true');
+  await expect(track).toHaveCSS('animation-play-state', 'running');
+  const resumed = await transformFrames(track);
+  expect(resumed[0]).not.toBe(resumed[1]);
 });
 
 test('reduced motion keeps every illustrative card available without animation or page overflow', async ({

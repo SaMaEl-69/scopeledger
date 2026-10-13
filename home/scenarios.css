@@ -38,8 +38,8 @@
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
-  scroll-padding-inline: 4px;
-  padding: 4px 4px 32px;
+  scroll-padding-inline: 12px;
+  padding: 26px 12px 44px;
   margin: 0;
   scrollbar-width: thin;
   scrollbar-color: var(--line3) transparent;

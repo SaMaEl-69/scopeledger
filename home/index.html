@@ -4063,19 +4063,6 @@
         padding: 0;
         color: var(--text);
       }
-      .social-downloads {
-        margin-top: 8px;
-      }
-      .social-downloads summary {
-        min-height: 44px;
-        padding: 12px 0;
-        cursor: pointer;
-        color: var(--text2);
-      }
-      .social-downloads summary:focus-visible {
-        outline: 2px solid var(--brand);
-        outline-offset: 3px;
-      }
       .foot-b {
         display: flex;
         justify-content: space-between;
@@ -6042,6 +6029,21 @@
                 real PDF</span
               >
               <span>Free demo now · planned licenses from $49</span>
+            </div>
+            <div class="hero-review-proof" data-reveal style="--d: 520ms">
+              <span class="hero-review-mark" aria-hidden="true">
+                <svg width="19" height="19"><use href="#i-doc" /></svg>
+              </span>
+              <div>
+                <span class="hero-review-label">Customer reviews</span>
+                <strong>No customer reviews published yet.</strong>
+                <span class="hero-review-note">Feedback is only shared with permission.</span>
+              </div>
+              <a href="#reviews" class="hero-review-link"
+                >Share your experience
+                <svg class="arr" width="14" height="14" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+              ></a>
             </div>
           </div>
 
@@ -8510,6 +8512,96 @@
                   <p><b>Schedule the request for later</b><span>Illustrative example 04</span></p>
                 </div>
               </li>
+              <li class="conversation-card" aria-labelledby="conversationQuoteMore">
+                <p class="conversation-kicker">
+                  <span>Client request</span>
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9H3v6h6V9H6Zm12 0h-3v6h6V9h-3ZM3 9c0-3 2-5 5-5m7 5c0-3 2-5 5-5" />
+                  </svg>
+                </p>
+                <blockquote class="conversation-request">
+                  <p>“Could we add one more size option to the existing table?”</p>
+                </blockquote>
+                <div class="conversation-response">
+                  <h3 id="conversationQuoteMore">Quote</h3>
+                  <p>
+                    “I’ll confirm the added effort, fee and timing in a short change brief for your
+                    approval before I begin.”
+                  </p>
+                </div>
+                <div class="conversation-identity">
+                  <span class="conversation-brand" aria-hidden="true">
+                    <img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                    />
+                    <img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                    />
+                  </span>
+                  <p><b>Charge for the additional work</b><span>Illustrative example 05</span></p>
+                </div>
+              </li>
+              <li class="conversation-card" aria-labelledby="conversationExchangeMore">
+                <p class="conversation-kicker">
+                  <span>Client request</span>
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9H3v6h6V9H6Zm12 0h-3v6h6V9h-3ZM3 9c0-3 2-5 5-5m7 5c0-3 2-5 5-5" />
+                  </svg>
+                </p>
+                <blockquote class="conversation-request">
+                  <p>“Could we add a second page to the same deliverable?”</p>
+                </blockquote>
+                <div class="conversation-response">
+                  <h3 id="conversationExchangeMore">Exchange</h3>
+                  <p>
+                    “We can trade it for the unused summary page. Let’s agree what moves out before
+                    the scope changes.”
+                  </p>
+                </div>
+                <div class="conversation-identity">
+                  <span class="conversation-brand" aria-hidden="true">
+                    <img
+                      class="brand-image-light"
+                      src="/brand/scopeledger-mark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                    />
+                    <img
+                      class="brand-image-dark"
+                      src="/brand/scopeledger-mark-dark.svg?v=7"
+                      width="25"
+                      height="25"
+                      alt=""
+                    />
+                  </span>
+                  <p><b>Replace some existing work</b><span>Illustrative example 06</span></p>
+                </div>
+              </li>
             </ul>
             <div class="conversation-navigation" hidden>
               <button
@@ -8532,7 +8624,7 @@
                 </svg>
               </button>
               <span class="conversation-count" aria-live="polite" aria-atomic="true"
-                >Scenarios 1–3 of 4</span
+                >Scenarios 1–3 of 6</span
               >
               <button
                 type="button"
@@ -8564,19 +8656,15 @@
           <div class="feedback-card card" data-reveal>
             <div class="feedback-intro">
               <span class="label">Honest feedback, shared with permission</span>
-              <h2 id="reviewsHeading">Your experience belongs here.</h2>
+              <h2 id="reviewsHeading">Join the Margvant waitlist.</h2>
               <p class="lead">
-                There are no published customer reviews yet. If you have tried Margvant, tell us
-                what worked and what could be better. We will ask before quoting or publishing
-                anything you send.
-              </p>
-              <p class="feedback-note">
-                Your message is not posted automatically. The form prepares an email draft to
-                Margvant support; review it and send it from your email app.
+                There are no published customer reviews yet. Join the list for updates and, if you
+                like, leave the team a private note about your experience. Nothing you write appears
+                publicly.
               </p>
             </div>
             <form class="feedback-form" id="reviewSubmissionForm">
-              <label for="reviewerName">Your name <span>(optional)</span></label>
+              <label for="reviewerName">Your name</label>
               <input
                 id="reviewerName"
                 name="name"
@@ -8584,24 +8672,44 @@
                 autocomplete="name"
                 maxlength="80"
                 placeholder="How should we address you?"
+                required
               />
-              <label for="reviewText">Your review or feedback</label>
+              <label for="reviewerEmail">Your email</label>
+              <input
+                id="reviewerEmail"
+                name="email"
+                type="email"
+                autocomplete="email"
+                maxlength="254"
+                placeholder="you@example.com"
+                required
+              />
+              <label for="reviewText">A note for the Margvant team <span>(optional)</span></label>
               <textarea
                 id="reviewText"
                 name="feedback"
-                rows="5"
+                rows="4"
                 maxlength="1500"
-                required
-                placeholder="What did you try? What helped, and what would you improve?"
+                placeholder="What would you like us to know? Please leave out confidential client details."
               ></textarea>
+              <label class="feedback-trap" aria-hidden="true">
+                Website <input name="website" tabindex="-1" autocomplete="off" />
+              </label>
+              <label class="feedback-acceptance" for="waitlistConsent">
+                <input id="waitlistConsent" name="privacyAccepted" type="checkbox" required />
+                <span>
+                  I agree that Margvant may store these details to manage my waitlist request and
+                  reply by email. My note is private and will not be published. See the
+                  <a href="/privacy/">privacy overview</a>.
+                </span>
+              </label>
               <div class="feedback-actions">
                 <button class="btn btn-primary" id="reviewSubmit" type="submit">
-                  Write a review
+                  Join the waitlist
                 </button>
-                <a class="btn btn-primary" id="reviewEmailDraft" hidden>Open email draft</a>
               </div>
               <p class="feedback-status" id="reviewFormStatus" role="status" aria-live="polite">
-                Nothing is published unless you choose to share it with us.
+                Your details stay private and are not published.
               </p>
             </form>
           </div>
@@ -8646,10 +8754,6 @@
                 clear decision and a clear page for your client.
               </blockquote>
               <div class="letter-sign">
-                <div class="maker-signature">
-                  <span class="sig-script">Samael</span>
-                  <span>Signature</span>
-                </div>
                 <a href="/workspace/" class="link"
                   >Try the complete workflow
                   <svg class="arr" width="14" height="14" aria-hidden="true">
@@ -9153,14 +9257,6 @@
             <h3>Service information</h3>
             <a href="/privacy/">Privacy overview</a><a href="/license/">License information</a
             ><a href="/privacy/#data-flow">Data flow overview</a>
-            <details class="social-downloads">
-              <summary>Download social cards</summary>
-              <a href="/brand/margvant-facebook-1200x630.png" download>Facebook · PNG</a>
-              <a href="/brand/margvant-x-1200x600.png" download>X · PNG</a>
-              <a href="/brand/margvant-linkedin-1200x627.png" download>LinkedIn · PNG</a>
-              <a href="/brand/margvant-discord-1200x630.png" download>Discord · PNG</a>
-              <a href="/brand/margvant-whatsapp-1200x630.jpg" download>WhatsApp · JPEG</a>
-            </details>
           </div>
         </div>
         <div class="foot-b">

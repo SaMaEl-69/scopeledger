@@ -12,20 +12,20 @@ test('desktop carousel advances the three-card view using smooth motion without 
   const next = section.getByRole('button', { name: 'Next scenario', exact: true });
   await expect(track).toHaveCSS('animation-name', 'none');
   await expect(track).toHaveCSS('transform', 'none');
-  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 1–3 of 4');
+  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 1–3 of 6');
   await next.click();
-  await expect(next).toHaveAttribute('aria-disabled', 'true');
-  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 2–4 of 4');
+  await expect(next).toHaveAttribute('aria-disabled', 'false');
+  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 2–4 of 6');
   await expect(previous).toHaveAttribute('aria-disabled', 'false');
   const position = await track.evaluate((element) => ({
     left: element.scrollLeft,
     end: element.scrollWidth - element.clientWidth,
   }));
   expect(position.left).toBeGreaterThan(0);
-  expect(Math.abs(position.end - position.left)).toBeLessThanOrEqual(1);
+  expect(position.left).toBeLessThan(position.end);
   await previous.click();
   await expect(previous).toHaveAttribute('aria-disabled', 'true');
-  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 1–3 of 4');
+  await expect(section.locator('.conversation-count')).toHaveText('Scenarios 1–3 of 6');
 });
 
 async function nativeKeyboardScroll(track: Locator, page: Page) {
@@ -53,7 +53,7 @@ async function nativeKeyboardScroll(track: Locator, page: Page) {
   }
 }
 
-test('client-conversation carousel labels its examples and keeps all four decisions reachable', async ({
+test('client-conversation carousel labels its examples and keeps all six scenarios reachable', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -66,25 +66,28 @@ test('client-conversation carousel labels its examples and keeps all four decisi
   await expect(
     section.getByText('Illustrative scenarios — not customer reviews', { exact: true }),
   ).toBeVisible();
-  await expect(section.locator('.conversation-card')).toHaveCount(4);
-  await expect(section.locator('h3')).toHaveText(['Quote', 'Absorb', 'Exchange', 'Defer']);
+  await expect(section.locator('.conversation-card')).toHaveCount(6);
+  await expect(section.locator('h3')).toHaveText([
+    'Quote',
+    'Absorb',
+    'Exchange',
+    'Defer',
+    'Quote',
+    'Exchange',
+  ]);
   await expect(section).not.toContainText(
     /verified|rated|stars|recovered|pushback|Sam Ortega|Alex Rivera|Maya Okafor|Tom Brandt|1,200/i,
   );
-  await expect(section.locator('.conversation-count')).toHaveText('Scenario 1 of 4');
+  await expect(section.locator('.conversation-count')).toHaveText('Scenario 1 of 6');
   const previous = section.getByRole('button', { name: 'Previous scenario', exact: true });
   const next = section.getByRole('button', { name: 'Next scenario', exact: true });
   await expect(previous).toHaveAttribute('aria-disabled', 'true');
-  for (const [position, choice] of [
-    [2, 'Absorb'],
-    [3, 'Exchange'],
-    [4, 'Defer'],
-  ] as const) {
+  for (const position of [2, 3, 4, 5, 6] as const) {
     await next.click();
-    await expect(section.locator('.conversation-count')).toHaveText(`Scenario ${position} of 4`);
+    await expect(section.locator('.conversation-count')).toHaveText(`Scenario ${position} of 6`);
     const bounds = await section
       .locator('.conversation-card')
-      .filter({ has: page.getByRole('heading', { name: choice, exact: true }) })
+      .nth(position - 1)
       .evaluate((card) => {
         const outer = card.parentElement!.getBoundingClientRect();
         const inner = card.getBoundingClientRect();
@@ -101,10 +104,13 @@ test('client-conversation carousel labels its examples and keeps all four decisi
   await expect(next).toHaveAttribute('aria-disabled', 'true');
   await previous.focus();
   await page.keyboard.press('Enter');
-  await expect(section.locator('.conversation-count')).toHaveText('Scenario 3 of 4');
+  await expect(section.locator('.conversation-count')).toHaveText('Scenario 5 of 6');
+  await previous.click();
+  await expect(section.locator('.conversation-count')).toHaveText('Scenario 4 of 6');
   await previous.click();
   await previous.click();
-  await expect(section.locator('.conversation-count')).toHaveText('Scenario 1 of 4');
+  await previous.click();
+  await expect(section.locator('.conversation-count')).toHaveText('Scenario 1 of 6');
   const track = section.locator('.conversation-track');
   await track.focus();
   expect(await nativeKeyboardScroll(track, page)).toBeGreaterThan(0);
@@ -138,8 +144,16 @@ test('client-conversation cards fit both themes at mobile and desktop widths', a
         const bounds = await card.evaluate((element) => ({
           width: element.clientWidth,
           scroll: element.scrollWidth,
+          topClearance:
+            element.getBoundingClientRect().top -
+            element.parentElement!.getBoundingClientRect().top,
+          bottomClearance:
+            element.parentElement!.getBoundingClientRect().bottom -
+            element.getBoundingClientRect().bottom,
         }));
         expect(bounds.scroll).toBeLessThanOrEqual(bounds.width);
+        expect(bounds.topClearance).toBeGreaterThanOrEqual(25);
+        expect(bounds.bottomClearance).toBeGreaterThanOrEqual(43);
       }
       for (const control of await section.getByRole('button').all()) {
         await expect(control).toBeVisible();
@@ -147,7 +161,7 @@ test('client-conversation cards fit both themes at mobile and desktop widths', a
         expect(size!.width).toBeGreaterThanOrEqual(44);
         expect(size!.height).toBeGreaterThanOrEqual(44);
       }
-      await expect(section.locator('.conversation-brand img')).toHaveCount(8);
+      await expect(section.locator('.conversation-brand img')).toHaveCount(12);
       await expect(
         section.locator('.conversation-brand .brand-image-light').first(),
       ).toHaveAttribute('src', '/brand/scopeledger-mark.svg?v=7');
