@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
@@ -8,124 +8,140 @@ const widths = [
   821, 859, 861, 899, 901, 959, 961, 979, 981, 1024, 1179, 1181, 1280, 1434, 1920, 2560,
 ];
 
-test('Home sections, brand identity and download controls stay balanced across breakpoints', async ({
-  page,
-}, info) => {
+async function inspectHomeTheme(
+  page: Page,
+  info: { project: { name: string } },
+  theme: 'light' | 'dark',
+) {
   test.setTimeout(240000);
   await mkdir(output, { recursive: true });
   const records = [];
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  for (const theme of ['light', 'dark'] as const) {
-    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
-    await page.goto('/home/');
-    await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
-    await page.evaluate(() => document.fonts.ready);
-    for (const width of widths) {
-      await page.setViewportSize({ width, height: 988 });
-      for (const section of await page.locator('main > section').all()) {
-        await section.scrollIntoViewIfNeeded();
-        const scrollWidth = await page.evaluate(async () => {
-          await new Promise<void>((done) =>
-            requestAnimationFrame(() => requestAnimationFrame(() => done())),
-          );
-          return document.documentElement.scrollWidth;
-        });
-        expect(scrollWidth, `${theme}/${width}`).toBeLessThanOrEqual(width);
+  await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
+  await page.goto('/home/');
+  if ((await page.locator('html').getAttribute('data-theme')) !== theme) {
+    await page.locator('#themeBtn').click();
+    await page.locator(`#appearancePicker [data-set="${theme}"]`).click();
+  }
+  await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+  await page.evaluate(() => document.fonts.ready);
+  for (const width of widths) {
+    await page.setViewportSize({ width, height: 988 });
+    const sectionWidths = await page.evaluate(async () => {
+      const measurements: number[] = [];
+      for (const section of document.querySelectorAll('main > section')) {
+        section.scrollIntoView({ block: 'nearest' });
+        await new Promise<void>((done) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => done())),
+        );
+        measurements.push(document.documentElement.scrollWidth);
       }
-      const identity = page.locator('.letter-identity .brand-lockup');
-      await expect(identity).toBeVisible();
-      const logo = identity.locator('img:visible');
-      const dimensions = await logo.evaluate((image: HTMLImageElement) => {
-        const imageBox = image.getBoundingClientRect();
-        const sideBox = image.closest('.letter-side')!.getBoundingClientRect();
-        return {
-          loaded: image.complete && image.naturalWidth > 0,
-          renderedRatio: imageBox.width / imageBox.height,
-          naturalRatio: image.naturalWidth / image.naturalHeight,
-          withinSide: imageBox.left >= sideBox.left && imageBox.right <= sideBox.right,
-          width: imageBox.width,
-        };
-      });
-      expect(dimensions.loaded).toBe(true);
-      expect(dimensions.withinSide).toBe(true);
-      // SVG intrinsic sizes are rounded to whole pixels by some engines.
-      expect(Math.abs(dimensions.renderedRatio / dimensions.naturalRatio - 1)).toBeLessThan(0.01);
-      expect(dimensions.width).toBeLessThanOrEqual(190);
-      await page.locator('#paper').scrollIntoViewIfNeeded();
-      await expect(page.locator('#paper img')).toHaveJSProperty('complete', true);
-      const geometry = await page.evaluate(() => {
-        const range = document.createRange();
-        range.selectNodeContents(document.querySelector('#exportTxt')!);
-        const status = range.getBoundingClientRect();
-        const button = document.querySelector('#exportBtn')!.getBoundingClientRect();
-        const bar = document.querySelector('#exportBar')!.getBoundingClientRect();
-        const overlaps =
-          status.left < button.right &&
-          status.right > button.left &&
-          status.top < button.bottom &&
-          status.bottom > button.top;
-        const clippedLabels: string[] = [];
-        for (const control of document.querySelectorAll('main .btn, main .link, main button')) {
-          const box = control.getBoundingClientRect();
-          if (
-            !box.width ||
-            !box.height ||
-            control.closest('[hidden]') ||
-            getComputedStyle(control).visibility === 'hidden'
-          )
-            continue;
-          for (const node of control.childNodes) {
-            if (node.nodeType !== Node.TEXT_NODE || !node.textContent?.trim()) continue;
-            const textRange = document.createRange();
-            textRange.selectNode(node);
-            for (const text of textRange.getClientRects()) {
-              if (
-                text.left < box.left - 2 ||
-                text.right > box.right + 2 ||
-                text.top < box.top - 2 ||
-                text.bottom > box.bottom + 2
-              )
-                clippedLabels.push(node.textContent.trim());
-            }
+      return measurements;
+    });
+    for (const scrollWidth of sectionWidths)
+      expect(scrollWidth, `${theme}/${width}`).toBeLessThanOrEqual(width);
+    const identity = page.locator('.letter-identity .brand-lockup');
+    await expect(identity).toBeVisible();
+    const logo = identity.locator('img:visible');
+    const dimensions = await logo.evaluate((image: HTMLImageElement) => {
+      const imageBox = image.getBoundingClientRect();
+      const sideBox = image.closest('.letter-side')!.getBoundingClientRect();
+      return {
+        loaded: image.complete && image.naturalWidth > 0,
+        renderedRatio: imageBox.width / imageBox.height,
+        naturalRatio: image.naturalWidth / image.naturalHeight,
+        withinSide: imageBox.left >= sideBox.left && imageBox.right <= sideBox.right,
+        width: imageBox.width,
+      };
+    });
+    expect(dimensions.loaded).toBe(true);
+    expect(dimensions.withinSide).toBe(true);
+    // SVG intrinsic sizes are rounded to whole pixels by some engines.
+    expect(Math.abs(dimensions.renderedRatio / dimensions.naturalRatio - 1)).toBeLessThan(0.01);
+    expect(dimensions.width).toBeLessThanOrEqual(190);
+    await page.locator('#paper').scrollIntoViewIfNeeded();
+    await expect(page.locator('#paper img')).toHaveJSProperty('complete', true);
+    const geometry = await page.evaluate(() => {
+      const range = document.createRange();
+      range.selectNodeContents(document.querySelector('#exportTxt')!);
+      const status = range.getBoundingClientRect();
+      const button = document.querySelector('#exportBtn')!.getBoundingClientRect();
+      const bar = document.querySelector('#exportBar')!.getBoundingClientRect();
+      const overlaps =
+        status.left < button.right &&
+        status.right > button.left &&
+        status.top < button.bottom &&
+        status.bottom > button.top;
+      const clippedLabels: string[] = [];
+      for (const control of document.querySelectorAll('main .btn, main .link, main button')) {
+        const box = control.getBoundingClientRect();
+        if (
+          !box.width ||
+          !box.height ||
+          control.closest('[hidden]') ||
+          getComputedStyle(control).visibility === 'hidden'
+        )
+          continue;
+        for (const node of control.childNodes) {
+          if (node.nodeType !== Node.TEXT_NODE || !node.textContent?.trim()) continue;
+          const textRange = document.createRange();
+          textRange.selectNode(node);
+          for (const text of textRange.getClientRects()) {
+            if (
+              text.left < box.left - 2 ||
+              text.right > box.right + 2 ||
+              text.top < box.top - 2 ||
+              text.bottom > box.bottom + 2
+            )
+              clippedLabels.push(node.textContent.trim());
           }
         }
-        return {
-          overlaps,
-          statusWithinBar:
-            status.left >= bar.left &&
-            status.right <= bar.right &&
-            status.top >= bar.top &&
-            status.bottom <= bar.bottom,
-          barWithinViewport: bar.left >= 0 && bar.right <= innerWidth,
-          buttonHeight: button.height,
-          clippedLabels,
-        };
-      });
-      expect(geometry.overlaps, `${theme}/${width}: download caption`).toBe(false);
-      expect(geometry.statusWithinBar).toBe(true);
-      expect(geometry.barWithinViewport).toBe(true);
-      expect(geometry.clippedLabels, `${theme}/${width}: action labels`).toEqual([]);
-      if (width <= 420) expect(geometry.buttonHeight).toBeGreaterThanOrEqual(44);
-      records.push({ theme, width, dimensions, geometry });
-      if ([320, 355, 768, 1024, 1434, 2560].includes(width)) {
-        for (const selector of ['#founder', '#change-orders', '#roi', '#pricing']) {
-          await page.locator(selector).scrollIntoViewIfNeeded();
-          await page.screenshot({
-            path: resolve(
-              output,
-              `${info.project.name}-${theme}-${width}-${selector.slice(1)}.png`,
-            ),
-          });
-        }
+      }
+      return {
+        overlaps,
+        statusWithinBar:
+          status.left >= bar.left &&
+          status.right <= bar.right &&
+          status.top >= bar.top &&
+          status.bottom <= bar.bottom,
+        barWithinViewport: bar.left >= 0 && bar.right <= innerWidth,
+        buttonHeight: button.height,
+        clippedLabels,
+      };
+    });
+    expect(geometry.overlaps, `${theme}/${width}: download caption`).toBe(false);
+    expect(geometry.statusWithinBar).toBe(true);
+    expect(geometry.barWithinViewport).toBe(true);
+    expect(geometry.clippedLabels, `${theme}/${width}: action labels`).toEqual([]);
+    if (width <= 420) expect(geometry.buttonHeight).toBeGreaterThanOrEqual(44);
+    records.push({ theme, width, dimensions, geometry });
+    if ([320, 768, 1434, 2560].includes(width)) {
+      for (const selector of ['#founder', '#change-orders', '#roi', '#pricing']) {
+        await page.locator(selector).scrollIntoViewIfNeeded();
+        await page.screenshot({
+          path: resolve(output, `${info.project.name}-${theme}-${width}-${selector.slice(1)}.png`),
+        });
       }
     }
   }
   expect(errors).toEqual([]);
   await writeFile(
-    resolve(output, `${info.project.name}-home-geometry.json`),
+    resolve(output, `${info.project.name}-${theme}-home-geometry.json`),
     JSON.stringify({ records, errors }, null, 2) + '\n',
   );
+}
+
+test('Home sections, identity and downloads stay balanced in the light theme', async ({
+  page,
+}, info) => {
+  await inspectHomeTheme(page, info, 'light');
+});
+
+test('Home sections, identity and downloads stay balanced in the dark theme', async ({
+  page,
+}, info) => {
+  await inspectHomeTheme(page, info, 'dark');
 });
 
 test('Home search keeps its input, results and keyboard hint inside short screens', async ({

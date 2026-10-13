@@ -14,6 +14,22 @@ async function transformFrames(track: Locator) {
   });
 }
 
+async function animationTimeFrames(track: Locator) {
+  return track.evaluate(async (element) => {
+    const animation = element.getAnimations()[0];
+    if (!animation) throw new Error('The carousel track has no CSS animation');
+    await animation.ready;
+    const nextPaint = () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      );
+    await nextPaint();
+    const first = animation.currentTime;
+    await nextPaint();
+    return [first, animation.currentTime];
+  });
+}
+
 async function nativeKeyboardScroll(row: Locator, page: Page) {
   // Let the focused scroll container finish its native layout before observing input.
   await row.evaluate(
@@ -57,8 +73,9 @@ test('illustrative carousel pauses and resumes from the keyboard', async ({ page
   await expect(toggle).toHaveText('Resume carousel');
   await expect(toggle).toHaveAttribute('aria-pressed', 'true');
   await expect(track).toHaveCSS('animation-play-state', 'paused');
-  const positions = await transformFrames(track);
-  expect(positions[0]).toBe(positions[1]);
+  const pausedTimes = await animationTimeFrames(track);
+  expect(pausedTimes[0]).not.toBeNull();
+  expect(pausedTimes[0]).toBe(pausedTimes[1]);
   await page.keyboard.press('Enter');
   await expect(toggle).toHaveText('Pause carousel');
   await expect(toggle).toHaveAttribute('aria-pressed', 'false');
