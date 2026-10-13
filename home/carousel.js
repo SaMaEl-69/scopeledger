@@ -25,7 +25,7 @@ if (carousel && toggle) {
         entry.target.dataset.inView = String(entry.isIntersecting);
       }
     },
-    { rootMargin: '80px 0px' },
+    { rootMargin: '0px' },
   );
   for (const track of tracks) {
     const set = track.querySelector('.mq-set');

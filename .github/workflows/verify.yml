@@ -86,6 +86,8 @@ jobs:
       - name: Allow the selected Chromium executable to use its sandbox
         run: node scripts/ci-chrome-sandbox.mjs
       - run: npm run test:site
+        env:
+          DEBUG: pw:browser
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
