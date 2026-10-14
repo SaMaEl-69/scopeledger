@@ -131,6 +131,7 @@ test('pointer hover pauses and spotlights either studio lane without a click', a
     const track = row.locator('.mq-track');
     const cards = row.locator('.mq-set > li');
     await expect(track).toHaveCSS('animation-name', 'scenario-marquee');
+    await expect(track).toHaveCSS('animation-direction', 'normal');
     const rowBounds = await row.boundingBox();
     expect(rowBounds).not.toBeNull();
     await page.mouse.move(
@@ -154,6 +155,8 @@ test('pointer hover pauses and spotlights either studio lane without a click', a
     await expect(row).toHaveAttribute('data-hovered', 'true');
     await expect(track).toHaveCSS('animation-play-state', 'paused');
     await expect(card).toHaveCSS('opacity', '1');
+    const sibling = cards.nth((cardIndex + 1) % (await cards.count()));
+    await expect(sibling).toHaveCSS('opacity', '0.42');
     const positions = await animationTimeFrames(track);
     expect(positions[0]).toBe(positions[1]);
     await page.mouse.move(4, 4);

@@ -119,9 +119,6 @@
   animation-name: none;
   transform: none;
 }
-.carousel-ready .mq-row:nth-child(2) .mq-track {
-  animation-direction: reverse;
-}
 .audience-carousel[data-paused='true'] .mq-track,
 .mq-row:focus .mq-track,
 .mq-row[data-hovered='true'] .mq-track {
@@ -139,6 +136,9 @@
 }
 .carousel-ready .mq-row:hover .mq-track {
   animation-play-state: paused;
+}
+.carousel-ready .mq-row[data-hovered='true'] .ag:not(:hover) {
+  opacity: 0.42;
 }
 .mq-row:focus .mq-clone {
   display: none;
