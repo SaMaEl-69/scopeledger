@@ -1,27 +1,11 @@
 import { expect, test } from '@playwright/test';
 
-test('homepage keeps review status honest and collects private waitlist details', async ({ page }) => {
+test('homepage omits review placeholders and collects private waitlist details', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/home/');
 
-  const heroNote = page.locator('.hero-review-proof');
-  await expect(heroNote).toBeVisible();
-  await expect(heroNote).toContainText('Customer reviews');
-  await expect(heroNote).toContainText('No customer reviews published yet.');
-  await expect(heroNote).toContainText('Feedback is only shared with permission.');
-  await expect(heroNote).not.toContainText(/4\.9|verified|stars|rated/i);
-
-  const preview = page.locator('#review-preview');
-  await expect(preview.getByRole('heading', { name: 'A place for feedback worth sharing.' })).toBeVisible();
-  await expect(preview).toContainText('not customer statements');
-  await expect(preview).toContainText('no published rating or verified reviews yet');
-  await expect(preview.locator('.review-preview-card')).toHaveCount(3);
-  await expect(preview.locator('.review-preview-card')).toContainText([
-    'Placeholder copy · not a customer quote',
-    'Placeholder copy · not a customer quote',
-    'Placeholder copy · not a customer quote',
-  ]);
-  await expect(preview).not.toContainText(/4\.9|verified badge|rated|stars/i);
+  await expect(page.locator('.hero-review-proof')).toHaveCount(0);
+  await expect(page.locator('#review-preview')).toHaveCount(0);
 
   const section = page.locator('#reviews');
   await section.scrollIntoViewIfNeeded();
