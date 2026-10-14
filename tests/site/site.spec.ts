@@ -174,7 +174,7 @@ test('theme and durable document edits survive Home navigation', async ({ page }
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await navigate(page, 'Documents');
   await page.getByLabel('Document reference', { exact: true }).fill('HOME-GUARDED-BRIEF');
-  await page.getByRole('link', { name: 'Website', exact: true }).click();
+  await page.getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page).toHaveURL(/\/home\/$/);
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.locator('.signin').click();

@@ -1359,7 +1359,7 @@ export default function App() {
               requestHome();
             }}
           >
-            <Home size={18} /> Website <ArrowUpRight size={14} className="home-link-arrow" />
+            <Home size={18} /> Home <ArrowUpRight size={14} className="home-link-arrow" />
           </a>
           {navItems.map(([key, Icon, label]) => (
             <Fragment key={key}>
