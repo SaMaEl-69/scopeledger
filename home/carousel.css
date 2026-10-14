@@ -1,0 +1,188 @@
+/* Restore the original two-lane studio-card treatment as illustrative examples. */
+.audience-carousel {
+  padding: 24px 0 12px;
+  border-block: 1px solid var(--line);
+}
+.carousel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.carousel-heading h2 {
+  margin: 0;
+  color: var(--text2);
+  font-size: 13.5px;
+  line-height: 1.5;
+  font-weight: 560;
+  letter-spacing: 0;
+  text-align: center;
+}
+.carousel-line {
+  flex: 1;
+  max-width: 220px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line2));
+}
+.carousel-line:last-child {
+  transform: rotate(180deg);
+}
+.carousel-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+.carousel-caption p {
+  margin: 0;
+}
+#carouselToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 7px 12px;
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--text2);
+  background: var(--card);
+}
+#carouselToggle[hidden] {
+  display: none;
+}
+#carouselToggle:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+.play-glyph {
+  display: none;
+}
+[data-paused='true'] .pause-glyph {
+  display: none;
+}
+[data-paused='true'] .play-glyph {
+  display: initial;
+}
+.mq-row {
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 26px 0 32px;
+  margin-bottom: -12px;
+  scrollbar-width: thin;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+.mq-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  padding: 0;
+}
+.audience-carousel .mq-track {
+  will-change: auto;
+}
+.mq-set {
+  display: flex;
+  flex: none;
+  gap: 12px;
+  width: max-content;
+  padding: 0 12px 0 0;
+  margin: 0;
+  list-style: none;
+}
+/* Preserve the original marks, wordmark families, colors and avatar groups. */
+.audience-carousel .ag {
+  max-width: none;
+}
+.audience-carousel .ag-team {
+  flex: none;
+}
+.audience-carousel .ag-meta {
+  height: 16px;
+}
+.carousel-ready .mq-row {
+  overflow-x: hidden;
+}
+.carousel-ready .mq-track {
+  animation: scenario-marquee var(--carousel-duration) linear infinite;
+}
+.carousel-ready .mq-row:not([data-in-view='true']) .mq-track {
+  animation-name: none;
+  transform: none;
+}
+.audience-carousel[data-paused='true'] .mq-track,
+.mq-row:focus .mq-track,
+.mq-row[data-hovered='true'] .mq-track {
+  animation-play-state: paused;
+}
+.carousel-ready .mq-row:focus {
+  overflow-x: auto;
+  -webkit-mask-image: none;
+  mask-image: none;
+  outline-offset: -2px;
+}
+.carousel-ready .mq-row:focus .mq-track {
+  animation: none;
+  transform: none;
+}
+.carousel-ready .mq-row:hover .mq-track {
+  animation-play-state: paused;
+}
+.carousel-ready .mq-row[data-hovered='true'] .ag:not(:hover) {
+  opacity: 0.42;
+}
+.mq-row:focus .mq-clone {
+  display: none;
+}
+@keyframes scenario-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.founder-attribution {
+  margin-top: 20px;
+  color: var(--text2);
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 550;
+}
+@media (max-width: 600px) {
+  .carousel-line {
+    display: none;
+  }
+  .carousel-caption {
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .audience-carousel .ag-team {
+    margin-left: 4px;
+    padding-left: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .audience-carousel .mq-row {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+    padding-inline: 20px;
+  }
+  .audience-carousel .mq-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .mq-clone {
+    display: none;
+  }
+}

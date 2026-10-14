@@ -18,6 +18,7 @@
     "html_handling": "none",
     "not_found_handling": "none",
   },
+  "kv_namespaces": [{ "binding": "MARGVANT_WAITLIST", "id": "c4eaf3a9c9dc4d169f0b74156ae653b8" }],
   "observability": {
     "enabled": true,
     "redact_query_string": true,

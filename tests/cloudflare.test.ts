@@ -212,6 +212,50 @@ describe('Cloudflare public demo boundary', () => {
       expect((await run(path)).status).toBe(405);
     }
   });
+  it('validates waitlist requests and fails closed when storage is unavailable', async () => {
+    const get = await run('/api/waitlist');
+    expect(get.status).toBe(405);
+    expect(get.headers.get('Allow')).toBe('POST');
+    expect(get.headers.get('X-Robots-Tag')).toContain('noindex');
+
+    const unsupported = await run('/api/waitlist', { method: 'POST', body: 'name=Guest' });
+    expect(unsupported.status).toBe(415);
+
+    const malformed = await run('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{',
+    });
+    expect(malformed.status).toBe(400);
+    expect(await malformed.json()).toEqual({ error: 'invalid_request' });
+
+    const invalid = await run('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: '', email: 'invalid', privacyAccepted: false }),
+    });
+    expect(invalid.status).toBe(400);
+
+    const oversized = await run('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'x'.repeat(5000) }),
+    });
+    expect(oversized.status).toBe(413);
+
+    const validWithoutStorage = await run('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Guest',
+        email: 'guest@example.invalid',
+        message: '',
+        privacyAccepted: true,
+      }),
+    });
+    expect(validWithoutStorage.status).toBe(503);
+    expect(await validWithoutStorage.json()).toEqual({ error: 'waitlist_unavailable' });
+  });
   it('rejects cross-site protected requests and exposes no CORS access', async () => {
     for (const headers of [
       new Headers({ Origin: 'https://attacker.example' }),

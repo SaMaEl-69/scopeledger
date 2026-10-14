@@ -11,9 +11,19 @@ export const publicDocuments = Object.freeze([
   'license/index.html',
 ]);
 
+/** Original platform cards supplied for manual sharing and public previews. */
+export const publicSocialImages = Object.freeze([
+  'brand/margvant-facebook-1200x630.png',
+  'brand/margvant-x-1200x600.png',
+  'brand/margvant-linkedin-1200x627.png',
+  'brand/margvant-discord-1200x630.png',
+  'brand/margvant-whatsapp-1200x630.jpg',
+]);
+
 /** Only release assets are public, even if a private file is accidentally copied into dist. */
 export const publicAssetPath = (name) =>
   publicDocuments.includes(name) ||
+  publicSocialImages.includes(name) ||
   [
     'index.html',
     'home/index.html',
@@ -36,5 +46,6 @@ export const publicAssetPath = (name) =>
   /^brand\/[\w.-]+\.(?:svg|png|webp|ico)$/.test(name) ||
   /^samples\/[\w.-]+\.(?:pdf|png)$/.test(name);
 
-/** This brand card is intended for embedding by social sites; workspace assets are not. */
-export const shareableAssetPath = (name) => name === 'brand/scopeledger-social-v1.png';
+/** Only explicitly published cards may be embedded by external social sites. */
+export const shareableAssetPath = (name) =>
+  name === 'brand/scopeledger-social-v1.png' || publicSocialImages.includes(name);

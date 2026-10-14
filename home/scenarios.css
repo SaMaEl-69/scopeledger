@@ -1,0 +1,300 @@
+/* Client-conversation examples, presented without customer endorsements. */
+.conversation-scenarios {
+  min-width: 0;
+}
+.conversation-scenarios .head {
+  max-width: 780px;
+}
+.conversation-scenarios .lead {
+  max-width: 650px;
+}
+.scenario-disclosure {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 26px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line2);
+  border-radius: 100px;
+  color: var(--text2);
+  background: rgba(var(--fg), 0.025);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.scenario-disclosure svg {
+  flex: none;
+  color: var(--identityInk, var(--brand));
+}
+.conversation-carousel {
+  margin-top: 20px;
+  min-width: 0;
+}
+.conversation-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  margin: 0 12px 2px auto;
+  padding: 8px 13px;
+  border: 1px solid var(--line2);
+  border-radius: 11px;
+  color: var(--text2);
+  background: var(--card);
+  font-size: 12px;
+}
+.conversation-toggle[hidden] {
+  display: none;
+}
+.conversation-toggle:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+.conversation-toggle .play-glyph {
+  display: none;
+}
+.conversation-scenarios[data-paused='true'] .conversation-toggle .pause-glyph {
+  display: none;
+}
+.conversation-scenarios[data-paused='true'] .conversation-toggle .play-glyph {
+  display: initial;
+}
+.conversation-viewport {
+  position: relative;
+  container-type: inline-size;
+  overflow-x: clip;
+  overflow-y: visible;
+  padding: 36px 0 52px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+}
+.conversation-loop {
+  display: flex;
+  width: max-content;
+  align-items: stretch;
+  will-change: transform;
+}
+.conversation-scenarios[data-ready='true'] .conversation-loop {
+  animation: conversation-marquee 74s linear infinite;
+}
+.conversation-scenarios[data-in-view='false'] .conversation-loop,
+.conversation-scenarios[data-paused='true'] .conversation-loop,
+.conversation-viewport:hover .conversation-loop,
+.conversation-viewport:focus-within .conversation-loop {
+  animation-play-state: paused;
+}
+.conversation-track {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  gap: 18px;
+  width: max-content;
+  overflow: visible;
+  padding: 0 12px;
+  margin: 0;
+  list-style: none;
+}
+.conversation-track:focus-visible {
+  outline-offset: -2px;
+}
+.conversation-card {
+  display: flex;
+  flex: 0 0 calc((100cqi - 60px) / 3);
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px 26px 24px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--card);
+  box-shadow: var(--card-sh);
+}
+.conversation-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.conversation-kicker svg {
+  flex: none;
+  color: var(--identityInk, var(--brand));
+}
+.conversation-request {
+  margin: 0 0 28px;
+  color: var(--text);
+  font-size: clamp(20px, 1.6vw, 23px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.45;
+}
+.conversation-request p {
+  margin: 0;
+}
+.conversation-response {
+  flex: 1;
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, var(--brand) 18%, var(--line));
+  border-radius: 16px;
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--brand) 7%, transparent),
+    color-mix(in srgb, var(--brand) 2%, transparent)
+  );
+}
+.conversation-response h3 {
+  margin: 0 0 10px;
+  color: var(--identityInk, var(--brand));
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+.conversation-response p {
+  margin: 0;
+  color: var(--text2);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.conversation-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.conversation-brand {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line2);
+  border-radius: 12px;
+  background: var(--brandTint, rgba(var(--fg), 0.025));
+}
+.conversation-brand img {
+  width: 25px;
+  height: 25px;
+}
+.conversation-identity p {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+}
+.conversation-identity b {
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 550;
+  line-height: 1.4;
+}
+.conversation-identity p span {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.5;
+}
+.conversation-track-copy {
+  pointer-events: none;
+}
+@keyframes conversation-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Keyboard users can pause the rail and move through the original seven cards. */
+.conversation-viewport:focus-within {
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.conversation-viewport:focus-within .conversation-loop {
+  width: max-content;
+  animation: none;
+  transform: none;
+}
+.conversation-viewport:focus-within .conversation-track {
+  width: max-content;
+}
+.conversation-viewport:focus-within .conversation-track-copy {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .conversation-card {
+    flex-basis: calc((100cqi - 42px) / 2);
+  }
+}
+@media (max-width: 700px) {
+  .conversation-card {
+    flex-basis: calc(100cqi - 24px);
+    padding: 26px 24px 22px;
+    border-radius: 22px;
+  }
+  .conversation-request {
+    font-size: 22px;
+  }
+  .scenario-disclosure {
+    border-radius: 14px;
+    font-size: 11px;
+    text-align: left;
+  }
+}
+@media (hover: none) {
+  .conversation-viewport {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .conversation-loop {
+    width: max-content;
+    animation: none;
+    transform: none;
+  }
+  .conversation-track-copy {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .conversation-viewport {
+    overflow: visible;
+    padding-block: 18px;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .conversation-loop {
+    display: block;
+    width: auto;
+    animation: none !important;
+    transform: none !important;
+  }
+  .conversation-track {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 18px;
+  }
+  .conversation-card {
+    min-width: 0;
+  }
+  .conversation-track-copy {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 1024px) {
+  .conversation-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 700px) {
+  .conversation-track {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

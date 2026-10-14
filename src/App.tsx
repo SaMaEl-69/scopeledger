@@ -1359,13 +1359,18 @@ export default function App() {
               requestHome();
             }}
           >
-            <Home size={18} /> Website <ArrowUpRight size={14} className="home-link-arrow" />
+            <Home size={18} /> Home <ArrowUpRight size={14} className="home-link-arrow" />
           </a>
           {navItems.map(([key, Icon, label]) => (
             <Fragment key={key}>
               {key === 'clients' && <div className="nav-label nav-tools-label">PEOPLE & TOOLS</div>}
               <button
                 className={`nav-item ${view === key ? 'active' : ''}`}
+                onPointerDown={(event) => {
+                  // Keep pointer focus from scrolling the sidebar between down and up.
+                  if (event.button === 0 && event.pointerType === 'mouse')
+                    event.currentTarget.focus({ preventScroll: true });
+                }}
                 onClick={() => setView(key)}
                 aria-current={view === key ? 'page' : undefined}
               >

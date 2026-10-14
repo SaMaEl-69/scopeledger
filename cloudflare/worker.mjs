@@ -15,6 +15,7 @@ const protectedActions = new Set([
   '/api/license/release',
   '/api/projects/authorize',
   '/api/pdf',
+  '/api/waitlist',
 ]);
 
 function secure(response, request, policy = contentPolicy()) {
@@ -80,6 +81,85 @@ async function releaseId(env, request) {
   }
 }
 
+async function readLimitedText(request, maxBytes) {
+  if (!request.body) return '';
+  const reader = request.body.getReader();
+  const chunks = [];
+  let size = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > maxBytes) {
+      await reader.cancel();
+      return null;
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(size);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+  } catch {
+    return null;
+  }
+}
+
+async function submitWaitlist(request, env) {
+  if (
+    request.headers.get('content-type')?.split(';', 1)[0].trim().toLowerCase() !==
+    'application/json'
+  )
+    return json(request, 415, { error: 'unsupported_media_type' });
+  const text = await readLimitedText(request, 4096);
+  if (text === null) return json(request, 413, { error: 'request_too_large_or_invalid' });
+  let submission;
+  try {
+    submission = JSON.parse(text);
+  } catch {
+    return json(request, 400, { error: 'invalid_request' });
+  }
+  const name = typeof submission?.name === 'string' ? submission.name.trim() : '';
+  const email = typeof submission?.email === 'string' ? submission.email.trim().toLowerCase() : '';
+  const message = typeof submission?.message === 'string' ? submission.message.trim() : '';
+  if (typeof submission?.website === 'string' && submission.website.trim())
+    return json(request, 400, { error: 'invalid_request' });
+  if (
+    submission?.privacyAccepted !== true ||
+    !name ||
+    name.length > 80 ||
+    !email ||
+    email.length > 254 ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+    message.length > 1500
+  )
+    return json(request, 400, { error: 'invalid_request' });
+  if (!env.MARGVANT_WAITLIST) return json(request, 503, { error: 'waitlist_unavailable' });
+
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(email));
+  const emailKey = [...new Uint8Array(digest)]
+    .map((byte) => byte.toString(16).padStart(2, '0'))
+    .join('');
+  const key = `entry:${emailKey}`;
+  const now = new Date().toISOString();
+  const existing = await env.MARGVANT_WAITLIST.get(key, 'json');
+  await env.MARGVANT_WAITLIST.put(
+    key,
+    JSON.stringify({
+      name,
+      email,
+      message,
+      createdAt: typeof existing?.createdAt === 'string' ? existing.createdAt : now,
+      updatedAt: now,
+    }),
+  );
+  return json(request, 201, { status: 'received' });
+}
+
 async function handle(request, env) {
   const url = new URL(request.url);
   if (
@@ -136,6 +216,7 @@ async function handle(request, env) {
     const method = path === '/api/license/status' ? 'GET' : 'POST';
     if (request.method !== method)
       return json(request, 405, { error: 'method_not_allowed' }, { Allow: method });
+    if (path === '/api/waitlist') return submitWaitlist(request, env);
     if (path === '/api/license/status')
       return json(request, 200, {
         configured: false,

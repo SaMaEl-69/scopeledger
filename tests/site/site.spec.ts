@@ -174,7 +174,7 @@ test('theme and durable document edits survive Home navigation', async ({ page }
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await navigate(page, 'Documents');
   await page.getByLabel('Document reference', { exact: true }).fill('HOME-GUARDED-BRIEF');
-  await page.getByRole('link', { name: 'Website', exact: true }).click();
+  await page.getByRole('link', { name: 'Home', exact: true }).click();
   await expect(page).toHaveURL(/\/home\/$/);
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.locator('.signin').click();
@@ -185,36 +185,61 @@ test('theme and durable document edits survive Home navigation', async ({ page }
   );
 });
 
-test('mobile navigation, lifetime dialogs and marketing sections reflow in both themes', async ({
-  page,
-}, info) => {
+const responsiveScreenshotWidths = new Set([320, 768, 1280, 2560]);
+
+async function assertHomeReflow(
+  page: Page,
+  info: { project: { name: string } },
+  theme: 'dark' | 'light',
+) {
   await page.goto('/home/');
-  for (const theme of ['dark', 'light']) {
-    if ((await page.locator('html').getAttribute('data-theme')) !== theme)
-      await homeAppearance(page, theme as 'light' | 'dark');
-    for (const width of [
-      320, 360, 375, 390, 430, 600, 768, 820, 1024, 1280, 1440, 1536, 1920, 2560, 844, 1366, 469,
-      471, 699, 701, 759, 761, 899, 901, 1199, 1201, 760,
-    ]) {
-      await page.setViewportSize({ width, height: width === 844 ? 390 : 900 });
-      await noOverflow(page);
+  if ((await page.locator('html').getAttribute('data-theme')) !== theme)
+    await homeAppearance(page, theme);
+  for (const width of [
+    320, 360, 375, 390, 430, 600, 768, 820, 1024, 1280, 1440, 1536, 1920, 2560, 844, 1366, 469, 471,
+    699, 701, 759, 761, 899, 901, 1199, 1201, 760,
+  ]) {
+    await page.setViewportSize({ width, height: width === 844 ? 390 : 900 });
+    await noOverflow(page);
+    if (responsiveScreenshotWidths.has(width)) {
       await page.screenshot({
         path: resolve(output, `${info.project.name}-home-${theme}-${width}.png`),
       });
-      await page.locator('#buyBtn').click();
-      const dialog = page.getByRole('dialog', { name: 'Choose your license.' });
-      await expect(dialog).toBeVisible();
-      const bounds = await dialog.evaluate((element) => ({
-        width: element.clientWidth,
-        scroll: element.scrollWidth,
-      }));
-      expect(bounds.scroll).toBeLessThanOrEqual(bounds.width);
+    }
+    await page.locator('#buyBtn').click();
+    const dialog = page.getByRole('dialog', { name: 'Choose your license.' });
+    await expect(dialog).toBeVisible();
+    const bounds = await dialog.evaluate((element) => ({
+      width: element.clientWidth,
+      scroll: element.scrollWidth,
+    }));
+    expect(bounds.scroll).toBeLessThanOrEqual(bounds.width);
+    if (responsiveScreenshotWidths.has(width)) {
       await page.screenshot({
         path: resolve(output, `${info.project.name}-plans-${theme}-${width}.png`),
       });
-      await page.keyboard.press('Escape');
     }
+    await page.keyboard.press('Escape');
+    await expect(dialog).not.toBeVisible();
   }
+}
+
+test('lifetime dialogs and marketing sections reflow at every breakpoint in the dark theme', async ({
+  page,
+}, info) => {
+  await assertHomeReflow(page, info, 'dark');
+});
+
+test('lifetime dialogs and marketing sections reflow at every breakpoint in the light theme', async ({
+  page,
+}, info) => {
+  await assertHomeReflow(page, info, 'light');
+});
+
+test('mobile navigation hands off safely to search and lifetime dialogs', async ({ page }) => {
+  await page.goto('/home/');
+  if ((await page.locator('html').getAttribute('data-theme')) !== 'light')
+    await homeAppearance(page, 'light');
   await page.setViewportSize({ width: 950, height: 900 });
   const menu = page.getByRole('button', { name: 'Open menu', exact: true });
   await menu.click();
