@@ -1,3 +1,114 @@
+.review-preview {
+  padding: clamp(52px, 7vw, 88px) 0 clamp(48px, 6vw, 76px);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 86% 0%, color-mix(in srgb, var(--brand) 6%, transparent), transparent 48%),
+    var(--bg);
+}
+.review-preview-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.65fr);
+  align-items: end;
+  gap: 24px 48px;
+  margin-bottom: 26px;
+}
+.review-preview-heading h2 {
+  max-width: 18ch;
+  margin: 16px 0 0;
+  color: var(--text);
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 640;
+  letter-spacing: -0.055em;
+  line-height: 1.1;
+}
+.review-preview-heading > p {
+  max-width: 52ch;
+  margin: 0 0 3px;
+  color: var(--text2);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.review-preview-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 10px 4px 22px;
+  margin: -10px -4px -22px;
+  outline: none;
+}
+.review-preview-track:focus-visible {
+  border-radius: 20px;
+  outline: 3px solid color-mix(in srgb, var(--brand) 40%, transparent);
+  outline-offset: 3px;
+}
+.review-preview-card {
+  display: flex;
+  min-width: 0;
+  min-height: 252px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(22px, 2.5vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--card-sh);
+  scroll-snap-align: start;
+}
+.review-preview-card-label {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--brand);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.025em;
+}
+.review-preview-card-label > span:last-child {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  line-height: 0.7;
+}
+.review-preview-card blockquote {
+  margin: 26px 0 24px;
+  color: var(--text);
+  font-size: clamp(18px, 2vw, 23px);
+  font-weight: 520;
+  letter-spacing: -0.035em;
+  line-height: 1.45;
+}
+.review-preview-card > p {
+  width: 100%;
+  margin: auto 0 0;
+  padding-top: 15px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+@media (max-width: 760px) {
+  .review-preview-heading {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .review-preview-heading h2 {
+    max-width: 16ch;
+  }
+  .review-preview-track {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+  .review-preview-card {
+    flex: 0 0 min(88%, 390px);
+  }
+}
+
 .feedback-section {
   padding-top: 32px;
 }

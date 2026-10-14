@@ -11,6 +11,18 @@ test('homepage keeps review status honest and collects private waitlist details'
   await expect(heroNote).toContainText('Feedback is only shared with permission.');
   await expect(heroNote).not.toContainText(/4\.9|verified|stars|rated/i);
 
+  const preview = page.locator('#review-preview');
+  await expect(preview.getByRole('heading', { name: 'A place for feedback worth sharing.' })).toBeVisible();
+  await expect(preview).toContainText('not customer statements');
+  await expect(preview).toContainText('no published rating or verified reviews yet');
+  await expect(preview.locator('.review-preview-card')).toHaveCount(3);
+  await expect(preview.locator('.review-preview-card')).toContainText([
+    'Placeholder copy · not a customer quote',
+    'Placeholder copy · not a customer quote',
+    'Placeholder copy · not a customer quote',
+  ]);
+  await expect(preview).not.toContainText(/4\.9|verified badge|rated|stars/i);
+
   const section = page.locator('#reviews');
   await section.scrollIntoViewIfNeeded();
   await expect(section.getByRole('heading', { name: 'Join the Margvant waitlist.' })).toBeVisible();
